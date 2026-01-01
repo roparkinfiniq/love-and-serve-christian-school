@@ -12,25 +12,48 @@ import Admissions from './components/Admissions';
 import Gallery from './components/Gallery';
 import Facilities from './components/Facilities';
 import Team from './components/Team';
+import Careers from './components/Careers';
 import { Page } from './types';
 
 const App: React.FC = () => {
   const [currentPage, setCurrentPage] = useState<Page>('Home');
-  const [aboutLogoError, setAboutLogoError] = useState(false);
+  const [academicsTab, setAcademicsTab] = useState<'preschool' | 'elementary' | 'junior'>('preschool');
+  const [scrollToTabs, setScrollToTabs] = useState(false);
 
   // Scroll to top whenever page changes
   useEffect(() => {
     window.scrollTo(0, 0);
   }, [currentPage]);
 
+  // Wrapper for standard page navigation (resets specific scroll targets)
+  const handlePageChange = (page: Page) => {
+    setScrollToTabs(false);
+    setCurrentPage(page);
+  };
+
+  const handleProgramNavigation = (tab: 'preschool' | 'elementary' | 'junior') => {
+    setAcademicsTab(tab);
+    setScrollToTabs(true); // Trigger scroll in Academics component
+    setCurrentPage('Academics');
+  };
+
+  const handleViewAllCurriculums = () => {
+    setAcademicsTab('preschool');
+    setScrollToTabs(false); // Do not scroll to tabs, go to top
+    setCurrentPage('Academics');
+  };
+
   const renderContent = () => {
     switch (currentPage) {
       case 'Home':
         return (
           <>
-            <Hero onNavigate={setCurrentPage} />
+            <Hero onNavigate={handlePageChange} />
             <CoreValues />
-            <Programs />
+            <Programs 
+              onProgramClick={handleProgramNavigation} 
+              onViewAll={handleViewAllCurriculums}
+            />
             <LatestNews />
             <section className="py-28 bg-white px-6">
               <div className="max-w-7xl mx-auto bg-red-50 rounded-[3rem] p-12 md:p-24 text-center relative overflow-hidden">
@@ -40,7 +63,7 @@ const App: React.FC = () => {
                     Join a community that values character as much as academics. 
                     Applications for the next school year are now open!
                   </p>
-                  <button onClick={() => setCurrentPage('Admissions')} className="bg-[#E11D48] text-white px-12 py-5 rounded-2xl font-bold text-2xl shadow-lg hover:scale-105 transition transform transform-gpu will-change-transform antialiased [backface-visibility:hidden]">
+                  <button onClick={() => handlePageChange('Admissions')} className="bg-[#E11D48] text-white px-12 py-5 rounded-2xl font-bold text-2xl shadow-lg hover:scale-105 transition transform transform-gpu will-change-transform antialiased [backface-visibility:hidden]">
                     Apply for Admission
                   </button>
                 </div>
@@ -230,7 +253,7 @@ const App: React.FC = () => {
                     Dedicated educators nurturing the next generation with love and faith.
                   </p>
                   
-                  <button onClick={() => setCurrentPage('Team')} className="group/btn relative inline-flex items-center justify-center px-16 py-6 font-black text-white transition-all duration-300 bg-[#E11D48] rounded-full hover:bg-red-700 hover:scale-105 active:scale-95 shadow-lg">
+                  <button onClick={() => handlePageChange('Team')} className="group/btn relative inline-flex items-center justify-center px-16 py-6 font-black text-white transition-all duration-300 bg-[#E11D48] rounded-full hover:bg-red-700 hover:scale-105 active:scale-95 shadow-lg">
                     <span className="relative uppercase tracking-wider text-xl">Meet the Team</span>
                     <i className="fa-solid fa-arrow-right ml-4 transition-transform group-hover/btn:translate-x-1"></i>
                   </button>
@@ -240,7 +263,7 @@ const App: React.FC = () => {
           </div>
         );
       case 'Academics':
-        return <Academics />;
+        return <Academics initialTab={academicsTab} shouldScrollToTabs={scrollToTabs} />;
       case 'Admissions':
         return <Admissions />;
       case 'Facilities':
@@ -251,18 +274,20 @@ const App: React.FC = () => {
         return <Contact />;
       case 'Team':
         return <Team />;
+      case 'Careers':
+        return <Careers />;
       default:
-        return <Hero onNavigate={setCurrentPage} />;
+        return <Hero onNavigate={handlePageChange} />;
     }
   };
 
   return (
     <div className="min-h-screen flex flex-col">
-      <Header currentPage={currentPage} onPageChange={setCurrentPage} />
+      <Header currentPage={currentPage} onPageChange={handlePageChange} />
       <main className="flex-1">
         {renderContent()}
       </main>
-      <Footer />
+      <Footer onNavigate={handlePageChange} />
       <AICounselor />
     </div>
   );

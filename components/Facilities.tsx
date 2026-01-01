@@ -64,10 +64,11 @@ const Facilities: React.FC = () => {
            <div className="relative w-full max-w-5xl mx-auto aspect-video rounded-[2rem] overflow-hidden shadow-[0_20px_50px_rgba(0,0,0,0.5)] border-4 border-slate-800 bg-black">
               <iframe 
                 className="absolute inset-0 w-full h-full"
-                src="https://www.youtube.com/embed/dQw4w9WgXcQ?rel=0&modestbranding=1" 
+                src="https://www.youtube-nocookie.com/embed/5jX40R4PcLs?rel=0" 
                 title="LSCS Virtual Tour"
                 allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
                 allowFullScreen
+                referrerPolicy="strict-origin-when-cross-origin"
               ></iframe>
            </div>
         </div>

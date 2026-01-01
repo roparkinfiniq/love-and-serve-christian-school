@@ -1,6 +1,11 @@
 import React from 'react';
+import { Page } from '../types';
 
-const Footer: React.FC = () => {
+interface FooterProps {
+  onNavigate: (page: Page) => void;
+}
+
+const Footer: React.FC<FooterProps> = ({ onNavigate }) => {
   return (
     <footer className="bg-slate-900 text-white py-20 md:py-28">
       <div className="max-w-7xl mx-auto px-6 grid grid-cols-1 md:grid-cols-3 gap-16 lg:gap-24">
@@ -24,10 +29,38 @@ const Footer: React.FC = () => {
         <div>
           <h4 className="text-xl font-bold mb-10 uppercase tracking-widest text-[#E11D48]">Quick Links</h4>
           <ul className="space-y-5 text-gray-400 font-medium text-lg">
-            <li><a href="#" className="hover:text-white transition-colors duration-200">Admission Process</a></li>
-            <li><a href="#" className="hover:text-white transition-colors duration-200">School Calendar</a></li>
-            <li><a href="#" className="hover:text-white transition-colors duration-200">Student Portal</a></li>
-            <li><a href="#" className="hover:text-white transition-colors duration-200">Faculty & Staff</a></li>
+            <li>
+              <button 
+                onClick={() => onNavigate('Admissions')} 
+                className="hover:text-white transition-colors duration-200 text-left"
+              >
+                Admission Process
+              </button>
+            </li>
+            <li>
+              <button 
+                onClick={() => onNavigate('Academics')} 
+                className="hover:text-white transition-colors duration-200 text-left"
+              >
+                School Calendar
+              </button>
+            </li>
+            <li>
+              <button 
+                onClick={() => onNavigate('Team')} 
+                className="hover:text-white transition-colors duration-200 text-left"
+              >
+                Faculty & Staff
+              </button>
+            </li>
+            <li>
+              <button 
+                onClick={() => onNavigate('Careers')} 
+                className="hover:text-white transition-colors duration-200 text-left"
+              >
+                Careers
+              </button>
+            </li>
           </ul>
         </div>
         

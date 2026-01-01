@@ -1,28 +1,34 @@
 import React from 'react';
 import { Program } from '../types';
 
+// Updated IDs to match the tabs in Academics.tsx
 const programs: Program[] = [
   { 
-    id: 'pre', 
+    id: 'preschool', 
     image: 'https://images.unsplash.com/photo-1587654780291-39c9404d746b?auto=format&fit=crop&q=80&w=800', 
     title: 'Preschool', 
     description: 'Learning through play and discovery in a safe environment.' 
   },
   { 
-    id: 'elem', 
+    id: 'elementary', 
     image: 'https://images.unsplash.com/photo-1503676260728-1c00da094a0b?auto=format&fit=crop&q=80&w=800', 
     title: 'Elementary', 
     description: 'Building strong fundamental skills and character foundations.' 
   },
   { 
-    id: 'jhs', 
+    id: 'junior', 
     image: 'https://images.unsplash.com/photo-1509062522246-3755977927d7?auto=format&fit=crop&q=80&w=800', 
     title: 'Junior High', 
     description: 'Exploring interests and developing critical thinking skills.' 
   }
 ];
 
-const Programs: React.FC = () => {
+interface ProgramsProps {
+  onProgramClick?: (tab: 'preschool' | 'elementary' | 'junior') => void;
+  onViewAll?: () => void;
+}
+
+const Programs: React.FC<ProgramsProps> = ({ onProgramClick, onViewAll }) => {
   return (
     <section className="py-28 max-w-7xl mx-auto px-6">
       <div className="flex flex-col md:flex-row items-center justify-between mb-16">
@@ -30,7 +36,10 @@ const Programs: React.FC = () => {
           <h3 className="text-4xl md:text-5xl font-extrabold text-slate-800">Academic Programs</h3>
           <p className="text-gray-500 text-lg mt-4">Quality education for every stage of your child's growth.</p>
         </div>
-        <button className="text-[#E11D48] text-lg font-bold hover:text-red-700 transition-colors mt-6 md:mt-0 flex items-center">
+        <button 
+          onClick={onViewAll}
+          className="text-[#E11D48] text-lg font-bold hover:text-red-700 transition-colors mt-6 md:mt-0 flex items-center"
+        >
           View All Curriculums <i className="fa-solid fa-arrow-right ml-3"></i>
         </button>
       </div>
@@ -38,6 +47,7 @@ const Programs: React.FC = () => {
         {programs.map((p) => (
           <div 
             key={p.id} 
+            onClick={() => onProgramClick && onProgramClick(p.id as 'preschool' | 'elementary' | 'junior')}
             className="group bg-white rounded-[2.5rem] overflow-hidden shadow-lg hover:shadow-2xl transition duration-500 ease-in-out transform-gpu will-change-transform antialiased [backface-visibility:hidden] cursor-pointer hover:-translate-y-2"
           >
             {/* Image Container */}

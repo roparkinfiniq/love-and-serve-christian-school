@@ -1,7 +1,28 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 
-const Academics: React.FC = () => {
-  const [activeTab, setActiveTab] = useState<'preschool' | 'elementary' | 'junior'>('preschool');
+interface AcademicsProps {
+  initialTab?: 'preschool' | 'elementary' | 'junior';
+  shouldScrollToTabs?: boolean;
+}
+
+const Academics: React.FC<AcademicsProps> = ({ initialTab = 'preschool', shouldScrollToTabs = false }) => {
+  const [activeTab, setActiveTab] = useState<'preschool' | 'elementary' | 'junior'>(initialTab);
+  const tabsSectionRef = useRef<HTMLElement>(null);
+
+  // Sync activeTab if initialTab changes (e.g. navigation from Home page)
+  useEffect(() => {
+    setActiveTab(initialTab);
+  }, [initialTab]);
+
+  // Handle auto-scroll to tabs if requested (e.g. from "Learn More" buttons)
+  useEffect(() => {
+    if (shouldScrollToTabs && tabsSectionRef.current) {
+      // Small timeout to allow page transition and window scroll-to-top to settle
+      setTimeout(() => {
+        tabsSectionRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }, 100);
+    }
+  }, [shouldScrollToTabs, initialTab]);
 
   const levels = {
     preschool: {
@@ -82,7 +103,7 @@ const Academics: React.FC = () => {
       </section>
 
       {/* Academic Levels - Tabbed Interface */}
-      <section className="py-20 px-6 max-w-7xl mx-auto">
+      <section ref={tabsSectionRef} className="py-20 px-6 max-w-7xl mx-auto scroll-mt-32">
         <div className="text-center mb-16">
           <h2 className="text-4xl font-extrabold text-gray-900">Academic Levels</h2>
           <div className="w-24 h-1.5 bg-[#E11D48] mx-auto mt-4 rounded-full"></div>
