@@ -1,6 +1,11 @@
 import React from 'react';
+import { Page } from '../types';
 
-const Hero: React.FC = () => {
+interface HeroProps {
+  onNavigate: (page: Page) => void;
+}
+
+const Hero: React.FC<HeroProps> = ({ onNavigate }) => {
   return (
     <section className="bg-white py-16 md:py-28 px-6 overflow-hidden">
       <div className="max-w-7xl mx-auto grid lg:grid-cols-2 gap-16 items-center">
@@ -25,13 +30,19 @@ const Hero: React.FC = () => {
           {/* Re-designed Dual Buttons */}
           <div className="flex flex-col sm:flex-row mt-14 space-y-5 sm:space-y-0 sm:space-x-6 items-center sm:items-stretch">
             {/* Primary CTA: Enroll Now */}
-            <button className="group relative bg-[#E11D48] text-white px-12 py-6 rounded-2xl font-black text-xl transition-all duration-300 shadow-[0_10px_30px_-10px_rgba(225,29,72,0.5)] hover:shadow-[0_15px_40px_-10px_rgba(225,29,72,0.6)] hover:-translate-y-1 active:scale-95 overflow-hidden">
+            <button 
+              onClick={() => onNavigate('Admissions')}
+              className="group relative bg-[#E11D48] text-white px-12 py-6 rounded-2xl font-black text-xl transition-all duration-300 shadow-[0_10px_30px_-10px_rgba(225,29,72,0.5)] hover:shadow-[0_15px_40px_-10px_rgba(225,29,72,0.6)] hover:-translate-y-1 active:scale-95 overflow-hidden transform-gpu will-change-transform antialiased [backface-visibility:hidden]"
+            >
               <span className="relative z-10">Enroll Now</span>
               <div className="absolute inset-0 bg-white/10 translate-y-full group-hover:translate-y-0 transition-transform duration-300"></div>
             </button>
             
             {/* Secondary CTA: Virtual Tour (More subtle, refined) */}
-            <button className="group flex items-center justify-center border-2 border-slate-200 text-slate-600 bg-white px-12 py-6 rounded-2xl font-black text-xl transition-all duration-300 hover:border-pink-300 hover:text-pink-500 hover:bg-pink-50/30 active:scale-95">
+            <button 
+              onClick={() => onNavigate('Facilities')}
+              className="group flex items-center justify-center border-2 border-slate-200 text-slate-600 bg-white px-12 py-6 rounded-2xl font-black text-xl transition-all duration-300 hover:border-pink-300 hover:text-pink-500 hover:bg-pink-50/30 active:scale-95 transform-gpu will-change-transform antialiased [backface-visibility:hidden]"
+            >
               <i className="fa-solid fa-camera-rotate mr-4 text-slate-400 group-hover:text-pink-400 transition-colors duration-300"></i>
               <span>Virtual Tour</span>
             </button>
@@ -40,9 +51,9 @@ const Hero: React.FC = () => {
         
         {/* Right Side Visual Group */}
         <div className="relative group lg:ml-10">
-          <div className="w-full h-[400px] md:h-[600px] bg-gray-100 rounded-[3rem] md:rounded-[5rem] overflow-hidden shadow-[0_30px_60px_-15px_rgba(0,0,0,0.1)] border-4 border-white transform transition-all duration-700 group-hover:rotate-1">
+          <div className="w-full h-[400px] md:h-[600px] bg-gray-100 rounded-[3rem] md:rounded-[5rem] overflow-hidden shadow-[0_30px_60px_-15px_rgba(0,0,0,0.1)] border-4 border-white transform transition-all duration-700 group-hover:rotate-1 transform-gpu will-change-transform antialiased [backface-visibility:hidden]">
             <img 
-              src="https://images.unsplash.com/photo-1544717297-fa95b3ee96c3?auto=format&fit=crop&w=1200&q=80" 
+              src="https://images.unsplash.com/photo-1544717305-2782549b5136?q=80&w=687&auto=format&fit=crop" 
               alt="Students Learning" 
               className="w-full h-full object-cover"
             />
@@ -50,8 +61,8 @@ const Hero: React.FC = () => {
           </div>
           
           {/* Floating Message Badge */}
-          <div className="absolute -bottom-6 -left-6 bg-yellow-400 p-8 rounded-[2.5rem] shadow-2xl transform -rotate-3 transition-transform group-hover:rotate-0 group-hover:scale-110 duration-500">
-            <p className="text-white font-black text-2xl italic tracking-tight">"God is Love"</p>
+          <div className="absolute -bottom-6 -left-6 bg-yellow-400 p-8 rounded-[2.5rem] shadow-2xl transform -rotate-3 transition-transform group-hover:rotate-0 group-hover:scale-110 duration-500 transform-gpu will-change-transform antialiased [backface-visibility:hidden]">
+            <p className="text-black font-black text-2xl italic tracking-tight">"God is Love"</p>
           </div>
           
           {/* Accent Decoration */}

@@ -2,9 +2,24 @@ import React from 'react';
 import { Program } from '../types';
 
 const programs: Program[] = [
-  { id: 'pre', icon: '🧸', title: 'Preschool', description: 'Learning through play and discovery in a safe environment.' },
-  { id: 'elem', icon: '✏️', title: 'Elementary', description: 'Building strong fundamental skills and character foundations.' },
-  { id: 'jhs', icon: '🎓', title: 'Junior High', description: 'Exploring interests and developing critical thinking skills.' }
+  { 
+    id: 'pre', 
+    image: 'https://images.unsplash.com/photo-1587654780291-39c9404d746b?auto=format&fit=crop&q=80&w=800', 
+    title: 'Preschool', 
+    description: 'Learning through play and discovery in a safe environment.' 
+  },
+  { 
+    id: 'elem', 
+    image: 'https://images.unsplash.com/photo-1503676260728-1c00da094a0b?auto=format&fit=crop&q=80&w=800', 
+    title: 'Elementary', 
+    description: 'Building strong fundamental skills and character foundations.' 
+  },
+  { 
+    id: 'jhs', 
+    image: 'https://images.unsplash.com/photo-1509062522246-3755977927d7?auto=format&fit=crop&q=80&w=800', 
+    title: 'Junior High', 
+    description: 'Exploring interests and developing critical thinking skills.' 
+  }
 ];
 
 const Programs: React.FC = () => {
@@ -23,11 +38,27 @@ const Programs: React.FC = () => {
         {programs.map((p) => (
           <div 
             key={p.id} 
-            className="group bg-white border border-gray-100 p-10 rounded-[2.5rem] hover:border-pink-200 hover:bg-pink-50/10 transition duration-500 ease-in-out transform-gpu [backface-visibility:hidden] cursor-pointer hover:shadow-xl hover:-translate-y-2"
+            className="group bg-white rounded-[2.5rem] overflow-hidden shadow-lg hover:shadow-2xl transition duration-500 ease-in-out transform-gpu will-change-transform antialiased [backface-visibility:hidden] cursor-pointer hover:-translate-y-2"
           >
-            <div className="text-6xl mb-8 group-hover:scale-110 transition-transform duration-500 inline-block">{p.icon}</div>
-            <h5 className="font-extrabold text-2xl text-gray-800">{p.title}</h5>
-            <p className="text-gray-500 text-base mt-4 leading-relaxed">{p.description}</p>
+            {/* Image Container */}
+            <div className="h-64 overflow-hidden relative">
+              <div className="absolute inset-0 bg-black/20 group-hover:bg-transparent transition-colors duration-500 z-10"></div>
+              <img 
+                src={p.image} 
+                alt={p.title} 
+                className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
+              />
+            </div>
+            
+            {/* Content Container */}
+            <div className="p-10 border border-t-0 border-gray-100 rounded-b-[2.5rem] relative bg-white z-20">
+              <h5 className="font-extrabold text-3xl text-gray-900 mb-3">{p.title}</h5>
+              <p className="text-gray-500 text-lg leading-relaxed">{p.description}</p>
+              
+              <div className="mt-6 flex items-center text-[#E11D48] font-bold group-hover:translate-x-2 transition-transform duration-300">
+                Learn More <i className="fa-solid fa-arrow-right ml-2"></i>
+              </div>
+            </div>
           </div>
         ))}
       </div>

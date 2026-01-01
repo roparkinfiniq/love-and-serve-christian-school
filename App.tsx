@@ -1,24 +1,37 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Header from './components/Header';
 import Hero from './components/Hero';
 import CoreValues from './components/CoreValues';
 import Programs from './components/Programs';
+import LatestNews from './components/LatestNews';
 import Footer from './components/Footer';
 import AICounselor from './components/AICounselor';
+import Contact from './components/Contact';
+import Academics from './components/Academics';
+import Admissions from './components/Admissions';
+import Gallery from './components/Gallery';
+import Facilities from './components/Facilities';
+import Team from './components/Team';
 import { Page } from './types';
 
 const App: React.FC = () => {
   const [currentPage, setCurrentPage] = useState<Page>('Home');
   const [aboutLogoError, setAboutLogoError] = useState(false);
 
+  // Scroll to top whenever page changes
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [currentPage]);
+
   const renderContent = () => {
     switch (currentPage) {
       case 'Home':
         return (
           <>
-            <Hero />
+            <Hero onNavigate={setCurrentPage} />
             <CoreValues />
             <Programs />
+            <LatestNews />
             <section className="py-28 bg-white px-6">
               <div className="max-w-7xl mx-auto bg-red-50 rounded-[3rem] p-12 md:p-24 text-center relative overflow-hidden">
                 <div className="relative z-10">
@@ -27,7 +40,7 @@ const App: React.FC = () => {
                     Join a community that values character as much as academics. 
                     Applications for the next school year are now open!
                   </p>
-                  <button onClick={() => setCurrentPage('Admissions')} className="bg-[#E11D48] text-white px-12 py-5 rounded-2xl font-bold text-2xl shadow-lg hover:scale-105 transition transform">
+                  <button onClick={() => setCurrentPage('Admissions')} className="bg-[#E11D48] text-white px-12 py-5 rounded-2xl font-bold text-2xl shadow-lg hover:scale-105 transition transform transform-gpu will-change-transform antialiased [backface-visibility:hidden]">
                     Apply for Admission
                   </button>
                 </div>
@@ -126,10 +139,10 @@ const App: React.FC = () => {
 
                         {/* Content Card */}
                         <div className="w-full pl-24 md:pl-0 md:w-5/12">
-                           <div className={`bg-white p-8 rounded-2xl shadow-sm border border-gray-50 hover:shadow-xl hover:-translate-y-2 transition-all duration-300 relative group text-left`}>
+                           <div className={`bg-white p-8 rounded-2xl shadow-sm border border-gray-50 hover:shadow-xl hover:-translate-y-2 transition-all duration-300 relative group text-left transform-gpu will-change-transform antialiased [backface-visibility:hidden]`}>
                              <span className="text-[#E11D48] font-black text-3xl mb-2 block">{item.year}</span>
                              <h3 className="text-xl font-bold text-gray-800 mb-3">{item.title}</h3>
-                             <p className="text-gray-500 leading-relaxed">{item.description}</p>
+                             <p className="text-gray-600 leading-relaxed">{item.description}</p>
                            </div>
                         </div>
 
@@ -217,7 +230,7 @@ const App: React.FC = () => {
                     Dedicated educators nurturing the next generation with love and faith.
                   </p>
                   
-                  <button className="group/btn relative inline-flex items-center justify-center px-16 py-6 font-black text-white transition-all duration-300 bg-[#E11D48] rounded-full hover:bg-red-700 hover:scale-105 active:scale-95 shadow-lg">
+                  <button onClick={() => setCurrentPage('Team')} className="group/btn relative inline-flex items-center justify-center px-16 py-6 font-black text-white transition-all duration-300 bg-[#E11D48] rounded-full hover:bg-red-700 hover:scale-105 active:scale-95 shadow-lg">
                     <span className="relative uppercase tracking-wider text-xl">Meet the Team</span>
                     <i className="fa-solid fa-arrow-right ml-4 transition-transform group-hover/btn:translate-x-1"></i>
                   </button>
@@ -227,66 +240,19 @@ const App: React.FC = () => {
           </div>
         );
       case 'Academics':
-        return (
-          <section className="py-28 px-6 max-w-7xl mx-auto animate-fadeIn">
-            <h2 className="text-5xl font-extrabold mb-12 text-[#E11D48]">Academics</h2>
-            <Programs />
-            <div className="mt-16 bg-gray-50 p-12 rounded-[3rem]">
-              <h3 className="text-3xl font-bold mb-8">Extracurricular Activities</h3>
-              <ul className="grid grid-cols-2 md:grid-cols-4 gap-6">
-                {['Music & Arts', 'Sports Varsity', 'Bible Study', 'Robotics Club', 'Debate Society', 'Volunteerism', 'Dance Troupe', 'Choir'].map(item => (
-                  <li key={item} className="flex items-center text-lg text-gray-600">
-                    <i className="fa-solid fa-check-circle text-green-500 mr-3"></i> {item}
-                  </li>
-                ))}
-              </ul>
-            </div>
-          </section>
-        );
+        return <Academics />;
       case 'Admissions':
-        return (
-          <section className="py-28 px-6 max-w-5xl mx-auto animate-fadeIn">
-            <h2 className="text-5xl font-extrabold mb-12 text-[#E11D48]">Admissions</h2>
-            <div className="space-y-12">
-              <div className="flex space-x-8">
-                <div className="flex-shrink-0 w-16 h-16 bg-red-100 text-[#E11D48] rounded-full flex items-center justify-center font-bold text-2xl">1</div>
-                <div>
-                  <h3 className="text-2xl font-bold mb-2">Inquiry & Tour</h3>
-                  <p className="text-gray-500 text-lg leading-relaxed">Visit our campus or book a virtual tour to see our facilities and meet our staff.</p>
-                </div>
-              </div>
-              <div className="flex space-x-8">
-                <div className="flex-shrink-0 w-16 h-16 bg-red-100 text-[#E11D48] rounded-full flex items-center justify-center font-bold text-2xl">2</div>
-                <div>
-                  <h3 className="text-2xl font-bold mb-2">Application Submission</h3>
-                  <p className="text-gray-500 text-lg leading-relaxed">Submit the necessary documents and the application form through our online portal.</p>
-                </div>
-              </div>
-              <div className="flex space-x-8">
-                <div className="flex-shrink-0 w-16 h-16 bg-red-100 text-[#E11D48] rounded-full flex items-center justify-center font-bold text-2xl">3</div>
-                <div>
-                  <h3 className="text-2xl font-bold mb-2">Assessment & Interview</h3>
-                  <p className="text-gray-500 text-lg leading-relaxed">Student assessment and parent interview to ensure a good fit for our school community.</p>
-                </div>
-              </div>
-            </div>
-          </section>
-        );
+        return <Admissions />;
+      case 'Facilities':
+        return <Facilities />;
       case 'Gallery':
-        return (
-          <section className="py-28 px-6 max-w-7xl mx-auto animate-fadeIn">
-            <h2 className="text-5xl font-extrabold mb-12 text-[#E11D48]">School Gallery</h2>
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
-              {[1, 2, 3, 4, 5, 6, 7, 8].map(i => (
-                <div key={i} className="aspect-square bg-gray-100 rounded-[2rem] overflow-hidden shadow-sm hover:shadow-lg transition cursor-pointer">
-                  <img src={`https://picsum.photos/seed/${i + 50}/600/600`} alt="Gallery" className="w-full h-full object-cover hover:scale-105 transition duration-700" />
-                </div>
-              ))}
-            </div>
-          </section>
-        );
+        return <Gallery />;
+      case 'Contact':
+        return <Contact />;
+      case 'Team':
+        return <Team />;
       default:
-        return <Hero />;
+        return <Hero onNavigate={setCurrentPage} />;
     }
   };
 

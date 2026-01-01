@@ -1,5 +1,5 @@
 
-export type Page = 'Home' | 'About' | 'Academics' | 'Admissions' | 'Gallery';
+export type Page = 'Home' | 'About' | 'Academics' | 'Admissions' | 'Facilities' | 'Gallery' | 'Contact' | 'Team';
 
 export interface ChatMessage {
   role: 'user' | 'model';
@@ -7,7 +7,7 @@ export interface ChatMessage {
 }
 
 export interface Program {
-  icon: string;
+  image: string;
   title: string;
   description: string;
   id: string;

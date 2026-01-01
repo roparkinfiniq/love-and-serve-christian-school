@@ -6,9 +6,11 @@ const Footer: React.FC = () => {
       <div className="max-w-7xl mx-auto px-6 grid grid-cols-1 md:grid-cols-3 gap-16 lg:gap-24">
         <div>
           <div className="flex items-center space-x-3 mb-8">
-            <div className="w-12 h-12 bg-[#E11D48] rounded-full flex items-center justify-center">
-              <i className="fa-solid fa-cross text-white text-xl"></i>
-            </div>
+            <img 
+              src="https://i.ibb.co/VcwZ1RVT/logo.png" 
+              alt="LSCS Logo" 
+              className="w-16 h-16 object-contain"
+            />
             <h4 className="text-3xl font-black">LSCS</h4>
           </div>
           <p className="text-gray-400 leading-relaxed text-base md:text-lg">

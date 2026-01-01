@@ -14,6 +14,7 @@ const Header: React.FC<HeaderProps> = ({ currentPage, onPageChange }) => {
     { label: 'Home', page: 'Home' },
     { label: 'About Us', page: 'About' },
     { label: 'Academics', page: 'Academics' },
+    { label: 'Facilities', page: 'Facilities' },
     { label: 'Admissions', page: 'Admissions' },
     { label: 'Gallery', page: 'Gallery' },
   ];
@@ -23,12 +24,12 @@ const Header: React.FC<HeaderProps> = ({ currentPage, onPageChange }) => {
       <div className="max-w-7xl mx-auto flex justify-between items-center px-6 py-5">
         {/* Logo and Name */}
         <div className="flex items-center space-x-4 cursor-pointer group" onClick={() => onPageChange('Home')}>
-          <div className="w-14 h-14 bg-white rounded-full flex items-center justify-center shadow-sm border border-gray-100 overflow-hidden group-hover:scale-105 group-hover:shadow-md transition-all duration-500">
+          <div className="w-16 h-16 flex items-center justify-center group-hover:scale-105 transition-transform duration-500">
             {!logoError ? (
               <img 
-                src="logo.png" 
+                src="https://i.ibb.co/VcwZ1RVT/logo.png" 
                 alt="LSCSI Logo" 
-                className="w-[85%] h-[85%] object-contain"
+                className="w-full h-full object-contain filter drop-shadow-sm"
                 onError={() => setLogoError(true)}
               />
             ) : (
@@ -61,6 +62,7 @@ const Header: React.FC<HeaderProps> = ({ currentPage, onPageChange }) => {
         {/* Action Button */}
         <div className="flex items-center space-x-4">
           <button 
+            onClick={() => onPageChange('Contact')}
             className="hidden sm:block bg-[#E11D48] text-white px-9 py-3 rounded-2xl font-black hover:bg-red-700 transition transform shadow-lg active:scale-95 text-base"
           >
             Contact Us
@@ -90,6 +92,10 @@ const Header: React.FC<HeaderProps> = ({ currentPage, onPageChange }) => {
             </button>
           ))}
           <button 
+            onClick={() => {
+              onPageChange('Contact');
+              setMobileMenuOpen(false);
+            }}
             className="bg-[#E11D48] text-white px-6 py-5 rounded-2xl font-black shadow-lg uppercase tracking-widest text-sm"
           >
             Contact Us

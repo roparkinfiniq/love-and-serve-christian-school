@@ -34,7 +34,7 @@ const CoreValues: React.FC = () => {
           {values.map((val, idx) => (
             <div 
               key={idx} 
-              className={`bg-white p-12 rounded-[3rem] transition duration-500 ease-in-out transform-gpu [backface-visibility:hidden] hover:-translate-y-4 cursor-default shadow-[0_10px_30px_-10px_rgba(0,0,0,0.05)] hover:shadow-2xl border-t-8 ${val.featured ? 'border-[#E11D48]' : 'border-transparent hover:border-red-100'}`}
+              className={`bg-white p-12 rounded-[3rem] transition duration-500 ease-in-out transform-gpu will-change-transform antialiased [backface-visibility:hidden] hover:-translate-y-4 cursor-default shadow-[0_10px_30px_-10px_rgba(0,0,0,0.05)] hover:shadow-2xl border-t-8 ${val.featured ? 'border-[#E11D48]' : 'border-transparent hover:border-red-100'}`}
             >
               <div className={`group w-24 h-24 ${val.color} rounded-2xl flex items-center justify-center mx-auto mb-10 transition-transform duration-500 hover:scale-110`}>
                 <i className={`fa-solid ${val.icon} text-4xl text-[#E11D48]`}></i>
