@@ -1,4 +1,3 @@
-
 import { GoogleGenAI } from "@google/genai";
 import { ChatMessage } from "../types";
 
@@ -12,7 +11,7 @@ It was established in 2014 by LASANII (Love and Serve All Nations International 
 Core Values: Love, Serve, Faith.
 Curriculum levels: Preschool, Elementary, Junior High, Senior High.
 Philosophy: Belief in God as Creator, Belief in man's special purpose, and dedication to academic excellence & patriotism.
-Bible Verse: "Train up a child in the way he should go, and when he is old he will not depart from it." - Proverbs 22:6.
+Bible Verse: "Love the Lord your God with all your heart and with all your soul and with all your mind and with all your strength. Then Love your neighbor as yourself." - Mark 12: 30-31.
 
 Answer questions about admissions, school life, history (established 2014), and Christian education. 
 If asked about deep academic specifics, encourage the user to use the "Contact Us" button to reach out to the administration.

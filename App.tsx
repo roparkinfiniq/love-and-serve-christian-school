@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import Header from './components/Header';
 import Hero from './components/Hero';
@@ -10,6 +9,7 @@ import { Page } from './types';
 
 const App: React.FC = () => {
   const [currentPage, setCurrentPage] = useState<Page>('Home');
+  const [aboutLogoError, setAboutLogoError] = useState(false);
 
   const renderContent = () => {
     switch (currentPage) {
@@ -19,153 +19,224 @@ const App: React.FC = () => {
             <Hero />
             <CoreValues />
             <Programs />
-            <section className="py-24 bg-white px-6">
-              <div className="max-w-7xl mx-auto bg-red-50 rounded-[3rem] p-12 md:p-20 text-center relative overflow-hidden">
+            <section className="py-28 bg-white px-6">
+              <div className="max-w-7xl mx-auto bg-red-50 rounded-[3rem] p-12 md:p-24 text-center relative overflow-hidden">
                 <div className="relative z-10">
-                  <h2 className="text-3xl md:text-5xl font-black mb-6">Start Your Child's <br/>Faith Journey Today</h2>
-                  <p className="text-gray-600 mb-10 max-w-2xl mx-auto text-lg">
+                  <h2 className="text-4xl md:text-6xl font-black mb-8">Start Your Child's <br/>Faith Journey Today</h2>
+                  <p className="text-gray-600 mb-12 max-w-3xl mx-auto text-xl leading-relaxed">
                     Join a community that values character as much as academics. 
                     Applications for the next school year are now open!
                   </p>
-                  <button onClick={() => setCurrentPage('Admissions')} className="bg-[#E11D48] text-white px-10 py-4 rounded-2xl font-bold text-xl shadow-lg hover:scale-105 transition transform">
+                  <button onClick={() => setCurrentPage('Admissions')} className="bg-[#E11D48] text-white px-12 py-5 rounded-2xl font-bold text-2xl shadow-lg hover:scale-105 transition transform">
                     Apply for Admission
                   </button>
                 </div>
-                <div className="absolute top-0 right-0 w-64 h-64 bg-red-100 rounded-full -mr-32 -mt-32"></div>
-                <div className="absolute bottom-0 left-0 w-48 h-48 bg-red-200/50 rounded-full -ml-24 -mb-24"></div>
+                <div className="absolute top-0 right-0 w-80 h-80 bg-red-100 rounded-full -mr-40 -mt-40"></div>
+                <div className="absolute bottom-0 left-0 w-64 h-64 bg-red-200/50 rounded-full -ml-32 -mb-32"></div>
               </div>
             </section>
           </>
         );
       case 'About':
         return (
-          <div className="animate-fadeIn pb-0">
-            {/* History Section - Logo Left, Text Right */}
-            <section className="py-24 px-6 bg-white">
-              <div className="max-w-5xl mx-auto flex flex-col md:flex-row items-center gap-16">
-                <div className="w-full md:w-1/2 flex justify-center">
-                  <div className="w-64 h-64 md:w-80 md:h-80 relative flex items-center justify-center">
+          <div className="animate-fadeIn">
+            {/* Principal's Welcome Section */}
+            <section className="py-24 px-6 bg-white border-b border-gray-50">
+              <div className="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-16 lg:gap-24 items-center">
+                {/* Left Column: Portrait */}
+                <div className="relative order-2 md:order-1">
+                  <div className="aspect-[3/4] md:aspect-square bg-gray-100 rounded-[2.5rem] overflow-hidden shadow-2xl relative z-10">
                     <img 
-                      src="https://i.ibb.co/C3X3hWd/lscsi-logo.png" 
-                      alt="LSCSI School Logo" 
-                      className="w-full h-full object-contain"
+                      src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&q=80&w=800" 
+                      alt="Principal" 
+                      className="w-full h-full object-cover"
                     />
                   </div>
+                  {/* Decorative Elements */}
+                  <div className="absolute -bottom-8 -right-8 w-48 h-48 bg-red-50 rounded-full -z-0"></div>
+                  <div className="absolute -top-8 -left-8 w-32 h-32 border-4 border-red-50 rounded-full -z-0"></div>
                 </div>
-                <div className="w-full md:w-1/2">
-                  <div className="w-16 h-1 bg-[#b02a48] mb-4"></div>
-                  <h2 className="text-4xl font-black mb-8 text-gray-800 tracking-tight uppercase">History</h2>
-                  <div className="space-y-6 text-gray-700 leading-relaxed text-sm md:text-base text-justify">
+
+                {/* Right Column: Message */}
+                <div className="order-1 md:order-2">
+                  <span className="inline-block text-[#E11D48] font-bold tracking-[0.2em] uppercase text-sm mb-6">Welcome Message</span>
+                  <h2 className="text-4xl md:text-5xl font-black text-gray-900 mb-8 leading-tight">
+                    A Message from <br/>the Principal
+                  </h2>
+                  <div className="space-y-6 text-gray-600 text-lg leading-relaxed font-medium">
                     <p>
-                      <span className="font-bold">LSCSI</span> is a product of earnest prayers and <span className="font-bold">God</span>'s provisions. Under the organization Love and Serve All Nations International Inc. (<span className="font-bold text-gray-800">LASANII</span>) inclined with its 5 missions comes a new rising Christian school located in Antipolo Rizal. Established in the year 2014 as an evidence of <span className="font-bold text-gray-800">God</span>'s perpetual Grace in preparation towards the next generations as the future worshipers of <span className="font-bold text-gray-800">God</span> prepared spiritually and academically.
+                      Welcome to Love and Serve Christian School. We are dedicated to raising the next generation with faith, excellence, and love. Our commitment goes beyond academic rigor; we strive to mold character and instill values that last a lifetime.
                     </p>
                     <p>
-                      <span className="font-bold">LSCSI</span> envisions that the child's excellence and maximum potential can only be developed by teaching Christianly through Concrete Biblical Worldview along with <span className="font-bold text-gray-800">God</span>-fearing Teachers, Parent-Teacher Collaboration and <span className="font-bold text-gray-800">God</span>'s help for the service of <span className="font-bold text-gray-800">God</span> and men.
+                      As we partner with parents and the community, our prayer is that every child who walks through our doors experiences the transformative love of Christ and discovers their God-given potential in a safe, nurturing environment.
                     </p>
+                  </div>
+                  
+                  {/* Signature */}
+                  <div className="mt-12">
+                    <img 
+                      src="https://upload.wikimedia.org/wikipedia/commons/f/f8/Signature_sample.svg" 
+                      alt="Signature" 
+                      className="h-16 opacity-50 mb-4 -ml-2"
+                    />
+                    <div>
+                      <p className="font-bold text-gray-900 text-xl">Dr. Sarah Johnson</p>
+                      <p className="text-[#E11D48] text-sm uppercase tracking-wider font-bold mt-1">School Principal</p>
+                    </div>
                   </div>
                 </div>
               </div>
             </section>
 
-            {/* Vision Section - Text Left, Image Right */}
-            <section className="py-24 px-6 bg-white">
-              <div className="max-w-5xl mx-auto flex flex-col md:flex-row items-center gap-16">
-                <div className="w-full md:w-1/2">
-                  <div className="w-16 h-1 bg-[#b02a48] mb-4"></div>
-                  <h2 className="text-4xl font-black mb-8 text-gray-800 tracking-tight uppercase">Vision</h2>
-                  <p className="text-gray-700 leading-relaxed text-sm md:text-base text-justify">
-                    <span className="font-bold">LSCSI</span> aimed to be a competent Christian School in academic and non-academic matters, producing well-rounded citizens and God-fearing individuals.
-                  </p>
+            {/* History Section - Vertical Timeline */}
+            <section className="py-24 px-6 bg-white overflow-hidden">
+              <div className="max-w-6xl mx-auto">
+                <div className="text-center mb-20">
+                  <span className="text-[#E11D48] font-bold tracking-widest uppercase text-sm">Our Journey</span>
+                  <h2 className="text-4xl md:text-5xl font-black text-gray-900 mt-3">History of LSCSI</h2>
                 </div>
-                <div className="w-full md:w-1/2 flex justify-center">
-                  <div className="w-48 h-48 md:w-64 md:h-64 flex items-center justify-center">
-                    {/* Illustration mimicking the Vision image in screenshot */}
-                    <div className="text-[#9b1c31] text-center">
-                      <i className="fa-solid fa-sun text-4xl mb-2 text-yellow-400"></i>
-                      <div className="relative">
-                        <i className="fa-solid fa-cross text-6xl mb-2"></i>
-                        <i className="fa-solid fa-book-open text-8xl absolute top-1/2 left-1/2 -translate-x-1/2 translate-y-2 opacity-30"></i>
+
+                <div className="relative">
+                  {/* Vertical Line */}
+                  {/* Mobile: Left aligned. Desktop: Center aligned. */}
+                  <div className="absolute left-8 md:left-1/2 transform md:-translate-x-1/2 top-0 bottom-0 w-1 bg-red-100 rounded-full"></div>
+
+                  <div className="space-y-12 md:space-y-24 relative">
+                    {[
+                      {
+                        year: "2014",
+                        title: "The Beginning",
+                        description: "Established in Antipolo Rizal under the organization Love and Serve All Nations International Inc. (LASANII)."
+                      },
+                      {
+                        year: "Growth",
+                        title: "Mission Expansion",
+                        description: "Expanded with 5 core missions to become a rising Christian school."
+                      },
+                      {
+                        year: "Present",
+                        title: "Next Generation",
+                        description: "Preparing the next generation as God-fearing leaders and future worshipers."
+                      }
+                    ].map((item, index) => (
+                      <div key={index} className={`relative flex items-center justify-between w-full ${index % 2 !== 0 ? 'md:flex-row-reverse' : ''}`}>
+                        
+                        {/* Timeline Dot */}
+                        <div className="absolute left-8 md:left-1/2 transform -translate-x-1/2 w-6 h-6 rounded-full bg-[#E11D48] border-4 border-white shadow-md z-20"></div>
+
+                        {/* Content Card */}
+                        <div className="w-full pl-24 md:pl-0 md:w-5/12">
+                           <div className={`bg-white p-8 rounded-2xl shadow-sm border border-gray-50 hover:shadow-xl hover:-translate-y-2 transition-all duration-300 relative group text-left`}>
+                             <span className="text-[#E11D48] font-black text-3xl mb-2 block">{item.year}</span>
+                             <h3 className="text-xl font-bold text-gray-800 mb-3">{item.title}</h3>
+                             <p className="text-gray-500 leading-relaxed">{item.description}</p>
+                           </div>
+                        </div>
+
+                        {/* Spacer for Desktop Zig-Zag */}
+                        <div className="hidden md:block md:w-5/12"></div>
                       </div>
-                    </div>
+                    ))}
                   </div>
                 </div>
               </div>
             </section>
 
-            {/* Mission Section - Image Left, Text Right */}
+            {/* Vision & Mission Sections - Minimalist 2-Column Grid */}
             <section className="py-24 px-6 bg-white">
-              <div className="max-w-5xl mx-auto flex flex-col md:flex-row-reverse items-center gap-16">
-                <div className="w-full md:w-1/2">
-                  <div className="w-16 h-1 bg-[#b02a48] mb-4"></div>
-                  <h2 className="text-4xl font-black mb-8 text-gray-800 tracking-tight uppercase">Mission</h2>
-                  <p className="text-gray-700 leading-relaxed text-sm md:text-base text-justify">
-                    <span className="font-bold">LSCSI</span> is committed to train children to love and serve <span className="font-bold">God</span> and others, develop, nurture, and enhance their potentials to be fully equipped in the service and calling that <span className="font-bold">God</span> entrusted them.
+              <div className="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-16 md:gap-24">
+                
+                {/* Vision */}
+                <div className="flex flex-col items-center text-center group">
+                  <i className="fa-solid fa-eye text-6xl text-[#E11D48] mb-8 transition-transform duration-500 group-hover:scale-110"></i>
+                  <h2 className="text-4xl font-black text-gray-900 uppercase mb-6 tracking-tight">Vision</h2>
+                  <p className="text-lg md:text-xl text-gray-600 leading-relaxed max-w-md">
+                    LSCSI aimed to be a competent Christian School in academic and non-academic matters, producing well-rounded citizens and God-fearing individuals.
                   </p>
                 </div>
-                <div className="w-full md:w-1/2 flex justify-center">
-                  <div className="w-48 h-48 md:w-64 md:h-64 flex items-center justify-center">
-                    {/* Illustration mimicking the Mission image in screenshot */}
-                    <div className="relative flex items-center justify-center">
-                      <i className="fa-solid fa-heart text-9xl text-pink-200"></i>
-                      <i className="fa-solid fa-cross text-4xl text-[#9b1c31] absolute"></i>
+
+                {/* Mission */}
+                <div className="flex flex-col items-center text-center group">
+                  <i className="fa-solid fa-heart text-6xl text-[#E11D48] mb-8 transition-transform duration-500 group-hover:scale-110"></i>
+                  <h2 className="text-4xl font-black text-gray-900 uppercase mb-6 tracking-tight">Mission</h2>
+                  <p className="text-lg md:text-xl text-gray-600 leading-relaxed max-w-md">
+                    LSCSI is committed to train children to love and serve God and others, develop, nurture, and enhance their potentials to be fully equipped in the service and calling that God entrusted them.
+                  </p>
+                </div>
+
+              </div>
+            </section>
+
+            {/* Philosophy Section */}
+            <section className="py-28 bg-white px-6">
+              <div className="max-w-6xl mx-auto">
+                <div className="flex flex-col md:flex-row items-center gap-20">
+                  <div className="w-full md:w-2/3">
+                    <div className="w-20 h-1.5 bg-[#E11D48] mb-8"></div>
+                    <h2 className="text-5xl font-black mb-10 text-gray-900 uppercase">Philosophy</h2>
+                    <div className="space-y-8">
+                      {[
+                        "We believe in God, the Creator, Holy, and Love. We believe in the Holy Trinity and the Bible.",
+                        "We believe that man is God's special creation and was created with a purpose to nurture the world through restoring his relationship with God by means of loving and serving Him and others.",
+                        "The school is dedicated to help pupils to be excellent in their academic skills, develop Christian values and patriotism, enhance their talents and gifts, and build up their self-esteem."
+                      ].map((text, i) => (
+                        <div key={i} className="flex gap-6 group/phil p-6 rounded-2xl hover:bg-red-50/30 transition-colors duration-500">
+                          <span className="text-3xl font-black text-[#E11D48] transition-transform duration-500">{i + 1}.</span>
+                          <p className="text-xl text-gray-600 leading-relaxed transition-colors duration-500 group-hover/phil:text-gray-800">{text}</p>
+                        </div>
+                      ))}
                     </div>
+                  </div>
+                  <div className="w-full md:w-1/3 flex justify-center">
+                     <div className="w-80 h-80 bg-red-50 rounded-[5rem] flex items-center justify-center transform rotate-3 border-4 border-white shadow-lg transition-all duration-700 hover:rotate-0 hover:scale-102">
+                        <i className="fa-solid fa-seedling text-9xl text-[#E11D48] opacity-80"></i>
+                     </div>
                   </div>
                 </div>
               </div>
             </section>
 
-            {/* Philosophy Section - Text Left, Image Right */}
-            <section className="py-24 px-6 bg-white">
-              <div className="max-w-5xl mx-auto flex flex-col md:flex-row items-center gap-16">
-                <div className="w-full md:w-1/2">
-                  <div className="w-16 h-1 bg-[#b02a48] mb-4"></div>
-                  <h2 className="text-4xl font-black mb-8 text-gray-800 tracking-tight uppercase">Philosophy</h2>
-                  <div className="space-y-6 text-gray-700 leading-relaxed text-sm md:text-base text-justify">
-                    <p>1. We believe in God, the Creator, Holy, and Love. We believe in the Holy Trinity and the Bible.</p>
-                    <p>2. We believe that man is God's special creation and was created with a purpose to nurture the world through restoring his relationship with God by means of loving and serving Him and others.</p>
-                    <p>3. The school is dedicated to help pupils to be excellent in their academic skills, develop Christian values and patriotism, enhance their talents and gifts, and build up their self-esteem.</p>
-                  </div>
-                </div>
-                <div className="w-full md:w-1/2 flex justify-center">
-                  <div className="w-48 h-48 md:w-64 md:h-64 flex items-center justify-center">
-                    {/* Illustration mimicking the Philosophy image in screenshot */}
-                    <div className="text-purple-300 relative">
-                       <i className="fa-solid fa-head-side-virus text-9xl"></i>
-                       <i className="fa-solid fa-seedling text-4xl text-green-400 absolute top-1/4 left-1/2 -translate-x-1/2"></i>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </section>
-
-            {/* Meet our LSCSI' Faculty and Staffs Section */}
-            <section className="pt-24 pb-0 bg-white">
-               {/* Grey Banner Background */}
-               <div className="bg-[#cacaca] py-16 px-6">
-                  <div className="max-w-4xl mx-auto bg-[#c5c5c5] p-12 md:p-16 text-center border-t border-b border-gray-400">
-                    <h3 className="text-4xl md:text-6xl font-bold text-gray-700 mb-8 uppercase tracking-tighter">
-                      Meet our LSCSI' <br/>
-                      FACULTY AND STAFFS
-                    </h3>
-                    <button className="bg-[#801b2a] text-white px-12 py-3 rounded-full font-black text-xl uppercase shadow-xl hover:scale-110 transition transform active:scale-95 border border-black">
-                      CLICK HERE!
-                    </button>
-                  </div>
+            {/* Modern Faculty and Staff CTA Section */}
+            <section className="relative py-40 md:py-60 overflow-hidden group">
+               <div className="absolute inset-0 z-0">
+                 <img 
+                   src="https://images.unsplash.com/photo-1577896851231-70ef18881754?auto=format&fit=crop&q=80&w=2000" 
+                   alt="Teachers in classroom" 
+                   className="w-full h-full object-cover transition-transform duration-[3s] group-hover:scale-105"
+                 />
+                 <div className="absolute inset-0 bg-black/60 backdrop-blur-[1px] group-hover:bg-black/50 transition-colors duration-1000"></div>
                </div>
+
+               <div className="relative z-10 max-w-6xl mx-auto px-6 text-center">
+                  <span className="inline-block text-[#E11D48] font-bold tracking-widest uppercase mb-6 text-base">Our Educators</span>
+                  <h3 className="text-5xl md:text-7xl font-black text-white mb-8 uppercase tracking-tight leading-tight">
+                    Meet our LSCSI <br/>
+                    <span className="text-white">Faculty and Staff</span>
+                  </h3>
+                  <p className="text-gray-200 text-xl md:text-2xl mb-16 max-w-3xl mx-auto font-medium leading-relaxed">
+                    Dedicated educators nurturing the next generation with love and faith.
+                  </p>
+                  
+                  <button className="group/btn relative inline-flex items-center justify-center px-16 py-6 font-black text-white transition-all duration-300 bg-[#E11D48] rounded-full hover:bg-red-700 hover:scale-105 active:scale-95 shadow-lg">
+                    <span className="relative uppercase tracking-wider text-xl">Meet the Team</span>
+                    <i className="fa-solid fa-arrow-right ml-4 transition-transform group-hover/btn:translate-x-1"></i>
+                  </button>
+               </div>
+               <div className="absolute bottom-0 left-0 w-full h-2 bg-gradient-to-r from-transparent via-[#E11D48] to-transparent opacity-30"></div>
             </section>
           </div>
         );
       case 'Academics':
         return (
-          <section className="py-20 px-6 max-w-7xl mx-auto animate-fadeIn">
-            <h2 className="text-4xl font-extrabold mb-8 text-[#E11D48] uppercase tracking-tighter">Academics</h2>
+          <section className="py-28 px-6 max-w-7xl mx-auto animate-fadeIn">
+            <h2 className="text-5xl font-extrabold mb-12 text-[#E11D48]">Academics</h2>
             <Programs />
-            <div className="mt-12 bg-gray-50 p-10 rounded-[3rem] border-2 border-dashed border-gray-200">
-              <h3 className="text-2xl font-black mb-6 uppercase tracking-wide">Extracurricular Activities</h3>
+            <div className="mt-16 bg-gray-50 p-12 rounded-[3rem]">
+              <h3 className="text-3xl font-bold mb-8">Extracurricular Activities</h3>
               <ul className="grid grid-cols-2 md:grid-cols-4 gap-6">
                 {['Music & Arts', 'Sports Varsity', 'Bible Study', 'Robotics Club', 'Debate Society', 'Volunteerism', 'Dance Troupe', 'Choir'].map(item => (
-                  <li key={item} className="flex items-center text-gray-700 font-bold">
-                    <i className="fa-solid fa-star text-yellow-400 mr-3"></i> {item}
+                  <li key={item} className="flex items-center text-lg text-gray-600">
+                    <i className="fa-solid fa-check-circle text-green-500 mr-3"></i> {item}
                   </li>
                 ))}
               </ul>
@@ -174,47 +245,41 @@ const App: React.FC = () => {
         );
       case 'Admissions':
         return (
-          <section className="py-20 px-6 max-w-4xl mx-auto animate-fadeIn">
-            <h2 className="text-4xl font-extrabold mb-10 text-[#E11D48] uppercase tracking-tighter text-center">Admissions</h2>
-            <div className="space-y-12 text-gray-700">
-              <div className="flex space-x-8 items-start">
-                <div className="flex-shrink-0 w-16 h-16 bg-[#E11D48] text-white rounded-3xl flex items-center justify-center font-black text-2xl shadow-lg">1</div>
+          <section className="py-28 px-6 max-w-5xl mx-auto animate-fadeIn">
+            <h2 className="text-5xl font-extrabold mb-12 text-[#E11D48]">Admissions</h2>
+            <div className="space-y-12">
+              <div className="flex space-x-8">
+                <div className="flex-shrink-0 w-16 h-16 bg-red-100 text-[#E11D48] rounded-full flex items-center justify-center font-bold text-2xl">1</div>
                 <div>
-                  <h3 className="text-2xl font-black mb-2 uppercase">Inquiry & Tour</h3>
-                  <p className="text-lg">Visit our campus or book a virtual tour to see our facilities and meet our warm staff.</p>
+                  <h3 className="text-2xl font-bold mb-2">Inquiry & Tour</h3>
+                  <p className="text-gray-500 text-lg leading-relaxed">Visit our campus or book a virtual tour to see our facilities and meet our staff.</p>
                 </div>
               </div>
-              <div className="flex space-x-8 items-start">
-                <div className="flex-shrink-0 w-16 h-16 bg-[#E11D48] text-white rounded-3xl flex items-center justify-center font-black text-2xl shadow-lg">2</div>
+              <div className="flex space-x-8">
+                <div className="flex-shrink-0 w-16 h-16 bg-red-100 text-[#E11D48] rounded-full flex items-center justify-center font-bold text-2xl">2</div>
                 <div>
-                  <h3 className="text-2xl font-black mb-2 uppercase">Application Submission</h3>
-                  <p className="text-lg">Submit the necessary documents and the application form through our simple online portal.</p>
+                  <h3 className="text-2xl font-bold mb-2">Application Submission</h3>
+                  <p className="text-gray-500 text-lg leading-relaxed">Submit the necessary documents and the application form through our online portal.</p>
                 </div>
               </div>
-              <div className="flex space-x-8 items-start">
-                <div className="flex-shrink-0 w-16 h-16 bg-[#E11D48] text-white rounded-3xl flex items-center justify-center font-black text-2xl shadow-lg">3</div>
+              <div className="flex space-x-8">
+                <div className="flex-shrink-0 w-16 h-16 bg-red-100 text-[#E11D48] rounded-full flex items-center justify-center font-bold text-2xl">3</div>
                 <div>
-                  <h3 className="text-2xl font-black mb-2 uppercase">Assessment & Interview</h3>
-                  <p className="text-lg">Student assessment and parent interview to ensure a beautiful fit for our Christian community.</p>
+                  <h3 className="text-2xl font-bold mb-2">Assessment & Interview</h3>
+                  <p className="text-gray-500 text-lg leading-relaxed">Student assessment and parent interview to ensure a good fit for our school community.</p>
                 </div>
               </div>
-            </div>
-            <div className="mt-16 text-center">
-              <button className="bg-[#E11D48] text-white px-12 py-5 rounded-full font-black text-xl uppercase shadow-2xl hover:scale-105 transition transform">Start Application Now</button>
             </div>
           </section>
         );
       case 'Gallery':
         return (
-          <section className="py-20 px-6 max-w-7xl mx-auto animate-fadeIn">
-            <h2 className="text-4xl font-extrabold mb-10 text-[#E11D48] uppercase tracking-tighter">School Gallery</h2>
+          <section className="py-28 px-6 max-w-7xl mx-auto animate-fadeIn">
+            <h2 className="text-5xl font-extrabold mb-12 text-[#E11D48]">School Gallery</h2>
             <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
               {[1, 2, 3, 4, 5, 6, 7, 8].map(i => (
-                <div key={i} className="group aspect-square bg-gray-100 rounded-[2.5rem] overflow-hidden shadow-md hover:shadow-2xl transition-all duration-500 cursor-pointer relative">
-                  <img src={`https://picsum.photos/seed/${i + 50}/800/800`} alt="Gallery" className="w-full h-full object-cover group-hover:scale-110 transition duration-700" />
-                  <div className="absolute inset-0 bg-black/20 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
-                    <i className="fa-solid fa-magnifying-glass-plus text-white text-3xl"></i>
-                  </div>
+                <div key={i} className="aspect-square bg-gray-100 rounded-[2rem] overflow-hidden shadow-sm hover:shadow-lg transition cursor-pointer">
+                  <img src={`https://picsum.photos/seed/${i + 50}/600/600`} alt="Gallery" className="w-full h-full object-cover hover:scale-105 transition duration-700" />
                 </div>
               ))}
             </div>
@@ -226,7 +291,7 @@ const App: React.FC = () => {
   };
 
   return (
-    <div className="min-h-screen flex flex-col selection:bg-red-100 selection:text-[#E11D48]">
+    <div className="min-h-screen flex flex-col">
       <Header currentPage={currentPage} onPageChange={setCurrentPage} />
       <main className="flex-1">
         {renderContent()}

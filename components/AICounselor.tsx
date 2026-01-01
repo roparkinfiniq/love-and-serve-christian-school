@@ -1,4 +1,3 @@
-
 import React, { useState, useRef, useEffect } from 'react';
 import { getCounselorResponse } from '../services/geminiService';
 import { ChatMessage } from '../types';
@@ -40,23 +39,23 @@ const AICounselor: React.FC = () => {
   return (
     <div className="fixed bottom-6 right-6 z-[100]">
       {isOpen ? (
-        <div className="bg-white w-80 md:w-96 h-[500px] rounded-[2rem] shadow-2xl flex flex-col border border-gray-100 overflow-hidden animate-fadeIn">
+        <div className="bg-white w-96 md:w-[28rem] h-[600px] rounded-[2.5rem] shadow-2xl flex flex-col border border-gray-100 overflow-hidden animate-fadeIn">
           {/* Header */}
-          <div className="bg-[#E11D48] p-4 flex justify-between items-center text-white">
-            <div className="flex items-center space-x-2">
-              <i className="fa-solid fa-robot"></i>
-              <span className="font-bold">LSCS AI Counselor</span>
+          <div className="bg-[#E11D48] p-5 flex justify-between items-center text-white">
+            <div className="flex items-center space-x-3">
+              <i className="fa-solid fa-robot text-xl"></i>
+              <span className="font-bold text-lg">LSCS AI Counselor</span>
             </div>
             <button onClick={() => setIsOpen(false)} className="hover:opacity-80">
-              <i className="fa-solid fa-xmark"></i>
+              <i className="fa-solid fa-xmark text-xl"></i>
             </button>
           </div>
 
           {/* Messages */}
-          <div ref={scrollRef} className="flex-1 overflow-y-auto p-4 space-y-4 bg-gray-50">
+          <div ref={scrollRef} className="flex-1 overflow-y-auto p-5 space-y-5 bg-gray-50">
             {messages.map((msg, i) => (
               <div key={i} className={`flex ${msg.role === 'user' ? 'justify-end' : 'justify-start'}`}>
-                <div className={`max-w-[80%] p-3 rounded-2xl text-sm ${
+                <div className={`max-w-[85%] p-4 rounded-2xl text-base leading-relaxed ${
                   msg.role === 'user' 
                     ? 'bg-[#E11D48] text-white rounded-tr-none' 
                     : 'bg-white text-gray-700 shadow-sm rounded-tl-none'
@@ -67,11 +66,11 @@ const AICounselor: React.FC = () => {
             ))}
             {isLoading && (
               <div className="flex justify-start">
-                <div className="bg-white p-3 rounded-2xl rounded-tl-none shadow-sm">
-                  <div className="flex space-x-1">
-                    <div className="w-1.5 h-1.5 bg-gray-300 rounded-full animate-bounce"></div>
-                    <div className="w-1.5 h-1.5 bg-gray-300 rounded-full animate-bounce [animation-delay:-0.15s]"></div>
-                    <div className="w-1.5 h-1.5 bg-gray-300 rounded-full animate-bounce [animation-delay:-0.3s]"></div>
+                <div className="bg-white p-4 rounded-2xl rounded-tl-none shadow-sm">
+                  <div className="flex space-x-1.5">
+                    <div className="w-2 h-2 bg-gray-300 rounded-full animate-bounce"></div>
+                    <div className="w-2 h-2 bg-gray-300 rounded-full animate-bounce [animation-delay:-0.15s]"></div>
+                    <div className="w-2 h-2 bg-gray-300 rounded-full animate-bounce [animation-delay:-0.3s]"></div>
                   </div>
                 </div>
               </div>
@@ -79,22 +78,22 @@ const AICounselor: React.FC = () => {
           </div>
 
           {/* Input */}
-          <div className="p-4 border-t bg-white">
-            <div className="flex space-x-2">
+          <div className="p-5 border-t bg-white">
+            <div className="flex space-x-3">
               <input
                 type="text"
                 value={input}
                 onChange={(e) => setInput(e.target.value)}
                 onKeyDown={(e) => e.key === 'Enter' && handleSend()}
                 placeholder="Ask me anything..."
-                className="flex-1 bg-gray-100 rounded-full px-4 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#E11D48]"
+                className="flex-1 bg-gray-100 rounded-full px-5 py-3 text-base focus:outline-none focus:ring-2 focus:ring-[#E11D48]"
               />
               <button 
                 onClick={handleSend}
                 disabled={isLoading}
-                className="bg-[#E11D48] text-white w-10 h-10 rounded-full flex items-center justify-center hover:scale-105 transition"
+                className="bg-[#E11D48] text-white w-12 h-12 rounded-full flex items-center justify-center hover:scale-105 transition"
               >
-                <i className="fa-solid fa-paper-plane"></i>
+                <i className="fa-solid fa-paper-plane text-lg"></i>
               </button>
             </div>
           </div>
@@ -102,7 +101,7 @@ const AICounselor: React.FC = () => {
       ) : (
         <button 
           onClick={() => setIsOpen(true)}
-          className="bg-[#E11D48] text-white w-16 h-16 rounded-full shadow-2xl flex items-center justify-center text-2xl hover:scale-110 transition transform"
+          className="bg-[#E11D48] text-white w-18 h-18 p-5 rounded-full shadow-2xl flex items-center justify-center text-3xl hover:scale-110 transition transform"
         >
           <i className="fa-solid fa-message"></i>
         </button>

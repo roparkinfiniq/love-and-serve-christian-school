@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { Page } from '../types';
 
@@ -9,80 +8,92 @@ interface HeaderProps {
 
 const Header: React.FC<HeaderProps> = ({ currentPage, onPageChange }) => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [logoError, setLogoError] = useState(false);
 
   const navItems: { label: string; page: Page }[] = [
     { label: 'Home', page: 'Home' },
-    { label: 'About', page: 'About' },
-    { label: 'Facilities', page: 'Academics' },
-    { label: 'Admission', page: 'Admissions' },
-    { label: 'Contact', page: 'Gallery' },
+    { label: 'About Us', page: 'About' },
+    { label: 'Academics', page: 'Academics' },
+    { label: 'Admissions', page: 'Admissions' },
+    { label: 'Gallery', page: 'Gallery' },
   ];
 
   return (
-    <nav className="bg-white border-b border-gray-100 sticky top-0 z-50">
-      <div className="max-w-7xl mx-auto flex justify-between items-center px-4 md:px-8 py-3">
+    <nav className="sticky top-0 z-50 bg-white/95 backdrop-blur-md border-b border-gray-50">
+      <div className="max-w-7xl mx-auto flex justify-between items-center px-6 py-5">
         {/* Logo and Name */}
-        <div 
-          className="flex items-center space-x-3 cursor-pointer group" 
-          onClick={() => onPageChange('Home')}
-        >
-          <div className="w-10 h-10 md:w-12 md:h-12 flex items-center justify-center overflow-hidden transition-transform group-hover:scale-110">
-            <img 
-              src="https://i.ibb.co/C3X3hWd/lscsi-logo.png" 
-              alt="LSCSI Logo" 
-              className="w-full h-full object-contain"
-            />
+        <div className="flex items-center space-x-4 cursor-pointer group" onClick={() => onPageChange('Home')}>
+          <div className="w-14 h-14 bg-white rounded-full flex items-center justify-center shadow-sm border border-gray-100 overflow-hidden group-hover:scale-105 group-hover:shadow-md transition-all duration-500">
+            {!logoError ? (
+              <img 
+                src="logo.png" 
+                alt="LSCSI Logo" 
+                className="w-[85%] h-[85%] object-contain"
+                onError={() => setLogoError(true)}
+              />
+            ) : (
+              <i className="fa-solid fa-cross text-[#E11D48] text-2xl"></i>
+            )}
           </div>
-          <h1 className="text-xl md:text-2xl font-bold text-[#9b1c31] tracking-tight">
-            Love and Serve Christian School Inc.
-          </h1>
+          <div>
+            <h1 className="text-2xl font-extrabold text-[#E11D48] leading-none tracking-tight">LSCS</h1>
+            <p className="hidden md:block text-xs font-bold text-gray-400 uppercase tracking-wider mt-1">Love and Serve Christian School</p>
+          </div>
         </div>
 
-        {/* Desktop Navigation */}
-        <div className="hidden lg:flex items-center space-x-8">
-          {navItems.map((item) => (
+        {/* Desktop Nav */}
+        <div className="hidden lg:flex space-x-12">
+          {navItems.map(item => (
             <button
               key={item.page}
               onClick={() => onPageChange(item.page)}
-              className={`text-sm font-medium transition-colors duration-200 ${
+              className={`text-base font-bold transition-all py-1 border-b-2 ${
                 currentPage === item.page 
-                ? 'text-[#9b1c31] font-bold border-b-2 border-[#9b1c31]' 
-                : 'text-gray-600 hover:text-[#9b1c31]'
-              } pb-1`}
+                ? 'text-[#E11D48] border-[#E11D48]' 
+                : 'text-gray-500 border-transparent hover:text-gray-800'
+              }`}
             >
               {item.label}
             </button>
           ))}
         </div>
 
-        {/* Mobile Menu Button */}
-        <button 
-          className="lg:hidden text-[#9b1c31] text-2xl"
-          onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-        >
-          <i className={`fa-solid ${mobileMenuOpen ? 'fa-xmark' : 'fa-bars'}`}></i>
-        </button>
+        {/* Action Button */}
+        <div className="flex items-center space-x-4">
+          <button 
+            className="hidden sm:block bg-[#E11D48] text-white px-9 py-3 rounded-2xl font-black hover:bg-red-700 transition transform shadow-lg active:scale-95 text-base"
+          >
+            Contact Us
+          </button>
+          <button 
+            className="lg:hidden text-[#E11D48] text-3xl"
+            onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+          >
+            <i className={`fa-solid ${mobileMenuOpen ? 'fa-xmark' : 'fa-bars'}`}></i>
+          </button>
+        </div>
       </div>
 
-      {/* Mobile Menu Overlay */}
+      {/* Mobile Menu */}
       {mobileMenuOpen && (
-        <div className="lg:hidden bg-white border-t border-gray-100 absolute w-full shadow-xl animate-fadeIn">
-          <div className="flex flex-col p-6 space-y-4">
-            {navItems.map((item) => (
-              <button
-                key={item.page}
-                onClick={() => {
-                  onPageChange(item.page);
-                  setMobileMenuOpen(false);
-                }}
-                className={`text-left text-lg font-bold py-2 ${
-                  currentPage === item.page ? 'text-[#9b1c31]' : 'text-gray-600'
-                }`}
-              >
-                {item.label}
-              </button>
-            ))}
-          </div>
+        <div className="lg:hidden bg-white border-t border-gray-50 p-8 flex flex-col space-y-6 animate-fadeIn">
+          {navItems.map(item => (
+            <button
+              key={item.page}
+              onClick={() => {
+                onPageChange(item.page);
+                setMobileMenuOpen(false);
+              }}
+              className={`text-left font-bold text-lg py-2 ${currentPage === item.page ? 'text-[#E11D48]' : 'text-gray-500'}`}
+            >
+              {item.label}
+            </button>
+          ))}
+          <button 
+            className="bg-[#E11D48] text-white px-6 py-5 rounded-2xl font-black shadow-lg uppercase tracking-widest text-sm"
+          >
+            Contact Us
+          </button>
         </div>
       )}
     </nav>
