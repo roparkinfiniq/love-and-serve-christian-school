@@ -10,7 +10,7 @@ const Contact: React.FC<ContactProps> = ({ scrollToForm = false }) => {
   useEffect(() => {
     if (scrollToForm && formRef.current) {
       setTimeout(() => {
-        formRef.current?.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        formRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' });
       }, 100);
     }
   }, [scrollToForm]);
@@ -80,7 +80,7 @@ const Contact: React.FC<ContactProps> = ({ scrollToForm = false }) => {
         <div 
           ref={formRef} 
           id="contact-form-box"
-          className="bg-white rounded-[2.5rem] shadow-xl border border-gray-100 overflow-hidden"
+          className="bg-white rounded-[2.5rem] shadow-xl border border-gray-100 overflow-hidden scroll-mt-32"
         >
           <div className="grid lg:grid-cols-2">
             
