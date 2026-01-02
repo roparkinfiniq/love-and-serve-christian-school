@@ -1,7 +1,21 @@
-import React, { useState } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 
-const Admissions: React.FC = () => {
+interface AdmissionsProps {
+  scrollToProcess?: boolean;
+}
+
+const Admissions: React.FC<AdmissionsProps> = ({ scrollToProcess = false }) => {
   const [openFaq, setOpenFaq] = useState<number | null>(null);
+  const processRef = useRef<HTMLElement>(null);
+
+  useEffect(() => {
+    if (scrollToProcess && processRef.current) {
+      // Timeout ensures the page renders before scrolling
+      setTimeout(() => {
+        processRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }, 100);
+    }
+  }, [scrollToProcess]);
 
   const steps = [
     { number: 1, title: 'Submit Application', desc: 'Fill out the online form or visit our admissions office.' },
@@ -50,7 +64,7 @@ const Admissions: React.FC = () => {
         </section>
 
         {/* Process Steps */}
-        <section className="py-24 px-6 max-w-7xl mx-auto">
+        <section ref={processRef} id="process" className="py-24 px-6 max-w-7xl mx-auto scroll-mt-32">
             <div className="text-center mb-20">
                 <span className="text-[#E11D48] font-bold tracking-widest uppercase text-sm">Step-by-Step</span>
                 <h2 className="text-4xl md:text-5xl font-black text-gray-900 mt-2">Admissions Process</h2>
@@ -58,7 +72,6 @@ const Admissions: React.FC = () => {
             
             <div className="relative">
                 {/* Desktop Connecting Line - Solid Style for 'Flow' effect */}
-                {/* Removed negative z-index to fix disappearance bug. Z-order is handled by DOM order (line first) and z-10 on circles. */}
                 <div className="hidden md:block absolute top-12 left-[12%] right-[12%] h-[3px] bg-red-200"></div>
                 
                 <div className="grid grid-cols-1 md:grid-cols-4 gap-12">
@@ -69,11 +82,8 @@ const Admissions: React.FC = () => {
                                 {step.number}
                             </div>
 
-                            {/* Mobile Vertical Connector Line */}
-                            {idx !== steps.length - 1 && (
-                              <div className="md:hidden absolute top-24 left-1/2 w-1 h-12 bg-red-200 -translate-x-1/2"></div>
-                            )}
-
+                            {/* Mobile Vertical Lines Removed per request */}
+                            
                             <h3 className="text-xl font-bold text-gray-900 mb-3">{step.title}</h3>
                             <p className="text-gray-500 leading-relaxed">{step.desc}</p>
                         </div>

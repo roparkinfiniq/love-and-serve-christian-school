@@ -3,11 +3,18 @@ import React, { useState, useEffect, useRef } from 'react';
 interface AcademicsProps {
   initialTab?: 'preschool' | 'elementary' | 'junior';
   shouldScrollToTabs?: boolean;
+  scrollToCalendar?: boolean;
 }
 
-const Academics: React.FC<AcademicsProps> = ({ initialTab = 'preschool', shouldScrollToTabs = false }) => {
+const Academics: React.FC<AcademicsProps> = ({ 
+  initialTab = 'preschool', 
+  shouldScrollToTabs = false,
+  scrollToCalendar = false 
+}) => {
   const [activeTab, setActiveTab] = useState<'preschool' | 'elementary' | 'junior'>(initialTab);
   const tabsSectionRef = useRef<HTMLElement>(null);
+  const contentRef = useRef<HTMLDivElement>(null);
+  const calendarRef = useRef<HTMLElement>(null);
 
   // Sync activeTab if initialTab changes (e.g. navigation from Home page)
   useEffect(() => {
@@ -23,6 +30,36 @@ const Academics: React.FC<AcademicsProps> = ({ initialTab = 'preschool', shouldS
       }, 100);
     }
   }, [shouldScrollToTabs, initialTab]);
+
+  // Handle auto-scroll to calendar if requested (e.g. from Footer)
+  useEffect(() => {
+    if (scrollToCalendar && calendarRef.current) {
+      setTimeout(() => {
+        calendarRef.current?.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      }, 100);
+    }
+  }, [scrollToCalendar]);
+
+  const handleTabChange = (tab: 'preschool' | 'elementary' | 'junior', isBottomNav = false) => {
+    setActiveTab(tab);
+    
+    if (isBottomNav) {
+      // Check device width to determine scroll behavior (Tailwind md breakpoint is 768px)
+      const isMobile = window.innerWidth < 768;
+
+      if (isMobile && contentRef.current) {
+        // Mobile: Scroll directly to content container, bypassing the tabs at the top
+        contentRef.current.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      } else if (!isMobile && tabsSectionRef.current) {
+        // Desktop: Use 'nearest' to avoid jarring jumps if the tabs are already in view.
+        // This keeps the focus stable while changing content.
+        tabsSectionRef.current.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+      }
+    } else {
+      // Direct Tab Click (Top Nav): Use 'nearest' to avoid unnecessary jumping
+      tabsSectionRef.current?.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+    }
+  };
 
   const levels = {
     preschool: {
@@ -55,7 +92,7 @@ const Academics: React.FC<AcademicsProps> = ({ initialTab = 'preschool', shouldS
     { title: 'Guitar Class', image: 'https://images.unsplash.com/photo-1460039230329-eb070fc6c77c?auto=format&fit=crop&q=80&w=600', icon: 'fa-guitar' },
     { title: 'Ukulele Class', image: 'https://images.unsplash.com/photo-1575224300306-1b8da36134ec?auto=format&fit=crop&q=80&w=600', icon: 'fa-guitar' },
     { title: 'Dance Class', image: 'https://images.unsplash.com/photo-1504609773096-104ff2c73ba4?auto=format&fit=crop&q=80&w=600', icon: 'fa-person-running' },
-    { title: 'Kumdo Class', image: 'https://images.unsplash.com/photo-1615367375283-11885f856598?auto=format&fit=crop&q=80&w=600', icon: 'fa-khanda' },
+    { title: 'Kumdo Class', image: 'https://images.unsplash.com/photo-1599058945522-28d584b6f0ff?auto=format&fit=crop&q=80&w=600', icon: 'fa-khanda' },
     { title: 'Drum & Lyre', image: 'https://images.unsplash.com/photo-1519892300165-cb5542fb47c7?auto=format&fit=crop&q=80&w=600', icon: 'fa-drum' },
   ];
 
@@ -114,7 +151,7 @@ const Academics: React.FC<AcademicsProps> = ({ initialTab = 'preschool', shouldS
           {(Object.keys(levels) as Array<keyof typeof levels>).map((level) => (
             <button
               key={level}
-              onClick={() => setActiveTab(level)}
+              onClick={() => handleTabChange(level)}
               className={`px-8 py-4 rounded-full font-bold text-lg transition-all duration-300 transform hover:-translate-y-1 ${
                 activeTab === level
                   ? 'bg-[#E11D48] text-white shadow-lg shadow-red-200'
@@ -127,7 +164,10 @@ const Academics: React.FC<AcademicsProps> = ({ initialTab = 'preschool', shouldS
         </div>
 
         {/* Content */}
-        <div className="bg-white rounded-[3rem] shadow-xl border border-gray-100 overflow-hidden min-h-[600px] flex flex-col md:flex-row animate-fadeIn">
+        <div 
+          ref={contentRef}
+          className="bg-white rounded-[3rem] shadow-xl border border-gray-100 overflow-hidden min-h-[600px] flex flex-col md:flex-row animate-fadeIn scroll-mt-32"
+        >
            {/* Image Side */}
            <div className="md:w-1/2 relative h-64 md:h-auto overflow-hidden">
              <img 
@@ -156,6 +196,51 @@ const Academics: React.FC<AcademicsProps> = ({ initialTab = 'preschool', shouldS
                  </div>
                ))}
              </div>
+
+             {/* Navigation Buttons for Better Mobile UX */}
+             <div className="mt-12 pt-8 border-t border-gray-100 flex flex-col sm:flex-row gap-4 justify-between items-center">
+                {activeTab === 'preschool' && (
+                  <>
+                    <div className="hidden sm:block"></div> {/* Spacer to push Next button to right */}
+                    <button 
+                      onClick={() => handleTabChange('elementary', true)}
+                      className="w-full sm:w-auto group flex items-center justify-center text-[#E11D48] font-bold hover:bg-red-50 px-8 py-4 rounded-xl transition-all border-2 border-[#E11D48] active:scale-95"
+                    >
+                      Next: Elementary Department <i className="fa-solid fa-arrow-right ml-3 group-hover:translate-x-1 transition-transform"></i>
+                    </button>
+                  </>
+                )}
+
+                {activeTab === 'elementary' && (
+                  <>
+                    <button 
+                      onClick={() => handleTabChange('preschool', true)}
+                      className="w-full sm:w-auto group flex items-center justify-center text-gray-500 font-bold hover:bg-gray-50 px-8 py-4 rounded-xl transition-all border-2 border-gray-200 hover:border-gray-300 hover:text-gray-700 active:scale-95"
+                    >
+                      <i className="fa-solid fa-arrow-left mr-3 group-hover:-translate-x-1 transition-transform"></i> Prev: Preschool
+                    </button>
+                    <button 
+                      onClick={() => handleTabChange('junior', true)}
+                      className="w-full sm:w-auto group flex items-center justify-center text-[#E11D48] font-bold hover:bg-red-50 px-8 py-4 rounded-xl transition-all border-2 border-[#E11D48] active:scale-95"
+                    >
+                      Next: Junior High <i className="fa-solid fa-arrow-right ml-3 group-hover:translate-x-1 transition-transform"></i>
+                    </button>
+                  </>
+                )}
+
+                {activeTab === 'junior' && (
+                  <>
+                     <button 
+                      onClick={() => handleTabChange('elementary', true)}
+                      className="w-full sm:w-auto group flex items-center justify-center text-gray-500 font-bold hover:bg-gray-50 px-8 py-4 rounded-xl transition-all border-2 border-gray-200 hover:border-gray-300 hover:text-gray-700 active:scale-95"
+                    >
+                      <i className="fa-solid fa-arrow-left mr-3 group-hover:-translate-x-1 transition-transform"></i> Prev: Elementary
+                    </button>
+                    <div className="hidden sm:block"></div> {/* Spacer */}
+                  </>
+                )}
+             </div>
+
            </div>
         </div>
       </section>
@@ -197,6 +282,20 @@ const Academics: React.FC<AcademicsProps> = ({ initialTab = 'preschool', shouldS
               </div>
             ))}
           </div>
+        </div>
+      </section>
+
+      {/* School Calendar Placeholder */}
+      <section id="calendar" ref={calendarRef} className="py-24 px-6 max-w-4xl mx-auto text-center">
+        <div className="bg-gray-50 rounded-[3rem] p-12 md:p-16 border border-gray-200 shadow-inner flex flex-col items-center">
+           <div className="text-6xl mb-6 select-none">📅</div>
+           <h2 className="text-3xl md:text-4xl font-black text-gray-900 mb-4">School Calendar: SY 2026-2027</h2>
+           <p className="text-xl text-gray-500 mb-8 max-w-2xl mx-auto leading-relaxed">
+             Our official academic calendar is currently being finalized. Please check back soon for updates regarding key dates and events.
+           </p>
+           <button disabled className="bg-gray-200 text-gray-400 px-8 py-4 rounded-xl font-bold cursor-not-allowed flex items-center shadow-sm">
+              <i className="fa-solid fa-file-pdf mr-3"></i> Download PDF (Coming Soon)
+           </button>
         </div>
       </section>
     </div>

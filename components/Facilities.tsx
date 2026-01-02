@@ -1,6 +1,12 @@
 import React from 'react';
+import { Page } from '../types';
 
-const Facilities: React.FC = () => {
+interface FacilitiesProps {
+  onNavigate: (page: Page) => void;
+  onScheduleVisit?: () => void;
+}
+
+const Facilities: React.FC<FacilitiesProps> = ({ onNavigate, onScheduleVisit }) => {
   const facilities = [
     { 
       title: 'Playground', 
@@ -117,7 +123,10 @@ const Facilities: React.FC = () => {
       <section className="py-16 px-6 bg-red-50 text-center">
          <div className="max-w-3xl mx-auto">
             <h3 className="text-2xl md:text-3xl font-bold text-gray-900 mb-6">Want to see it in person?</h3>
-            <button className="bg-[#E11D48] text-white px-10 py-4 rounded-xl font-bold text-lg shadow-lg hover:bg-red-700 hover:scale-105 transition-all">
+            <button 
+              onClick={() => onScheduleVisit ? onScheduleVisit() : onNavigate('Contact')}
+              className="bg-[#E11D48] text-white px-10 py-4 rounded-xl font-bold text-lg shadow-lg hover:bg-red-700 hover:scale-105 transition-all"
+            >
                Schedule a Campus Visit
             </button>
          </div>

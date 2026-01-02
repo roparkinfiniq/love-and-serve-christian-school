@@ -19,6 +19,9 @@ const App: React.FC = () => {
   const [currentPage, setCurrentPage] = useState<Page>('Home');
   const [academicsTab, setAcademicsTab] = useState<'preschool' | 'elementary' | 'junior'>('preschool');
   const [scrollToTabs, setScrollToTabs] = useState(false);
+  const [scrollToCalendar, setScrollToCalendar] = useState(false);
+  const [scrollToAdmissionProcess, setScrollToAdmissionProcess] = useState(false);
+  const [scrollToContactForm, setScrollToContactForm] = useState(false);
 
   // Scroll to top whenever page changes
   useEffect(() => {
@@ -28,19 +31,49 @@ const App: React.FC = () => {
   // Wrapper for standard page navigation (resets specific scroll targets)
   const handlePageChange = (page: Page) => {
     setScrollToTabs(false);
+    setScrollToCalendar(false);
+    setScrollToAdmissionProcess(false);
+    setScrollToContactForm(false);
     setCurrentPage(page);
   };
 
   const handleProgramNavigation = (tab: 'preschool' | 'elementary' | 'junior') => {
     setAcademicsTab(tab);
     setScrollToTabs(true); // Trigger scroll in Academics component
+    setScrollToCalendar(false);
+    setScrollToAdmissionProcess(false);
     setCurrentPage('Academics');
   };
 
   const handleViewAllCurriculums = () => {
     setAcademicsTab('preschool');
     setScrollToTabs(false); // Do not scroll to tabs, go to top
+    setScrollToCalendar(false);
+    setScrollToAdmissionProcess(false);
     setCurrentPage('Academics');
+  };
+
+  const handleCalendarNavigation = () => {
+    setAcademicsTab('preschool'); // default
+    setScrollToTabs(false);
+    setScrollToCalendar(true); // Trigger scroll to calendar
+    setScrollToAdmissionProcess(false);
+    setCurrentPage('Academics');
+  };
+
+  const handleAdmissionProcessNavigation = () => {
+    setScrollToTabs(false);
+    setScrollToCalendar(false);
+    setScrollToAdmissionProcess(true); // Trigger scroll to admission process
+    setCurrentPage('Admissions');
+  };
+
+  const handleContactFormNavigation = () => {
+    setScrollToTabs(false);
+    setScrollToCalendar(false);
+    setScrollToAdmissionProcess(false);
+    setScrollToContactForm(true); // Trigger scroll to contact form
+    setCurrentPage('Contact');
   };
 
   const renderContent = () => {
@@ -79,8 +112,8 @@ const App: React.FC = () => {
             {/* Principal's Welcome Section */}
             <section className="py-24 px-6 bg-white border-b border-gray-50">
               <div className="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-16 lg:gap-24 items-center">
-                {/* Left Column: Portrait */}
-                <div className="relative order-2 md:order-1">
+                {/* Left Column: Portrait - Mobile: First, Desktop: First (Order 1) */}
+                <div className="relative md:order-1">
                   <div className="aspect-[3/4] md:aspect-square bg-gray-100 rounded-[2.5rem] overflow-hidden shadow-2xl relative z-10">
                     <img 
                       src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&q=80&w=800" 
@@ -93,8 +126,8 @@ const App: React.FC = () => {
                   <div className="absolute -top-8 -left-8 w-32 h-32 border-4 border-red-50 rounded-full -z-0"></div>
                 </div>
 
-                {/* Right Column: Message */}
-                <div className="order-1 md:order-2">
+                {/* Right Column: Message - Mobile: Second, Desktop: Second (Order 2) */}
+                <div className="md:order-2">
                   <span className="inline-block text-[#E11D48] font-bold tracking-[0.2em] uppercase text-sm mb-6">Welcome Message</span>
                   <h2 className="text-4xl md:text-5xl font-black text-gray-900 mb-8 leading-tight">
                     A Message from <br/>the Principal
@@ -206,7 +239,8 @@ const App: React.FC = () => {
             {/* Philosophy Section */}
             <section className="py-28 bg-white px-6">
               <div className="max-w-6xl mx-auto">
-                <div className="flex flex-col md:flex-row items-center gap-20">
+                {/* Mobile: Image First (flex-col-reverse), Desktop: Text First (flex-row) */}
+                <div className="flex flex-col-reverse md:flex-row items-center gap-20">
                   <div className="w-full md:w-2/3">
                     <div className="w-20 h-1.5 bg-[#E11D48] mb-8"></div>
                     <h2 className="text-5xl font-black mb-10 text-gray-900 uppercase">Philosophy</h2>
@@ -263,15 +297,15 @@ const App: React.FC = () => {
           </div>
         );
       case 'Academics':
-        return <Academics initialTab={academicsTab} shouldScrollToTabs={scrollToTabs} />;
+        return <Academics initialTab={academicsTab} shouldScrollToTabs={scrollToTabs} scrollToCalendar={scrollToCalendar} />;
       case 'Admissions':
-        return <Admissions />;
+        return <Admissions scrollToProcess={scrollToAdmissionProcess} />;
       case 'Facilities':
-        return <Facilities />;
+        return <Facilities onNavigate={handlePageChange} onScheduleVisit={handleContactFormNavigation} />;
       case 'Gallery':
         return <Gallery />;
       case 'Contact':
-        return <Contact />;
+        return <Contact scrollToForm={scrollToContactForm} />;
       case 'Team':
         return <Team />;
       case 'Careers':
@@ -287,7 +321,11 @@ const App: React.FC = () => {
       <main className="flex-1">
         {renderContent()}
       </main>
-      <Footer onNavigate={handlePageChange} />
+      <Footer 
+        onNavigate={handlePageChange} 
+        onCalendarClick={handleCalendarNavigation} 
+        onAdmissionProcessClick={handleAdmissionProcessNavigation}
+      />
       <AICounselor />
     </div>
   );

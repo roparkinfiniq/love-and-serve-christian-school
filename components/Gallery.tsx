@@ -3,8 +3,13 @@ import React, { useState } from 'react';
 type Category = 'All' | 'Academics' | 'Student Life' | 'Arts & Sports' | 'Campus';
 
 const Gallery: React.FC = () => {
-  const [activeCategory, setActiveCategory] = useState<Category>('All');
-  const [isAnimating, setIsAnimating] = useState(false);
+  const activeCategoryState = useState<Category>('All');
+  const activeCategory = activeCategoryState[0];
+  const setActiveCategory = activeCategoryState[1];
+  
+  const animatingState = useState(false);
+  const isAnimating = animatingState[0];
+  const setIsAnimating = animatingState[1];
 
   const categories: Category[] = ['All', 'Academics', 'Student Life', 'Arts & Sports', 'Campus'];
 
@@ -12,12 +17,12 @@ const Gallery: React.FC = () => {
     { src: 'https://images.unsplash.com/photo-1509062522246-3755977927d7?auto=format&fit=crop&q=80&w=1200', alt: 'Science Lab Experiment', category: 'Academics' },
     { src: 'https://images.unsplash.com/photo-1544717305-2782549b5136?auto=format&fit=crop&q=80&w=800', alt: 'Library Study Session', category: 'Academics' },
     { src: 'https://images.unsplash.com/photo-1577896851231-70ef18881754?auto=format&fit=crop&q=80&w=1200', alt: 'Classroom Engagement', category: 'Academics' },
-    { src: 'https://images.unsplash.com/photo-1596496050844-461af5414ca2?auto=format&fit=crop&q=80&w=800', alt: 'Creative Arts Class', category: 'Arts & Sports' },
+    { src: 'https://images.unsplash.com/photo-1560421683-6856ea585c78?auto=format&fit=crop&q=80&w=800', alt: 'Creative Arts Class', category: 'Arts & Sports' },
     { src: 'https://images.unsplash.com/photo-1560523160-754a9e25c68f?auto=format&fit=crop&q=80&w=1200', alt: 'Preschool Playtime', category: 'Student Life' },
     { src: 'https://images.unsplash.com/photo-1529333166437-7750a6dd5a70?auto=format&fit=crop&q=80&w=800', alt: 'Student Friendship', category: 'Student Life' },
-    { src: 'https://images.unsplash.com/photo-1546519638-68e109498ad0?auto=format&fit=crop&q=80&w=1200', alt: 'Sports & Athletics', category: 'Arts & Sports' },
-    { src: 'https://images.unsplash.com/photo-1544717302-de2939b7ef71?auto=format&fit=crop&q=80&w=800', alt: 'Teacher & Student', category: 'Academics' },
-    { src: 'https://images.unsplash.com/photo-1523050854058-8df90110c9f1?auto=format&fit=crop&q=80&w=1200', alt: 'Graduation Day', category: 'Student Life' },
+    { src: 'https://images.unsplash.com/photo-1461896836934-ffe607ba8211?auto=format&fit=crop&q=80&w=1200', alt: 'Sports & Athletics', category: 'Arts & Sports' },
+    { src: 'https://images.unsplash.com/photo-1544725176-7c40e5a71c5e?auto=format&fit=crop&q=80&w=800', alt: 'Teacher & Student', category: 'Academics' },
+    { src: 'https://images.unsplash.com/photo-1523580846011-d3a5bc25702b?auto=format&fit=crop&q=80&w=1200', alt: 'Graduation Day', category: 'Student Life' },
     { src: 'https://images.unsplash.com/photo-1512820790803-83ca734da794?auto=format&fit=crop&q=80&w=800', alt: 'Quiet Reading Time', category: 'Academics' },
     { src: 'https://images.unsplash.com/photo-1588072432836-e10032774350?auto=format&fit=crop&q=80&w=1200', alt: 'School Lunch', category: 'Student Life' },
     { src: 'https://images.unsplash.com/photo-1513364776144-60967b0f800f?auto=format&fit=crop&q=80&w=800', alt: 'Painting Workshop', category: 'Arts & Sports' },

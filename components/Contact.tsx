@@ -1,6 +1,20 @@
-import React from 'react';
+import React, { useRef, useEffect } from 'react';
 
-const Contact: React.FC = () => {
+interface ContactProps {
+  scrollToForm?: boolean;
+}
+
+const Contact: React.FC<ContactProps> = ({ scrollToForm = false }) => {
+  const formRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    if (scrollToForm && formRef.current) {
+      setTimeout(() => {
+        formRef.current?.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      }, 100);
+    }
+  }, [scrollToForm]);
+
   const contactInfo = [
     {
       icon: 'fa-location-dot',
@@ -63,7 +77,11 @@ const Contact: React.FC = () => {
         </div>
 
         {/* Bottom Section: Form & Map Split */}
-        <div className="bg-white rounded-[2.5rem] shadow-xl border border-gray-100 overflow-hidden">
+        <div 
+          ref={formRef} 
+          id="contact-form-box"
+          className="bg-white rounded-[2.5rem] shadow-xl border border-gray-100 overflow-hidden"
+        >
           <div className="grid lg:grid-cols-2">
             
             {/* Left: Contact Form */}
@@ -122,7 +140,7 @@ const Contact: React.FC = () => {
             {/* Right: Map */}
             <div className="relative h-[400px] lg:h-auto bg-gray-200 min-h-[500px]">
               <iframe 
-                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d61765.98679904739!2d121.13459146953123!3d14.636660100000003!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3397b9087c2b66d9%3A0xa5e25287f7396001!2sAntipolo%2C%20Rizal!5e0!3m2!1sen!2sph!4v1709664551234!5m2!1sen!2sph" 
+                src="https://maps.google.com/maps?q=Love+and+Serve+Christian+School+Antipolo+Rizal&t=&z=15&ie=UTF8&iwloc=&output=embed"
                 className="absolute inset-0 w-full h-full border-0"
                 allowFullScreen={true} 
                 loading="lazy" 

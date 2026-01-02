@@ -23,7 +23,7 @@ const Team: React.FC = () => {
     { name: 'Mr. James Wilson', role: 'Elementary Mathematics', image: 'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&q=80&w=600' },
     { name: 'Mrs. Maria Santos', role: 'Science Department', image: 'https://images.unsplash.com/photo-1580489944761-15a19d654956?auto=format&fit=crop&q=80&w=600' },
     { name: 'Mr. John Lee', role: 'Music & Arts', image: 'https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?auto=format&fit=crop&q=80&w=600' },
-    { name: 'Ms. Sarah Thompson', role: 'English Literature', image: 'https://images.unsplash.com/photo-1598550874175-4d7112ee7f38?auto=format&fit=crop&q=80&w=600' },
+    { name: 'Ms. Sarah Thompson', role: 'English Literature', image: 'https://images.unsplash.com/photo-1544717305-2782549b5136?auto=format&fit=crop&q=80&w=600' },
     { name: 'Mr. Michael Brown', role: 'Physical Education', image: 'https://images.unsplash.com/photo-1531427186611-ecfd6d936c79?auto=format&fit=crop&q=80&w=600' },
     { name: 'Mrs. Hannah White', role: 'Values Education', image: 'https://images.unsplash.com/photo-1567532939604-b6b5b0db2604?auto=format&fit=crop&q=80&w=600' },
     { name: 'Mr. Robert Garcia', role: 'Junior High Adviser', image: 'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?auto=format&fit=crop&q=80&w=600' },

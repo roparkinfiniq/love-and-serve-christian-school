@@ -3,9 +3,11 @@ import { Page } from '../types';
 
 interface FooterProps {
   onNavigate: (page: Page) => void;
+  onCalendarClick?: () => void;
+  onAdmissionProcessClick?: () => void;
 }
 
-const Footer: React.FC<FooterProps> = ({ onNavigate }) => {
+const Footer: React.FC<FooterProps> = ({ onNavigate, onCalendarClick, onAdmissionProcessClick }) => {
   return (
     <footer className="bg-slate-900 text-white py-20 md:py-28">
       <div className="max-w-7xl mx-auto px-6 grid grid-cols-1 md:grid-cols-3 gap-16 lg:gap-24">
@@ -31,7 +33,7 @@ const Footer: React.FC<FooterProps> = ({ onNavigate }) => {
           <ul className="space-y-5 text-gray-400 font-medium text-lg">
             <li>
               <button 
-                onClick={() => onNavigate('Admissions')} 
+                onClick={() => onAdmissionProcessClick ? onAdmissionProcessClick() : onNavigate('Admissions')} 
                 className="hover:text-white transition-colors duration-200 text-left"
               >
                 Admission Process
@@ -39,7 +41,7 @@ const Footer: React.FC<FooterProps> = ({ onNavigate }) => {
             </li>
             <li>
               <button 
-                onClick={() => onNavigate('Academics')} 
+                onClick={() => onCalendarClick ? onCalendarClick() : onNavigate('Academics')} 
                 className="hover:text-white transition-colors duration-200 text-left"
               >
                 School Calendar
@@ -58,7 +60,7 @@ const Footer: React.FC<FooterProps> = ({ onNavigate }) => {
                 onClick={() => onNavigate('Careers')} 
                 className="hover:text-white transition-colors duration-200 text-left"
               >
-                Careers
+                Join Our Team
               </button>
             </li>
           </ul>

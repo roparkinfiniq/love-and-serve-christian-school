@@ -4,19 +4,22 @@ const LatestNews: React.FC = () => {
   return (
     <section className="py-24 bg-gray-50 px-6">
       <div className="max-w-6xl mx-auto">
-        <div className="flex flex-col md:flex-row items-end justify-between mb-12">
-          <div>
+        {/* Header Section with Button moved up for Mobile */}
+        <div className="flex flex-col md:flex-row items-start md:items-end justify-between mb-10 md:mb-12">
+          <div className="mb-8 md:mb-0">
             <h2 className="text-4xl md:text-5xl font-black text-gray-900 mb-4">LSCSI News & Updates</h2>
             <div className="h-2 w-24 bg-[#E11D48] rounded-full"></div>
             <p className="text-xl text-gray-500 mt-6 max-w-2xl">
               Stay connected with the latest announcements, events, and stories from our campus.
             </p>
           </div>
-          <button className="hidden md:inline-flex items-center font-bold text-[#E11D48] hover:text-red-700 transition text-lg bg-white px-6 py-3 rounded-xl shadow-sm hover:shadow-md">
+          {/* Unified Button: Visible on all screens, full width on mobile */}
+          <button className="w-full md:w-auto inline-flex items-center justify-center font-bold text-[#E11D48] hover:text-red-700 transition text-lg bg-white px-6 py-4 md:py-3 rounded-xl shadow-md md:shadow-sm hover:shadow-md border border-gray-100 md:border-transparent">
              Visit Facebook Page <i className="fa-solid fa-arrow-up-right-from-square ml-3"></i>
           </button>
         </div>
 
+        {/* Feed Placeholder */}
         <div className="bg-white rounded-[2.5rem] p-8 md:p-12 border border-gray-200 shadow-xl min-h-[500px] flex items-center justify-center relative overflow-hidden group">
             {/* Decorative Background Elements */}
             <div className="absolute top-0 right-0 w-80 h-80 bg-blue-50 rounded-full -mr-32 -mt-32 transition-transform duration-700 group-hover:scale-105 opacity-60"></div>
@@ -33,13 +36,6 @@ const LatestNews: React.FC = () => {
 
             {/* Area for Iframe (This is where you will paste the code later) */}
             <div id="fb-root" className="hidden"></div>
-        </div>
-        
-        {/* Mobile Button */}
-        <div className="mt-8 text-center md:hidden">
-             <button className="inline-flex items-center font-bold text-[#E11D48] bg-white px-6 py-4 rounded-xl shadow-md w-full justify-center">
-             Visit Facebook Page <i className="fa-solid fa-arrow-up-right-from-square ml-3"></i>
-          </button>
         </div>
       </div>
     </section>
