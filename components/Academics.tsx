@@ -9,7 +9,7 @@ interface AcademicsProps {
 const Academics: React.FC<AcademicsProps> = ({ 
   initialTab = 'preschool', 
   shouldScrollToTabs = false,
-  scrollToCalendar = false 
+  scrollToCalendar = false,
 }) => {
   const [activeTab, setActiveTab] = useState<'preschool' | 'elementary' | 'junior'>(initialTab);
   const tabsSectionRef = useRef<HTMLElement>(null);
@@ -24,7 +24,6 @@ const Academics: React.FC<AcademicsProps> = ({
   // Handle auto-scroll to tabs if requested (e.g. from "Learn More" buttons)
   useEffect(() => {
     if (shouldScrollToTabs && tabsSectionRef.current) {
-      // Small timeout to allow page transition and window scroll-to-top to settle
       setTimeout(() => {
         tabsSectionRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' });
       }, 100);
@@ -52,11 +51,10 @@ const Academics: React.FC<AcademicsProps> = ({
         contentRef.current.scrollIntoView({ behavior: 'smooth', block: 'start' });
       } else if (!isMobile && tabsSectionRef.current) {
         // Desktop: Use 'nearest' to avoid jarring jumps if the tabs are already in view.
-        // This keeps the focus stable while changing content.
         tabsSectionRef.current.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
       }
     } else {
-      // Direct Tab Click (Top Nav): Use 'nearest' to avoid unnecessary jumping
+      // Direct Tab Click: Use 'nearest' to avoid unnecessary jumping
       tabsSectionRef.current?.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
     }
   };

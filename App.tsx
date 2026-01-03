@@ -47,7 +47,7 @@ const App: React.FC = () => {
 
   const handleViewAllCurriculums = () => {
     setAcademicsTab('preschool');
-    setScrollToTabs(false); // Do not scroll to tabs, go to top
+    setScrollToTabs(true); // Scroll to tabs section
     setScrollToCalendar(false);
     setScrollToAdmissionProcess(false);
     setCurrentPage('Academics');
@@ -166,9 +166,8 @@ const App: React.FC = () => {
                 </div>
 
                 <div className="relative">
-                  {/* Vertical Line */}
-                  {/* Mobile: Left aligned. Desktop: Center aligned. */}
-                  <div className="absolute left-8 md:left-1/2 transform md:-translate-x-1/2 top-0 bottom-0 w-1 bg-red-100 rounded-full"></div>
+                  {/* Vertical Line - Updated to Gradient Fade In/Out */}
+                  <div className="absolute left-8 md:left-1/2 transform md:-translate-x-1/2 top-0 bottom-0 w-1 bg-gradient-to-b from-transparent via-red-300 to-transparent rounded-full"></div>
 
                   <div className="space-y-12 md:space-y-24 relative">
                     {[
@@ -297,7 +296,11 @@ const App: React.FC = () => {
           </div>
         );
       case 'Academics':
-        return <Academics initialTab={academicsTab} shouldScrollToTabs={scrollToTabs} scrollToCalendar={scrollToCalendar} />;
+        return <Academics 
+            initialTab={academicsTab} 
+            shouldScrollToTabs={scrollToTabs} 
+            scrollToCalendar={scrollToCalendar}
+        />;
       case 'Admissions':
         return <Admissions scrollToProcess={scrollToAdmissionProcess} />;
       case 'Facilities':
