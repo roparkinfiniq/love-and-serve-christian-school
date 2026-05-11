@@ -13,13 +13,13 @@ import Gallery from './components/Gallery';
 import Facilities from './components/Facilities';
 import Team from './components/Team';
 import Careers from './components/Careers';
+import HomeSurvey from './components/HomeSurvey';
 import { Page } from './types';
 
 const App: React.FC = () => {
   const [currentPage, setCurrentPage] = useState<Page>('Home');
   const [academicsTab, setAcademicsTab] = useState<'preschool' | 'elementary' | 'junior'>('preschool');
   const [scrollToTabs, setScrollToTabs] = useState(false);
-  const [scrollToCalendar, setScrollToCalendar] = useState(false);
   const [scrollToAdmissionProcess, setScrollToAdmissionProcess] = useState(false);
   const [scrollToContactForm, setScrollToContactForm] = useState(false);
 
@@ -31,7 +31,6 @@ const App: React.FC = () => {
   // Wrapper for standard page navigation (resets specific scroll targets)
   const handlePageChange = (page: Page) => {
     setScrollToTabs(false);
-    setScrollToCalendar(false);
     setScrollToAdmissionProcess(false);
     setScrollToContactForm(false);
     setCurrentPage(page);
@@ -40,7 +39,6 @@ const App: React.FC = () => {
   const handleProgramNavigation = (tab: 'preschool' | 'elementary' | 'junior') => {
     setAcademicsTab(tab);
     setScrollToTabs(true); // Trigger scroll in Academics component
-    setScrollToCalendar(false);
     setScrollToAdmissionProcess(false);
     setCurrentPage('Academics');
   };
@@ -48,29 +46,18 @@ const App: React.FC = () => {
   const handleViewAllCurriculums = () => {
     setAcademicsTab('preschool');
     setScrollToTabs(true); // Scroll to tabs section
-    setScrollToCalendar(false);
-    setScrollToAdmissionProcess(false);
-    setCurrentPage('Academics');
-  };
-
-  const handleCalendarNavigation = () => {
-    setAcademicsTab('preschool'); // default
-    setScrollToTabs(false);
-    setScrollToCalendar(true); // Trigger scroll to calendar
     setScrollToAdmissionProcess(false);
     setCurrentPage('Academics');
   };
 
   const handleAdmissionProcessNavigation = () => {
     setScrollToTabs(false);
-    setScrollToCalendar(false);
     setScrollToAdmissionProcess(true); // Trigger scroll to admission process
     setCurrentPage('Admissions');
   };
 
   const handleContactFormNavigation = () => {
     setScrollToTabs(false);
-    setScrollToCalendar(false);
     setScrollToAdmissionProcess(false);
     setScrollToContactForm(true); // Trigger scroll to contact form
     setCurrentPage('Contact');
@@ -104,6 +91,7 @@ const App: React.FC = () => {
                 <div className="absolute bottom-0 left-0 w-64 h-64 bg-red-200/50 rounded-full -ml-32 -mb-32"></div>
               </div>
             </section>
+            <HomeSurvey />
           </>
         );
       case 'About':
@@ -299,7 +287,6 @@ const App: React.FC = () => {
         return <Academics 
             initialTab={academicsTab} 
             shouldScrollToTabs={scrollToTabs} 
-            scrollToCalendar={scrollToCalendar}
         />;
       case 'Admissions':
         return <Admissions scrollToProcess={scrollToAdmissionProcess} />;
@@ -326,7 +313,6 @@ const App: React.FC = () => {
       </main>
       <Footer 
         onNavigate={handlePageChange} 
-        onCalendarClick={handleCalendarNavigation} 
         onAdmissionProcessClick={handleAdmissionProcessNavigation}
       />
       <AICounselor />

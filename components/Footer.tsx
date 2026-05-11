@@ -3,11 +3,10 @@ import { Page } from '../types';
 
 interface FooterProps {
   onNavigate: (page: Page) => void;
-  onCalendarClick?: () => void;
   onAdmissionProcessClick?: () => void;
 }
 
-const Footer: React.FC<FooterProps> = ({ onNavigate, onCalendarClick, onAdmissionProcessClick }) => {
+const Footer: React.FC<FooterProps> = ({ onNavigate, onAdmissionProcessClick }) => {
   return (
     <footer className="bg-slate-900 text-white py-20 md:py-28">
       <div className="max-w-7xl mx-auto px-6 grid grid-cols-1 md:grid-cols-3 gap-16 lg:gap-24">
@@ -37,14 +36,6 @@ const Footer: React.FC<FooterProps> = ({ onNavigate, onCalendarClick, onAdmissio
                 className="hover:text-white transition-colors duration-200 text-left"
               >
                 Admission Process
-              </button>
-            </li>
-            <li>
-              <button 
-                onClick={() => onCalendarClick ? onCalendarClick() : onNavigate('Academics')} 
-                className="hover:text-white transition-colors duration-200 text-left"
-              >
-                School Calendar
               </button>
             </li>
             <li>

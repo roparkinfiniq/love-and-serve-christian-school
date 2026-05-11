@@ -3,18 +3,15 @@ import React, { useState, useEffect, useRef } from 'react';
 interface AcademicsProps {
   initialTab?: 'preschool' | 'elementary' | 'junior';
   shouldScrollToTabs?: boolean;
-  scrollToCalendar?: boolean;
 }
 
 const Academics: React.FC<AcademicsProps> = ({ 
   initialTab = 'preschool', 
   shouldScrollToTabs = false,
-  scrollToCalendar = false,
 }) => {
   const [activeTab, setActiveTab] = useState<'preschool' | 'elementary' | 'junior'>(initialTab);
   const tabsSectionRef = useRef<HTMLElement>(null);
   const contentRef = useRef<HTMLDivElement>(null);
-  const calendarRef = useRef<HTMLElement>(null);
 
   // Sync activeTab if initialTab changes (e.g. navigation from Home page)
   useEffect(() => {
@@ -29,15 +26,6 @@ const Academics: React.FC<AcademicsProps> = ({
       }, 100);
     }
   }, [shouldScrollToTabs, initialTab]);
-
-  // Handle auto-scroll to calendar if requested (e.g. from Footer)
-  useEffect(() => {
-    if (scrollToCalendar && calendarRef.current) {
-      setTimeout(() => {
-        calendarRef.current?.scrollIntoView({ behavior: 'smooth', block: 'center' });
-      }, 100);
-    }
-  }, [scrollToCalendar]);
 
   const handleTabChange = (tab: 'preschool' | 'elementary' | 'junior', isBottomNav = false) => {
     setActiveTab(tab);
@@ -280,20 +268,6 @@ const Academics: React.FC<AcademicsProps> = ({
               </div>
             ))}
           </div>
-        </div>
-      </section>
-
-      {/* School Calendar Placeholder */}
-      <section id="calendar" ref={calendarRef} className="py-24 px-6 max-w-4xl mx-auto text-center">
-        <div className="bg-gray-50 rounded-[3rem] p-12 md:p-16 border border-gray-200 shadow-inner flex flex-col items-center">
-           <div className="text-6xl mb-6 select-none">📅</div>
-           <h2 className="text-3xl md:text-4xl font-black text-gray-900 mb-4">School Calendar: SY 2026-2027</h2>
-           <p className="text-xl text-gray-500 mb-8 max-w-2xl mx-auto leading-relaxed">
-             Our official academic calendar is currently being finalized. Please check back soon for updates regarding key dates and events.
-           </p>
-           <button disabled className="bg-gray-200 text-gray-400 px-8 py-4 rounded-xl font-bold cursor-not-allowed flex items-center shadow-sm">
-              <i className="fa-solid fa-file-pdf mr-3"></i> Download PDF (Coming Soon)
-           </button>
         </div>
       </section>
     </div>
