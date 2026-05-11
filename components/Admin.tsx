@@ -1,16 +1,101 @@
 import React, { useState } from 'react';
 
 const Admin: React.FC = () => {
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [username, setUsername] = useState('');
+  const [password, setPassword] = useState('');
+  const [error, setError] = useState('');
+
   const [activeTab, setActiveTab] = useState<'popup' | 'info' | 'media' | 'chatbot'>('popup');
+
+  const handleLogin = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (username === 'admin' && password === 'admin') {
+      setIsLoggedIn(true);
+      setError('');
+    } else {
+      setError('Invalid username or password.');
+    }
+  };
+
+  if (!isLoggedIn) {
+    return (
+      <div className="min-h-screen bg-gray-50 flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8 mt-20">
+        <div className="max-w-md w-full space-y-8 bg-white p-10 rounded-2xl shadow-xl">
+          <div>
+            <div className="flex justify-center">
+              <div className="w-16 h-16 bg-red-100 rounded-full flex items-center justify-center text-[#E11D48]">
+                <i className="fa-solid fa-lock text-2xl"></i>
+              </div>
+            </div>
+            <h2 className="mt-6 text-center text-3xl font-black text-gray-900">
+              Admin Portal
+            </h2>
+            <p className="mt-2 text-center text-sm text-gray-600">
+              Sign in to manage the school website
+            </p>
+          </div>
+          <form className="mt-8 space-y-6" onSubmit={handleLogin}>
+            {error && (
+              <div className="bg-red-50 border border-red-200 text-red-600 px-4 py-3 rounded-lg text-sm font-medium">
+                {error}
+              </div>
+            )}
+            <div className="rounded-md shadow-sm space-y-4">
+              <div>
+                <label className="block text-sm font-bold text-gray-700 mb-1">Username</label>
+                <input
+                  type="text"
+                  required
+                  value={username}
+                  onChange={(e) => setUsername(e.target.value)}
+                  className="appearance-none rounded-lg relative block w-full px-3 py-3 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-red-500 focus:border-red-500 focus:z-10 sm:text-sm"
+                  placeholder="admin"
+                />
+              </div>
+              <div>
+                <label className="block text-sm font-bold text-gray-700 mb-1">Password</label>
+                <input
+                  type="password"
+                  required
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                  className="appearance-none rounded-lg relative block w-full px-3 py-3 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-red-500 focus:border-red-500 focus:z-10 sm:text-sm"
+                  placeholder="admin"
+                />
+              </div>
+            </div>
+
+            <div>
+              <button
+                type="submit"
+                className="group relative w-full flex justify-center py-3 px-4 border border-transparent text-sm font-bold rounded-lg text-white bg-[#E11D48] hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500 shadow-md transition-colors"
+              >
+                Sign in
+              </button>
+            </div>
+          </form>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="min-h-screen bg-gray-50 py-12 px-4 sm:px-6 lg:px-8 mt-20 animate-fadeIn">
       <div className="max-w-7xl mx-auto">
-        <div className="mb-8">
-          <h1 className="text-3xl font-black text-gray-900">Admin Dashboard</h1>
-          <p className="mt-2 text-sm text-gray-600">
-            Manage school information, media, and AI counselor settings.
-          </p>
+        <div className="mb-8 flex justify-between items-end">
+          <div>
+            <h1 className="text-3xl font-black text-gray-900">Admin Dashboard</h1>
+            <p className="mt-2 text-sm text-gray-600">
+              Manage school information, media, and AI counselor settings.
+            </p>
+          </div>
+          <button 
+            onClick={() => setIsLoggedIn(false)}
+            className="text-gray-500 hover:text-gray-900 text-sm font-bold transition-colors"
+          >
+            Sign out
+          </button>
         </div>
 
         <div className="bg-white shadow rounded-lg overflow-hidden flex flex-col md:flex-row min-h-[600px]">
@@ -25,8 +110,8 @@ const Admin: React.FC = () => {
                     : 'text-gray-700 hover:bg-gray-100'
                 }`}
               >
-                <i className="fa-solid fa-bell w-6"></i>
-                긴급 팝업 및 공지
+                <i className="fa-solid fa-bell w-6 text-center"></i>
+                Emergency Popups
               </button>
               <button
                 onClick={() => setActiveTab('info')}
@@ -36,8 +121,8 @@ const Admin: React.FC = () => {
                     : 'text-gray-700 hover:bg-gray-100'
                 }`}
               >
-                <i className="fa-solid fa-school w-6"></i>
-                학교 기본 정보
+                <i className="fa-solid fa-school w-6 text-center"></i>
+                School Basic Info
               </button>
               <button
                 onClick={() => setActiveTab('media')}
@@ -47,8 +132,8 @@ const Admin: React.FC = () => {
                     : 'text-gray-700 hover:bg-gray-100'
                 }`}
               >
-                <i className="fa-solid fa-photo-film w-6"></i>
-                미디어 및 서류
+                <i className="fa-solid fa-photo-film w-6 text-center"></i>
+                Media & Documents
               </button>
               <button
                 onClick={() => setActiveTab('chatbot')}
@@ -58,8 +143,8 @@ const Admin: React.FC = () => {
                     : 'text-gray-700 hover:bg-gray-100'
                 }`}
               >
-                <i className="fa-solid fa-robot w-6"></i>
-                AI 챗봇 설정
+                <i className="fa-solid fa-robot w-6 text-center"></i>
+                AI Chatbot Settings
               </button>
             </nav>
           </div>
@@ -69,13 +154,13 @@ const Admin: React.FC = () => {
             {activeTab === 'popup' && (
               <div className="space-y-6 animate-fadeIn">
                 <div>
-                  <h2 className="text-2xl font-bold text-gray-900 border-b pb-2 mb-6">긴급 팝업 관리</h2>
+                  <h2 className="text-2xl font-bold text-gray-900 border-b pb-2 mb-6">Emergency Popup Management</h2>
                 </div>
                 
                 <div className="flex items-center justify-between bg-gray-50 p-4 rounded-xl border border-gray-200">
                   <div>
-                    <h3 className="font-bold text-gray-900">팝업 활성화</h3>
-                    <p className="text-sm text-gray-500">메인 페이지에서 방문자에게 긴급 팝업을 표시합니다.</p>
+                    <h3 className="font-bold text-gray-900">Enable Popup</h3>
+                    <p className="text-sm text-gray-500">Show an emergency popup to visitors on the main page.</p>
                   </div>
                   <label className="relative inline-flex items-center cursor-pointer">
                     <input type="checkbox" className="sr-only peer" />
@@ -85,21 +170,21 @@ const Admin: React.FC = () => {
 
                 <div className="space-y-4">
                   <div>
-                    <label className="block text-sm font-bold text-gray-700 mb-1">공지 제목</label>
-                    <input type="text" className="w-full border border-gray-300 rounded-lg p-3 focus:ring-2 focus:ring-red-500 focus:border-red-500 outline-none" placeholder="예: 악천후로 인한 휴교 공지" />
+                    <label className="block text-sm font-bold text-gray-700 mb-1">Notice Title</label>
+                    <input type="text" className="w-full border border-gray-300 rounded-lg p-3 focus:ring-2 focus:ring-red-500 focus:border-red-500 outline-none" placeholder="e.g., School closure due to severe weather" />
                   </div>
                   <div>
-                    <label className="block text-sm font-bold text-gray-700 mb-1">상세 내용</label>
-                    <textarea rows={4} className="w-full border border-gray-300 rounded-lg p-3 focus:ring-2 focus:ring-red-500 focus:border-red-500 outline-none" placeholder="공지할 내용을 상세히 적어주세요."></textarea>
+                    <label className="block text-sm font-bold text-gray-700 mb-1">Details</label>
+                    <textarea rows={4} className="w-full border border-gray-300 rounded-lg p-3 focus:ring-2 focus:ring-red-500 focus:border-red-500 outline-none" placeholder="Please provide the detailed message here."></textarea>
                   </div>
                   <div>
-                    <label className="block text-sm font-bold text-gray-700 mb-1">첨부 이미지 URL (선택)</label>
-                    <input type="text" className="w-full border border-gray-300 rounded-lg p-3 focus:ring-2 focus:ring-red-500 focus:border-red-500 outline-none" placeholder="이미지 링크 주소" />
+                    <label className="block text-sm font-bold text-gray-700 mb-1">Attached Image URL (Optional)</label>
+                    <input type="text" className="w-full border border-gray-300 rounded-lg p-3 focus:ring-2 focus:ring-red-500 focus:border-red-500 outline-none" placeholder="Image link URL" />
                   </div>
                 </div>
 
                 <div className="pt-4 text-right">
-                  <button className="bg-[#E11D48] text-white px-6 py-2 rounded-lg font-bold shadow hover:bg-red-700 transition">저장하기</button>
+                  <button className="bg-[#E11D48] text-white px-6 py-2 rounded-lg font-bold shadow hover:bg-red-700 transition">Save Changes</button>
                 </div>
               </div>
             )}
@@ -107,31 +192,31 @@ const Admin: React.FC = () => {
             {activeTab === 'info' && (
               <div className="space-y-6 animate-fadeIn">
                 <div>
-                  <h2 className="text-2xl font-bold text-gray-900 border-b pb-2 mb-6">학교 기본 정보 (AI 학습용)</h2>
-                  <p className="text-gray-600 mb-6">여기에 입력된 정보는 앱의 AI 챗봇(AI Counselor)이 참조하여 학부모/학생들의 질문에 정확하게 답변할 수 있게 돕습니다.</p>
+                  <h2 className="text-2xl font-bold text-gray-900 border-b pb-2 mb-6">School Basic Info (For AI Learning)</h2>
+                  <p className="text-gray-600 mb-6">The information entered here helps the AI Counselor accurately answer questions from parents and students.</p>
                 </div>
 
                 <div className="space-y-6">
                   <div>
-                    <label className="block text-sm font-bold text-gray-700 mb-1">학비 안내 (Tuition & Fees)</label>
-                    <textarea rows={3} className="w-full border border-gray-300 rounded-lg p-3 focus:ring-2 focus:ring-red-500 focus:border-red-500 outline-none" placeholder="학년별 학비, 납부 기간 등" defaultValue="유치부: 연간 3,000,000 KRW&#10;초등부: 연간 4,500,000 KRW"></textarea>
+                    <label className="block text-sm font-bold text-gray-700 mb-1">Tuition & Fees Guide</label>
+                    <textarea rows={3} className="w-full border border-gray-300 rounded-lg p-3 focus:ring-2 focus:ring-red-500 focus:border-red-500 outline-none" placeholder="Tuition by grade, payment period, etc." defaultValue="Preschool: 3,000,000 KRW/year&#10;Elementary: 4,500,000 KRW/year"></textarea>
                   </div>
                   <div>
-                    <label className="block text-sm font-bold text-gray-700 mb-1">입학 절차 요약 (Admission Process)</label>
-                    <textarea rows={3} className="w-full border border-gray-300 rounded-lg p-3 focus:ring-2 focus:ring-red-500 focus:border-red-500 outline-none" placeholder="입학 절차 단계별 설명" defaultValue="1. 입학원서 제출 및 서류심사&#10;2. 학생 인터뷰 및 레벨 테스트&#10;3. 학부모 면담&#10;4. 최종 합격 통보 및 등록금 납부"></textarea>
+                    <label className="block text-sm font-bold text-gray-700 mb-1">Admission Process Summary</label>
+                    <textarea rows={3} className="w-full border border-gray-300 rounded-lg p-3 focus:ring-2 focus:ring-red-500 focus:border-red-500 outline-none" placeholder="Step-by-step admission process" defaultValue="1. Submit application and documents&#10;2. Student interview and level test&#10;3. Parent interview&#10;4. Final decision and tuition payment"></textarea>
                   </div>
                   <div>
-                    <label className="block text-sm font-bold text-gray-700 mb-1">주요 커리큘럼 특징 (Curriculum)</label>
-                    <textarea rows={3} className="w-full border border-gray-300 rounded-lg p-3 focus:ring-2 focus:ring-red-500 focus:border-red-500 outline-none" placeholder="학교의 특화된 커리큘럼" defaultValue="성경적 세계관을 바탕으로 한 이중언어(영어/한국어) 교육. 프로젝트 기반 학습(PBL) 및 창의적 인성 교육 실시."></textarea>
+                    <label className="block text-sm font-bold text-gray-700 mb-1">Key Curriculum Features</label>
+                    <textarea rows={3} className="w-full border border-gray-300 rounded-lg p-3 focus:ring-2 focus:ring-red-500 focus:border-red-500 outline-none" placeholder="Specialized school curriculum" defaultValue="Bilingual (English/Korean) education based on a biblical worldview. Project-Based Learning (PBL) and creative character education."></textarea>
                   </div>
                   <div>
-                    <label className="block text-sm font-bold text-gray-700 mb-1">자주 묻는 질문 (FAQ Data)</label>
-                    <textarea rows={4} className="w-full border border-gray-300 rounded-lg p-3 focus:ring-2 focus:ring-red-500 focus:border-red-500 outline-none" placeholder="Q/A 형식으로 작성" defaultValue="Q: 통학 버스가 있나요?&#10;A: 네, 주요 지역(안티폴로, 마닐라 등)으로 통학 버스를 운행하고 있습니다."></textarea>
+                    <label className="block text-sm font-bold text-gray-700 mb-1">Frequently Asked Questions (FAQ Data)</label>
+                    <textarea rows={4} className="w-full border border-gray-300 rounded-lg p-3 focus:ring-2 focus:ring-red-500 focus:border-red-500 outline-none" placeholder="Write in Q&A format" defaultValue="Q: Is there a school bus?&#10;A: Yes, we run school buses to major areas (Antipolo, Manila, etc.)."></textarea>
                   </div>
                 </div>
 
                 <div className="pt-4 text-right">
-                   <button className="bg-[#E11D48] text-white px-6 py-2 rounded-lg font-bold shadow hover:bg-red-700 transition">데이터 업데이트 (AI 동기화)</button>
+                   <button className="bg-[#E11D48] text-white px-6 py-2 rounded-lg font-bold shadow hover:bg-red-700 transition">Update Data (Sync with AI)</button>
                 </div>
               </div>
             )}
@@ -139,16 +224,16 @@ const Admin: React.FC = () => {
             {activeTab === 'media' && (
               <div className="space-y-6 animate-fadeIn">
                 <div>
-                  <h2 className="text-2xl font-bold text-gray-900 border-b pb-2 mb-6">미디어 및 서류 관리</h2>
+                  <h2 className="text-2xl font-bold text-gray-900 border-b pb-2 mb-6">Media & Document Management</h2>
                 </div>
 
                 {/* Photos */}
                 <div className="mb-8">
-                  <h3 className="text-lg font-bold text-gray-900 mb-3">📸 최근 사진 업로드</h3>
+                  <h3 className="text-lg font-bold text-gray-900 mb-3">📸 Upload Recent Photos</h3>
                   <div className="border-2 border-dashed border-gray-300 rounded-xl p-8 text-center hover:bg-gray-50 transition cursor-pointer">
                     <i className="fa-solid fa-cloud-arrow-up text-4xl text-gray-400 mb-3"></i>
-                    <p className="text-gray-600 font-medium">클릭하거나 사진 파일을 여기로 드래그하세요.</p>
-                    <p className="text-xs text-gray-400 mt-1">지원 형식: JPG, PNG, WEBP (최대 5MB)</p>
+                    <p className="text-gray-600 font-medium">Click or drag photo files here.</p>
+                    <p className="text-xs text-gray-400 mt-1">Supported formats: JPG, PNG, WEBP (Max 5MB)</p>
                   </div>
                   
                   <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mt-6">
@@ -166,23 +251,23 @@ const Admin: React.FC = () => {
 
                 {/* PDFs */}
                 <div className="mb-8 border-t pt-8">
-                  <h3 className="text-lg font-bold text-gray-900 mb-3">📄 학부모용 문서/서류 업로드</h3>
+                  <h3 className="text-lg font-bold text-gray-900 mb-3">📄 Upload Documents for Parents</h3>
                   <div className="border border-gray-200 rounded-xl divide-y">
                     <div className="flex items-center justify-between p-4 bg-gray-50 rounded-t-xl">
-                       <span className="font-bold text-gray-700 text-sm">현재 등록된 문서</span>
-                       <button className="text-[#E11D48] text-sm font-bold hover:underline"><i className="fa-solid fa-plus mr-1"></i> 새 문서 추가</button>
+                       <span className="font-bold text-gray-700 text-sm">Currently Registered Documents</span>
+                       <button className="text-[#E11D48] text-sm font-bold hover:underline"><i className="fa-solid fa-plus mr-1"></i> Add New Document</button>
                     </div>
                     <div className="flex items-center justify-between p-4 bg-white">
                       <div className="flex items-center text-gray-700">
                         <i className="fa-regular fa-file-pdf text-red-500 text-xl mr-3"></i>
-                        <span>2026학년도_입학원서.pdf</span>
+                        <span>2026_Admission_Application.pdf</span>
                       </div>
                       <button className="text-gray-400 hover:text-red-500"><i className="fa-solid fa-xmark"></i></button>
                     </div>
                     <div className="flex items-center justify-between p-4 bg-white">
                       <div className="flex items-center text-gray-700">
                          <i className="fa-regular fa-file-pdf text-red-500 text-xl mr-3"></i>
-                         <span>학사_일정(Calendar).pdf</span>
+                         <span>Academic_Calendar.pdf</span>
                       </div>
                       <button className="text-gray-400 hover:text-red-500"><i className="fa-solid fa-xmark"></i></button>
                     </div>
@@ -194,47 +279,47 @@ const Admin: React.FC = () => {
             {activeTab === 'chatbot' && (
               <div className="space-y-6 animate-fadeIn">
                 <div>
-                  <h2 className="text-2xl font-bold text-gray-900 border-b pb-2 mb-6">AI 챗봇 설정</h2>
+                  <h2 className="text-2xl font-bold text-gray-900 border-b pb-2 mb-6">AI Chatbot Settings</h2>
                 </div>
 
                 <div className="space-y-6">
                    <div>
-                    <label className="block text-sm font-bold text-gray-700 mb-1">환영 인사말 (Welcome Message)</label>
-                    <input type="text" className="w-full border border-gray-300 rounded-lg p-3 focus:ring-2 focus:ring-red-500 focus:border-red-500 outline-none" defaultValue="안녕하세요! LSCS AI 교육 상담원입니다. 입학이나 학교 생활에 대해 궁금항 점을 물어보세요!" />
+                    <label className="block text-sm font-bold text-gray-700 mb-1">Welcome Message</label>
+                    <input type="text" className="w-full border border-gray-300 rounded-lg p-3 focus:ring-2 focus:ring-red-500 focus:border-red-500 outline-none" defaultValue="Hello! I am the LSCS AI Counselor. Ask me anything about admissions or school life!" />
                   </div>
 
                   <div>
-                     <label className="block text-sm font-bold text-gray-700 mb-3">상담원 말투 / 페르소나 설정 (Tone & Persona)</label>
+                     <label className="block text-sm font-bold text-gray-700 mb-3">Counselor Tone & Persona</label>
                      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                         <label className="border-2 border-red-500 bg-red-50/30 p-4 rounded-xl cursor-pointer flex items-start">
                           <input type="radio" name="tone" className="mt-1 mr-3 text-red-600 focus:ring-red-500" defaultChecked />
                           <div>
-                            <span className="block font-bold text-gray-900">친절하고 상냥한 톤</span>
-                            <span className="text-sm text-gray-500 mt-1 block">초등학교 교사처럼 따뜻하고 이해하기 쉬운 이모티콘을 포함한 말투😊</span>
+                            <span className="block font-bold text-gray-900">Friendly & Warm Tone</span>
+                            <span className="text-sm text-gray-500 mt-1 block">Warm, easy-to-understand tone with emojis, like an elementary school teacher 😊</span>
                           </div>
                         </label>
                         <label className="border border-gray-200 hover:border-red-300 p-4 rounded-xl cursor-pointer flex items-start transition">
                           <input type="radio" name="tone" className="mt-1 mr-3 text-red-600 focus:ring-red-500" />
                           <div>
-                             <span className="block font-bold text-gray-900">전문적인 입학사정관 톤</span>
-                             <span className="text-sm text-gray-500 mt-1 block">정확한 정보 전달을 우선시하는 깔끔하고 정제된 말투.</span>
+                             <span className="block font-bold text-gray-900">Professional Admissions Tone</span>
+                             <span className="text-sm text-gray-500 mt-1 block">Clean, refined tone prioritizing accurate information delivery.</span>
                           </div>
                         </label>
                      </div>
                   </div>
 
                   <div>
-                     <label className="block text-sm font-bold text-gray-700 mb-1">챗봇 활성화 (웹사이트 표출 여부)</label>
+                     <label className="block text-sm font-bold text-gray-700 mb-1">Chatbot Activation (Show on website)</label>
                      <select className="w-full border border-gray-300 rounded-lg p-3 focus:ring-2 focus:ring-red-500 focus:border-red-500 outline-none">
-                        <option>항상 표시 (우측 하단)</option>
-                        <option>입학 시즌에만 팝업 표시</option>
-                        <option>비활성화 (가리기)</option>
+                        <option>Always visible (Bottom right)</option>
+                        <option>Pop-up only during admission season</option>
+                        <option>Disabled (Hidden)</option>
                      </select>
                   </div>
                 </div>
 
                 <div className="pt-4 text-right">
-                  <button className="bg-[#E11D48] text-white px-6 py-2 rounded-lg font-bold shadow hover:bg-red-700 transition">설정 저장</button>
+                  <button className="bg-[#E11D48] text-white px-6 py-2 rounded-lg font-bold shadow hover:bg-red-700 transition">Save Settings</button>
                 </div>
               </div>
             )}
