@@ -71,8 +71,11 @@ const Footer: React.FC<FooterProps> = ({ onNavigate, onAdmissionProcessClick }) 
         </div>
       </div>
       
-      <div className="max-w-7xl mx-auto px-6 mt-20 pt-10 border-t border-gray-800 text-center text-gray-500 text-sm md:text-base">
-        © {new Date().getFullYear()} Love and Serve Christian School. All Rights Reserved. Crafted with Faith.
+      <div className="max-w-7xl mx-auto px-6 mt-20 pt-10 border-t border-gray-800 flex flex-col md:flex-row justify-between items-center text-gray-500 text-sm md:text-base">
+        <span>© {new Date().getFullYear()} Love and Serve Christian School. All Rights Reserved. Crafted with Faith.</span>
+        <button onClick={() => window.location.href = '/admin'} className="mt-4 md:mt-0 text-gray-700 hover:text-gray-400 transition-colors">
+          Admin Portal
+        </button>
       </div>
     </footer>
   );

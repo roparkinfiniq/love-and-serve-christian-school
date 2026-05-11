@@ -14,10 +14,13 @@ import Facilities from './components/Facilities';
 import Team from './components/Team';
 import Careers from './components/Careers';
 import HomeSurvey from './components/HomeSurvey';
+import Admin from './components/Admin';
 import { Page } from './types';
 
 const App: React.FC = () => {
-  const [currentPage, setCurrentPage] = useState<Page>('Home');
+  const [currentPage, setCurrentPage] = useState<Page>(
+    window.location.pathname === '/admin' ? 'Admin' : 'Home'
+  );
   const [academicsTab, setAcademicsTab] = useState<'preschool' | 'elementary' | 'junior'>('preschool');
   const [scrollToTabs, setScrollToTabs] = useState(false);
   const [scrollToAdmissionProcess, setScrollToAdmissionProcess] = useState(false);
@@ -300,6 +303,8 @@ const App: React.FC = () => {
         return <Team />;
       case 'Careers':
         return <Careers />;
+      case 'Admin':
+        return <Admin />;
       default:
         return <Hero onNavigate={handlePageChange} />;
     }
