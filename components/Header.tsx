@@ -6,17 +6,35 @@ interface HeaderProps {
   onPageChange: (page: Page) => void;
 }
 
+interface NavGroup {
+  label: string;
+  items?: { label: string; page: Page }[];
+  page?: Page;
+}
+
 const Header: React.FC<HeaderProps> = ({ currentPage, onPageChange }) => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [logoError, setLogoError] = useState(false);
 
-  const navItems: { label: string; page: Page }[] = [
+  const navItems: NavGroup[] = [
     { label: 'Home', page: 'Home' },
-    { label: 'About Us', page: 'About' },
-    { label: 'Academics', page: 'Academics' },
-    { label: 'Facilities', page: 'Facilities' },
+    { 
+      label: 'About', 
+      items: [
+        { label: 'About Us', page: 'About' },
+        { label: 'Our Team', page: 'Team' }
+      ]
+    },
+    { 
+      label: 'Campus Life', 
+      items: [
+        { label: 'Academics', page: 'Academics' },
+        { label: 'Facilities', page: 'Facilities' },
+        { label: 'Gallery', page: 'Gallery' },
+        { label: 'School Calendar', page: 'Calendar' }
+      ]
+    },
     { label: 'Admissions', page: 'Admissions' },
-    { label: 'Calendar', page: 'Calendar' },
   ];
 
   return (
@@ -43,19 +61,51 @@ const Header: React.FC<HeaderProps> = ({ currentPage, onPageChange }) => {
         </div>
 
         {/* Desktop Nav */}
-        <div className="hidden lg:flex space-x-12">
-          {navItems.map(item => (
-            <button
-              key={item.page}
-              onClick={() => onPageChange(item.page)}
-              className={`text-base font-bold transition-all py-1 border-b-2 ${
-                currentPage === item.page 
-                ? 'text-[#E11D48] border-[#E11D48]' 
-                : 'text-gray-500 border-transparent hover:text-gray-800'
-              }`}
-            >
-              {item.label}
-            </button>
+        <div className="hidden lg:flex space-x-8 items-center">
+          {navItems.map((item, idx) => (
+            <div key={idx} className="relative group">
+              {item.items ? (
+                <div className="py-2 cursor-pointer relative flex items-center space-x-1.5 focus:outline-none">
+                  <span className={`text-base font-bold transition-all ${
+                    item.items.some(subItem => subItem.page === currentPage) ? 'text-[#E11D48]' : 'text-gray-500 hover:text-gray-800'
+                  }`}>
+                    {item.label}
+                  </span>
+                  <i className="fa-solid fa-chevron-down text-[10px] text-gray-400 group-hover:text-gray-600 transition-transform group-hover:-rotate-180 duration-300"></i>
+                  
+                  {/* Dropdown Menu */}
+                  <div className="absolute top-[100%] mt-1 -left-4 min-w-[240px] bg-white border border-gray-100 rounded-2xl shadow-[0_10px_40px_-10px_rgba(0,0,0,0.1)] opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 transform translate-y-3 group-hover:translate-y-0 z-50 overflow-hidden">
+                    <div className="py-2">
+                       {item.items.map(subItem => (
+                         <button
+                           key={subItem.page}
+                           onClick={() => onPageChange(subItem.page)}
+                           className={`w-full text-left px-5 py-3 font-semibold transition-colors flex items-center group/item ${
+                             currentPage === subItem.page 
+                               ? 'bg-red-50 text-[#E11D48]' 
+                               : 'text-gray-600 hover:bg-gray-50 hover:text-[#E11D48]'
+                           }`}
+                         >
+                           <div className={`w-1.5 h-1.5 rounded-full mr-3 transition-colors ${currentPage === subItem.page ? 'bg-[#E11D48]' : 'bg-transparent group-hover/item:bg-red-300'}`}></div>
+                           {subItem.label}
+                         </button>
+                       ))}
+                    </div>
+                  </div>
+                </div>
+              ) : (
+                <button
+                  onClick={() => item.page && onPageChange(item.page)}
+                  className={`text-base font-bold py-2 transition-all ${
+                    currentPage === item.page 
+                    ? 'text-[#E11D48]' 
+                    : 'text-gray-500 hover:text-gray-800'
+                  }`}
+                >
+                  {item.label}
+                </button>
+              )}
+            </div>
           ))}
         </div>
 
@@ -63,45 +113,80 @@ const Header: React.FC<HeaderProps> = ({ currentPage, onPageChange }) => {
         <div className="flex items-center space-x-4">
           <button 
             onClick={() => onPageChange('Contact')}
-            className="hidden sm:block bg-[#E11D48] text-white px-9 py-3 rounded-2xl font-black hover:bg-red-700 transition transform shadow-lg active:scale-95 text-base"
+            className="hidden sm:block bg-[#E11D48] text-white px-9 py-3 rounded-2xl font-black hover:bg-red-700 transition transform shadow-lg hover:shadow-xl active:scale-95 text-base"
           >
             Contact Us
           </button>
           <button 
-            className="lg:hidden text-[#E11D48] text-3xl"
+            className="lg:hidden w-12 h-12 flex items-center justify-center rounded-full bg-gray-50 text-[#E11D48] text-xl transition-colors hover:bg-red-50"
             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
           >
-            <i className={`fa-solid ${mobileMenuOpen ? 'fa-xmark' : 'fa-bars'}`}></i>
+            <i className={`fa-solid ${mobileMenuOpen ? 'fa-xmark scale-110' : 'fa-bars'} transition-transform duration-300`}></i>
           </button>
         </div>
       </div>
 
       {/* Mobile Menu */}
-      {mobileMenuOpen && (
-        <div className="lg:hidden bg-white border-t border-gray-50 p-8 flex flex-col space-y-6 animate-fadeIn">
-          {navItems.map(item => (
-            <button
-              key={item.page}
+      <div 
+        className={`lg:hidden overflow-hidden transition-all duration-300 ease-in-out ${
+          mobileMenuOpen ? 'max-h-[85vh] opacity-100 border-t border-gray-100' : 'max-h-0 opacity-0'
+        }`}
+      >
+        <div className="bg-white p-6 flex flex-col space-y-4 overflow-y-auto">
+          {navItems.map((item, idx) => (
+            <div key={idx} className="flex flex-col">
+              {item.items ? (
+                <div className="mb-2">
+                  <div className="py-2 text-xs font-black text-gray-400 uppercase tracking-widest pl-2">
+                    {item.label}
+                  </div>
+                  <div className="flex flex-col space-y-1 pl-4 border-l-2 border-red-100 ml-2 mt-2">
+                    {item.items.map(subItem => (
+                      <button
+                        key={subItem.page}
+                        onClick={() => {
+                          onPageChange(subItem.page);
+                          setMobileMenuOpen(false);
+                        }}
+                        className={`text-left font-bold text-lg py-2.5 px-3 rounded-lg transition-colors ${
+                          currentPage === subItem.page 
+                            ? 'bg-red-50 text-[#E11D48]' 
+                            : 'text-gray-600 hover:bg-gray-50'
+                        }`}
+                      >
+                        {subItem.label}
+                      </button>
+                    ))}
+                  </div>
+                </div>
+              ) : (
+                <button
+                  onClick={() => {
+                    if (item.page) onPageChange(item.page);
+                    setMobileMenuOpen(false);
+                  }}
+                  className={`text-left font-bold text-xl py-3 px-2 transition-colors ${
+                    currentPage === item.page ? 'text-[#E11D48]' : 'text-gray-900 hover:text-[#E11D48]'
+                  }`}
+                >
+                  {item.label}
+                </button>
+              )}
+            </div>
+          ))}
+          <div className="pt-6 mt-4 border-t border-gray-100 pb-4">
+            <button 
               onClick={() => {
-                onPageChange(item.page);
+                onPageChange('Contact');
                 setMobileMenuOpen(false);
               }}
-              className={`text-left font-bold text-lg py-2 ${currentPage === item.page ? 'text-[#E11D48]' : 'text-gray-500'}`}
+              className="w-full bg-[#E11D48] text-white px-6 py-4 rounded-xl font-black shadow-lg uppercase tracking-widest text-sm"
             >
-              {item.label}
+              Contact Us
             </button>
-          ))}
-          <button 
-            onClick={() => {
-              onPageChange('Contact');
-              setMobileMenuOpen(false);
-            }}
-            className="bg-[#E11D48] text-white px-6 py-5 rounded-2xl font-black shadow-lg uppercase tracking-widest text-sm"
-          >
-            Contact Us
-          </button>
+          </div>
         </div>
-      )}
+      </div>
     </nav>
   );
 };
