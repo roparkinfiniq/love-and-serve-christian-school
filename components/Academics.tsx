@@ -72,13 +72,12 @@ const Academics: React.FC<AcademicsProps> = ({
   };
 
   const enrichmentPrograms = [
-    { title: 'Hangul Class', image: 'https://images.unsplash.com/photo-1544256718-3bcf237f3974?auto=format&fit=crop&q=80&w=600', icon: 'fa-language' },
+    { title: 'Hangul Class', image: 'https://images.unsplash.com/photo-1590203009971-da796a566580?auto=format&fit=crop&q=80&w=600', icon: 'fa-language' },
     { title: 'Taekwondo', image: 'https://images.unsplash.com/photo-1555597673-b21d5c935865?auto=format&fit=crop&q=80&w=600', icon: 'fa-user-ninja' },
-    { title: 'Music Class', image: 'https://images.unsplash.com/photo-1514320291840-2e0a9bf2a9ae?auto=format&fit=crop&q=80&w=600', icon: 'fa-music' },
-    { title: 'Guitar Class', image: 'https://images.unsplash.com/photo-1460039230329-eb070fc6c77c?auto=format&fit=crop&q=80&w=600', icon: 'fa-guitar' },
-    { title: 'Ukulele Class', image: 'https://images.unsplash.com/photo-1575224300306-1b8da36134ec?auto=format&fit=crop&q=80&w=600', icon: 'fa-guitar' },
-    { title: 'Dance Class', image: 'https://images.unsplash.com/photo-1504609773096-104ff2c73ba4?auto=format&fit=crop&q=80&w=600', icon: 'fa-person-running' },
-    { title: 'Kumdo Class', image: 'https://images.unsplash.com/photo-1599058945522-28d584b6f0ff?auto=format&fit=crop&q=80&w=600', icon: 'fa-khanda' },
+    { title: 'Guitar Class', image: 'https://images.unsplash.com/photo-1510915361894-db8b60106cb1?auto=format&fit=crop&q=80&w=600', icon: 'fa-guitar' },
+    { title: 'Piano Class', image: 'https://images.unsplash.com/photo-1552422535-c45813c61732?auto=format&fit=crop&q=80&w=600', icon: 'fa-music' },
+    { title: 'Dance Class', image: 'https://images.unsplash.com/photo-1547153760-18fc86324498?auto=format&fit=crop&q=80&w=600', icon: 'fa-person-running' },
+    { title: 'Kumdo Class', image: 'https://images.unsplash.com/photo-1599058917233-97ffad242663?auto=format&fit=crop&q=80&w=600', icon: 'fa-khanda' },
     { title: 'Drum & Lyre', image: 'https://images.unsplash.com/photo-1519892300165-cb5542fb47c7?auto=format&fit=crop&q=80&w=600', icon: 'fa-drum' },
   ];
 
@@ -237,7 +236,7 @@ const Academics: React.FC<AcademicsProps> = ({
           <div className="flex flex-col md:flex-row items-end justify-between mb-16">
             <div>
               <span className="text-[#E11D48] font-bold tracking-widest uppercase text-sm">Extracurricular</span>
-              <h2 className="text-4xl md:text-5xl font-black text-gray-900 mt-2">Beyond the Classroom</h2>
+              <h2 className="text-4xl md:text-5xl font-black text-gray-900 mt-2">Enrichment Programs</h2>
               <p className="text-gray-500 text-xl mt-4 max-w-2xl">
                 Discovering talents and passions through our diverse enrichment programs.
               </p>

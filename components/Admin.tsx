@@ -1,12 +1,18 @@
 import React, { useState } from 'react';
+import { CalendarEvent } from '../types';
 
-const Admin: React.FC = () => {
+interface AdminProps {
+  calendarEvents?: CalendarEvent[];
+  setCalendarEvents?: React.Dispatch<React.SetStateAction<CalendarEvent[]>>;
+}
+
+const Admin: React.FC<AdminProps> = ({ calendarEvents = [], setCalendarEvents }) => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
 
-  const [activeTab, setActiveTab] = useState<'popup' | 'info' | 'media' | 'chatbot'>('popup');
+  const [activeTab, setActiveTab] = useState<'popup' | 'info' | 'media' | 'chatbot' | 'calendar' | 'settings'>('popup');
 
   const handleLogin = (e: React.FormEvent) => {
     e.preventDefault();
@@ -146,11 +152,163 @@ const Admin: React.FC = () => {
                 <i className="fa-solid fa-robot w-6 text-center"></i>
                 AI Chatbot Settings
               </button>
+              <button
+                onClick={() => setActiveTab('calendar')}
+                className={`w-full flex items-center px-4 py-3 text-sm font-bold rounded-lg transition-colors ${
+                  activeTab === 'calendar'
+                    ? 'bg-[#E11D48] text-white shadow-md'
+                    : 'text-gray-700 hover:bg-gray-100'
+                }`}
+              >
+                <i className="fa-regular fa-calendar-check w-6 text-center"></i>
+                School Calendar
+              </button>
+              
+              <div className="pt-4 mt-4 border-t border-gray-200">
+                <button
+                  onClick={() => setActiveTab('settings')}
+                  className={`w-full flex items-center px-4 py-3 text-sm font-bold rounded-lg transition-colors ${
+                    activeTab === 'settings'
+                      ? 'bg-gray-800 text-white shadow-md'
+                      : 'text-gray-700 hover:bg-gray-100'
+                  }`}
+                >
+                  <i className="fa-solid fa-gear w-6 text-center"></i>
+                  Account Settings
+                </button>
+              </div>
             </nav>
           </div>
 
           {/* Content Area */}
           <div className="flex-1 p-8 bg-white">
+            {activeTab === 'settings' && (
+              <div className="space-y-6 animate-fadeIn">
+                <div>
+                  <h2 className="text-2xl font-bold text-gray-900 border-b pb-2 mb-6">Account Settings</h2>
+                  <p className="text-gray-600 mb-6">Manage your admin credentials and account recovery options.</p>
+                </div>
+
+                <div className="space-y-8">
+                   {/* Password Change */}
+                   <div className="bg-gray-50 p-6 rounded-xl border border-gray-200">
+                      <h3 className="text-lg font-bold text-gray-900 mb-4 flex items-center">
+                        <i className="fa-solid fa-key mr-2 text-gray-500"></i> Change Password
+                      </h3>
+                      <div className="space-y-4 max-w-sm">
+                        <div>
+                          <label className="block text-sm font-bold text-gray-700 mb-1">Current Password</label>
+                          <input type="password" placeholder="••••••••" className="w-full border border-gray-300 rounded-lg p-2.5 focus:ring-2 focus:ring-gray-800 focus:border-gray-800 outline-none" />
+                        </div>
+                        <div>
+                          <label className="block text-sm font-bold text-gray-700 mb-1">New Password</label>
+                          <input type="password" placeholder="••••••••" className="w-full border border-gray-300 rounded-lg p-2.5 focus:ring-2 focus:ring-gray-800 focus:border-gray-800 outline-none" />
+                        </div>
+                        <div>
+                          <label className="block text-sm font-bold text-gray-700 mb-1">Confirm New Password</label>
+                          <input type="password" placeholder="••••••••" className="w-full border border-gray-300 rounded-lg p-2.5 focus:ring-2 focus:ring-gray-800 focus:border-gray-800 outline-none" />
+                        </div>
+                        <button className="bg-gray-800 text-white px-4 py-2 rounded-lg font-bold shadow hover:bg-gray-900 transition mt-2">
+                          Update Password
+                        </button>
+                      </div>
+                   </div>
+
+                   {/* Recovery Email */}
+                   <div className="bg-blue-50 p-6 rounded-xl border border-blue-100">
+                      <h3 className="text-lg font-bold text-blue-900 mb-2 flex items-center">
+                        <i className="fa-solid fa-envelope-circle-check mr-2 text-blue-600"></i> Security & Recovery Email
+                      </h3>
+                      <p className="text-sm text-blue-700 mb-4">Set a recovery email address in case you forget your admin password.</p>
+                      
+                      <div className="flex gap-3 max-w-md">
+                        <input type="email" placeholder="admin-recovery@example.com" className="flex-1 border border-blue-200 rounded-lg p-2.5 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none" />
+                        <button className="bg-blue-600 text-white px-4 py-2 rounded-lg font-bold shadow hover:bg-blue-700 transition whitespace-nowrap">
+                          Save Email
+                        </button>
+                      </div>
+                   </div>
+                </div>
+              </div>
+            )}
+
+            {activeTab === 'calendar' && (
+              <div className="space-y-6 animate-fadeIn">
+                <div className="flex justify-between items-end border-b pb-2 mb-6">
+                  <div>
+                    <h2 className="text-2xl font-bold text-gray-900 border-none">School Calendar</h2>
+                    <p className="text-gray-500 text-sm mt-1">Manage events, holidays, and academic schedules.</p>
+                  </div>
+                  <button 
+                    className="bg-[#E11D48] text-white px-4 py-2 rounded-lg font-bold shadow hover:bg-red-700 transition flex items-center"
+                    onClick={() => {
+                      if (setCalendarEvents) {
+                        setCalendarEvents(prev => [...prev, {
+                          id: Date.now().toString(),
+                          title: 'New Event',
+                          date: new Date().toISOString().split('T')[0],
+                          category: 'Academic'
+                        }]);
+                      }
+                    }}
+                  >
+                    <i className="fa-solid fa-plus mr-2"></i> Add Event
+                  </button>
+                </div>
+                
+                <div className="bg-white border text-left border-gray-200 rounded-xl overflow-hidden shadow-sm">
+                  <table className="min-w-full divide-y divide-gray-200">
+                    <thead className="bg-gray-50">
+                      <tr>
+                        <th className="px-6 py-3 text-left text-xs font-bold text-gray-500 uppercase tracking-wider">Date</th>
+                        <th className="px-6 py-3 text-left text-xs font-bold text-gray-500 uppercase tracking-wider">Title</th>
+                        <th className="px-6 py-3 text-left text-xs font-bold text-gray-500 uppercase tracking-wider">Category</th>
+                        <th className="px-6 py-3 text-right text-xs font-bold text-gray-500 uppercase tracking-wider">Actions</th>
+                      </tr>
+                    </thead>
+                    <tbody className="bg-white divide-y divide-gray-200">
+                      {calendarEvents.map(ev => (
+                        <tr key={ev.id} className="hover:bg-gray-50">
+                          <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
+                            {ev.date}
+                            {ev.endDate && <span className="text-gray-500 font-normal"> to {ev.endDate}</span>}
+                          </td>
+                          <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500 font-medium">
+                            {ev.title}
+                          </td>
+                          <td className="px-6 py-4 whitespace-nowrap">
+                            <span className={`px-2 inline-flex text-xs leading-5 font-semibold rounded-full border ${ev.category === 'Holiday' ? 'bg-red-100 text-[#E11D48] border-red-200' : ev.category === 'Religious' ? 'bg-purple-100 text-purple-700 border-purple-200' : 'bg-blue-100 text-blue-700 border-blue-200'}`}>
+                              {ev.category}
+                            </span>
+                          </td>
+                          <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
+                            <button className="text-blue-600 hover:text-blue-900 mr-4">Edit</button>
+                            <button 
+                              className="text-red-600 hover:text-red-900"
+                              onClick={() => {
+                                if (setCalendarEvents) {
+                                  setCalendarEvents(prev => prev.filter(e => e.id !== ev.id));
+                                }
+                              }}
+                            >
+                              Delete
+                            </button>
+                          </td>
+                        </tr>
+                      ))}
+                      {calendarEvents.length === 0 && (
+                        <tr>
+                          <td colSpan={4} className="px-6 py-8 text-center text-gray-500">
+                            No upcoming events.
+                          </td>
+                        </tr>
+                      )}
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            )}
+
             {activeTab === 'popup' && (
               <div className="space-y-6 animate-fadeIn">
                 <div>

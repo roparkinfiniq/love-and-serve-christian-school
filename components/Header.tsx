@@ -16,7 +16,7 @@ const Header: React.FC<HeaderProps> = ({ currentPage, onPageChange }) => {
     { label: 'Academics', page: 'Academics' },
     { label: 'Facilities', page: 'Facilities' },
     { label: 'Admissions', page: 'Admissions' },
-    { label: 'Gallery', page: 'Gallery' },
+    { label: 'Calendar', page: 'Calendar' },
   ];
 
   return (

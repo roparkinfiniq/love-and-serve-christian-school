@@ -40,18 +40,18 @@ const Footer: React.FC<FooterProps> = ({ onNavigate, onAdmissionProcessClick }) 
             </li>
             <li>
               <button 
-                onClick={() => onNavigate('Team')} 
+                onClick={() => onNavigate('Calendar')} 
                 className="hover:text-white transition-colors duration-200 text-left"
               >
-                Faculty & Staff
+                School Calendar
               </button>
             </li>
             <li>
               <button 
-                onClick={() => onNavigate('Careers')} 
+                onClick={() => onNavigate('Team')} 
                 className="hover:text-white transition-colors duration-200 text-left"
               >
-                Join Our Team
+                Faculty & Staff
               </button>
             </li>
           </ul>
@@ -65,8 +65,13 @@ const Footer: React.FC<FooterProps> = ({ onNavigate, onAdmissionProcessClick }) 
             <a href="#" className="text-gray-400 hover:text-[#E11D48] transition-colors"><i className="fa-brands fa-youtube"></i></a>
           </div>
           <div className="space-y-3 text-base md:text-lg text-gray-400">
-            <p className="flex items-center"><i className="fa-solid fa-phone mr-4 text-[#E11D48]"></i> +63 (000) 000-0000</p>
-            <p className="flex items-center"><i className="fa-solid fa-envelope mr-4 text-[#E11D48]"></i> info@lscs.edu.ph</p>
+            <p className="flex items-start"><i className="fa-solid fa-phone mt-1 mr-4 text-[#E11D48]"></i>
+              <span>
+                +63999-982-1836 / 0917-710-7075<br/>
+                (02) 7004-8359
+              </span>
+            </p>
+            <p className="flex items-center"><i className="fa-solid fa-envelope mr-4 text-[#E11D48]"></i> loveandserve2014@gmail.com</p>
           </div>
         </div>
       </div>

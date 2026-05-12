@@ -9,6 +9,11 @@ interface FacilitiesProps {
 const Facilities: React.FC<FacilitiesProps> = ({ onNavigate, onScheduleVisit }) => {
   const facilities = [
     { 
+      title: 'School Ground', 
+      image: 'https://images.unsplash.com/photo-1541339907198-e08756ebafe1?auto=format&fit=crop&q=80&w=800',
+      desc: 'Wide and well-maintained open spaces for learning, activities, and community gatherings'
+    },
+    { 
       title: 'Playground', 
       image: 'https://images.unsplash.com/photo-1560523160-754a9e25c68f?auto=format&fit=crop&q=80&w=600',
       desc: 'A safe and vibrant space for active play and physical development.'
@@ -29,7 +34,7 @@ const Facilities: React.FC<FacilitiesProps> = ({ onNavigate, onScheduleVisit }) 
       desc: 'Fully equipped facility for hands-on experiments and discovery.'
     },
     { 
-      title: 'Auditorium', 
+      title: 'Worship Hall', 
       image: 'https://images.unsplash.com/photo-1516450360452-9312f5e86fc7?auto=format&fit=crop&q=80&w=600',
       desc: 'A spacious venue for school events, performances, and worship.'
     },
@@ -85,7 +90,7 @@ const Facilities: React.FC<FacilitiesProps> = ({ onNavigate, onScheduleVisit }) 
         <div className="text-center mb-16">
           <div className="w-16 h-1.5 bg-[#E11D48] mx-auto mb-6 rounded-full"></div>
           <h2 className="text-4xl md:text-5xl font-black text-gray-900">Explore Our Campus Highlights</h2>
-          <p className="text-gray-500 text-lg mt-4">State-of-the-art facilities designed to nurture learning and growth.</p>
+          <p className="text-gray-500 text-lg mt-4">Modern workstations equipping students with digital skills.</p>
         </div>
 
         {/* Grid: 2 columns mobile, 4 columns desktop */}
@@ -120,16 +125,32 @@ const Facilities: React.FC<FacilitiesProps> = ({ onNavigate, onScheduleVisit }) 
       </section>
 
       {/* Footer CTA */}
-      <section className="py-16 px-6 bg-red-50 text-center">
-         <div className="max-w-3xl mx-auto">
-            <h3 className="text-2xl md:text-3xl font-bold text-gray-900 mb-6">Want to see it in person?</h3>
+      <section className="py-24 px-6 relative bg-slate-900 overflow-hidden">
+        {/* Decorative Background Elements */}
+        <div className="absolute inset-0 opacity-20 mix-blend-overlay">
+          <img 
+            src="https://images.unsplash.com/photo-1541339907198-e08756ebafe1?auto=format&fit=crop&q=80&w=2000" 
+            alt="Campus Background" 
+            className="w-full h-full object-cover"
+          />
+        </div>
+        <div className="absolute top-0 right-0 -mr-20 -mt-20 w-72 h-72 rounded-full bg-[#E11D48] opacity-20 blur-3xl"></div>
+        <div className="absolute bottom-0 left-0 -ml-20 -mb-20 w-72 h-72 rounded-full bg-blue-500 opacity-20 blur-3xl"></div>
+
+        <div className="relative max-w-4xl mx-auto text-center z-10 flex flex-col items-center">
+            <h3 className="text-3xl md:text-5xl font-black text-white mb-8 leading-tight tracking-tight">
+              State-of-the-art facilities designed to nurture learning and growth.
+            </h3>
             <button 
               onClick={() => onScheduleVisit ? onScheduleVisit() : onNavigate('Contact')}
-              className="bg-[#E11D48] text-white px-10 py-4 rounded-xl font-bold text-lg shadow-lg hover:bg-red-700 hover:scale-105 transition-all"
+              className="group flex items-center gap-3 bg-[#E11D48] text-white px-10 py-5 rounded-full font-bold text-lg shadow-[0_10px_40px_-10px_rgba(225,29,72,0.8)] hover:bg-red-600 hover:-translate-y-1 hover:shadow-[0_15px_50px_-10px_rgba(225,29,72,1)] transition-all duration-300"
             >
-               Schedule a Campus Visit
+               <span>Schedule a Campus Visit</span>
+               <svg className="w-5 h-5 transform group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14 5l7 7m0 0l-7 7m7-7H3" />
+               </svg>
             </button>
-         </div>
+        </div>
       </section>
     </div>
   );

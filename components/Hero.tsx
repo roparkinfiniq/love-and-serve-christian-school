@@ -17,16 +17,15 @@ const Hero: React.FC<HeroProps> = ({ onNavigate }) => {
             Welcome to LSCS
           </span>
           
-          {/* Main Title - Darker Gray for "Nurturing Hearts" */}
+          {/* Main Title - Darker Gray for "Home for" */}
           <h2 className="text-5xl md:text-7xl lg:text-8xl font-extrabold leading-[1.1] tracking-tight text-slate-800">
-            Nurturing Hearts, <br/>
-            <span className="text-[#E11D48]">Inspiring Minds</span>
+            Home for <br/>
+            <span className="text-[#E11D48]">Holistic Excellence</span>
           </h2>
           
           {/* Description */}
-          <p className="text-slate-500 text-xl md:text-2xl mt-8 md:mt-10 leading-relaxed max-w-xl font-medium">
-            Providing a Christ-centered education where students grow in wisdom, 
-            love, and service. Join our family and start a bright journey today!
+          <p className="text-slate-500 text-lg md:text-xl mt-8 md:mt-10 leading-relaxed max-w-2xl font-medium">
+            At LSCSI, we believe that true knowledge begins with the fear of the Lord. Our curriculum is designed not just to inform the mind but to transform the heart. We integrate biblical truths into every subject, helping students see the world through God's perspective and discover their unique purpose in His creation.
           </p>
           
           {/* Re-designed Dual Buttons */}

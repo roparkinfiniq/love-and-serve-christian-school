@@ -15,12 +15,35 @@ import Team from './components/Team';
 import Careers from './components/Careers';
 import HomeSurvey from './components/HomeSurvey';
 import Admin from './components/Admin';
-import { Page } from './types';
+import Calendar from './components/Calendar';
+import { Page, CalendarEvent } from './types';
+
+const INITIAL_EVENTS: CalendarEvent[] = [
+  { id: '1', date: '2024-08-14', title: 'Opening of Classes', category: 'Academic' },
+  { id: '2', date: '2024-08-21', title: 'Ninoy Aquino Day', category: 'Holiday' },
+  { id: '3', date: '2024-08-28', title: 'National Heroes Day', category: 'Holiday' },
+  { id: '4', date: '2024-09-08', title: 'Nativity of Mary', category: 'Religious' },
+  { id: '5', date: '2024-10-05', title: "World Teachers' Day", category: 'Special' },
+  { id: '6', date: '2024-10-23', endDate: '2024-10-27', title: '1st Quarterly Assessment', category: 'Academic' },
+  { id: '7', date: '2024-11-01', endDate: '2024-11-02', title: 'All Saints/Souls Day', category: 'Holiday' },
+  { id: '8', date: '2024-12-08', title: 'Immaculate Conception', category: 'Religious' },
+  { id: '9', date: '2024-12-18', title: 'Christmas Break Starts', category: 'Academic' },
+  { id: '10', date: '2025-01-04', title: 'Resumption of Classes', category: 'Academic' },
+  { id: '11', date: '2025-01-22', endDate: '2025-01-26', title: '2nd Qtr Assessment', category: 'Academic' },
+  { id: '12', date: '2025-02-10', title: 'Chinese New Year', category: 'Holiday' },
+  { id: '13', date: '2025-03-25', endDate: '2025-03-27', title: '3rd Qtr Assessment', category: 'Academic' },
+  { id: '14', date: '2025-03-28', endDate: '2025-03-29', title: 'Holy Week', category: 'Holiday' },
+  { id: '15', date: '2025-04-09', title: 'Araw ng Kagitingan', category: 'Holiday' },
+  { id: '16', date: '2025-05-01', title: 'Labor Day', category: 'Holiday' },
+  { id: '17', date: '2025-05-20', endDate: '2025-05-24', title: 'Final Assessments', category: 'Academic' },
+  { id: '18', date: '2025-06-07', title: 'Last Day of Classes', category: 'Academic' }
+];
 
 const App: React.FC = () => {
   const [currentPage, setCurrentPage] = useState<Page>(
     window.location.pathname === '/admin' ? 'Admin' : 'Home'
   );
+  const [calendarEvents, setCalendarEvents] = useState<CalendarEvent[]>(INITIAL_EVENTS);
   const [academicsTab, setAcademicsTab] = useState<'preschool' | 'elementary' | 'junior'>('preschool');
   const [scrollToTabs, setScrollToTabs] = useState(false);
   const [scrollToAdmissionProcess, setScrollToAdmissionProcess] = useState(false);
@@ -100,7 +123,7 @@ const App: React.FC = () => {
       case 'About':
         return (
           <div className="animate-fadeIn">
-            {/* Principal's Welcome Section */}
+            {/* President's Welcome Section */}
             <section className="py-24 px-6 bg-white border-b border-gray-50">
               <div className="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-16 lg:gap-24 items-center">
                 {/* Left Column: Portrait - Mobile: First, Desktop: First (Order 1) */}
@@ -108,7 +131,7 @@ const App: React.FC = () => {
                   <div className="aspect-[3/4] md:aspect-square bg-gray-100 rounded-[2.5rem] overflow-hidden shadow-2xl relative z-10">
                     <img 
                       src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&q=80&w=800" 
-                      alt="Principal" 
+                      alt="President" 
                       className="w-full h-full object-cover"
                     />
                   </div>
@@ -121,7 +144,7 @@ const App: React.FC = () => {
                 <div className="md:order-2">
                   <span className="inline-block text-[#E11D48] font-bold tracking-[0.2em] uppercase text-sm mb-6">Welcome Message</span>
                   <h2 className="text-4xl md:text-5xl font-black text-gray-900 mb-8 leading-tight">
-                    A Message from <br/>the Principal
+                    A Message from <br/>the President
                   </h2>
                   <div className="space-y-6 text-gray-600 text-lg leading-relaxed font-medium">
                     <p>
@@ -140,8 +163,8 @@ const App: React.FC = () => {
                       className="h-16 opacity-50 mb-4 -ml-2"
                     />
                     <div>
-                      <p className="font-bold text-gray-900 text-xl">Dr. Sarah Johnson</p>
-                      <p className="text-[#E11D48] text-sm uppercase tracking-wider font-bold mt-1">School Principal</p>
+                      <p className="font-bold text-gray-900 text-xl">Rev. Wonjae Park</p>
+                      <p className="text-[#E11D48] text-sm uppercase tracking-wider font-bold mt-1">School President</p>
                     </div>
                   </div>
                 </div>
@@ -292,11 +315,13 @@ const App: React.FC = () => {
             shouldScrollToTabs={scrollToTabs} 
         />;
       case 'Admissions':
-        return <Admissions scrollToProcess={scrollToAdmissionProcess} />;
+        return <Admissions onNavigate={handlePageChange} scrollToProcess={scrollToAdmissionProcess} />;
       case 'Facilities':
         return <Facilities onNavigate={handlePageChange} onScheduleVisit={handleContactFormNavigation} />;
       case 'Gallery':
         return <Gallery />;
+      case 'Calendar':
+        return <Calendar events={calendarEvents} />;
       case 'Contact':
         return <Contact scrollToForm={scrollToContactForm} />;
       case 'Team':
@@ -304,7 +329,7 @@ const App: React.FC = () => {
       case 'Careers':
         return <Careers />;
       case 'Admin':
-        return <Admin />;
+        return <Admin calendarEvents={calendarEvents} setCalendarEvents={setCalendarEvents} />;
       default:
         return <Hero onNavigate={handlePageChange} />;
     }

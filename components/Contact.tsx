@@ -19,23 +19,23 @@ const Contact: React.FC<ContactProps> = ({ scrollToForm = false }) => {
     {
       icon: 'fa-location-dot',
       title: 'Visit Us',
-      content: 'Antipolo, Rizal, Philippines',
+      content: 'L30 Knights of Columbus, Brgy. San Roque, Antipolo Rizal',
       sub: 'Main Campus',
       action: 'https://maps.google.com'
     },
     {
       icon: 'fa-phone',
       title: 'Call Us',
-      content: '+63 (000) 000-0000',
-      sub: 'Mon-Fri from 8am to 5pm',
-      action: 'tel:+630000000000'
+      content: '+63999-982-1836 / 0917-710-7075',
+      sub: '(02) 7004-8359',
+      action: 'tel:+639999821836'
     },
     {
       icon: 'fa-envelope',
       title: 'Email Us',
-      content: 'info@lscs.edu.ph',
+      content: 'loveandserve2014@gmail.com',
       sub: 'We reply within 24 hours',
-      action: 'mailto:info@lscs.edu.ph'
+      action: 'mailto:loveandserve2014@gmail.com'
     },
     {
       icon: 'fa-clock',
@@ -95,7 +95,7 @@ const Contact: React.FC<ContactProps> = ({ scrollToForm = false }) => {
                     <label className="text-sm font-bold text-gray-700 ml-1">Full Name</label>
                     <input 
                       type="text" 
-                      placeholder="John Doe"
+                      placeholder="Juan Dela Cruz"
                       className="w-full bg-gray-50 border border-gray-200 rounded-xl px-5 py-4 focus:outline-none focus:ring-2 focus:ring-[#E11D48] focus:bg-white transition-all"
                     />
                   </div>
@@ -103,7 +103,7 @@ const Contact: React.FC<ContactProps> = ({ scrollToForm = false }) => {
                     <label className="text-sm font-bold text-gray-700 ml-1">Email Address</label>
                     <input 
                       type="email" 
-                      placeholder="john@example.com"
+                      placeholder="juandelacruz@example.com"
                       className="w-full bg-gray-50 border border-gray-200 rounded-xl px-5 py-4 focus:outline-none focus:ring-2 focus:ring-[#E11D48] focus:bg-white transition-all"
                     />
                   </div>
@@ -115,7 +115,7 @@ const Contact: React.FC<ContactProps> = ({ scrollToForm = false }) => {
                     <option>General Inquiry</option>
                     <option>Admissions</option>
                     <option>Student Services</option>
-                    <option>Carrers</option>
+                    <option>Careers</option>
                   </select>
                 </div>
 
