@@ -17,7 +17,7 @@ import HomeSurvey from './components/HomeSurvey';
 import Admin from './components/Admin';
 import Calendar from './components/Calendar';
 import PopupsOverlay from './components/PopupsOverlay';
-import { Page, CalendarEvent, PopupData } from './types';
+import { Page, CalendarEvent, PopupData, GalleryImage } from './types';
 
 const INITIAL_EVENTS: CalendarEvent[] = [
   { id: '1', date: '2024-08-14', title: 'Opening of Classes', category: 'Academic' },
@@ -40,6 +40,19 @@ const INITIAL_EVENTS: CalendarEvent[] = [
   { id: '18', date: '2025-06-07', title: 'Last Day of Classes', category: 'Academic' }
 ];
 
+const INITIAL_GALLERY_IMAGES: GalleryImage[] = [
+  { id: '1', src: 'https://images.unsplash.com/photo-1509062522246-3755977927d7?auto=format&fit=crop&q=80&w=1200', alt: 'Science Lab Experiment', category: 'Academics' },
+  { id: '2', src: 'https://images.unsplash.com/photo-1544717305-2782549b5136?auto=format&fit=crop&q=80&w=800', alt: 'Library Study Session', category: 'Academics' },
+  { id: '3', src: 'https://images.unsplash.com/photo-1577896851231-70ef18881754?auto=format&fit=crop&q=80&w=1200', alt: 'Classroom Engagement', category: 'Academics' },
+  { id: '4', src: 'https://images.unsplash.com/photo-1560421683-6856ea585c78?auto=format&fit=crop&q=80&w=800', alt: 'Creative Arts Class', category: 'Arts & Sports' },
+  { id: '5', src: 'https://images.unsplash.com/photo-1560523160-754a9e25c68f?auto=format&fit=crop&q=80&w=1200', alt: 'Preschool Playtime', category: 'Student Life' },
+  { id: '6', src: 'https://images.unsplash.com/photo-1529333166437-7750a6dd5a70?auto=format&fit=crop&q=80&w=800', alt: 'Student Friendship', category: 'Student Life' },
+  { id: '7', src: 'https://images.unsplash.com/photo-1461896836934-ffe607ba8211?auto=format&fit=crop&q=80&w=1200', alt: 'Sports & Athletics', category: 'Arts & Sports' },
+  { id: '8', src: 'https://images.unsplash.com/photo-1544725176-7c40e5a71c5e?auto=format&fit=crop&q=80&w=800', alt: 'Teacher & Student', category: 'Academics' },
+];
+
+const INITIAL_GALLERY_CATEGORIES = ['All', 'Academics', 'Student Life', 'Arts & Sports', 'Campus'];
+
 const App: React.FC = () => {
   const [currentPage, setCurrentPage] = useState<Page>(
     window.location.pathname === '/admin' ? 'Admin' : 'Home'
@@ -47,6 +60,8 @@ const App: React.FC = () => {
   const [calendarEvents, setCalendarEvents] = useState<CalendarEvent[]>(INITIAL_EVENTS);
   const [calendarPdfUrl, setCalendarPdfUrl] = useState<string | null>(null);
   const [popups, setPopups] = useState<PopupData[]>([]);
+  const [galleryImages, setGalleryImages] = useState<GalleryImage[]>(INITIAL_GALLERY_IMAGES);
+  const [galleryCategories, setGalleryCategories] = useState<string[]>(INITIAL_GALLERY_CATEGORIES);
   const [academicsTab, setAcademicsTab] = useState<'preschool' | 'elementary' | 'junior'>('preschool');
   const [scrollToTabs, setScrollToTabs] = useState(false);
   const [scrollToAdmissionProcess, setScrollToAdmissionProcess] = useState(false);
@@ -322,7 +337,7 @@ const App: React.FC = () => {
       case 'Facilities':
         return <Facilities onNavigate={handlePageChange} onScheduleVisit={handleContactFormNavigation} />;
       case 'Gallery':
-        return <Gallery />;
+        return <Gallery images={galleryImages} categories={galleryCategories} />;
       case 'Calendar':
         return <Calendar events={calendarEvents} calendarPdfUrl={calendarPdfUrl} />;
       case 'Contact':
@@ -339,6 +354,10 @@ const App: React.FC = () => {
           setCalendarPdfUrl={setCalendarPdfUrl} 
           popups={popups}
           setPopups={setPopups}
+          galleryImages={galleryImages}
+          setGalleryImages={setGalleryImages}
+          galleryCategories={galleryCategories}
+          setGalleryCategories={setGalleryCategories}
         />;
       default:
         return <Hero onNavigate={handlePageChange} />;

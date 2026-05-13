@@ -41,6 +41,8 @@ const Calendar: React.FC<CalendarProps> = ({ events = [], calendarPdfUrl }) => {
   const blanks = Array.from({ length: firstDayOfMonth }, (_, i) => i);
   // Generate days
   const days = Array.from({ length: daysInMonth }, (_, i) => i + 1);
+  const trailingBlanksCount = (7 - ((blanks.length + days.length) % 7)) % 7;
+  const trailingBlanks = Array.from({ length: trailingBlanksCount }, (_, i) => i);
 
   // Check if a day has events
   const getEventsForDay = (day: number) => {
@@ -151,18 +153,18 @@ const Calendar: React.FC<CalendarProps> = ({ events = [], calendarPdfUrl }) => {
           </div>
 
           {/* Calendar Grid */}
-          <div className="bg-gray-50/50 p-3 sm:p-6">
-            <div className="grid grid-cols-7 gap-1 md:gap-4 mb-2 md:mb-4">
-              {dayNames.map(day => (
-                <div key={day} className="text-center font-bold text-gray-400 text-[10px] sm:text-sm uppercase tracking-wider">
+          <div className="bg-white">
+            <div className="grid grid-cols-7 border-b border-gray-100">
+              {dayNames.map((day, idx) => (
+                <div key={day} className={`text-center font-bold text-gray-500 text-[10px] sm:text-sm uppercase tracking-wider py-4 ${idx < 6 ? 'border-r border-gray-100' : ''}`}>
                   {day}
                 </div>
               ))}
             </div>
 
-            <div className="grid grid-cols-7 gap-1 md:gap-4">
+            <div className="grid grid-cols-7 bg-gray-100 gap-[1px]">
               {blanks.map(blank => (
-                <div key={`blank-${blank}`} className="min-h-[60px] md:min-h-[120px] rounded-xl md:rounded-2xl bg-transparent"></div>
+                <div key={`blank-${blank}`} className="min-h-[80px] md:min-h-[140px] bg-gray-50"></div>
               ))}
 
               {days.map(day => {
@@ -174,14 +176,14 @@ const Calendar: React.FC<CalendarProps> = ({ events = [], calendarPdfUrl }) => {
                   <div 
                     key={day} 
                     onClick={() => hasEvents ? handleDayClick(day, dayEvents) : undefined}
-                    className={`min-h-[60px] md:min-h-[120px] rounded-xl md:rounded-2xl p-1 md:p-3 transition-colors border ${hasEvents ? 'cursor-pointer hover:-translate-y-1 hover:shadow-md md:hover:shadow-lg' : ''} ${
-                      isToday ? 'bg-red-50 border-red-200' : 'bg-white border-gray-100 hover:border-gray-200 shadow-sm'
+                    className={`min-h-[80px] md:min-h-[140px] p-2 md:p-3 transition-all relative ${hasEvents ? 'cursor-pointer hover:bg-gray-50' : ''} ${
+                      isToday ? 'bg-red-50/30' : 'bg-white'
                     }`}
                   >
-                    <div className={`text-sm md:text-base font-bold mb-2 ${isToday ? 'text-[#E11D48]' : 'text-gray-700'}`}>
+                    <div className={`text-sm md:text-base font-bold mb-2 flex items-center justify-center w-8 h-8 rounded-full ${isToday ? 'bg-[#E11D48] text-white' : 'text-gray-700'}`}>
                       {day}
                     </div>
-                    <div className="space-y-1 md:space-y-1.5 flex flex-col items-center md:items-stretch">
+                    <div className="space-y-1 md:space-y-1.5 flex flex-col items-center md:items-stretch overflow-hidden">
                       {dayEvents.map((ev, idx) => {
                         const bgClass = getCategoryColor(ev.category).split(' ').find(cls => cls.startsWith('bg-'))?.replace('100', '500') || 'bg-gray-500';
                         return (
@@ -191,7 +193,7 @@ const Calendar: React.FC<CalendarProps> = ({ events = [], calendarPdfUrl }) => {
                             
                             {/* Desktop: Full block */}
                             <div 
-                              className={`hidden md:block text-[10px] md:text-xs font-bold px-2 py-1.5 rounded border whitespace-normal break-words leading-tight ${getCategoryColor(ev.category)}`}
+                              className={`hidden md:block text-[10px] md:text-xs font-bold px-2 py-1.5 rounded truncate border ${getCategoryColor(ev.category)}`}
                               title={ev.title}
                             >
                               {ev.title}
@@ -203,6 +205,10 @@ const Calendar: React.FC<CalendarProps> = ({ events = [], calendarPdfUrl }) => {
                   </div>
                 );
               })}
+
+              {trailingBlanks.map(blank => (
+                <div key={`trailing-blank-${blank}`} className="min-h-[80px] md:min-h-[140px] bg-gray-50"></div>
+              ))}
             </div>
           </div>
         </div>

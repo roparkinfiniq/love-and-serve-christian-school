@@ -1,4 +1,11 @@
 
+export interface GalleryImage {
+  id: string;
+  src: string;
+  alt: string;
+  category: string;
+}
+
 export type Page = 'Home' | 'About' | 'Academics' | 'Admissions' | 'Facilities' | 'Gallery' | 'Contact' | 'Team' | 'Careers' | 'Admin' | 'Calendar';
 
 export interface PopupData {

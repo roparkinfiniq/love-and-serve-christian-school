@@ -1,9 +1,13 @@
 import React, { useState } from 'react';
+import { GalleryImage } from '../types';
 
-type Category = 'All' | 'Academics' | 'Student Life' | 'Arts & Sports' | 'Campus';
+interface GalleryProps {
+  images: GalleryImage[];
+  categories: string[];
+}
 
-const Gallery: React.FC = () => {
-  const activeCategoryState = useState<Category>('All');
+const Gallery: React.FC<GalleryProps> = ({ images, categories }) => {
+  const activeCategoryState = useState<string>('All');
   const activeCategory = activeCategoryState[0];
   const setActiveCategory = activeCategoryState[1];
   
@@ -11,32 +15,9 @@ const Gallery: React.FC = () => {
   const isAnimating = animatingState[0];
   const setIsAnimating = animatingState[1];
 
-  const categories: Category[] = ['All', 'Academics', 'Student Life', 'Arts & Sports', 'Campus'];
+  const [selectedImage, setSelectedImage] = useState<GalleryImage | null>(null);
 
-  const images = [
-    { src: 'https://images.unsplash.com/photo-1509062522246-3755977927d7?auto=format&fit=crop&q=80&w=1200', alt: 'Science Lab Experiment', category: 'Academics' },
-    { src: 'https://images.unsplash.com/photo-1544717305-2782549b5136?auto=format&fit=crop&q=80&w=800', alt: 'Library Study Session', category: 'Academics' },
-    { src: 'https://images.unsplash.com/photo-1577896851231-70ef18881754?auto=format&fit=crop&q=80&w=1200', alt: 'Classroom Engagement', category: 'Academics' },
-    { src: 'https://images.unsplash.com/photo-1560421683-6856ea585c78?auto=format&fit=crop&q=80&w=800', alt: 'Creative Arts Class', category: 'Arts & Sports' },
-    { src: 'https://images.unsplash.com/photo-1560523160-754a9e25c68f?auto=format&fit=crop&q=80&w=1200', alt: 'Preschool Playtime', category: 'Student Life' },
-    { src: 'https://images.unsplash.com/photo-1529333166437-7750a6dd5a70?auto=format&fit=crop&q=80&w=800', alt: 'Student Friendship', category: 'Student Life' },
-    { src: 'https://images.unsplash.com/photo-1461896836934-ffe607ba8211?auto=format&fit=crop&q=80&w=1200', alt: 'Sports & Athletics', category: 'Arts & Sports' },
-    { src: 'https://images.unsplash.com/photo-1544725176-7c40e5a71c5e?auto=format&fit=crop&q=80&w=800', alt: 'Teacher & Student', category: 'Academics' },
-    { src: 'https://images.unsplash.com/photo-1523580846011-d3a5bc25702b?auto=format&fit=crop&q=80&w=1200', alt: 'Graduation Day', category: 'Student Life' },
-    { src: 'https://images.unsplash.com/photo-1512820790803-83ca734da794?auto=format&fit=crop&q=80&w=800', alt: 'Quiet Reading Time', category: 'Academics' },
-    { src: 'https://images.unsplash.com/photo-1588072432836-e10032774350?auto=format&fit=crop&q=80&w=1200', alt: 'School Lunch', category: 'Student Life' },
-    { src: 'https://images.unsplash.com/photo-1513364776144-60967b0f800f?auto=format&fit=crop&q=80&w=800', alt: 'Painting Workshop', category: 'Arts & Sports' },
-    { src: 'https://images.unsplash.com/photo-1523240795612-9a054b0db644?auto=format&fit=crop&q=80&w=1200', alt: 'Campus Grounds', category: 'Campus' },
-    { src: 'https://images.unsplash.com/photo-1590402494682-cd3fb53b1f70?auto=format&fit=crop&q=80&w=800', alt: 'School Hallways', category: 'Campus' },
-    { src: 'https://images.unsplash.com/photo-1503676260728-1c00da094a0b?auto=format&fit=crop&q=80&w=1200', alt: 'Collaborative Learning', category: 'Academics' },
-    { src: 'https://images.unsplash.com/photo-1427504494785-3a9ca7044f45?auto=format&fit=crop&q=80&w=800', alt: 'Elementary Reading', category: 'Academics' },
-    { src: 'https://images.unsplash.com/photo-1555597673-b21d5c935865?auto=format&fit=crop&q=80&w=1200', alt: 'Taekwondo Practice', category: 'Arts & Sports' },
-    { src: 'https://images.unsplash.com/photo-1514320291840-2e0a9bf2a9ae?auto=format&fit=crop&q=80&w=800', alt: 'Music Class', category: 'Arts & Sports' },
-    { src: 'https://images.unsplash.com/photo-1564981797816-1043664bf78d?auto=format&fit=crop&q=80&w=1200', alt: 'School Bus Arriving', category: 'Campus' },
-    { src: 'https://images.unsplash.com/photo-1568792923760-d70635a89fdc?auto=format&fit=crop&q=80&w=800', alt: 'Campus Aerial View', category: 'Campus' },
-  ];
-
-  const handleCategoryChange = (cat: Category) => {
+  const handleCategoryChange = (cat: string) => {
     setIsAnimating(true);
     setActiveCategory(cat);
     setTimeout(() => setIsAnimating(false), 300);
@@ -91,11 +72,9 @@ const Gallery: React.FC = () => {
           <div className={`columns-2 md:columns-3 lg:columns-4 gap-6 space-y-6 transition-opacity duration-300 ${isAnimating ? 'opacity-0' : 'opacity-100'}`}>
              {filteredImages.map((img, idx) => (
                 <div key={`${img.src}-${idx}`} className="break-inside-avoid">
-                   <a 
-                     href={img.src} 
-                     target="_blank" 
-                     rel="noreferrer"
-                     className="block relative group rounded-2xl overflow-hidden shadow-md hover:shadow-2xl transition-all duration-300 hover:-translate-y-2 bg-gray-100"
+                   <button 
+                     onClick={() => setSelectedImage(img)}
+                     className="block w-full text-left relative group rounded-2xl overflow-hidden shadow-md hover:shadow-2xl transition-all duration-300 hover:-translate-y-2 bg-gray-100"
                    >
                       <img 
                         src={img.src} 
@@ -105,24 +84,56 @@ const Gallery: React.FC = () => {
                       />
                       
                       {/* Overlay */}
-                      <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity duration-500 flex items-center justify-center backdrop-blur-[2px]">
-                         <div className="transform translate-y-8 group-hover:translate-y-0 opacity-0 group-hover:opacity-100 transition-all duration-500 ease-out">
-                            <div className="bg-white/10 p-4 rounded-full text-white border border-white/50 hover:bg-white hover:text-black transition-colors duration-300 shadow-xl">
-                               <i className="fa-solid fa-expand text-xl"></i>
-                            </div>
-                         </div>
-                      </div>
+                      <div className="absolute inset-x-0 bottom-0 h-3/5 bg-gradient-to-t from-black/90 via-black/40 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none"></div>
                       
                       {/* Caption */}
-                      <div className="absolute bottom-0 left-0 right-0 p-6 bg-gradient-to-t from-black/90 via-black/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 translate-y-4 group-hover:translate-y-0">
-                         <p className="text-white font-bold text-base tracking-wide">{img.alt}</p>
-                         <p className="text-gray-300 text-xs mt-1 uppercase tracking-wider font-semibold">{img.category}</p>
+                      <div className="absolute bottom-0 left-0 right-0 p-6 opacity-0 group-hover:opacity-100 transition-all duration-500 translate-y-4 group-hover:translate-y-0 flex justify-between items-end pointer-events-none">
+                         <div>
+                           <p className="text-white font-bold text-lg tracking-wide drop-shadow-md">{img.alt}</p>
+                           <p className="text-gray-300 text-xs mt-1 uppercase tracking-wider font-semibold drop-shadow-md">{img.category}</p>
+                         </div>
+                         <div className="w-10 h-10 rounded-full bg-white/20 backdrop-blur-md flex items-center justify-center text-white border border-white/30 shadow-[0_4px_30px_rgba(0,0,0,0.1)] transition-transform duration-500 shrink-0">
+                            <i className="fa-solid fa-expand text-sm"></i>
+                         </div>
                       </div>
-                   </a>
+                   </button>
                 </div>
              ))}
           </div>
        </section>
+
+       {/* Image Modal */}
+       {selectedImage && (
+         <div 
+           className="fixed inset-0 z-50 flex items-center justify-center bg-black/90 p-4 animate-fadeIn"
+           onClick={() => setSelectedImage(null)}
+         >
+           <button 
+             className="absolute top-6 right-6 text-white/70 hover:text-white transition-colors"
+             onClick={(e) => {
+               e.stopPropagation();
+               setSelectedImage(null);
+             }}
+           >
+             <i className="fa-solid fa-xmark text-4xl"></i>
+           </button>
+           
+           <div 
+             className="relative max-w-7xl max-h-[90vh]"
+             onClick={(e) => e.stopPropagation()}
+           >
+             <img 
+               src={selectedImage.src} 
+               alt={selectedImage.alt}
+               className="max-w-full max-h-[85vh] object-contain rounded-lg shadow-2xl"
+             />
+             <div className="absolute bottom-0 left-0 right-0 p-6 bg-gradient-to-t from-black/80 to-transparent rounded-b-lg">
+                <p className="text-white font-bold text-xl">{selectedImage.alt}</p>
+                <p className="text-gray-300 text-sm mt-1 uppercase tracking-wider font-semibold">{selectedImage.category}</p>
+             </div>
+           </div>
+         </div>
+       )}
     </div>
   );
 };
