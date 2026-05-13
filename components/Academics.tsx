@@ -137,7 +137,7 @@ const Academics: React.FC<AcademicsProps> = ({
             <button
               key={level}
               onClick={() => handleTabChange(level)}
-              className={`px-8 py-4 rounded-full font-bold text-lg transition-all duration-300 transform hover:-translate-y-1 ${
+              className={`px-6 py-3 md:px-8 md:py-4 rounded-full font-bold text-base md:text-lg transition-all duration-300 transform hover:-translate-y-1 ${
                 activeTab === level
                   ? 'bg-[#E11D48] text-white shadow-lg shadow-red-200'
                   : 'bg-gray-100 text-gray-500 hover:bg-white hover:shadow-md'
@@ -189,7 +189,7 @@ const Academics: React.FC<AcademicsProps> = ({
                     <div className="hidden sm:block"></div> {/* Spacer to push Next button to right */}
                     <button 
                       onClick={() => handleTabChange('elementary', true)}
-                      className="w-full sm:w-auto group flex items-center justify-center text-[#E11D48] font-bold hover:bg-red-50 px-8 py-4 rounded-xl transition-all border-2 border-[#E11D48] active:scale-95"
+                      className="w-full sm:w-auto group flex items-center justify-center text-[#E11D48] font-bold hover:bg-red-50 px-6 py-3 md:px-8 md:py-4 rounded-xl transition-all border-2 border-[#E11D48] active:scale-95"
                     >
                       Next: Elementary Department <i className="fa-solid fa-arrow-right ml-3 group-hover:translate-x-1 transition-transform"></i>
                     </button>
@@ -200,13 +200,13 @@ const Academics: React.FC<AcademicsProps> = ({
                   <>
                     <button 
                       onClick={() => handleTabChange('preschool', true)}
-                      className="w-full sm:w-auto group flex items-center justify-center text-gray-500 font-bold hover:bg-gray-50 px-8 py-4 rounded-xl transition-all border-2 border-gray-200 hover:border-gray-300 hover:text-gray-700 active:scale-95"
+                      className="w-full sm:w-auto group flex items-center justify-center text-gray-500 font-bold hover:bg-gray-50 px-6 py-3 md:px-8 md:py-4 rounded-xl transition-all border-2 border-gray-200 hover:border-gray-300 hover:text-gray-700 active:scale-95"
                     >
                       <i className="fa-solid fa-arrow-left mr-3 group-hover:-translate-x-1 transition-transform"></i> Prev: Preschool
                     </button>
                     <button 
                       onClick={() => handleTabChange('junior', true)}
-                      className="w-full sm:w-auto group flex items-center justify-center text-[#E11D48] font-bold hover:bg-red-50 px-8 py-4 rounded-xl transition-all border-2 border-[#E11D48] active:scale-95"
+                      className="w-full sm:w-auto group flex items-center justify-center text-[#E11D48] font-bold hover:bg-red-50 px-6 py-3 md:px-8 md:py-4 rounded-xl transition-all border-2 border-[#E11D48] active:scale-95"
                     >
                       Next: Junior High <i className="fa-solid fa-arrow-right ml-3 group-hover:translate-x-1 transition-transform"></i>
                     </button>
@@ -217,7 +217,7 @@ const Academics: React.FC<AcademicsProps> = ({
                   <>
                      <button 
                       onClick={() => handleTabChange('elementary', true)}
-                      className="w-full sm:w-auto group flex items-center justify-center text-gray-500 font-bold hover:bg-gray-50 px-8 py-4 rounded-xl transition-all border-2 border-gray-200 hover:border-gray-300 hover:text-gray-700 active:scale-95"
+                      className="w-full sm:w-auto group flex items-center justify-center text-gray-500 font-bold hover:bg-gray-50 px-6 py-3 md:px-8 md:py-4 rounded-xl transition-all border-2 border-gray-200 hover:border-gray-300 hover:text-gray-700 active:scale-95"
                     >
                       <i className="fa-solid fa-arrow-left mr-3 group-hover:-translate-x-1 transition-transform"></i> Prev: Elementary
                     </button>

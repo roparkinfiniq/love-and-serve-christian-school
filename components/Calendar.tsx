@@ -1,12 +1,15 @@
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
+import html2canvas from 'html2canvas';
+import jsPDF from 'jspdf';
 
 import { CalendarEvent } from '../types';
 
 interface CalendarProps {
   events?: CalendarEvent[]; // Made optional just in case, but typically we pass it
+  calendarPdfUrl?: string | null;
 }
 
-const Calendar: React.FC<CalendarProps> = ({ events = [] }) => {
+const Calendar: React.FC<CalendarProps> = ({ events = [], calendarPdfUrl }) => {
   // Use a fixed start (Aug 2024)
   const [currentDate, setCurrentDate] = useState(new Date(2024, 7, 1));
   const [selectedDay, setSelectedDay] = useState<{ date: Date, events: CalendarEvent[] } | null>(null);
@@ -63,6 +66,36 @@ const Calendar: React.FC<CalendarProps> = ({ events = [] }) => {
     }
   };
 
+  const calendarRef = useRef<HTMLDivElement>(null);
+
+  const handleDownloadPDF = async () => {
+    if (calendarPdfUrl) {
+      // If a custom PDF/Image was uploaded in the admin, download that
+      const link = document.createElement('a');
+      link.href = calendarPdfUrl;
+      link.setAttribute('download', 'lscs-academic-calendar-official');
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+      return;
+    }
+
+    if (!calendarRef.current) return;
+    
+    try {
+      const canvas = await html2canvas(calendarRef.current, { scale: 2 });
+      const imgData = canvas.toDataURL('image/png');
+      const pdf = new jsPDF('l', 'mm', 'a4');
+      const pdfWidth = pdf.internal.pageSize.getWidth();
+      const pdfHeight = (canvas.height * pdfWidth) / canvas.width;
+      
+      pdf.addImage(imgData, 'PNG', 0, 0, pdfWidth, pdfHeight);
+      pdf.save('lscs-academic-calendar.pdf');
+    } catch (error) {
+      console.error('Error generating PDF:', error);
+    }
+  };
+
   return (
     <div className="animate-fadeIn min-h-screen bg-gray-50 pb-20">
       {/* Hero Section */}
@@ -70,26 +103,33 @@ const Calendar: React.FC<CalendarProps> = ({ events = [] }) => {
         <div className="absolute top-0 right-0 w-96 h-96 bg-[#E11D48] rounded-full mix-blend-multiply filter blur-[128px] opacity-20 -mr-20 -mt-20"></div>
         <div className="max-w-5xl mx-auto relative z-10 text-center">
             <h1 className="text-4xl md:text-5xl font-black text-white mb-4">School Calendar</h1>
-            <p className="text-gray-400 text-lg max-w-2xl mx-auto">
+            <p className="text-gray-400 text-lg max-w-2xl mx-auto mb-6">
               SY 2024 - 2025 Calendar of Activities
             </p>
+            <button 
+              onClick={handleDownloadPDF}
+              className="bg-[#E11D48] hover:bg-red-700 text-white font-bold py-3 px-8 rounded-full inline-flex items-center transition-all hover:scale-105 active:scale-95 shadow-lg shadow-red-900/30"
+            >
+              <i className="fa-solid fa-file-pdf mr-3"></i>
+              Download as PDF
+            </button>
         </div>
       </section>
 
       {/* Calendar Area */}
       <section className="max-w-6xl mx-auto px-4 sm:px-6 -mt-8 relative z-20">
-        <div className="bg-white rounded-3xl shadow-xl overflow-hidden border border-gray-100">
+        <div ref={calendarRef} className="bg-white rounded-3xl shadow-xl overflow-hidden border border-gray-100">
           
           {/* Header Controls */}
-          <div className="px-6 py-6 border-b border-gray-100 flex items-center justify-between bg-white">
-            <div className="flex items-center space-x-4">
-              <button onClick={prevMonth} className="w-10 h-10 rounded-full hover:bg-gray-100 flex items-center justify-center text-gray-500 transition-colors">
+          <div className="px-4 py-4 md:px-6 md:py-6 border-b border-gray-100 flex items-center justify-between bg-white w-full">
+            <div className="flex items-center justify-between w-full md:w-auto md:space-x-4">
+              <button onClick={prevMonth} className="w-10 h-10 flex-shrink-0 rounded-full hover:bg-gray-100 flex items-center justify-center text-gray-500 transition-colors">
                 <i className="fa-solid fa-chevron-left"></i>
               </button>
-              <h2 className="text-2xl font-black text-gray-900 min-w-[200px] text-center">
+              <h2 className="text-xl md:text-2xl font-black text-gray-900 min-w-[140px] md:min-w-[200px] text-center">
                 {monthNames[month]} {year}
               </h2>
-              <button onClick={nextMonth} className="w-10 h-10 rounded-full hover:bg-gray-100 flex items-center justify-center text-gray-500 transition-colors">
+              <button onClick={nextMonth} className="w-10 h-10 flex-shrink-0 rounded-full hover:bg-gray-100 flex items-center justify-center text-gray-500 transition-colors">
                 <i className="fa-solid fa-chevron-right"></i>
               </button>
             </div>
@@ -111,18 +151,18 @@ const Calendar: React.FC<CalendarProps> = ({ events = [] }) => {
           </div>
 
           {/* Calendar Grid */}
-          <div className="bg-gray-50/50 p-6">
-            <div className="grid grid-cols-7 gap-4 mb-4">
+          <div className="bg-gray-50/50 p-3 sm:p-6">
+            <div className="grid grid-cols-7 gap-1 md:gap-4 mb-2 md:mb-4">
               {dayNames.map(day => (
-                <div key={day} className="text-center font-bold text-gray-400 text-sm uppercase tracking-wider">
+                <div key={day} className="text-center font-bold text-gray-400 text-[10px] sm:text-sm uppercase tracking-wider">
                   {day}
                 </div>
               ))}
             </div>
 
-            <div className="grid grid-cols-7 gap-2 md:gap-4">
+            <div className="grid grid-cols-7 gap-1 md:gap-4">
               {blanks.map(blank => (
-                <div key={`blank-${blank}`} className="min-h-[100px] md:min-h-[120px] rounded-2xl bg-transparent"></div>
+                <div key={`blank-${blank}`} className="min-h-[60px] md:min-h-[120px] rounded-xl md:rounded-2xl bg-transparent"></div>
               ))}
 
               {days.map(day => {
@@ -134,23 +174,31 @@ const Calendar: React.FC<CalendarProps> = ({ events = [] }) => {
                   <div 
                     key={day} 
                     onClick={() => hasEvents ? handleDayClick(day, dayEvents) : undefined}
-                    className={`min-h-[100px] md:min-h-[120px] rounded-2xl p-2 md:p-3 transition-colors border ${hasEvents ? 'cursor-pointer hover:-translate-y-1 hover:shadow-md' : ''} ${
-                      isToday ? 'bg-red-50 border-red-200' : 'bg-white border-gray-100 hover:border-gray-200 hover:bg-white shadow-sm'
+                    className={`min-h-[60px] md:min-h-[120px] rounded-xl md:rounded-2xl p-1 md:p-3 transition-colors border ${hasEvents ? 'cursor-pointer hover:-translate-y-1 hover:shadow-md md:hover:shadow-lg' : ''} ${
+                      isToday ? 'bg-red-50 border-red-200' : 'bg-white border-gray-100 hover:border-gray-200 shadow-sm'
                     }`}
                   >
                     <div className={`text-sm md:text-base font-bold mb-2 ${isToday ? 'text-[#E11D48]' : 'text-gray-700'}`}>
                       {day}
                     </div>
-                    <div className="space-y-1 md:space-y-1.5 flex flex-col">
-                      {dayEvents.map((ev, idx) => (
-                        <div 
-                          key={idx} 
-                          className={`text-[10px] md:text-xs font-bold px-2 py-1.5 rounded border whitespace-normal break-words leading-tight ${getCategoryColor(ev.category)}`}
-                          title={ev.title}
-                        >
-                          {ev.title}
-                        </div>
-                      ))}
+                    <div className="space-y-1 md:space-y-1.5 flex flex-col items-center md:items-stretch">
+                      {dayEvents.map((ev, idx) => {
+                        const bgClass = getCategoryColor(ev.category).split(' ').find(cls => cls.startsWith('bg-'))?.replace('100', '500') || 'bg-gray-500';
+                        return (
+                          <React.Fragment key={idx}>
+                            {/* Mobile: Dot indicator */}
+                            <div className={`w-1.5 h-1.5 rounded-full md:hidden ${bgClass}`} />
+                            
+                            {/* Desktop: Full block */}
+                            <div 
+                              className={`hidden md:block text-[10px] md:text-xs font-bold px-2 py-1.5 rounded border whitespace-normal break-words leading-tight ${getCategoryColor(ev.category)}`}
+                              title={ev.title}
+                            >
+                              {ev.title}
+                            </div>
+                          </React.Fragment>
+                        );
+                      })}
                     </div>
                   </div>
                 );
@@ -160,13 +208,7 @@ const Calendar: React.FC<CalendarProps> = ({ events = [] }) => {
         </div>
       </section>
 
-      {/* Info Notice */}
-      <section className="mt-12 text-center px-6">
-         <p className="text-gray-500 text-sm">
-            <i className="fa-solid fa-circle-info mr-2 text-gray-400"></i>
-            Dates are subject to change. For automated updates, Google Calendar integration is available.
-         </p>
-      </section>
+
 
       {/* Day Details Modal */}
       {selectedDay && (

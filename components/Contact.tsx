@@ -130,7 +130,7 @@ const Contact: React.FC<ContactProps> = ({ scrollToForm = false }) => {
 
                 <button 
                   type="button"
-                  className="w-full bg-[#E11D48] text-white font-bold text-lg py-4 rounded-xl shadow-lg hover:bg-red-700 hover:shadow-red-200 transition-all transform active:scale-95"
+                  className="w-full bg-[#E11D48] text-white font-bold text-base md:text-lg py-3 md:py-4 rounded-xl shadow-lg hover:bg-red-700 hover:shadow-red-200 transition-all transform active:scale-95"
                 >
                   Send Message <i className="fa-solid fa-paper-plane ml-2"></i>
                 </button>

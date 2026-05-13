@@ -308,7 +308,7 @@ const Admissions: React.FC<AdmissionsProps> = ({ onNavigate, scrollToProcess = f
                     setIsScholarshipModalOpen(false);
                     onNavigate('Contact');
                   }}
-                  className="bg-[#E11D48] text-white px-8 py-3 rounded-full font-bold hover:bg-red-700 shadow-md hover:shadow-lg transition-all"
+                  className="bg-[#E11D48] text-white px-6 py-3 md:px-8 md:py-3 rounded-full font-bold hover:bg-red-700 shadow-md hover:shadow-lg transition-all"
                 >
                   Contact Admissions for Details
                 </button>

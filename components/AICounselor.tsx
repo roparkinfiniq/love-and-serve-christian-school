@@ -101,7 +101,7 @@ const AICounselor: React.FC = () => {
       ) : (
         <button 
           onClick={() => setIsOpen(true)}
-          className="bg-[#E11D48] text-white w-18 h-18 p-5 rounded-full shadow-2xl flex items-center justify-center text-3xl hover:scale-110 transition transform"
+          className="bg-[#E11D48] text-white w-14 h-14 md:w-16 md:h-16 rounded-full shadow-2xl flex items-center justify-center text-xl md:text-2xl hover:scale-110 transition transform"
         >
           <i className="fa-solid fa-message"></i>
         </button>

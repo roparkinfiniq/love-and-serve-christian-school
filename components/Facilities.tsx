@@ -93,8 +93,8 @@ const Facilities: React.FC<FacilitiesProps> = ({ onNavigate, onScheduleVisit }) 
           <p className="text-gray-500 text-lg mt-4">Modern workstations equipping students with digital skills.</p>
         </div>
 
-        {/* Grid: 2 columns mobile, 4 columns desktop */}
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-6 md:gap-8">
+        {/* Grid: 1 column mobile, 2 sm, 4 desktop */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 md:gap-8">
           {facilities.map((item, idx) => (
             <div 
               key={idx} 
@@ -143,7 +143,7 @@ const Facilities: React.FC<FacilitiesProps> = ({ onNavigate, onScheduleVisit }) 
             </h3>
             <button 
               onClick={() => onScheduleVisit ? onScheduleVisit() : onNavigate('Contact')}
-              className="group flex items-center gap-3 bg-[#E11D48] text-white px-10 py-5 rounded-full font-bold text-lg shadow-[0_10px_40px_-10px_rgba(225,29,72,0.8)] hover:bg-red-600 hover:-translate-y-1 hover:shadow-[0_15px_50px_-10px_rgba(225,29,72,1)] transition-all duration-300"
+              className="group flex items-center gap-3 bg-[#E11D48] text-white px-6 py-4 md:px-10 md:py-5 rounded-full font-bold text-base md:text-lg shadow-[0_10px_40px_-10px_rgba(225,29,72,0.8)] hover:bg-red-600 hover:-translate-y-1 hover:shadow-[0_15px_50px_-10px_rgba(225,29,72,1)] transition-all duration-300"
             >
                <span>Schedule a Campus Visit</span>
                <svg className="w-5 h-5 transform group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">

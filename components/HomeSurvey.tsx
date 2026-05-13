@@ -124,7 +124,7 @@ const HomeSurvey: React.FC = () => {
           <div className="mt-16 pt-10 border-t border-gray-100 text-center">
             <button
               type="submit"
-              className="bg-slate-900 text-white px-12 py-5 rounded-2xl font-bold text-xl hover:bg-black hover:scale-105 active:scale-95 transition shadow-xl"
+              className="w-full sm:w-auto bg-slate-900 text-white px-6 py-3 md:px-12 md:py-5 rounded-2xl font-bold text-base md:text-xl hover:bg-black hover:scale-105 active:scale-95 transition shadow-xl"
             >
               Submit Responses <i className="fa-solid fa-paper-plane ml-3"></i>
             </button>

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Page } from '../types';
 
 interface HeaderProps {
@@ -15,6 +15,17 @@ interface NavGroup {
 const Header: React.FC<HeaderProps> = ({ currentPage, onPageChange }) => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [logoError, setLogoError] = useState(false);
+
+  useEffect(() => {
+    if (mobileMenuOpen) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = 'unset';
+    }
+    return () => {
+      document.body.style.overflow = 'unset';
+    };
+  }, [mobileMenuOpen]);
 
   const navItems: NavGroup[] = [
     { label: 'Home', page: 'Home' },
@@ -128,11 +139,11 @@ const Header: React.FC<HeaderProps> = ({ currentPage, onPageChange }) => {
 
       {/* Mobile Menu */}
       <div 
-        className={`lg:hidden overflow-hidden transition-all duration-300 ease-in-out ${
-          mobileMenuOpen ? 'max-h-[85vh] opacity-100 border-t border-gray-100' : 'max-h-0 opacity-0'
+        className={`lg:hidden absolute top-full left-0 w-full bg-white shadow-[0_20px_40px_-20px_rgba(0,0,0,0.1)] overflow-hidden transition-all duration-300 ease-in-out ${
+          mobileMenuOpen ? 'max-h-[calc(100vh-100px)] opacity-100 border-t border-gray-100' : 'max-h-0 opacity-0'
         }`}
       >
-        <div className="bg-white p-6 flex flex-col space-y-4 overflow-y-auto">
+        <div className="p-6 flex flex-col space-y-4 overflow-y-auto" style={{ maxHeight: 'calc(100vh - 100px)' }}>
           {navItems.map((item, idx) => (
             <div key={idx} className="flex flex-col">
               {item.items ? (
@@ -180,7 +191,7 @@ const Header: React.FC<HeaderProps> = ({ currentPage, onPageChange }) => {
                 onPageChange('Contact');
                 setMobileMenuOpen(false);
               }}
-              className="w-full bg-[#E11D48] text-white px-6 py-4 rounded-xl font-black shadow-lg uppercase tracking-widest text-sm"
+              className="w-full bg-[#E11D48] text-white px-6 py-3 rounded-xl font-black shadow-lg uppercase tracking-widest text-sm"
             >
               Contact Us
             </button>

@@ -68,7 +68,7 @@ const Careers: React.FC = () => {
             </p>
             <a 
               href="mailto:loveandserve2014@gmail.com"
-              className="inline-flex items-center justify-center bg-[#D32F2F] text-white px-10 py-5 rounded-2xl font-bold text-xl shadow-[0_10px_20px_rgba(211,47,47,0.4)] hover:bg-red-600 hover:shadow-[0_15px_30px_rgba(211,47,47,0.5)] hover:-translate-y-1 transition-all duration-300 group"
+              className="inline-flex items-center justify-center bg-[#D32F2F] text-white px-6 py-4 md:px-10 md:py-5 rounded-2xl font-bold text-lg md:text-xl shadow-[0_10px_20px_rgba(211,47,47,0.4)] hover:bg-red-600 hover:shadow-[0_15px_30px_rgba(211,47,47,0.5)] hover:-translate-y-1 transition-all duration-300 group"
             >
               Send Resume via Email <span className="ml-3 text-2xl group-hover:rotate-12 transition-transform">✉️</span>
             </a>

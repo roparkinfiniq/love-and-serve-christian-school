@@ -1,18 +1,23 @@
 import React, { useState } from 'react';
-import { CalendarEvent } from '../types';
+import { CalendarEvent, PopupData } from '../types';
 
 interface AdminProps {
   calendarEvents?: CalendarEvent[];
   setCalendarEvents?: React.Dispatch<React.SetStateAction<CalendarEvent[]>>;
+  calendarPdfUrl?: string | null;
+  setCalendarPdfUrl?: React.Dispatch<React.SetStateAction<string | null>>;
+  popups?: PopupData[];
+  setPopups?: React.Dispatch<React.SetStateAction<PopupData[]>>;
 }
 
-const Admin: React.FC<AdminProps> = ({ calendarEvents = [], setCalendarEvents }) => {
+const Admin: React.FC<AdminProps> = ({ calendarEvents = [], setCalendarEvents, calendarPdfUrl, setCalendarPdfUrl, popups = [], setPopups }) => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
 
   const [activeTab, setActiveTab] = useState<'popup' | 'info' | 'media' | 'chatbot' | 'calendar' | 'settings'>('popup');
+  const [editingPopup, setEditingPopup] = useState<Partial<PopupData> | null>(null);
 
   const handleLogin = (e: React.FormEvent) => {
     e.preventDefault();
@@ -26,7 +31,20 @@ const Admin: React.FC<AdminProps> = ({ calendarEvents = [], setCalendarEvents })
 
   if (!isLoggedIn) {
     return (
-      <div className="min-h-screen bg-gray-50 flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8 mt-20">
+      <>
+        {/* Mobile Warning */}
+        <div className="flex lg:hidden min-h-screen bg-gray-50 flex-col items-center justify-center p-6 pt-28">
+          <div className="text-center bg-white p-8 rounded-3xl shadow-sm border border-gray-100 max-w-sm mx-auto mt-20">
+            <div className="w-16 h-16 bg-red-50 rounded-full flex items-center justify-center mx-auto mb-4">
+              <i className="fa-solid fa-desktop text-2xl text-[#E11D48]"></i>
+            </div>
+            <h2 className="text-2xl font-black text-gray-900 mb-2">Desktop Only</h2>
+            <p className="text-gray-500">The Admin Dashboard is optimized for larger screens. Please access this page from a desktop or tablet.</p>
+          </div>
+        </div>
+
+        {/* Desktop View */}
+        <div className="hidden lg:flex min-h-screen bg-gray-50 items-center justify-center py-12 px-4 sm:px-6 lg:px-8 mt-20">
         <div className="max-w-md w-full space-y-8 bg-white p-10 rounded-2xl shadow-xl">
           <div>
             <div className="flex justify-center">
@@ -83,11 +101,25 @@ const Admin: React.FC<AdminProps> = ({ calendarEvents = [], setCalendarEvents })
           </form>
         </div>
       </div>
+      </>
     );
   }
 
   return (
-    <div className="min-h-screen bg-gray-50 py-12 px-4 sm:px-6 lg:px-8 mt-20 animate-fadeIn">
+    <>
+      {/* Mobile Warning */}
+      <div className="flex lg:hidden min-h-screen bg-gray-50 flex-col items-center justify-center p-6 pt-28">
+        <div className="text-center bg-white p-8 rounded-3xl shadow-sm border border-gray-100 max-w-sm mx-auto mt-20">
+          <div className="w-16 h-16 bg-red-50 rounded-full flex items-center justify-center mx-auto mb-4">
+            <i className="fa-solid fa-desktop text-2xl text-[#E11D48]"></i>
+          </div>
+          <h2 className="text-2xl font-black text-gray-900 mb-2">Desktop Only</h2>
+          <p className="text-gray-500">The Admin Dashboard is optimized for larger screens. Please access this page from a desktop or tablet.</p>
+        </div>
+      </div>
+
+      {/* Desktop View */}
+      <div className="hidden lg:block min-h-screen bg-gray-50 py-12 px-4 sm:px-6 lg:px-8 mt-20 animate-fadeIn">
       <div className="max-w-7xl mx-auto">
         <div className="mb-8 flex justify-between items-end">
           <div>
@@ -255,6 +287,28 @@ const Admin: React.FC<AdminProps> = ({ calendarEvents = [], setCalendarEvents })
                     <i className="fa-solid fa-plus mr-2"></i> Add Event
                   </button>
                 </div>
+
+                <div className="bg-gray-50 p-6 rounded-xl border border-gray-200 mb-6">
+                  <h3 className="text-lg font-bold text-gray-900 mb-2">Upload Yearly Calendar Document</h3>
+                  <p className="text-sm text-gray-600 mb-4">Upload a PDF or Image of the annual academic calendar so parents can download it directly.</p>
+                  <input 
+                    type="file" 
+                    accept=".pdf,image/*"
+                    onChange={(e) => {
+                      const file = e.target.files?.[0];
+                      if (file && setCalendarPdfUrl) {
+                        const url = URL.createObjectURL(file);
+                        setCalendarPdfUrl(url);
+                      }
+                    }}
+                    className="block w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:text-sm file:font-semibold file:bg-red-50 file:text-red-700 hover:file:bg-red-100 transition-colors"
+                  />
+                  {calendarPdfUrl && (
+                    <div className="mt-4 flex items-center text-green-600 font-bold text-sm">
+                      <i className="fa-solid fa-check-circle mr-2"></i> Document Uploaded
+                    </div>
+                  )}
+                </div>
                 
                 <div className="bg-white border text-left border-gray-200 rounded-xl overflow-hidden shadow-sm">
                   <table className="min-w-full divide-y divide-gray-200">
@@ -311,39 +365,169 @@ const Admin: React.FC<AdminProps> = ({ calendarEvents = [], setCalendarEvents })
 
             {activeTab === 'popup' && (
               <div className="space-y-6 animate-fadeIn">
-                <div>
-                  <h2 className="text-2xl font-bold text-gray-900 border-b pb-2 mb-6">Emergency Popup Management</h2>
-                </div>
-                
-                <div className="flex items-center justify-between bg-gray-50 p-4 rounded-xl border border-gray-200">
+                <div className="flex justify-between items-end border-b pb-2 mb-6">
                   <div>
-                    <h3 className="font-bold text-gray-900">Enable Popup</h3>
-                    <p className="text-sm text-gray-500">Show an emergency popup to visitors on the main page.</p>
+                    <h2 className="text-2xl font-bold text-gray-900 border-none">Popup Management</h2>
+                    <p className="text-gray-500 text-sm mt-1">Manage popups, visibility dates, and images.</p>
                   </div>
-                  <label className="relative inline-flex items-center cursor-pointer">
-                    <input type="checkbox" className="sr-only peer" />
-                    <div className="w-14 h-7 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-red-300 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-0.5 after:left-[4px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-6 after:w-6 after:transition-all peer-checked:bg-[#E11D48]"></div>
-                  </label>
-                </div>
-
-                <div className="space-y-4">
-                  <div>
-                    <label className="block text-sm font-bold text-gray-700 mb-1">Notice Title</label>
-                    <input type="text" className="w-full border border-gray-300 rounded-lg p-3 focus:ring-2 focus:ring-red-500 focus:border-red-500 outline-none" placeholder="e.g., School closure due to severe weather" />
-                  </div>
-                  <div>
-                    <label className="block text-sm font-bold text-gray-700 mb-1">Details</label>
-                    <textarea rows={4} className="w-full border border-gray-300 rounded-lg p-3 focus:ring-2 focus:ring-red-500 focus:border-red-500 outline-none" placeholder="Please provide the detailed message here."></textarea>
-                  </div>
-                  <div>
-                    <label className="block text-sm font-bold text-gray-700 mb-1">Attached Image URL (Optional)</label>
-                    <input type="text" className="w-full border border-gray-300 rounded-lg p-3 focus:ring-2 focus:ring-red-500 focus:border-red-500 outline-none" placeholder="Image link URL" />
-                  </div>
+                  {!editingPopup ? (
+                    <button 
+                      className="bg-[#E11D48] text-white px-4 py-2 rounded-lg font-bold shadow hover:bg-red-700 transition flex items-center"
+                      onClick={() => setEditingPopup({ isActive: true, startDate: new Date().toISOString().split('T')[0], endDate: new Date(Date.now() + 86400000 * 7).toISOString().split('T')[0] })}
+                    >
+                      <i className="fa-solid fa-plus mr-2"></i> Add Popup
+                    </button>
+                  ) : (
+                    <button 
+                      className="text-gray-500 hover:text-gray-700 transition font-bold"
+                      onClick={() => setEditingPopup(null)}
+                    >
+                      <i className="fa-solid fa-arrow-left mr-2"></i> Back to List
+                    </button>
+                  )}
                 </div>
 
-                <div className="pt-4 text-right">
-                  <button className="bg-[#E11D48] text-white px-6 py-2 rounded-lg font-bold shadow hover:bg-red-700 transition">Save Changes</button>
-                </div>
+                {!editingPopup ? (
+                  <div className="bg-white border text-left border-gray-200 rounded-xl overflow-hidden shadow-sm">
+                    {popups.length === 0 ? (
+                      <div className="p-8 text-center text-gray-500">
+                         No popups found. Click "Add Popup" to create one.
+                      </div>
+                    ) : (
+                      <table className="min-w-full divide-y divide-gray-200">
+                        <thead className="bg-gray-50 border-b border-gray-200">
+                          <tr>
+                            <th scope="col" className="px-6 py-3 text-left text-xs font-bold text-gray-500 uppercase tracking-wider">Title</th>
+                            <th scope="col" className="px-6 py-3 text-left text-xs font-bold text-gray-500 uppercase tracking-wider">Dates</th>
+                            <th scope="col" className="px-6 py-3 text-left text-xs font-bold text-gray-500 uppercase tracking-wider">Status</th>
+                            <th scope="col" className="px-6 py-3 text-right text-xs font-bold text-gray-500 uppercase tracking-wider">Actions</th>
+                          </tr>
+                        </thead>
+                        <tbody className="bg-white divide-y divide-gray-200">
+                          {popups.map((popup) => (
+                            <tr key={popup.id} className="hover:bg-gray-50 transition-colors">
+                              <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900 border-none">
+                                {popup.title}
+                              </td>
+                              <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500 border-none">
+                                {popup.startDate} to {popup.endDate}
+                              </td>
+                              <td className="px-6 py-4 whitespace-nowrap border-none">
+                                <span className={`px-3 py-1 inline-flex text-xs leading-5 font-semibold rounded-full ${popup.isActive ? 'bg-green-100 text-green-800' : 'bg-gray-100 text-gray-800'}`}>
+                                  {popup.isActive ? 'Active' : 'Inactive'}
+                                </span>
+                              </td>
+                              <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium border-none space-x-3">
+                                <button
+                                  className="text-blue-600 hover:text-blue-900"
+                                  onClick={() => setEditingPopup(popup)}
+                                >
+                                  <i className="fa-solid fa-pen-to-square"></i> Edit
+                                </button>
+                                <button
+                                  className="text-red-600 hover:text-red-900"
+                                  onClick={() => setPopups && setPopups(popups.filter(p => p.id !== popup.id))}
+                                >
+                                  <i className="fa-solid fa-trash"></i> Delete
+                                </button>
+                              </td>
+                            </tr>
+                          ))}
+                        </tbody>
+                      </table>
+                    )}
+                  </div>
+                ) : (
+                  <div className="space-y-4 bg-gray-50 p-6 rounded-xl border border-gray-200">
+                    <div>
+                      <label className="block text-sm font-bold text-gray-700 mb-1">Popup Title</label>
+                      <input 
+                        type="text" 
+                        value={editingPopup.title || ''}
+                        onChange={(e) => setEditingPopup({...editingPopup, title: e.target.value})}
+                        className="w-full border border-gray-300 rounded-lg p-3 focus:ring-2 focus:ring-red-500 focus:border-red-500 outline-none" 
+                        placeholder="e.g., Summer Camp Registration" 
+                      />
+                    </div>
+                    <div>
+                      <label className="block text-sm font-bold text-gray-700 mb-1">Image URL</label>
+                      <input 
+                        type="text" 
+                        value={editingPopup.imageUrl || ''}
+                        onChange={(e) => setEditingPopup({...editingPopup, imageUrl: e.target.value})}
+                        className="w-full border border-gray-300 rounded-lg p-3 focus:ring-2 focus:ring-red-500 focus:border-red-500 outline-none" 
+                        placeholder="https://..." 
+                      />
+                    </div>
+                    <div>
+                      <label className="block text-sm font-bold text-gray-700 mb-1">Link URL (Optional link when image clicked)</label>
+                      <input 
+                        type="text" 
+                        value={editingPopup.linkUrl || ''}
+                        onChange={(e) => setEditingPopup({...editingPopup, linkUrl: e.target.value})}
+                        className="w-full border border-gray-300 rounded-lg p-3 focus:ring-2 focus:ring-red-500 focus:border-red-500 outline-none" 
+                        placeholder="https://..." 
+                      />
+                    </div>
+                    <div className="grid grid-cols-2 gap-4">
+                      <div>
+                        <label className="block text-sm font-bold text-gray-700 mb-1">Start Date</label>
+                        <input 
+                          type="date" 
+                          value={editingPopup.startDate || ''}
+                          onChange={(e) => setEditingPopup({...editingPopup, startDate: e.target.value})}
+                          className="w-full border border-gray-300 rounded-lg p-3 focus:ring-2 focus:ring-red-500 focus:border-red-500 outline-none" 
+                        />
+                      </div>
+                      <div>
+                        <label className="block text-sm font-bold text-gray-700 mb-1">End Date</label>
+                        <input 
+                          type="date" 
+                          value={editingPopup.endDate || ''}
+                          onChange={(e) => setEditingPopup({...editingPopup, endDate: e.target.value})}
+                          className="w-full border border-gray-300 rounded-lg p-3 focus:ring-2 focus:ring-red-500 focus:border-red-500 outline-none" 
+                        />
+                      </div>
+                    </div>
+                    <div className="flex items-center justify-between pt-2">
+                       <div>
+                         <h3 className="font-bold text-gray-900">Manually Enable/Disable</h3>
+                         <p className="text-sm text-gray-500">Toggle this to force hide or show the popup within its dates.</p>
+                       </div>
+                       <label className="relative inline-flex items-center cursor-pointer">
+                         <input 
+                           type="checkbox" 
+                           checked={editingPopup.isActive}
+                           onChange={(e) => setEditingPopup({...editingPopup, isActive: e.target.checked})}
+                           className="sr-only peer" 
+                         />
+                         <div className="w-14 h-7 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-red-300 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-0.5 after:left-[4px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-6 after:w-6 after:transition-all peer-checked:bg-[#E11D48]"></div>
+                       </label>
+                    </div>
+
+                    <div className="pt-4 text-right">
+                      <button 
+                        onClick={() => {
+                          if (!editingPopup.title || !editingPopup.startDate || !editingPopup.endDate) {
+                            alert("Please fill out required fields: Title, Start Date, End Date.");
+                            return;
+                          }
+                          if (setPopups) {
+                            if (editingPopup.id) {
+                              setPopups(popups.map(p => p.id === editingPopup.id ? editingPopup as PopupData : p));
+                            } else {
+                              setPopups([...popups, { ...editingPopup, id: Math.random().toString(36).substr(2, 9) } as PopupData]);
+                            }
+                            setEditingPopup(null);
+                          }
+                        }}
+                        className="bg-[#E11D48] text-white px-6 py-2 rounded-lg font-bold shadow hover:bg-red-700 transition"
+                      >
+                        Save Popup
+                      </button>
+                    </div>
+                  </div>
+                )}
               </div>
             )}
 
@@ -485,6 +669,7 @@ const Admin: React.FC<AdminProps> = ({ calendarEvents = [], setCalendarEvents })
         </div>
       </div>
     </div>
+    </>
   );
 };
 

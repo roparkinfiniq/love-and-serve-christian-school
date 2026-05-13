@@ -16,7 +16,8 @@ import Careers from './components/Careers';
 import HomeSurvey from './components/HomeSurvey';
 import Admin from './components/Admin';
 import Calendar from './components/Calendar';
-import { Page, CalendarEvent } from './types';
+import PopupsOverlay from './components/PopupsOverlay';
+import { Page, CalendarEvent, PopupData } from './types';
 
 const INITIAL_EVENTS: CalendarEvent[] = [
   { id: '1', date: '2024-08-14', title: 'Opening of Classes', category: 'Academic' },
@@ -44,6 +45,8 @@ const App: React.FC = () => {
     window.location.pathname === '/admin' ? 'Admin' : 'Home'
   );
   const [calendarEvents, setCalendarEvents] = useState<CalendarEvent[]>(INITIAL_EVENTS);
+  const [calendarPdfUrl, setCalendarPdfUrl] = useState<string | null>(null);
+  const [popups, setPopups] = useState<PopupData[]>([]);
   const [academicsTab, setAcademicsTab] = useState<'preschool' | 'elementary' | 'junior'>('preschool');
   const [scrollToTabs, setScrollToTabs] = useState(false);
   const [scrollToAdmissionProcess, setScrollToAdmissionProcess] = useState(false);
@@ -101,20 +104,20 @@ const App: React.FC = () => {
               onViewAll={handleViewAllCurriculums}
             />
             <LatestNews />
-            <section className="py-28 bg-white px-6">
-              <div className="max-w-7xl mx-auto bg-red-50 rounded-[3rem] p-12 md:p-24 text-center relative overflow-hidden">
+            <section className="py-20 md:py-28 bg-white px-4 md:px-6">
+              <div className="max-w-7xl mx-auto bg-red-50 rounded-[2.5rem] md:rounded-[3rem] p-8 md:p-24 text-center relative overflow-hidden">
                 <div className="relative z-10">
-                  <h2 className="text-4xl md:text-6xl font-black mb-8">Start Your Child's <br/>Faith Journey Today</h2>
-                  <p className="text-gray-600 mb-12 max-w-3xl mx-auto text-xl leading-relaxed">
+                  <h2 className="text-3xl sm:text-4xl md:text-6xl font-black mb-4 md:mb-8 text-gray-900 leading-tight">Start Your Child's <br className="hidden sm:block" />Faith Journey Today</h2>
+                  <p className="text-gray-600 mb-8 md:mb-12 max-w-3xl mx-auto text-base md:text-xl leading-relaxed">
                     Join a community that values character as much as academics. 
                     Applications for the next school year are now open!
                   </p>
-                  <button onClick={() => handlePageChange('Admissions')} className="bg-[#E11D48] text-white px-12 py-5 rounded-2xl font-bold text-2xl shadow-lg hover:scale-105 transition transform transform-gpu will-change-transform antialiased [backface-visibility:hidden]">
+                  <button onClick={() => handlePageChange('Admissions')} className="bg-[#E11D48] text-white px-6 py-3 md:px-12 md:py-5 rounded-2xl font-bold text-base md:text-2xl shadow-lg hover:scale-105 transition transform transform-gpu will-change-transform antialiased [backface-visibility:hidden]">
                     Apply for Admission
                   </button>
                 </div>
-                <div className="absolute top-0 right-0 w-80 h-80 bg-red-100 rounded-full -mr-40 -mt-40"></div>
-                <div className="absolute bottom-0 left-0 w-64 h-64 bg-red-200/50 rounded-full -ml-32 -mb-32"></div>
+                <div className="absolute top-0 right-0 w-64 h-64 md:w-80 md:h-80 bg-red-100 rounded-full -mr-32 -mt-32 md:-mr-40 md:-mt-40"></div>
+                <div className="absolute bottom-0 left-0 w-48 h-48 md:w-64 md:h-64 bg-red-200/50 rounded-full -ml-24 -mb-24 md:-ml-32 md:-mb-32"></div>
               </div>
             </section>
             <HomeSurvey />
@@ -256,7 +259,7 @@ const App: React.FC = () => {
                 <div className="flex flex-col-reverse md:flex-row items-center gap-20">
                   <div className="w-full md:w-2/3">
                     <div className="w-20 h-1.5 bg-[#E11D48] mb-8"></div>
-                    <h2 className="text-5xl font-black mb-10 text-gray-900 uppercase">Philosophy</h2>
+                    <h2 className="text-4xl md:text-5xl font-black mb-6 md:mb-10 text-gray-900 uppercase tracking-tight break-words">Philosophy</h2>
                     <div className="space-y-8">
                       {[
                         "We believe in God, the Creator, Holy, and Love. We believe in the Holy Trinity and the Bible.",
@@ -271,8 +274,8 @@ const App: React.FC = () => {
                     </div>
                   </div>
                   <div className="w-full md:w-1/3 flex justify-center">
-                     <div className="w-80 h-80 bg-red-50 rounded-[5rem] flex items-center justify-center transform rotate-3 border-4 border-white shadow-lg transition-all duration-700 hover:rotate-0 hover:scale-102">
-                        <i className="fa-solid fa-seedling text-9xl text-[#E11D48] opacity-80"></i>
+                     <div className="w-64 h-64 md:w-80 md:h-80 bg-red-50 rounded-[4rem] md:rounded-[5rem] flex items-center justify-center transform rotate-3 border-4 border-white shadow-lg transition-all duration-700 hover:rotate-0 hover:scale-102">
+                        <i className="fa-solid fa-seedling text-7xl md:text-9xl text-[#E11D48] opacity-80"></i>
                      </div>
                   </div>
                 </div>
@@ -300,8 +303,8 @@ const App: React.FC = () => {
                     Dedicated educators nurturing the next generation with love and faith.
                   </p>
                   
-                  <button onClick={() => handlePageChange('Team')} className="group/btn relative inline-flex items-center justify-center px-16 py-6 font-black text-white transition-all duration-300 bg-[#E11D48] rounded-full hover:bg-red-700 hover:scale-105 active:scale-95 shadow-lg">
-                    <span className="relative uppercase tracking-wider text-xl">Meet the Team</span>
+                  <button onClick={() => handlePageChange('Team')} className="group/btn relative inline-flex items-center justify-center px-8 py-4 md:px-16 md:py-6 font-black text-white transition-all duration-300 bg-[#E11D48] rounded-full hover:bg-red-700 hover:scale-105 active:scale-95 shadow-lg">
+                    <span className="relative uppercase tracking-wider text-base md:text-xl">Meet the Team</span>
                     <i className="fa-solid fa-arrow-right ml-4 transition-transform group-hover/btn:translate-x-1"></i>
                   </button>
                </div>
@@ -321,7 +324,7 @@ const App: React.FC = () => {
       case 'Gallery':
         return <Gallery />;
       case 'Calendar':
-        return <Calendar events={calendarEvents} />;
+        return <Calendar events={calendarEvents} calendarPdfUrl={calendarPdfUrl} />;
       case 'Contact':
         return <Contact scrollToForm={scrollToContactForm} />;
       case 'Team':
@@ -329,7 +332,14 @@ const App: React.FC = () => {
       case 'Careers':
         return <Careers />;
       case 'Admin':
-        return <Admin calendarEvents={calendarEvents} setCalendarEvents={setCalendarEvents} />;
+        return <Admin 
+          calendarEvents={calendarEvents} 
+          setCalendarEvents={setCalendarEvents} 
+          calendarPdfUrl={calendarPdfUrl} 
+          setCalendarPdfUrl={setCalendarPdfUrl} 
+          popups={popups}
+          setPopups={setPopups}
+        />;
       default:
         return <Hero onNavigate={handlePageChange} />;
     }
@@ -337,6 +347,7 @@ const App: React.FC = () => {
 
   return (
     <div className="min-h-screen flex flex-col">
+      <PopupsOverlay popups={popups} />
       <Header currentPage={currentPage} onPageChange={handlePageChange} />
       <main className="flex-1">
         {renderContent()}
