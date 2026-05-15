@@ -140,7 +140,7 @@ const Contact: React.FC<ContactProps> = ({ scrollToForm = false }) => {
             {/* Right: Map */}
             <div className="relative h-[400px] lg:h-auto bg-gray-200 min-h-[500px]">
               <iframe 
-                src="https://maps.google.com/maps?q=Love+and+Serve+Christian+School+Antipolo+Rizal&t=&z=15&ie=UTF8&iwloc=&output=embed"
+                src="https://maps.google.com/maps?q=Love+and+Serve+Christian+School+Antipolo+Rizal&t=&z=15&ie=UTF8&iwloc=&output=embed&hl=en"
                 className="absolute inset-0 w-full h-full border-0"
                 allowFullScreen={true} 
                 loading="lazy" 

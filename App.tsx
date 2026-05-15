@@ -13,7 +13,6 @@ import Gallery from './components/Gallery';
 import Facilities from './components/Facilities';
 import Team from './components/Team';
 import Careers from './components/Careers';
-import HomeSurvey from './components/HomeSurvey';
 import Admin from './components/Admin';
 import Calendar from './components/Calendar';
 import PopupsOverlay from './components/PopupsOverlay';
@@ -49,6 +48,7 @@ const INITIAL_GALLERY_IMAGES: GalleryImage[] = [
   { id: '6', src: 'https://images.unsplash.com/photo-1529333166437-7750a6dd5a70?auto=format&fit=crop&q=80&w=800', alt: 'Student Friendship', category: 'Student Life' },
   { id: '7', src: 'https://images.unsplash.com/photo-1461896836934-ffe607ba8211?auto=format&fit=crop&q=80&w=1200', alt: 'Sports & Athletics', category: 'Arts & Sports' },
   { id: '8', src: 'https://images.unsplash.com/photo-1544725176-7c40e5a71c5e?auto=format&fit=crop&q=80&w=800', alt: 'Teacher & Student', category: 'Academics' },
+  { id: '9', src: 'https://images.unsplash.com/photo-1562774053-701939374585?auto=format&fit=crop&q=80&w=1200', alt: 'School Campus', category: 'Campus' },
 ];
 
 const INITIAL_GALLERY_CATEGORIES = ['All', 'Academics', 'Student Life', 'Arts & Sports', 'Campus'];
@@ -135,7 +135,6 @@ const App: React.FC = () => {
                 <div className="absolute bottom-0 left-0 w-48 h-48 md:w-64 md:h-64 bg-red-200/50 rounded-full -ml-24 -mb-24 md:-ml-32 md:-mb-32"></div>
               </div>
             </section>
-            <HomeSurvey />
           </>
         );
       case 'About':
