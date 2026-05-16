@@ -42,7 +42,7 @@ const Careers: React.FC = () => {
           {positions.map((job, idx) => (
             <div 
               key={idx} 
-              className="group bg-white p-10 rounded-[2rem] shadow-lg border border-gray-100 hover:border-[#E11D48] transition-all duration-300 hover:-translate-y-2 text-center flex flex-col items-center"
+              className="group bg-white p-10 rounded-[2rem] shadow-lg border border-gray-100 hover:border-[#E11D48] transition-all duration-300 hover:-translate-y-2 text-center flex flex-col items-center transform-gpu will-change-transform antialiased [backface-visibility:hidden]"
             >
               <div className="w-24 h-24 bg-slate-50 text-[#E11D48] rounded-full flex items-center justify-center mb-8 text-4xl group-hover:scale-110 group-hover:bg-[#E11D48] group-hover:text-white transition-all duration-300 shadow-sm">
                 <i className={`fa-solid ${job.icon}`}></i>
@@ -68,7 +68,7 @@ const Careers: React.FC = () => {
             </p>
             <a 
               href="mailto:loveandserve2014@gmail.com"
-              className="inline-flex items-center justify-center bg-[#D32F2F] text-white px-6 py-4 md:px-10 md:py-5 rounded-2xl font-bold text-lg md:text-xl shadow-[0_10px_20px_rgba(211,47,47,0.4)] hover:bg-red-600 hover:shadow-[0_15px_30px_rgba(211,47,47,0.5)] hover:-translate-y-1 transition-all duration-300 group"
+              className="inline-flex items-center justify-center bg-[#D32F2F] text-white px-6 py-4 md:px-10 md:py-5 rounded-2xl font-bold text-lg md:text-xl shadow-[0_10px_20px_rgba(211,47,47,0.4)] hover:bg-red-600 hover:shadow-[0_15px_30px_rgba(211,47,47,0.5)] hover:-translate-y-1 transition-all duration-300 group transform-gpu will-change-transform antialiased [backface-visibility:hidden]"
             >
               Send Resume via Email <span className="ml-3 text-2xl group-hover:rotate-12 transition-transform">✉️</span>
             </a>

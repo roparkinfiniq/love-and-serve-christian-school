@@ -110,7 +110,7 @@ const Calendar: React.FC<CalendarProps> = ({ events = [], calendarPdfUrl }) => {
             </p>
             <button 
               onClick={handleDownloadPDF}
-              className="bg-[#E11D48] hover:bg-red-700 text-white font-bold py-3 px-8 rounded-full inline-flex items-center transition-all hover:scale-105 active:scale-95 shadow-lg shadow-red-900/30"
+              className="bg-[#E11D48] hover:bg-rose-500 text-white font-bold py-3 px-8 rounded-full inline-flex items-center transition-all hover:scale-105 active:scale-95 shadow-lg shadow-red-900/30 transform-gpu will-change-transform antialiased [backface-visibility:hidden]"
             >
               <i className="fa-solid fa-file-pdf mr-3"></i>
               Download as PDF

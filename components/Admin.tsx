@@ -40,6 +40,27 @@ const Admin: React.FC<AdminProps> = ({
   const fileInputRef = useRef<HTMLInputElement>(null);
   const [calendarFileName, setCalendarFileName] = useState('');
   const [photoFileName, setPhotoFileName] = useState('');
+  
+  const [calendarFilterMonth, setCalendarFilterMonth] = useState<string>('all');
+  const [calendarFilterCategory, setCalendarFilterCategory] = useState<string>('all');
+
+  const filteredCalendarEvents = calendarEvents.filter(ev => {
+    let matchesCategory = true;
+    let matchesMonth = true;
+    
+    if (calendarFilterCategory !== 'all' && ev.category !== calendarFilterCategory) {
+      matchesCategory = false;
+    }
+    
+    if (calendarFilterMonth !== 'all') {
+      const eventMonth = new Date(ev.date).getMonth() + 1;
+      if (eventMonth.toString() !== calendarFilterMonth) {
+        matchesMonth = false;
+      }
+    }
+    
+    return matchesCategory && matchesMonth;
+  });
 
   const handleLogin = (e: React.FormEvent) => {
     e.preventDefault();
@@ -82,7 +103,7 @@ const Admin: React.FC<AdminProps> = ({
                   required
                   value={username}
                   onChange={(e) => setUsername(e.target.value)}
-                  className="appearance-none rounded-lg relative block w-full px-3 py-3 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-red-500 focus:border-red-500 focus:z-10 sm:text-sm"
+                  className="appearance-none rounded-lg relative block w-full px-3 py-3 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-rose-500 focus:border-red-500 focus:z-10 sm:text-sm"
                   placeholder="admin"
                 />
               </div>
@@ -93,7 +114,7 @@ const Admin: React.FC<AdminProps> = ({
                   required
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
-                  className="appearance-none rounded-lg relative block w-full px-3 py-3 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-red-500 focus:border-red-500 focus:z-10 sm:text-sm"
+                  className="appearance-none rounded-lg relative block w-full px-3 py-3 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-rose-500 focus:border-red-500 focus:z-10 sm:text-sm"
                   placeholder="admin"
                 />
               </div>
@@ -102,7 +123,7 @@ const Admin: React.FC<AdminProps> = ({
             <div>
               <button
                 type="submit"
-                className="group relative w-full flex justify-center py-3 px-4 border border-transparent text-sm font-bold rounded-lg text-white bg-[#E11D48] hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500 shadow-md transition-colors"
+                className="group relative w-full flex justify-center py-3 px-4 border border-transparent text-sm font-bold rounded-lg text-white bg-[#E11D48] hover:bg-rose-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-rose-500 shadow-md transition-colors"
               >
                 Sign in
               </button>
@@ -203,7 +224,7 @@ const Admin: React.FC<AdminProps> = ({
                     <p className="text-gray-500 text-sm mt-1">Manage events, holidays, and academic schedules.</p>
                   </div>
                   <button 
-                    className="bg-[#E11D48] text-white px-4 py-2 rounded-lg font-bold shadow hover:bg-red-700 transition flex items-center whitespace-nowrap"
+                    className="bg-[#E11D48] text-white px-4 py-2 rounded-lg font-bold shadow hover:bg-rose-500 transition flex items-center whitespace-nowrap"
                     onClick={() => setEditingEvent({ id: '', title: '', date: new Date().toISOString().split('T')[0], category: 'Academic' })}
                   >
                     <i className="fa-solid fa-plus mr-2"></i> Add Event
@@ -243,6 +264,40 @@ const Admin: React.FC<AdminProps> = ({
                   )}
                 </div>
                 
+                <div className="flex flex-col sm:flex-row justify-between items-center bg-white p-4 border border-gray-200 rounded-xl mb-4 gap-4">
+                  <div className="flex items-center gap-4 w-full sm:w-auto">
+                    <div className="flex flex-col text-left w-full sm:w-auto">
+                      <label className="text-xs font-bold text-gray-500 uppercase mb-1">Month</label>
+                      <select 
+                        value={calendarFilterMonth}
+                        onChange={(e) => setCalendarFilterMonth(e.target.value)}
+                        className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-[#E11D48] focus:border-[#E11D48] block w-full p-2"
+                      >
+                        <option value="all">All Months</option>
+                        {Array.from({ length: 12 }, (_, i) => i + 1).map(m => (
+                          <option key={m} value={m.toString()}>
+                            {new Date(2000, m - 1, 1).toLocaleString('en-US', { month: 'long' })}
+                          </option>
+                        ))}
+                      </select>
+                    </div>
+                    <div className="flex flex-col text-left w-full sm:w-auto">
+                      <label className="text-xs font-bold text-gray-500 uppercase mb-1">Category</label>
+                      <select 
+                        value={calendarFilterCategory}
+                        onChange={(e) => setCalendarFilterCategory(e.target.value)}
+                        className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-[#E11D48] focus:border-[#E11D48] block w-full p-2"
+                      >
+                        <option value="all">All Categories</option>
+                        <option value="Academic">Academic</option>
+                        <option value="Holiday">Holiday</option>
+                        <option value="Religious">Religious</option>
+                        <option value="Special">Special</option>
+                      </select>
+                    </div>
+                  </div>
+                </div>
+
                 <div className="bg-white border text-left border-gray-200 rounded-xl overflow-x-auto shadow-sm">
                   <table className="min-w-full divide-y divide-gray-200">
                     <thead className="bg-gray-50">
@@ -254,7 +309,7 @@ const Admin: React.FC<AdminProps> = ({
                       </tr>
                     </thead>
                     <tbody className="bg-white divide-y divide-gray-200">
-                      {calendarEvents.map(ev => (
+                      {filteredCalendarEvents.map(ev => (
                         <tr key={ev.id} className="hover:bg-gray-50">
                           <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
                             {ev.date}
@@ -288,10 +343,10 @@ const Admin: React.FC<AdminProps> = ({
                           </td>
                         </tr>
                       ))}
-                      {calendarEvents.length === 0 && (
+                      {filteredCalendarEvents.length === 0 && (
                         <tr>
                           <td colSpan={4} className="px-6 py-8 text-center text-gray-500">
-                            No upcoming events.
+                            No upcoming events match the filters.
                           </td>
                         </tr>
                       )}
@@ -310,7 +365,7 @@ const Admin: React.FC<AdminProps> = ({
                   </div>
                   {!editingPopup ? (
                     <button 
-                      className="bg-[#E11D48] text-white px-4 py-2 rounded-lg font-bold shadow hover:bg-red-700 transition flex items-center whitespace-nowrap"
+                      className="bg-[#E11D48] text-white px-4 py-2 rounded-lg font-bold shadow hover:bg-rose-500 transition flex items-center whitespace-nowrap"
                       onClick={() => setEditingPopup({ isActive: true, startDate: new Date().toISOString().split('T')[0], endDate: new Date(Date.now() + 86400000 * 7).toISOString().split('T')[0] })}
                     >
                       <i className="fa-solid fa-plus mr-2"></i> Add Popup
@@ -383,7 +438,7 @@ const Admin: React.FC<AdminProps> = ({
                         type="text" 
                         value={editingPopup.title || ''}
                         onChange={(e) => setEditingPopup({...editingPopup, title: e.target.value})}
-                        className="w-full border border-gray-300 rounded-lg p-3 focus:ring-2 focus:ring-red-500 focus:border-red-500 outline-none" 
+                        className="w-full border border-gray-300 rounded-lg p-3 focus:ring-2 focus:ring-rose-500 focus:border-red-500 outline-none" 
                         placeholder="e.g., Summer Camp Registration" 
                       />
                     </div>
@@ -393,7 +448,7 @@ const Admin: React.FC<AdminProps> = ({
                         type="text" 
                         value={editingPopup.imageUrl || ''}
                         onChange={(e) => setEditingPopup({...editingPopup, imageUrl: e.target.value})}
-                        className="w-full border border-gray-300 rounded-lg p-3 focus:ring-2 focus:ring-red-500 focus:border-red-500 outline-none" 
+                        className="w-full border border-gray-300 rounded-lg p-3 focus:ring-2 focus:ring-rose-500 focus:border-red-500 outline-none" 
                         placeholder="https://..." 
                       />
                     </div>
@@ -403,7 +458,7 @@ const Admin: React.FC<AdminProps> = ({
                         type="text" 
                         value={editingPopup.linkUrl || ''}
                         onChange={(e) => setEditingPopup({...editingPopup, linkUrl: e.target.value})}
-                        className="w-full border border-gray-300 rounded-lg p-3 focus:ring-2 focus:ring-red-500 focus:border-red-500 outline-none" 
+                        className="w-full border border-gray-300 rounded-lg p-3 focus:ring-2 focus:ring-rose-500 focus:border-red-500 outline-none" 
                         placeholder="https://..." 
                       />
                     </div>
@@ -415,7 +470,7 @@ const Admin: React.FC<AdminProps> = ({
                           onChange={(date) => setEditingPopup({...editingPopup, startDate: date ? `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, '0')}-${String(date.getDate()).padStart(2, '0')}` : ''})}
                           dateFormat="yyyy-MM-dd"
                           placeholderText="YYYY-MM-DD"
-                          className="w-full border border-gray-300 rounded-lg p-3 focus:ring-2 focus:ring-red-500 focus:border-red-500 outline-none" 
+                          className="w-full border border-gray-300 rounded-lg p-3 focus:ring-2 focus:ring-rose-500 focus:border-red-500 outline-none" 
                         />
                       </div>
                       <div>
@@ -425,7 +480,7 @@ const Admin: React.FC<AdminProps> = ({
                           onChange={(date) => setEditingPopup({...editingPopup, endDate: date ? `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, '0')}-${String(date.getDate()).padStart(2, '0')}` : ''})}
                           dateFormat="yyyy-MM-dd"
                           placeholderText="YYYY-MM-DD"
-                          className="w-full border border-gray-300 rounded-lg p-3 focus:ring-2 focus:ring-red-500 focus:border-red-500 outline-none" 
+                          className="w-full border border-gray-300 rounded-lg p-3 focus:ring-2 focus:ring-rose-500 focus:border-red-500 outline-none" 
                         />
                       </div>
                     </div>
@@ -461,7 +516,7 @@ const Admin: React.FC<AdminProps> = ({
                             setEditingPopup(null);
                           }
                         }}
-                        className="bg-[#E11D48] text-white px-6 py-2 rounded-lg font-bold shadow hover:bg-red-700 transition"
+                        className="bg-[#E11D48] text-white px-6 py-2 rounded-lg font-bold shadow hover:bg-rose-500 transition"
                       >
                         Save Popup
                       </button>
@@ -481,24 +536,24 @@ const Admin: React.FC<AdminProps> = ({
                 <div className="space-y-6">
                   <div>
                     <label className="block text-sm font-bold text-gray-700 mb-1">Tuition & Fees Guide</label>
-                    <textarea rows={3} className="w-full border border-gray-300 rounded-lg p-3 focus:ring-2 focus:ring-red-500 focus:border-red-500 outline-none" placeholder="Tuition by grade, payment period, etc." defaultValue="Preschool: 3,000,000 KRW/year&#10;Elementary: 4,500,000 KRW/year"></textarea>
+                    <textarea rows={3} className="w-full border border-gray-300 rounded-lg p-3 focus:ring-2 focus:ring-rose-500 focus:border-red-500 outline-none" placeholder="Tuition by grade, payment period, etc." defaultValue="Preschool: 3,000,000 KRW/year&#10;Elementary: 4,500,000 KRW/year"></textarea>
                   </div>
                   <div>
                     <label className="block text-sm font-bold text-gray-700 mb-1">Admission Process Summary</label>
-                    <textarea rows={3} className="w-full border border-gray-300 rounded-lg p-3 focus:ring-2 focus:ring-red-500 focus:border-red-500 outline-none" placeholder="Step-by-step admission process" defaultValue="1. Submit application and documents&#10;2. Student interview and level test&#10;3. Parent interview&#10;4. Final decision and tuition payment"></textarea>
+                    <textarea rows={3} className="w-full border border-gray-300 rounded-lg p-3 focus:ring-2 focus:ring-rose-500 focus:border-red-500 outline-none" placeholder="Step-by-step admission process" defaultValue="1. Submit application and documents&#10;2. Student interview and level test&#10;3. Parent interview&#10;4. Final decision and tuition payment"></textarea>
                   </div>
                   <div>
                     <label className="block text-sm font-bold text-gray-700 mb-1">Key Curriculum Features</label>
-                    <textarea rows={3} className="w-full border border-gray-300 rounded-lg p-3 focus:ring-2 focus:ring-red-500 focus:border-red-500 outline-none" placeholder="Specialized school curriculum" defaultValue="Bilingual (English/Korean) education based on a biblical worldview. Project-Based Learning (PBL) and creative character education."></textarea>
+                    <textarea rows={3} className="w-full border border-gray-300 rounded-lg p-3 focus:ring-2 focus:ring-rose-500 focus:border-red-500 outline-none" placeholder="Specialized school curriculum" defaultValue="Bilingual (English/Korean) education based on a biblical worldview. Project-Based Learning (PBL) and creative character education."></textarea>
                   </div>
                   <div>
                     <label className="block text-sm font-bold text-gray-700 mb-1">Frequently Asked Questions (FAQ Data)</label>
-                    <textarea rows={4} className="w-full border border-gray-300 rounded-lg p-3 focus:ring-2 focus:ring-red-500 focus:border-red-500 outline-none" placeholder="Write in Q&A format" defaultValue="Q: Is there a school bus?&#10;A: Yes, we run school buses to major areas (Antipolo, Manila, etc.)."></textarea>
+                    <textarea rows={4} className="w-full border border-gray-300 rounded-lg p-3 focus:ring-2 focus:ring-rose-500 focus:border-red-500 outline-none" placeholder="Write in Q&A format" defaultValue="Q: Is there a school bus?&#10;A: Yes, we run school buses to major areas (Antipolo, Manila, etc.)."></textarea>
                   </div>
                 </div>
 
                 <div className="pt-4 text-right">
-                   <button className="bg-[#E11D48] text-white px-6 py-2 rounded-lg font-bold shadow hover:bg-red-700 transition">Update Data (Sync with AI)</button>
+                   <button className="bg-[#E11D48] text-white px-6 py-2 rounded-lg font-bold shadow hover:bg-rose-500 transition">Update Data (Sync with AI)</button>
                 </div>
               </div>
             )}
@@ -540,7 +595,7 @@ const Admin: React.FC<AdminProps> = ({
                         value={newCategory}
                         onChange={(e) => setNewCategory(e.target.value)}
                         placeholder="New tag name (e.g. Events)" 
-                        className="flex-1 border border-gray-300 rounded-lg p-2 text-sm focus:ring-2 focus:ring-red-500 focus:border-red-500 outline-none" 
+                        className="flex-1 border border-gray-300 rounded-lg p-2 text-sm focus:ring-2 focus:ring-rose-500 focus:border-red-500 outline-none" 
                       />
                       <button 
                         className="bg-gray-800 text-white px-4 py-2 rounded-lg text-sm font-bold shadow hover:bg-gray-900 transition whitespace-nowrap"
@@ -596,7 +651,7 @@ const Admin: React.FC<AdminProps> = ({
                           value={newPhotoAlt}
                           onChange={(e) => setNewPhotoAlt(e.target.value)}
                           placeholder="E.g., Students playing" 
-                          className="w-full border border-gray-300 rounded-lg p-2 text-sm focus:ring-2 focus:ring-red-500 focus:border-red-500 outline-none" 
+                          className="w-full border border-gray-300 rounded-lg p-2 text-sm focus:ring-2 focus:ring-rose-500 focus:border-red-500 outline-none" 
                         />
                       </div>
                       <div>
@@ -604,7 +659,7 @@ const Admin: React.FC<AdminProps> = ({
                         <select 
                           value={newPhotoCategory}
                           onChange={(e) => setNewPhotoCategory(e.target.value)}
-                          className="w-full border border-gray-300 rounded-lg p-2 text-sm focus:ring-2 focus:ring-red-500 focus:border-red-500 outline-none"
+                          className="w-full border border-gray-300 rounded-lg p-2 text-sm focus:ring-2 focus:ring-rose-500 focus:border-red-500 outline-none"
                         >
                           {galleryCategories.filter(cat => cat !== 'All').map(cat => (
                             <option key={cat} value={cat}>{cat}</option>
@@ -613,7 +668,7 @@ const Admin: React.FC<AdminProps> = ({
                       </div>
                       <div className="flex items-end">
                         <button 
-                          className="w-full bg-[#E11D48] text-white px-4 py-2 rounded-lg text-sm font-bold shadow hover:bg-red-700 transition"
+                          className="w-full bg-[#E11D48] text-white px-4 py-2 rounded-lg text-sm font-bold shadow hover:bg-rose-500 transition"
                           onClick={() => {
                             if (newPhotoSrc && newPhotoAlt && setGalleryImages) {
                               setGalleryImages([
@@ -703,12 +758,12 @@ const Admin: React.FC<AdminProps> = ({
                 <div className="space-y-6">
                    <div>
                     <label className="block text-sm font-bold text-gray-700 mb-1">Welcome Message</label>
-                    <input type="text" className="w-full border border-gray-300 rounded-lg p-3 focus:ring-2 focus:ring-red-500 focus:border-red-500 outline-none" defaultValue="Hello! I am the LSCS AI Counselor. Ask me anything about admissions or school life!" />
+                    <input type="text" className="w-full border border-gray-300 rounded-lg p-3 focus:ring-2 focus:ring-rose-500 focus:border-red-500 outline-none" defaultValue="Hello! I am the LSCS AI Counselor. Ask me anything about admissions or school life!" />
                   </div>
 
                   <div>
                      <label className="block text-sm font-bold text-gray-700 mb-1">Chatbot Activation (Show on website)</label>
-                     <select className="w-full border border-gray-300 rounded-lg p-3 focus:ring-2 focus:ring-red-500 focus:border-red-500 outline-none">
+                     <select className="w-full border border-gray-300 rounded-lg p-3 focus:ring-2 focus:ring-rose-500 focus:border-red-500 outline-none">
                         <option>Always visible (Bottom right)</option>
                         <option>Pop-up only during admission season</option>
                         <option>Disabled (Hidden)</option>
@@ -718,7 +773,7 @@ const Admin: React.FC<AdminProps> = ({
 
                 <div className="pt-4 text-right">
                   <button 
-                    className="bg-[#E11D48] text-white px-6 py-2 rounded-lg font-bold shadow hover:bg-red-700 transition"
+                    className="bg-[#E11D48] text-white px-6 py-2 rounded-lg font-bold shadow hover:bg-rose-500 transition"
                     onClick={() => alert('Settings saved successfully!')}
                   >
                     Save Settings
@@ -743,7 +798,7 @@ const Admin: React.FC<AdminProps> = ({
                   type="text" 
                   value={editingEvent.title || ''}
                   onChange={(e) => setEditingEvent({ ...editingEvent, title: e.target.value })}
-                  className="w-full border border-gray-300 rounded-lg p-2 focus:ring-2 focus:ring-red-500 focus:border-red-500 outline-none"
+                  className="w-full border border-gray-300 rounded-lg p-2 focus:ring-2 focus:ring-rose-500 focus:border-red-500 outline-none"
                   placeholder="e.g. Opening of Classes"
                 />
               </div>
@@ -755,7 +810,7 @@ const Admin: React.FC<AdminProps> = ({
                     onChange={(date) => setEditingEvent({ ...editingEvent, date: date ? `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, '0')}-${String(date.getDate()).padStart(2, '0')}` : '' })}
                     dateFormat="yyyy-MM-dd"
                     placeholderText="YYYY-MM-DD"
-                    className="w-full border border-gray-300 rounded-lg p-2 focus:ring-2 focus:ring-red-500 focus:border-red-500 outline-none"
+                    className="w-full border border-gray-300 rounded-lg p-2 focus:ring-2 focus:ring-rose-500 focus:border-red-500 outline-none"
                   />
                 </div>
                 <div>
@@ -765,7 +820,7 @@ const Admin: React.FC<AdminProps> = ({
                     onChange={(date) => setEditingEvent({ ...editingEvent, endDate: date ? `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, '0')}-${String(date.getDate()).padStart(2, '0')}` : '' })}
                     dateFormat="yyyy-MM-dd"
                     placeholderText="YYYY-MM-DD"
-                    className="w-full border border-gray-300 rounded-lg p-2 focus:ring-2 focus:ring-red-500 focus:border-red-500 outline-none"
+                    className="w-full border border-gray-300 rounded-lg p-2 focus:ring-2 focus:ring-rose-500 focus:border-red-500 outline-none"
                   />
                 </div>
               </div>
@@ -774,7 +829,7 @@ const Admin: React.FC<AdminProps> = ({
                 <select 
                    value={editingEvent.category || 'Academic'}
                    onChange={(e) => setEditingEvent({ ...editingEvent, category: e.target.value })}
-                   className="w-full border border-gray-300 rounded-lg p-2 focus:ring-2 focus:ring-red-500 focus:border-red-500 outline-none"
+                   className="w-full border border-gray-300 rounded-lg p-2 focus:ring-2 focus:ring-rose-500 focus:border-red-500 outline-none"
                 >
                   <option value="Academic">Academic</option>
                   <option value="Holiday">Holiday</option>
@@ -791,7 +846,7 @@ const Admin: React.FC<AdminProps> = ({
                 Cancel
               </button>
               <button 
-                className="bg-[#E11D48] text-white px-4 py-2 rounded-lg font-bold shadow hover:bg-red-700 transition"
+                className="bg-[#E11D48] text-white px-4 py-2 rounded-lg font-bold shadow hover:bg-rose-500 transition"
                 onClick={() => {
                   if (setCalendarEvents && editingEvent.title && editingEvent.date) {
                     if (editingEvent.id) {

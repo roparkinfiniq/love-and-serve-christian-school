@@ -38,7 +38,7 @@ const Programs: React.FC<ProgramsProps> = ({ onProgramClick, onViewAll }) => {
         </div>
         <button 
           onClick={onViewAll}
-          className="text-[#E11D48] text-lg font-bold hover:text-red-700 transition-colors mt-6 md:mt-0 flex items-center"
+          className="text-[#E11D48] text-lg font-bold hover:text-rose-700 transition-colors mt-6 md:mt-0 flex items-center"
         >
           View All Curriculums <i className="fa-solid fa-arrow-right ml-3"></i>
         </button>
@@ -48,7 +48,7 @@ const Programs: React.FC<ProgramsProps> = ({ onProgramClick, onViewAll }) => {
           <div 
             key={p.id} 
             onClick={() => onProgramClick && onProgramClick(p.id as 'preschool' | 'elementary' | 'junior')}
-            className="group bg-white rounded-[2.5rem] overflow-hidden shadow-lg hover:shadow-2xl transition duration-500 ease-in-out transform-gpu will-change-transform antialiased [backface-visibility:hidden] cursor-pointer hover:-translate-y-2"
+            className="group bg-white rounded-[2.5rem] overflow-hidden shadow-lg hover:shadow-2xl transition duration-500 ease-in-out cursor-pointer"
           >
             {/* Image Container */}
             <div className="h-64 overflow-hidden relative">
@@ -56,17 +56,19 @@ const Programs: React.FC<ProgramsProps> = ({ onProgramClick, onViewAll }) => {
               <img 
                 src={p.image} 
                 alt={p.title} 
-                className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
+                className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110 transform-gpu will-change-transform antialiased [backface-visibility:hidden]"
               />
             </div>
             
             {/* Content Container */}
-            <div className="p-10 border border-t-0 border-gray-100 rounded-b-[2.5rem] relative bg-white z-20">
-              <h5 className="font-extrabold text-3xl text-gray-900 mb-3">{p.title}</h5>
-              <p className="text-gray-500 text-lg leading-relaxed">{p.description}</p>
+            <div className="p-10 border border-t-0 border-gray-100 rounded-b-[2.5rem] relative bg-white z-20 transform-gpu antialiased transition-all duration-500">
+              <div className="transform-gpu transition-transform duration-500 group-hover:-translate-y-1 will-change-transform [backface-visibility:hidden]">
+                <h5 className="font-extrabold text-3xl text-gray-900 mb-3 transition-colors duration-300 group-hover:text-[#E11D48] hover:text-rose-600 cursor-pointer">{p.title}</h5>
+                <p className="text-gray-500 text-lg leading-relaxed transition-colors duration-300 group-hover:text-gray-800 hover:text-gray-900">{p.description}</p>
+              </div>
               
-              <div className="mt-6 flex items-center text-[#E11D48] font-bold group-hover:translate-x-2 transition-transform duration-300">
-                Learn More <i className="fa-solid fa-arrow-right ml-2"></i>
+              <div className="mt-6 flex items-center text-[#E11D48] font-bold transition-all duration-300 group-hover:text-rose-600 hover:text-rose-700 cursor-pointer transform-gpu group-hover:translate-x-1 will-change-transform [backface-visibility:hidden]">
+                Learn More <i className="fa-solid fa-arrow-right ml-2 transform transition-transform group-hover:translate-x-1 will-change-transform antialiased"></i>
               </div>
             </div>
           </div>

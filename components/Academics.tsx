@@ -137,7 +137,7 @@ const Academics: React.FC<AcademicsProps> = ({
             <button
               key={level}
               onClick={() => handleTabChange(level)}
-              className={`px-6 py-3 md:px-8 md:py-4 rounded-full font-bold text-base md:text-lg transition-all duration-300 transform hover:-translate-y-1 ${
+              className={`px-6 py-3 md:px-8 md:py-4 rounded-full font-bold text-base md:text-lg transition-all duration-300 ${
                 activeTab === level
                   ? 'bg-[#E11D48] text-white shadow-lg shadow-red-200'
                   : 'bg-gray-100 text-gray-500 hover:bg-white hover:shadow-md'
@@ -247,13 +247,13 @@ const Academics: React.FC<AcademicsProps> = ({
             {enrichmentPrograms.map((program, idx) => (
               <div 
                 key={idx} 
-                className="group bg-white rounded-[2rem] overflow-hidden shadow-sm hover:shadow-xl transition-all duration-300 hover:-translate-y-2"
+                className="group bg-white rounded-[2rem] overflow-hidden shadow-sm hover:shadow-xl transition-all duration-300 hover:-translate-y-2 transform-gpu will-change-transform antialiased [backface-visibility:hidden]"
               >
                 <div className="h-48 overflow-hidden relative">
                   <img 
                     src={program.image} 
                     alt={program.title} 
-                    className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
+                    className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110 transform-gpu will-change-transform antialiased [backface-visibility:hidden]"
                   />
                   <div className="absolute inset-0 bg-black/20 group-hover:bg-transparent transition-colors"></div>
                   <div className="absolute bottom-4 right-4 w-10 h-10 bg-white/90 backdrop-blur-md rounded-full flex items-center justify-center text-[#E11D48] shadow-lg">

@@ -14,9 +14,9 @@ const LatestNews: React.FC = () => {
             </p>
           </div>
           {/* Unified Button: Visible on all screens, full width on mobile */}
-          <button className="w-full md:w-auto inline-flex items-center justify-center font-bold text-[#E11D48] hover:text-red-700 transition text-lg bg-white px-6 py-4 md:py-3 rounded-xl shadow-md md:shadow-sm hover:shadow-md border border-gray-100 md:border-transparent">
+          <a href="https://www.facebook.com/LSCSI" target="_blank" rel="noopener noreferrer" className="w-full md:w-auto inline-flex items-center justify-center font-bold text-[#E11D48] hover:text-rose-700 transition text-lg bg-white px-6 py-4 md:py-3 rounded-xl shadow-md md:shadow-sm hover:shadow-md border border-gray-100 md:border-transparent">
              Visit Facebook Page <i className="fa-solid fa-arrow-up-right-from-square ml-3"></i>
-          </button>
+          </a>
         </div>
 
         {/* Feed Placeholder */}

@@ -64,9 +64,9 @@ const Contact: React.FC<ContactProps> = ({ scrollToForm = false }) => {
             <a 
               key={idx} 
               href={info.action || '#'} 
-              className={`bg-white p-8 rounded-[2rem] shadow-sm border border-gray-100 flex flex-col items-center text-center transition-all duration-300 hover:shadow-xl hover:-translate-y-1 group ${!info.action ? 'cursor-default' : ''}`}
+              className={`bg-white p-8 rounded-[2rem] shadow-sm border border-gray-100 flex flex-col items-center text-center transition-all duration-300 hover:shadow-xl hover:-translate-y-1 group transform-gpu will-change-transform antialiased [backface-visibility:hidden] ${!info.action ? 'cursor-default' : ''}`}
             >
-              <div className="w-16 h-16 bg-red-50 text-[#E11D48] rounded-2xl flex items-center justify-center text-2xl mb-6 group-hover:scale-110 transition-transform duration-300">
+              <div className="w-16 h-16 bg-red-50 text-[#E11D48] rounded-2xl flex items-center justify-center text-2xl mb-6 group-hover:scale-110 transition-transform duration-300 transform-gpu will-change-transform antialiased [backface-visibility:hidden]">
                 <i className={`fa-solid ${info.icon}`}></i>
               </div>
               <h3 className="text-lg font-bold text-slate-800 mb-2">{info.title}</h3>
@@ -130,7 +130,7 @@ const Contact: React.FC<ContactProps> = ({ scrollToForm = false }) => {
 
                 <button 
                   type="button"
-                  className="w-full bg-[#E11D48] text-white font-bold text-base md:text-lg py-3 md:py-4 rounded-xl shadow-lg hover:bg-red-700 hover:shadow-red-200 transition-all transform active:scale-95"
+                  className="w-full bg-[#E11D48] text-white font-bold text-base md:text-lg py-3 md:py-4 rounded-xl shadow-lg hover:bg-rose-500 hover:shadow-red-200 transition-all transform active:scale-95"
                 >
                   Send Message <i className="fa-solid fa-paper-plane ml-2"></i>
                 </button>

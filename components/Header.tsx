@@ -124,7 +124,7 @@ const Header: React.FC<HeaderProps> = ({ currentPage, onPageChange }) => {
         <div className="flex items-center space-x-4">
           <button 
             onClick={() => onPageChange('Contact')}
-            className="hidden sm:block bg-[#E11D48] text-white px-9 py-3 rounded-2xl font-black hover:bg-red-700 transition transform shadow-lg hover:shadow-xl active:scale-95 text-base"
+            className="hidden sm:block bg-[#E11D48] text-white px-9 py-3 rounded-2xl font-black hover:bg-rose-500 transition transform shadow-lg hover:shadow-xl active:scale-95 text-base"
           >
             Contact Us
           </button>

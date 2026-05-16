@@ -98,14 +98,14 @@ const Facilities: React.FC<FacilitiesProps> = ({ onNavigate, onScheduleVisit }) 
           {facilities.map((item, idx) => (
             <div 
               key={idx} 
-              className="group bg-white rounded-2xl overflow-hidden shadow-sm hover:shadow-xl transition-all duration-300 hover:-translate-y-2 border border-gray-100 flex flex-col h-full"
+              className="group bg-white rounded-2xl overflow-hidden shadow-sm hover:shadow-xl transition-all duration-300 hover:-translate-y-2 border border-gray-100 flex flex-col h-full transform-gpu will-change-transform antialiased [backface-visibility:hidden]"
             >
               {/* Image Container */}
               <div className="relative h-48 overflow-hidden">
                 <img 
                   src={item.image} 
                   alt={item.title} 
-                  className="w-full h-full object-cover transform transition-transform duration-700 group-hover:scale-110"
+                  className="w-full h-full object-cover transform transition-transform duration-700 group-hover:scale-110 transform-gpu will-change-transform antialiased [backface-visibility:hidden]"
                 />
                 <div className="absolute inset-0 bg-black/0 group-hover:bg-black/10 transition-colors duration-300"></div>
               </div>
@@ -143,7 +143,7 @@ const Facilities: React.FC<FacilitiesProps> = ({ onNavigate, onScheduleVisit }) 
             </h3>
             <button 
               onClick={() => onScheduleVisit ? onScheduleVisit() : onNavigate('Contact')}
-              className="group flex items-center gap-3 bg-[#E11D48] text-white px-6 py-4 md:px-10 md:py-5 rounded-full font-bold text-base md:text-lg shadow-[0_10px_40px_-10px_rgba(225,29,72,0.8)] hover:bg-red-600 hover:-translate-y-1 hover:shadow-[0_15px_50px_-10px_rgba(225,29,72,1)] transition-all duration-300"
+              className="group flex items-center gap-3 bg-[#E11D48] text-white px-6 py-4 md:px-10 md:py-5 rounded-full font-bold text-base md:text-lg shadow-[0_10px_40px_-10px_rgba(225,29,72,0.8)] hover:bg-red-600 hover:-translate-y-1 hover:shadow-[0_15px_50px_-10px_rgba(225,29,72,1)] transition-all duration-300 transform-gpu will-change-transform antialiased [backface-visibility:hidden]"
             >
                <span>Schedule a Campus Visit</span>
                <svg className="w-5 h-5 transform group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">

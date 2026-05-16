@@ -114,7 +114,7 @@ const Admissions: React.FC<AdmissionsProps> = ({ onNavigate, scrollToProcess = f
                     </ul>
                 </div>
 
-                <div className="bg-white p-10 rounded-[2.5rem] shadow-xl text-center border border-gray-100 transform hover:-translate-y-2 transition-transform duration-300">
+                <div className="bg-white p-10 rounded-[2.5rem] shadow-xl text-center border border-gray-100 transform hover:-translate-y-2 transition-transform duration-300 transform-gpu will-change-transform antialiased [backface-visibility:hidden]">
                     <div className="w-20 h-20 bg-red-50 text-[#E11D48] rounded-2xl flex items-center justify-center mx-auto mb-6 text-3xl">
                         <i className="fa-solid fa-pen-to-square"></i>
                     </div>
@@ -122,7 +122,7 @@ const Admissions: React.FC<AdmissionsProps> = ({ onNavigate, scrollToProcess = f
                     <p className="text-gray-500 mb-8">Start your application online for the fastest processing, or download the form to submit in person.</p>
                     
                     <div className="space-y-4">
-                        <a href="#" className="w-full bg-[#E11D48] text-white py-4 rounded-xl font-bold text-lg shadow-lg hover:bg-red-700 hover:shadow-red-200 transition-all active:scale-95 flex items-center justify-center group">
+                        <a href="#" className="w-full bg-[#E11D48] text-white py-4 rounded-xl font-bold text-lg shadow-lg hover:bg-rose-500 hover:shadow-red-200 transition-all active:scale-95 flex items-center justify-center group">
                             <i className="fa-solid fa-laptop-file mr-3 group-hover:scale-110 transition-transform"></i> Apply Online Now
                         </a>
                         <button className="w-full bg-white border-2 border-[#E11D48] text-[#E11D48] py-4 rounded-xl font-bold text-lg hover:bg-red-50 transition-all active:scale-95 flex items-center justify-center">
@@ -258,7 +258,7 @@ const Admissions: React.FC<AdmissionsProps> = ({ onNavigate, scrollToProcess = f
             ></div>
             
             {/* Modal Content */}
-            <div className="relative bg-white rounded-[2rem] shadow-2xl w-full max-w-2xl max-h-[90vh] overflow-y-auto animate-fadeInUp">
+            <div className="relative bg-white rounded-[2rem] shadow-2xl w-full max-w-2xl max-h-[90vh] overflow-y-auto animate-fadeInUp hide-scrollbar">
               <div className="sticky top-0 bg-white/95 backdrop-blur-md px-8 py-6 border-b border-gray-100 flex justify-between items-center z-10">
                 <h3 className="text-2xl font-black text-gray-900">Discounts & Scholarships</h3>
                 <button 
@@ -308,7 +308,7 @@ const Admissions: React.FC<AdmissionsProps> = ({ onNavigate, scrollToProcess = f
                     setIsScholarshipModalOpen(false);
                     onNavigate('Contact');
                   }}
-                  className="bg-[#E11D48] text-white px-6 py-3 md:px-8 md:py-3 rounded-full font-bold hover:bg-red-700 shadow-md hover:shadow-lg transition-all"
+                  className="bg-[#E11D48] text-white px-6 py-3 md:px-8 md:py-3 rounded-full font-bold hover:bg-rose-500 shadow-md hover:shadow-lg transition-all"
                 >
                   Contact Admissions for Details
                 </button>
