@@ -39,7 +39,7 @@ const AICounselor: React.FC = () => {
   return (
     <div className="fixed bottom-6 right-6 z-[100]">
       {isOpen ? (
-        <div className="bg-white w-96 md:w-[28rem] h-[600px] rounded-[2.5rem] shadow-2xl flex flex-col border border-gray-100 overflow-hidden animate-fadeIn">
+        <div className="bg-white w-[calc(100vw-3rem)] sm:w-96 md:w-[28rem] h-[500px] sm:h-[600px] rounded-[2rem] md:rounded-[2.5rem] shadow-2xl flex flex-col border border-gray-100 overflow-hidden animate-fadeIn">
           {/* Header */}
           <div className="bg-[#E11D48] p-5 flex justify-between items-center text-white">
             <div className="flex items-center space-x-3">

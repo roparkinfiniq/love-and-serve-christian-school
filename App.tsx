@@ -66,6 +66,7 @@ const App: React.FC = () => {
   const [scrollToTabs, setScrollToTabs] = useState(false);
   const [scrollToAdmissionProcess, setScrollToAdmissionProcess] = useState(false);
   const [scrollToContactForm, setScrollToContactForm] = useState(false);
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
   // Scroll to top whenever page changes
   useEffect(() => {
@@ -174,11 +175,12 @@ const App: React.FC = () => {
                   
                   {/* Signature */}
                   <div className="mt-12">
+                    {/* Placeholder image removed until a real signature is available 
                     <img 
                       src="https://upload.wikimedia.org/wikipedia/commons/f/f8/Signature_sample.svg" 
                       alt="Signature" 
                       className="h-16 opacity-50 mb-4 -ml-2"
-                    />
+                    /> */}
                     <div>
                       <p className="font-bold text-gray-900 text-xl">Rev. Wonjae Park</p>
                       <p className="text-[#E11D48] text-sm uppercase tracking-wider font-bold mt-1">School President</p>
@@ -366,7 +368,12 @@ const App: React.FC = () => {
   return (
     <div className="min-h-screen flex flex-col">
       <PopupsOverlay popups={popups} />
-      <Header currentPage={currentPage} onPageChange={handlePageChange} />
+      <Header 
+        currentPage={currentPage} 
+        onPageChange={handlePageChange} 
+        isMobileMenuOpen={isMobileMenuOpen}
+        setIsMobileMenuOpen={setIsMobileMenuOpen}
+      />
       <main className="flex-1">
         {renderContent()}
       </main>
@@ -374,7 +381,7 @@ const App: React.FC = () => {
         onNavigate={handlePageChange} 
         onAdmissionProcessClick={handleAdmissionProcessNavigation}
       />
-      <AICounselor />
+      {currentPage !== 'Admin' && <div className={isMobileMenuOpen ? 'hidden' : ''}><AICounselor /></div>}
     </div>
   );
 };

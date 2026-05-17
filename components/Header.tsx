@@ -4,6 +4,8 @@ import { Page } from '../types';
 interface HeaderProps {
   currentPage: Page;
   onPageChange: (page: Page) => void;
+  isMobileMenuOpen: boolean;
+  setIsMobileMenuOpen: (isOpen: boolean) => void;
 }
 
 interface NavGroup {
@@ -12,12 +14,11 @@ interface NavGroup {
   page?: Page;
 }
 
-const Header: React.FC<HeaderProps> = ({ currentPage, onPageChange }) => {
-  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+const Header: React.FC<HeaderProps> = ({ currentPage, onPageChange, isMobileMenuOpen, setIsMobileMenuOpen }) => {
   const [logoError, setLogoError] = useState(false);
 
   useEffect(() => {
-    if (mobileMenuOpen) {
+    if (isMobileMenuOpen) {
       document.body.style.overflow = 'hidden';
     } else {
       document.body.style.overflow = 'unset';
@@ -25,7 +26,7 @@ const Header: React.FC<HeaderProps> = ({ currentPage, onPageChange }) => {
     return () => {
       document.body.style.overflow = 'unset';
     };
-  }, [mobileMenuOpen]);
+  }, [isMobileMenuOpen]);
 
   const navItems: NavGroup[] = [
     { label: 'Home', page: 'Home' },
@@ -130,9 +131,9 @@ const Header: React.FC<HeaderProps> = ({ currentPage, onPageChange }) => {
           </button>
           <button 
             className="lg:hidden w-12 h-12 flex items-center justify-center rounded-full bg-gray-50 text-[#E11D48] text-xl transition-colors hover:bg-red-50"
-            onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+            onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
           >
-            <i className={`fa-solid ${mobileMenuOpen ? 'fa-xmark scale-110' : 'fa-bars'} transition-transform duration-300`}></i>
+            <i className={`fa-solid ${isMobileMenuOpen ? 'fa-xmark scale-110' : 'fa-bars'} transition-transform duration-300`}></i>
           </button>
         </div>
       </div>
@@ -140,7 +141,7 @@ const Header: React.FC<HeaderProps> = ({ currentPage, onPageChange }) => {
       {/* Mobile Menu */}
       <div 
         className={`lg:hidden absolute top-full left-0 w-full bg-white shadow-[0_20px_40px_-20px_rgba(0,0,0,0.1)] overflow-hidden transition-all duration-300 ease-in-out ${
-          mobileMenuOpen ? 'max-h-[calc(100vh-100px)] opacity-100 border-t border-gray-100' : 'max-h-0 opacity-0'
+          isMobileMenuOpen ? 'max-h-[calc(100vh-100px)] opacity-100 border-t border-gray-100' : 'max-h-0 opacity-0'
         }`}
       >
         <div className="p-6 flex flex-col space-y-4 overflow-y-auto" style={{ maxHeight: 'calc(100vh - 100px)' }}>
@@ -157,7 +158,7 @@ const Header: React.FC<HeaderProps> = ({ currentPage, onPageChange }) => {
                         key={subItem.page}
                         onClick={() => {
                           onPageChange(subItem.page);
-                          setMobileMenuOpen(false);
+                          setIsMobileMenuOpen(false);
                         }}
                         className={`text-left font-bold text-lg py-2.5 px-3 rounded-lg transition-colors ${
                           currentPage === subItem.page 
@@ -174,7 +175,7 @@ const Header: React.FC<HeaderProps> = ({ currentPage, onPageChange }) => {
                 <button
                   onClick={() => {
                     if (item.page) onPageChange(item.page);
-                    setMobileMenuOpen(false);
+                    setIsMobileMenuOpen(false);
                   }}
                   className={`text-left font-bold text-xl py-3 px-2 transition-colors ${
                     currentPage === item.page ? 'text-[#E11D48]' : 'text-gray-900 hover:text-[#E11D48]'
@@ -189,7 +190,7 @@ const Header: React.FC<HeaderProps> = ({ currentPage, onPageChange }) => {
             <button 
               onClick={() => {
                 onPageChange('Contact');
-                setMobileMenuOpen(false);
+                setIsMobileMenuOpen(false);
               }}
               className="w-full bg-[#E11D48] text-white px-6 py-3 rounded-xl font-black shadow-lg uppercase tracking-widest text-sm"
             >

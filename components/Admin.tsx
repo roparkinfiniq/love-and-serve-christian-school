@@ -44,6 +44,14 @@ const Admin: React.FC<AdminProps> = ({
   const [calendarFilterMonth, setCalendarFilterMonth] = useState<string>('all');
   const [calendarFilterCategory, setCalendarFilterCategory] = useState<string>('all');
 
+  const [toast, setToast] = useState<{message: string, type: 'success' | 'error'} | null>(null);
+  const [eventToDelete, setEventToDelete] = useState<string | null>(null);
+
+  const showToast = (message: string, type: 'success' | 'error' = 'success') => {
+    setToast({ message, type });
+    setTimeout(() => setToast(null), 3000);
+  };
+
   const filteredCalendarEvents = calendarEvents.filter(ev => {
     let matchesCategory = true;
     let matchesMonth = true;
@@ -333,9 +341,7 @@ const Admin: React.FC<AdminProps> = ({
                             <button 
                               className="text-red-600 hover:text-red-900"
                               onClick={() => {
-                                if (setCalendarEvents) {
-                                  setCalendarEvents(prev => prev.filter(e => e.id !== ev.id));
-                                }
+                                setEventToDelete(ev.id);
                               }}
                             >
                               Delete
@@ -849,10 +855,17 @@ const Admin: React.FC<AdminProps> = ({
                 className="bg-[#E11D48] text-white px-4 py-2 rounded-lg font-bold shadow hover:bg-rose-500 transition"
                 onClick={() => {
                   if (setCalendarEvents && editingEvent.title && editingEvent.date) {
+                    if (editingEvent.endDate && new Date(editingEvent.date) > new Date(editingEvent.endDate)) {
+                      showToast('Start date cannot be after end date.', 'error');
+                      return;
+                    }
+
                     if (editingEvent.id) {
                       setCalendarEvents(prev => prev.map(ev => ev.id === editingEvent.id ? editingEvent as CalendarEvent : ev));
+                      showToast('Successfully updated.');
                     } else {
                       setCalendarEvents(prev => [...prev, { ...editingEvent, id: Date.now().toString() } as CalendarEvent]);
+                      showToast('Successfully added.');
                     }
                     setEditingEvent(null);
                   }
@@ -864,6 +877,49 @@ const Admin: React.FC<AdminProps> = ({
           </div>
         </div>
       )}
+      
+      {/* Event Delete Confirmation Modal */}
+      {eventToDelete && (
+        <div className="fixed inset-0 bg-black/60 z-[60] flex items-center justify-center p-4">
+          <div className="bg-white rounded-2xl w-full max-w-sm p-6 shadow-2xl animate-fadeIn">
+            <h3 className="text-xl font-black text-gray-900 mb-4">Are you sure you want to delete this?</h3>
+            <p className="text-gray-600 mb-6 font-medium">
+              This action is permanent and cannot be undone.
+            </p>
+            <div className="flex justify-end gap-3">
+              <button 
+                className="px-4 py-2 font-bold text-gray-600 hover:bg-gray-100 rounded-lg transition"
+                onClick={() => setEventToDelete(null)}
+              >
+                Cancel
+              </button>
+              <button 
+                className="px-4 py-2 bg-red-600 text-white font-bold hover:bg-red-700 rounded-lg transition shadow-md"
+                onClick={() => {
+                  if (setCalendarEvents) {
+                    setCalendarEvents(prev => prev.filter(e => e.id !== eventToDelete));
+                    showToast('Successfully deleted.');
+                  }
+                  setEventToDelete(null);
+                }}
+              >
+                Delete
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Toast Notification */}
+      {toast && (
+        <div className={`fixed bottom-6 right-6 z-[100] px-6 py-4 rounded-xl shadow-2xl flex items-center gap-3 animate-slideUp font-bold ${
+          toast.type === 'success' ? 'bg-green-100 text-green-800 border-2 border-green-500' : 'bg-red-100 text-red-800 border-2 border-red-500'
+        }`}>
+          <i className={`fa-solid ${toast.type === 'success' ? 'fa-check-circle' : 'fa-triangle-exclamation'} text-xl`}></i>
+          {toast.message}
+        </div>
+      )}
+
     </div>
   );
 };
