@@ -52,6 +52,25 @@ const Admin: React.FC<AdminProps> = ({
     setTimeout(() => setToast(null), 3000);
   };
 
+  const insertMarkdown = (prefix: string, suffix: string) => {
+    const textarea = document.getElementById('popup-content-textarea') as HTMLTextAreaElement;
+    if (!textarea) return;
+    
+    const start = textarea.selectionStart;
+    const end = textarea.selectionEnd;
+    const text = editingPopup?.content || '';
+    
+    const selectedText = text.substring(start, end);
+    const newText = text.substring(0, start) + prefix + selectedText + suffix + text.substring(end);
+    
+    setEditingPopup({ ...editingPopup, content: newText });
+    
+    setTimeout(() => {
+      textarea.focus();
+      textarea.setSelectionRange(start + prefix.length, end + prefix.length);
+    }, 0);
+  };
+
   const filteredCalendarEvents = calendarEvents.filter(ev => {
     let matchesCategory = true;
     let matchesMonth = true;
@@ -439,7 +458,7 @@ const Admin: React.FC<AdminProps> = ({
                 ) : (
                   <div className="space-y-4 bg-gray-50 p-6 rounded-xl border border-gray-200">
                     <div>
-                      <label className="block text-sm font-bold text-gray-700 mb-1">Popup Title</label>
+                      <label className="block text-sm font-bold text-gray-700 mb-1">Popup Title (Admin reference only)</label>
                       <input 
                         type="text" 
                         value={editingPopup.title || ''}
@@ -449,14 +468,76 @@ const Admin: React.FC<AdminProps> = ({
                       />
                     </div>
                     <div>
-                      <label className="block text-sm font-bold text-gray-700 mb-1">Image URL</label>
-                      <input 
-                        type="text" 
-                        value={editingPopup.imageUrl || ''}
-                        onChange={(e) => setEditingPopup({...editingPopup, imageUrl: e.target.value})}
-                        className="w-full border border-gray-300 rounded-lg p-3 focus:ring-2 focus:ring-rose-500 focus:border-red-500 outline-none" 
-                        placeholder="https://..." 
-                      />
+                      <label className="block text-sm font-bold text-gray-700 mb-1">
+                        Popup Content <span className="font-normal text-gray-500">(Mini Text Editor)</span>
+                      </label>
+                      <div className="border border-gray-300 rounded-lg overflow-hidden focus-within:ring-2 focus-within:ring-rose-500 focus-within:border-red-500 transition-shadow bg-white">
+                        <div className="bg-gray-50 border-b border-gray-300 px-2 py-1.5 flex gap-1 items-center flex-wrap">
+                          <button type="button" onClick={() => insertMarkdown('**', '**')} className="w-8 h-8 flex items-center justify-center text-gray-600 hover:text-gray-900 hover:bg-gray-200 rounded transition-colors" title="Bold">
+                            <i className="fa-solid fa-bold"></i>
+                          </button>
+                          <button type="button" onClick={() => insertMarkdown('*', '*')} className="w-8 h-8 flex items-center justify-center text-gray-600 hover:text-gray-900 hover:bg-gray-200 rounded transition-colors" title="Italic">
+                            <i className="fa-solid fa-italic"></i>
+                          </button>
+                          <div className="w-px h-5 bg-gray-300 mx-1"></div>
+                          <button type="button" onClick={() => insertMarkdown('### ', '')} className="w-8 h-8 flex items-center justify-center text-gray-600 hover:text-gray-900 hover:bg-gray-200 rounded transition-colors" title="Heading">
+                            <i className="fa-solid fa-heading"></i>
+                          </button>
+                          <div className="w-px h-5 bg-gray-300 mx-1"></div>
+                          <button type="button" onClick={() => insertMarkdown('[', '](https://)')} className="w-8 h-8 flex items-center justify-center text-gray-600 hover:text-gray-900 hover:bg-gray-200 rounded transition-colors" title="Link">
+                            <i className="fa-solid fa-link"></i>
+                          </button>
+                        </div>
+                        <textarea 
+                          id="popup-content-textarea"
+                          value={editingPopup.content || ''}
+                          onChange={(e) => setEditingPopup({...editingPopup, content: e.target.value})}
+                          onKeyDown={(e) => {
+                            if (e.ctrlKey || e.metaKey) {
+                              if (e.key === 'b') {
+                                e.preventDefault();
+                                insertMarkdown('**', '**');
+                              } else if (e.key === 'i') {
+                                e.preventDefault();
+                                insertMarkdown('*', '*');
+                              }
+                            }
+                          }}
+                          className="w-full p-4 outline-none min-h-[150px] resize-y block" 
+                          placeholder="Enter text to display below the image. You can use the buttons above to format the text. (Shortcuts: Ctrl+B / Ctrl+I)" 
+                        />
+                      </div>
+                    </div>
+                    <div>
+                      <label className="block text-sm font-bold text-gray-700 mb-1">Image Upload</label>
+                      <div className="flex items-center space-x-4">
+                        <label className="cursor-pointer bg-white border border-gray-300 text-gray-700 hover:bg-gray-50 font-semibold py-2 px-4 rounded-lg text-sm transition-colors text-center inline-block">
+                          <span>{editingPopup.imageUrl ? 'Change Image' : 'Choose File'}</span>
+                          <input 
+                            type="file" 
+                            accept="image/*"
+                            className="hidden"
+                            onChange={(e) => {
+                              if (e.target.files && e.target.files[0]) {
+                                const file = e.target.files[0];
+                                const reader = new FileReader();
+                                reader.onload = (event) => {
+                                  setEditingPopup({...editingPopup, imageUrl: event.target?.result as string});
+                                };
+                                reader.readAsDataURL(file);
+                              }
+                            }}
+                          />
+                        </label>
+                        {editingPopup.imageUrl && (
+                          <div className="flex items-center space-x-3">
+                             <img src={editingPopup.imageUrl} alt="Preview" className="h-12 w-auto max-w-[100px] object-contain rounded-md border border-gray-200" />
+                             <button type="button" onClick={() => setEditingPopup({...editingPopup, imageUrl: ''})} className="text-red-500 hover:text-red-700 text-lg" title="Remove Image">
+                               <i className="fa-solid fa-circle-xmark"></i>
+                             </button>
+                          </div>
+                        )}
+                      </div>
                     </div>
                     <div>
                       <label className="block text-sm font-bold text-gray-700 mb-1">Link URL (Optional link when image clicked)</label>
@@ -509,8 +590,8 @@ const Admin: React.FC<AdminProps> = ({
                     <div className="pt-4 text-right">
                       <button 
                         onClick={() => {
-                          if (!editingPopup.title || !editingPopup.startDate || !editingPopup.endDate) {
-                            alert("Please fill out required fields: Title, Start Date, End Date.");
+                          if (!editingPopup.startDate || !editingPopup.endDate) {
+                            alert("Please fill out required fields: Start Date, End Date.");
                             return;
                           }
                           if (setPopups) {

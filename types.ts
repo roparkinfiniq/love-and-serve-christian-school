@@ -10,7 +10,8 @@ export type Page = 'Home' | 'About' | 'Academics' | 'Admissions' | 'Facilities' 
 
 export interface PopupData {
   id: string;
-  title: string;
+  title: string; // Admin reference
+  content?: string; // Displayed content (optional)
   imageUrl?: string;
   linkUrl?: string; // Optional link when clicked
   startDate: string; // YYYY-MM-DD
