@@ -57,7 +57,7 @@ const Header: React.FC<HeaderProps> = ({ currentPage, onPageChange, isMobileMenu
           <div className="w-16 h-16 flex items-center justify-center group-hover:scale-105 transition-transform duration-500">
             {!logoError ? (
               <img 
-                src="https://i.ibb.co/VcwZ1RVT/logo.png" 
+                src="/logo.png" 
                 alt="LSCSI Logo" 
                 className="w-full h-full object-contain filter drop-shadow-sm"
                 onError={() => setLogoError(true)}

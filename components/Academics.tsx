@@ -72,13 +72,16 @@ const Academics: React.FC<AcademicsProps> = ({
   };
 
   const enrichmentPrograms = [
-    { title: 'Hangul Class', image: 'https://images.unsplash.com/photo-1590203009971-da796a566580?auto=format&fit=crop&q=80&w=600', icon: 'fa-language' },
-    { title: 'Taekwondo', image: 'https://images.unsplash.com/photo-1555597673-b21d5c935865?auto=format&fit=crop&q=80&w=600', icon: 'fa-user-ninja' },
-    { title: 'Guitar Class', image: 'https://images.unsplash.com/photo-1510915361894-db8b60106cb1?auto=format&fit=crop&q=80&w=600', icon: 'fa-guitar' },
-    { title: 'Piano Class', image: 'https://images.unsplash.com/photo-1552422535-c45813c61732?auto=format&fit=crop&q=80&w=600', icon: 'fa-music' },
-    { title: 'Dance Class', image: 'https://images.unsplash.com/photo-1547153760-18fc86324498?auto=format&fit=crop&q=80&w=600', icon: 'fa-person-running' },
-    { title: 'Kumdo Class', image: 'https://images.unsplash.com/photo-1599058917233-97ffad242663?auto=format&fit=crop&q=80&w=600', icon: 'fa-khanda' },
-    { title: 'Drum & Lyre', image: 'https://images.unsplash.com/photo-1519892300165-cb5542fb47c7?auto=format&fit=crop&q=80&w=600', icon: 'fa-drum' },
+    { title: 'Taekwondo', description: 'Build confidence, discipline, respect, and self-defense skills through martial arts training.', image: 'https://images.unsplash.com/photo-1555597673-b21d5c935865?auto=format&fit=crop&q=80&w=600', icon: 'fa-user-ninja' },
+    { title: 'Kendo', description: 'Learn the art of Japanese swordsmanship while developing focus, discipline, and self-control.', image: 'https://images.unsplash.com/photo-1599058917233-97ffad242663?auto=format&fit=crop&q=80&w=600', icon: 'fa-khanda' },
+    { title: 'Guitar Class', description: 'Discover the joy of music while learning guitar, creativity, and self-expression.', image: 'https://images.unsplash.com/photo-1510915361894-db8b60106cb1?auto=format&fit=crop&q=80&w=600', icon: 'fa-guitar' },
+    { title: 'Piano Class', description: 'Develop musical skills, creativity, concentration, and confidence through piano lessons.', image: 'https://images.unsplash.com/photo-1552422535-c45813c61732?auto=format&fit=crop&q=80&w=600', icon: 'fa-music' },
+    { title: 'Violin Class', description: 'Master the basics of violin while nurturing patience, discipline, and musical expression.', image: 'https://images.unsplash.com/photo-1612225330812-01a9c6b355ec?auto=format&fit=crop&q=80&w=600', icon: 'fa-music' },
+    { title: 'Basketball Class', description: 'Sharpen basketball skills, teamwork, leadership, and sportsmanship on and off the court.', image: 'https://images.unsplash.com/photo-1519861531473-9200262188bf?auto=format&fit=crop&q=80&w=600', icon: 'fa-basketball' },
+    { title: 'Badminton Class', description: 'Improve agility, coordination, and strategic thinking through fun and active gameplay.', image: 'https://images.unsplash.com/photo-1626224583764-f87db24ac4ea?auto=format&fit=crop&q=80&w=600', icon: 'fa-table-tennis-paddle-ball' },
+    { title: 'Drum & Lyre', description: 'Experience the excitement of marching music while building rhythm, teamwork, and discipline.', image: 'https://images.unsplash.com/photo-1519892300165-cb5542fb47c7?auto=format&fit=crop&q=80&w=600', icon: 'fa-drum' },
+    { title: 'Creative Movement', description: 'Express yourself through dance and movement while building confidence, coordination, and creativity.', image: 'https://images.unsplash.com/photo-1547153760-18fc86324498?auto=format&fit=crop&q=80&w=600', icon: 'fa-person-running' },
+    { title: 'Dama & Chess', description: 'Challenge your mind by developing critical thinking, strategy, and problem-solving skills through board games.', image: 'https://images.unsplash.com/photo-1529699211952-734e80c4d42b?auto=format&fit=crop&q=80&w=600', icon: 'fa-chess' },
   ];
 
   return (
@@ -247,9 +250,9 @@ const Academics: React.FC<AcademicsProps> = ({
             {enrichmentPrograms.map((program, idx) => (
               <div 
                 key={idx} 
-                className="group bg-white rounded-[2rem] overflow-hidden shadow-sm hover:shadow-xl transition-all duration-300 hover:-translate-y-2 transform-gpu will-change-transform antialiased [backface-visibility:hidden]"
+                className="group bg-white rounded-[2rem] overflow-hidden shadow-sm hover:shadow-xl transition-all duration-300 hover:-translate-y-2 transform-gpu will-change-transform antialiased [backface-visibility:hidden] flex flex-col h-full"
               >
-                <div className="h-48 overflow-hidden relative">
+                <div className="h-48 overflow-hidden relative shrink-0">
                   <img 
                     src={program.image} 
                     alt={program.title} 
@@ -260,9 +263,9 @@ const Academics: React.FC<AcademicsProps> = ({
                     <i className={`fa-solid ${program.icon}`}></i>
                   </div>
                 </div>
-                <div className="p-6">
-                  <h4 className="text-xl font-bold text-gray-900 mb-1 group-hover:text-[#E11D48] transition-colors">{program.title}</h4>
-                  <p className="text-sm text-gray-400">Enrichment Program</p>
+                <div className="p-6 flex flex-col flex-1">
+                  <h4 className="text-xl font-bold text-gray-900 mb-2 group-hover:text-[#E11D48] transition-colors">{program.title}</h4>
+                  <p className="text-sm text-gray-600 leading-relaxed">{program.description}</p>
                 </div>
               </div>
             ))}

@@ -13,7 +13,7 @@ const Footer: React.FC<FooterProps> = ({ onNavigate, onAdmissionProcessClick }) 
         <div>
           <div className="flex items-center space-x-3 mb-8">
             <img 
-              src="https://i.ibb.co/VcwZ1RVT/logo.png" 
+              src="/logo.png" 
               alt="LSCS Logo" 
               className="w-16 h-16 object-contain"
             />

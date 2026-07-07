@@ -269,35 +269,96 @@ const Admissions: React.FC<AdmissionsProps> = ({ onNavigate, scrollToProcess = f
                 </button>
               </div>
               
-              <div className="p-8 space-y-6">
-                <div className="bg-red-50 border border-red-100 p-6 rounded-2xl">
-                  <h4 className="text-xl font-bold text-[#E11D48] mb-2 flex items-center">
-                    <i className="fa-solid fa-users mr-3"></i> Sibling Discount
-                  </h4>
-                  <p className="text-gray-700 mb-3">Families with multiple children enrolled at LSCSI are eligible for our sibling discounts applied to tuition fees:</p>
-                  <ul className="list-disc list-inside text-gray-600 space-y-1 ml-2">
-                    <li><strong>2nd Child:</strong> 5% Discount</li>
-                    <li><strong>3rd Child:</strong> 10% Discount</li>
-                    <li><strong>4th Child (and subsequent):</strong> 15% Discount</li>
-                  </ul>
+              <div className="p-8 space-y-4 bg-gray-50/50">
+                <div className="bg-white border border-gray-100 hover:shadow-md transition-shadow relative overflow-hidden rounded-xl">
+                  <div className="absolute top-0 left-0 w-1.5 h-full bg-purple-500"></div>
+                  <div className="p-5 flex flex-col sm:flex-row sm:items-center gap-4">
+                    <div className="w-12 h-12 rounded-full bg-purple-50 text-purple-600 flex items-center justify-center shrink-0">
+                      <i className="fa-solid fa-cross text-xl"></i>
+                    </div>
+                    <div className="flex-1">
+                      <h4 className="text-lg font-bold text-gray-900 mb-0.5">Pastor's Kid Discount</h4>
+                      <p className="text-gray-500 text-sm">Son/Daughter of a Pastor</p>
+                    </div>
+                    <div className="shrink-0 mt-2 sm:mt-0">
+                      <span className="inline-flex items-center justify-center px-4 py-1.5 font-bold bg-purple-100 text-purple-700 rounded-full text-sm">
+                        50% Off
+                      </span>
+                    </div>
+                  </div>
                 </div>
 
-                <div className="bg-gray-50 border border-gray-100 p-6 rounded-2xl">
-                  <h4 className="text-xl font-bold text-gray-900 mb-2 flex items-center">
-                    <i className="fa-solid fa-medal text-yellow-500 mr-3"></i> Academic Scholarships
-                  </h4>
-                  <p className="text-gray-700">
-                    We reward academic excellence. Incoming students who graduated with High Honors or Highest Honors from their previous school may apply for partial or full tuition discounts, subject to available slots and assessment.
-                  </p>
+                <div className="bg-white border border-gray-100 hover:shadow-md transition-shadow relative overflow-hidden rounded-xl">
+                  <div className="absolute top-0 left-0 w-1.5 h-full bg-emerald-500"></div>
+                  <div className="p-5 flex flex-col sm:flex-row sm:items-center gap-4">
+                    <div className="w-12 h-12 rounded-full bg-emerald-50 text-emerald-600 flex items-center justify-center shrink-0">
+                      <i className="fa-solid fa-money-bill-wave text-xl"></i>
+                    </div>
+                    <div className="flex-1">
+                      <h4 className="text-lg font-bold text-gray-900 mb-0.5">Fullpayment</h4>
+                      <p className="text-gray-500 text-sm">Able to pay the tuition fee in full through cash/G-cash</p>
+                    </div>
+                    <div className="shrink-0 mt-2 sm:mt-0">
+                      <span className="inline-flex items-center justify-center px-4 py-1.5 font-bold bg-emerald-100 text-emerald-700 rounded-full text-sm">
+                        12% Off
+                      </span>
+                    </div>
+                  </div>
                 </div>
 
-                <div className="bg-gray-50 border border-gray-100 p-6 rounded-2xl">
-                  <h4 className="text-xl font-bold text-gray-900 mb-2 flex items-center">
-                    <i className="fa-solid fa-clock text-blue-500 mr-3"></i> Early Bird Enrollment
-                  </h4>
-                  <p className="text-gray-700">
-                    Enroll before the end of March to receive a special early bird discount on miscellaneous fees.
-                  </p>
+                <div className="bg-white border border-gray-100 hover:shadow-md transition-shadow relative overflow-hidden rounded-xl">
+                  <div className="absolute top-0 left-0 w-1.5 h-full bg-blue-500"></div>
+                  <div className="p-5 flex flex-col sm:flex-row sm:items-center gap-4">
+                    <div className="w-12 h-12 rounded-full bg-blue-50 text-blue-600 flex items-center justify-center shrink-0">
+                      <i className="fa-solid fa-clock text-xl"></i>
+                    </div>
+                    <div className="flex-1">
+                      <h4 className="text-lg font-bold text-gray-900 mb-0.5">Early Bird</h4>
+                      <p className="text-gray-500 text-sm">First 10 students</p>
+                    </div>
+                    <div className="shrink-0 mt-2 sm:mt-0">
+                      <span className="inline-flex items-center justify-center px-4 py-1.5 font-bold bg-blue-100 text-blue-700 rounded-full text-sm">
+                        10% Off
+                      </span>
+                    </div>
+                  </div>
+                </div>
+
+                <div className="bg-white border border-gray-100 hover:shadow-md transition-shadow relative overflow-hidden rounded-xl">
+                  <div className="absolute top-0 left-0 w-1.5 h-full bg-[#E11D48]"></div>
+                  <div className="p-5 flex flex-col sm:flex-row items-start sm:items-center gap-4">
+                    <div className="w-12 h-12 rounded-full bg-rose-50 text-[#E11D48] flex items-center justify-center shrink-0">
+                      <i className="fa-solid fa-users text-xl"></i>
+                    </div>
+                    <div className="flex-1">
+                      <h4 className="text-lg font-bold text-gray-900 mb-0.5">Sibling Discount</h4>
+                      <p className="text-gray-500 text-sm mb-2">Families with multiple children enrolled at LSCSI are eligible for our sibling discounts applied to tuition fees:</p>
+                      <div className="bg-gray-50 px-3 py-1.5 rounded inline-block border border-gray-200 text-gray-700 text-xs font-medium">3 Siblings are subjected to "5-3-2" Siblings Discount Policy</div>
+                    </div>
+                    <div className="shrink-0 mt-2 sm:mt-0 self-start sm:self-center">
+                      <span className="inline-flex items-center justify-center px-4 py-1.5 font-bold bg-rose-100 text-[#E11D48] rounded-full text-sm">
+                        5% Off
+                      </span>
+                    </div>
+                  </div>
+                </div>
+
+                <div className="bg-white border border-gray-100 hover:shadow-md transition-shadow relative overflow-hidden rounded-xl">
+                  <div className="absolute top-0 left-0 w-1.5 h-full bg-amber-500"></div>
+                  <div className="p-5 flex flex-col sm:flex-row sm:items-center gap-4">
+                    <div className="w-12 h-12 rounded-full bg-amber-50 text-amber-600 flex items-center justify-center shrink-0">
+                      <i className="fa-solid fa-handshake text-xl"></i>
+                    </div>
+                    <div className="flex-1">
+                      <h4 className="text-lg font-bold text-gray-900 mb-0.5">Referral</h4>
+                      <p className="text-gray-500 text-sm">Referred Students</p>
+                    </div>
+                    <div className="shrink-0 mt-2 sm:mt-0">
+                      <span className="inline-flex items-center justify-center px-4 py-1.5 font-bold bg-amber-100 text-amber-700 rounded-full text-sm">
+                        ₱500 Off
+                      </span>
+                    </div>
+                  </div>
                 </div>
               </div>
 
