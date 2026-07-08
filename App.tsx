@@ -141,7 +141,7 @@ const App: React.FC = () => {
       case 'About':
         return (
           <div className="animate-fadeIn">
-            {/* President's Welcome Section */}
+            {/* Principal's Welcome Section */}
             <section className="py-24 px-6 bg-white border-b border-gray-50">
               <div className="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-16 lg:gap-24 items-center">
                 {/* Left Column: Portrait - Mobile: First, Desktop: First (Order 1) */}
@@ -149,7 +149,7 @@ const App: React.FC = () => {
                   <div className="aspect-[3/4] md:aspect-square bg-gray-100 rounded-[2.5rem] overflow-hidden shadow-2xl relative z-10">
                     <img 
                       src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&q=80&w=800" 
-                      alt="President" 
+                      alt="Principal" 
                       className="w-full h-full object-cover"
                     />
                   </div>
@@ -162,7 +162,7 @@ const App: React.FC = () => {
                 <div className="md:order-2">
                   <span className="inline-block text-[#E11D48] font-bold tracking-[0.2em] uppercase text-sm mb-6">Welcome Message</span>
                   <h2 className="text-4xl md:text-5xl font-black text-gray-900 mb-8 leading-tight">
-                    A Message from <br/>the President
+                    A Message from <br/>the Principal
                   </h2>
                   <div className="space-y-6 text-gray-600 text-lg leading-relaxed font-medium">
                     <p>
@@ -183,7 +183,7 @@ const App: React.FC = () => {
                     /> */}
                     <div>
                       <p className="font-bold text-gray-900 text-xl">Rev. Wonjae Park</p>
-                      <p className="text-[#E11D48] text-sm uppercase tracking-wider font-bold mt-1">School President</p>
+                      <p className="text-[#E11D48] text-sm uppercase tracking-wider font-bold mt-1">School Principal</p>
                     </div>
                   </div>
                 </div>

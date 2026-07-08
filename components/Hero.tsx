@@ -14,18 +14,18 @@ const Hero: React.FC<HeroProps> = ({ onNavigate }) => {
         <div className="animate-fadeIn order-2 lg:order-1">
           {/* Welcome Badge */}
           <span className="inline-block bg-red-50 text-[#E11D48] px-5 py-2 rounded-full text-sm md:text-base font-bold uppercase tracking-widest mb-6 md:mb-8">
-            Welcome to LSCS
+            WELCOME TO LSCSI
           </span>
           
           {/* Main Title - Darker Gray for "Home for" */}
           <h2 className="text-5xl md:text-7xl lg:text-8xl font-extrabold leading-[1.1] tracking-tight text-slate-800">
-            Home for <br/>
-            <span className="text-[#E11D48]">Holistic Excellence</span>
+            "Home for <br/>
+            <span className="text-[#E11D48]">Holistic Excellence"</span>
           </h2>
           
           {/* Description */}
           <p className="text-slate-500 text-lg md:text-xl mt-8 md:mt-10 leading-relaxed max-w-2xl font-medium">
-            At LSCSI, we believe that true knowledge begins with the fear of the Lord. Our curriculum is designed not just to inform the mind but to transform the heart. We integrate biblical truths into every subject, helping students see the world through God's perspective and discover their unique purpose in His creation.
+            At LSCSI, we are committed to providing a Christ-centered education that nurtures wisdom, character, and excellence. Through quality education and a supportive community, we empower students to live with purpose, lead with confidence, and shine as a light to others. Be part of the LSCSI family and experience a meaningful journey of learning.
           </p>
           
           {/* Re-designed Dual Buttons */}
