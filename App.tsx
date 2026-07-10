@@ -19,24 +19,82 @@ import PopupsOverlay from './components/PopupsOverlay';
 import { Page, CalendarEvent, PopupData, GalleryImage } from './types';
 
 const INITIAL_EVENTS: CalendarEvent[] = [
-  { id: '1', date: '2024-08-14', title: 'Opening of Classes', category: 'Academic' },
-  { id: '2', date: '2024-08-21', title: 'Ninoy Aquino Day', category: 'Holiday' },
-  { id: '3', date: '2024-08-28', title: 'National Heroes Day', category: 'Holiday' },
-  { id: '4', date: '2024-09-08', title: 'Nativity of Mary', category: 'Religious' },
-  { id: '5', date: '2024-10-05', title: "World Teachers' Day", category: 'Special' },
-  { id: '6', date: '2024-10-23', endDate: '2024-10-27', title: '1st Quarterly Assessment', category: 'Academic' },
-  { id: '7', date: '2024-11-01', endDate: '2024-11-02', title: 'All Saints/Souls Day', category: 'Holiday' },
-  { id: '8', date: '2024-12-08', title: 'Immaculate Conception', category: 'Religious' },
-  { id: '9', date: '2024-12-18', title: 'Christmas Break Starts', category: 'Academic' },
-  { id: '10', date: '2025-01-04', title: 'Resumption of Classes', category: 'Academic' },
-  { id: '11', date: '2025-01-22', endDate: '2025-01-26', title: '2nd Qtr Assessment', category: 'Academic' },
-  { id: '12', date: '2025-02-10', title: 'Chinese New Year', category: 'Holiday' },
-  { id: '13', date: '2025-03-25', endDate: '2025-03-27', title: '3rd Qtr Assessment', category: 'Academic' },
-  { id: '14', date: '2025-03-28', endDate: '2025-03-29', title: 'Holy Week', category: 'Holiday' },
-  { id: '15', date: '2025-04-09', title: 'Araw ng Kagitingan', category: 'Holiday' },
-  { id: '16', date: '2025-05-01', title: 'Labor Day', category: 'Holiday' },
-  { id: '17', date: '2025-05-20', endDate: '2025-05-24', title: 'Final Assessments', category: 'Academic' },
-  { id: '18', date: '2025-06-07', title: 'Last Day of Classes', category: 'Academic' }
+  // June 2026
+  { id: 'e1', date: '2026-06-02', title: "Parent's Orientation (8:30-11:00 AM) & Dedication of Teachers", category: 'Special' },
+  { id: 'e2', date: '2026-06-03', title: 'Medical Mission (Afternoon)', category: 'Special' },
+  { id: 'e3', date: '2026-06-04', title: 'Medical Mission (Whole Day)', category: 'Special' },
+  { id: 'e4', date: '2026-06-08', endDate: '2026-06-11', title: 'Opening Block: Start of Term 1', category: 'Academic' },
+  { id: 'e5', date: '2026-06-09', title: 'Class Opening Worship', category: 'Religious' },
+  { id: 'e6', date: '2026-06-10', endDate: '2026-06-11', title: "Student's Orientation", category: 'Academic' },
+  { id: 'e7', date: '2026-06-12', title: 'Independence Day (Regular Holiday)', category: 'Holiday' },
+  { id: 'e8', date: '2026-06-15', title: 'Start of Regular Classes for All Levels', category: 'Academic' },
+  { id: 'e9', date: '2026-06-19', title: 'First Chapel Service (8:00 - 9:00 AM)', category: 'Religious' },
+
+  // July 2026
+  { id: 'e10', date: '2026-07-09', endDate: '2026-07-10', title: '1st Summative Test', category: 'Academic' },
+  { id: 'e11', date: '2026-07-24', title: 'Nutrition Day', category: 'Special' },
+  { id: 'e12', date: '2026-07-30', endDate: '2026-07-31', title: '2nd Summative Test', category: 'Academic' },
+
+  // August 2026
+  { id: 'e13', date: '2026-08-21', title: 'Ninoy Aquino Day (Non-Working Holiday)', category: 'Holiday' },
+  { id: 'e14', date: '2026-08-26', endDate: '2026-08-28', title: 'Term 1 Examination', category: 'Academic' },
+  { id: 'e15', date: '2026-08-28', title: 'Buwan ng Wika (By Classroom)', category: 'Special' },
+
+  // September 2026
+  { id: 'e16', date: '2026-09-02', endDate: '2026-09-15', title: 'End-of-Term Block', category: 'Academic' },
+  { id: 'e17', date: '2026-09-11', title: "1st Parent's & Teacher's Conference & Card Giving", category: 'Academic' },
+  { id: 'e18', date: '2026-09-14', endDate: '2026-09-15', title: 'Wellness Break of Learners (Tentative)', category: 'Special' },
+  { id: 'e19', date: '2026-09-14', endDate: '2026-09-15', title: 'INSET (Tentative)', category: 'Special' },
+  { id: 'e20', date: '2026-09-16', title: 'Start of Term 2', category: 'Academic' },
+  { id: 'e21', date: '2026-09-16', title: 'Testing Window for NCAE (Grade 10)', category: 'Academic' },
+  { id: 'e22', date: '2026-09-24', title: 'Field Trip', category: 'Special' },
+
+  // October 2026
+  { id: 'e23', date: '2026-10-05', endDate: '2026-10-09', title: 'NAT for Grade 10', category: 'Academic' },
+  { id: 'e24', date: '2026-10-06', title: "World Teacher's Day", category: 'Special' },
+  { id: 'e25', date: '2026-10-15', endDate: '2026-10-16', title: '1st Summative Test', category: 'Academic' },
+  { id: 'e26', date: '2026-10-28', endDate: '2026-10-29', title: '2nd Summative Test', category: 'Academic' },
+  { id: 'e27', date: '2026-10-30', title: 'UN Day/Mission Month Celebration', category: 'Special' },
+
+  // November 2026
+  { id: 'e28', date: '2026-11-02', title: "All Soul's Day (Special Non-Working Holiday)", category: 'Holiday' },
+  { id: 'e29', date: '2026-11-27', title: 'Thanksgiving Celebration', category: 'Religious' },
+  { id: 'e30', date: '2026-11-30', title: 'Bonifacio Day (Holiday)', category: 'Holiday' },
+
+  // December 2026
+  { id: 'e31', date: '2026-12-03', endDate: '2026-12-04', title: 'Term 2 Examination', category: 'Academic' },
+  { id: 'e32', date: '2026-12-07', endDate: '2026-12-18', title: 'End-of-Term Block', category: 'Academic' },
+  { id: 'e33', date: '2026-12-08', title: 'Feast of Immaculate Conception (Holiday)', category: 'Holiday' },
+  { id: 'e34', date: '2026-12-16', title: 'Classroom Christmas Party', category: 'Special' },
+  { id: 'e35', date: '2026-12-17', title: 'General Christmas Celebration', category: 'Special' },
+  { id: 'e36', date: '2026-12-18', title: "Teacher's Christmas Celebration", category: 'Special' },
+  { id: 'e37', date: '2026-12-19', endDate: '2027-01-01', title: 'Year End Break (Wellness Break)', category: 'Holiday' },
+
+  // January 2027
+  { id: 'e38', date: '2027-01-04', title: 'Start of Term 3', category: 'Academic' },
+  { id: 'e39', date: '2027-01-08', title: "2nd Parent's & Teacher's Conference & Card Giving", category: 'Academic' },
+  { id: 'e40', date: '2027-01-25', endDate: '2027-01-29', title: 'Bible Week Celebration', category: 'Religious' },
+  { id: 'e41', date: '2027-01-28', endDate: '2027-01-29', title: '1st Summative Test', category: 'Academic' },
+
+  // February 2027
+  { id: 'e42', date: '2027-02-18', endDate: '2027-02-19', title: '2nd Summative Test', category: 'Academic' },
+  { id: 'e43', date: '2027-02-25', title: 'People Power Anniversary (Regular Holiday)', category: 'Holiday' },
+  { id: 'e44', date: '2027-02-27', title: 'Purity Night', category: 'Special' },
+
+  // March 2027
+  { id: 'e45', date: '2027-03-08', endDate: '2027-03-12', title: 'NAT for Grade 6', category: 'Academic' },
+  { id: 'e46', date: '2027-03-09', endDate: '2027-03-11', title: 'Term 3 Exam (Moving Up & Graduating)', category: 'Academic' },
+  { id: 'e47', date: '2027-03-17', endDate: '2027-03-19', title: 'Term 3 Exam (Non-Graduating)', category: 'Academic' },
+  { id: 'e48', date: '2027-03-23', title: 'Academic Deliberation (Moving Up/Graduating)', category: 'Academic' },
+  { id: 'e49', date: '2027-03-24', title: 'Academic Deliberation (Non-Graduating)', category: 'Academic' },
+  { id: 'e50', date: '2027-03-25', title: 'Maundy Thursday (Regular Holiday)', category: 'Holiday' },
+  { id: 'e51', date: '2027-03-26', title: 'Good Friday (Regular Holiday)', category: 'Holiday' },
+  { id: 'e52', date: '2027-03-30', title: 'Moving Up (AM) & Recognition Day Gr 1-5 (PM)', category: 'Academic' },
+  { id: 'e53', date: '2027-03-31', title: 'Recognition & Commencement Gr 6-10 (AM)', category: 'Academic' },
+
+  // April 2027
+  { id: 'e54', date: '2027-04-01', endDate: '2027-04-08', title: 'End-of-Term Block', category: 'Academic' },
+  { id: 'e55', date: '2027-04-08', title: 'Final Card Distribution', category: 'Academic' }
 ];
 
 const INITIAL_GALLERY_IMAGES: GalleryImage[] = [
@@ -302,7 +360,7 @@ const App: React.FC = () => {
             <section className="relative py-40 md:py-60 overflow-hidden group">
                <div className="absolute inset-0 z-0">
                  <img 
-                   src="https://images.unsplash.com/photo-1577896851231-70ef18881754?auto=format&fit=crop&q=80&w=2000" 
+                   src="/img/About-Meet_The_Team.jpg" 
                    alt="Teachers in classroom" 
                    className="w-full h-full object-cover transition-transform duration-[3s] group-hover:scale-105 transform-gpu will-change-transform antialiased [backface-visibility:hidden]"
                  />

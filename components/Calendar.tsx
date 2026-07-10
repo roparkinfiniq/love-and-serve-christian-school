@@ -10,8 +10,8 @@ interface CalendarProps {
 }
 
 const Calendar: React.FC<CalendarProps> = ({ events = [], calendarPdfUrl }) => {
-  // Use a fixed start (Aug 2024)
-  const [currentDate, setCurrentDate] = useState(new Date(2024, 7, 1));
+  // Use a fixed start (June 2026) for S.Y. 2026-2027
+  const [currentDate, setCurrentDate] = useState(new Date(2026, 5, 1));
   const [selectedDay, setSelectedDay] = useState<{ date: Date, events: CalendarEvent[] } | null>(null);
 
   // We use the 'events' passed from App.tsx instead of 'rawEvents'
@@ -21,6 +21,7 @@ const Calendar: React.FC<CalendarProps> = ({ events = [], calendarPdfUrl }) => {
       case 'Academic': return 'bg-blue-100 text-blue-700 border-blue-200';
       case 'Holiday': return 'bg-red-100 text-[#E11D48] border-red-200';
       case 'Religious': return 'bg-purple-100 text-purple-700 border-purple-200';
+      case 'Special': return 'bg-amber-100 text-amber-700 border-amber-200';
       default: return 'bg-gray-100 text-gray-700 border-gray-200';
     }
   };
@@ -49,13 +50,17 @@ const Calendar: React.FC<CalendarProps> = ({ events = [], calendarPdfUrl }) => {
     const formattedDate = `${year}-${String(month + 1).padStart(2, '0')}-${String(day).padStart(2, '0')}`;
     const d = new Date(formattedDate);
     
-    return events.filter(ev => {
+    const filtered = events.filter(ev => {
       if (ev.endDate) {
         const start = new Date(ev.date);
         const end = new Date(ev.endDate);
         return d >= start && d <= end;
       }
       return ev.date === formattedDate;
+    });
+
+    return filtered.sort((a, b) => {
+      return events.indexOf(a) - events.indexOf(b);
     });
   };
 
@@ -106,7 +111,7 @@ const Calendar: React.FC<CalendarProps> = ({ events = [], calendarPdfUrl }) => {
         <div className="max-w-5xl mx-auto relative z-10 text-center">
             <h1 className="text-4xl md:text-5xl font-black text-white mb-4">School Calendar</h1>
             <p className="text-gray-400 text-lg max-w-2xl mx-auto mb-6">
-              SY 2024 - 2025 Calendar of Activities
+              SY 2026 - 2027 Calendar of Activities
             </p>
             <button 
               onClick={handleDownloadPDF}
@@ -149,6 +154,10 @@ const Calendar: React.FC<CalendarProps> = ({ events = [], calendarPdfUrl }) => {
                 <div className="w-3 h-3 rounded-full bg-purple-500"></div>
                 <span className="text-xs font-medium text-gray-600">Religious</span>
               </div>
+              <div className="flex items-center space-x-2">
+                <div className="w-3 h-3 rounded-full bg-amber-500"></div>
+                <span className="text-xs font-medium text-gray-600">Special Activity</span>
+              </div>
             </div>
           </div>
 
@@ -171,6 +180,8 @@ const Calendar: React.FC<CalendarProps> = ({ events = [], calendarPdfUrl }) => {
                 const dayEvents = getEventsForDay(day);
                 const isToday = new Date().toDateString() === new Date(year, month, day).toDateString();
                 const hasEvents = dayEvents.length > 0;
+                const dayOfWeek = new Date(year, month, day).getDay();
+                const formattedDate = `${year}-${String(month + 1).padStart(2, '0')}-${String(day).padStart(2, '0')}`;
 
                 return (
                   <div 
@@ -183,9 +194,40 @@ const Calendar: React.FC<CalendarProps> = ({ events = [], calendarPdfUrl }) => {
                     <div className={`text-sm md:text-base font-bold mb-2 flex items-center justify-center w-8 h-8 rounded-full ${isToday ? 'bg-[#E11D48] text-white' : 'text-gray-700'}`}>
                       {day}
                     </div>
-                    <div className="space-y-1 md:space-y-1.5 flex flex-col items-center md:items-stretch overflow-hidden">
+                    <div className="space-y-1 md:space-y-1.5 flex flex-col items-center md:items-stretch relative">
                       {dayEvents.map((ev, idx) => {
                         const bgClass = getCategoryColor(ev.category).split(' ').find(cls => cls.startsWith('bg-'))?.replace('100', '500') || 'bg-gray-500';
+                        
+                        const isMultiDay = ev.endDate && ev.endDate !== ev.date;
+                        const isEventStart = formattedDate === ev.date;
+                        const isEventEnd = formattedDate === ev.endDate;
+                        const isSunday = dayOfWeek === 0;
+                        const isSaturday = dayOfWeek === 6;
+
+                        // Desktop block styling
+                        let containerClasses = `hidden md:block text-[10px] md:text-xs font-bold py-1.5 border ${getCategoryColor(ev.category)} transition-all`;
+                        
+                        if (isMultiDay) {
+                          // Left side padding, margin, border-radius
+                          if (isEventStart || isSunday) {
+                            containerClasses += " rounded-l-md ml-0 pl-2 md:pl-3";
+                          } else {
+                            containerClasses += " rounded-l-none border-l-0 -ml-2 md:-ml-3 pl-2 md:pl-3";
+                          }
+
+                          // Right side padding, margin, border-radius
+                          if (isEventEnd || isSaturday) {
+                            containerClasses += " rounded-r-md mr-0 pr-2 md:pr-3";
+                          } else {
+                            containerClasses += " rounded-r-none border-r-0 -mr-2 md:-mr-3 pr-2 md:pr-3";
+                          }
+                        } else {
+                          containerClasses += " rounded-md mx-0 px-2";
+                        }
+
+                        // We only show the title on the first day of the event, or on Sunday (first day of the week row)
+                        const showTitle = !isMultiDay || isEventStart || isSunday;
+
                         return (
                           <React.Fragment key={idx}>
                             {/* Mobile: Dot indicator */}
@@ -193,10 +235,12 @@ const Calendar: React.FC<CalendarProps> = ({ events = [], calendarPdfUrl }) => {
                             
                             {/* Desktop: Full block */}
                             <div 
-                              className={`hidden md:block text-[10px] md:text-xs font-bold px-2 py-1.5 rounded truncate border ${getCategoryColor(ev.category)}`}
+                              className={containerClasses}
                               title={ev.title}
                             >
-                              {ev.title}
+                              <div className={isMultiDay && showTitle ? "whitespace-nowrap overflow-visible relative z-10" : "truncate"}>
+                                {showTitle ? ev.title : '\u00A0'}
+                              </div>
                             </div>
                           </React.Fragment>
                         );
