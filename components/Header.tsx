@@ -67,8 +67,8 @@ const Header: React.FC<HeaderProps> = ({ currentPage, onPageChange, isMobileMenu
             )}
           </div>
           <div>
-            <h1 className="text-2xl font-extrabold text-[#E11D48] leading-none tracking-tight">LSCS</h1>
-            <p className="hidden md:block text-xs font-bold text-gray-400 uppercase tracking-wider mt-1">Love and Serve Christian School</p>
+            <h1 className="text-2xl font-extrabold text-[#E11D48] leading-none tracking-tight">LSCSI</h1>
+            <p className="hidden md:block text-xs font-bold text-gray-400 uppercase tracking-wider mt-1">Love and Serve Christian School Inc.</p>
           </div>
         </div>
 

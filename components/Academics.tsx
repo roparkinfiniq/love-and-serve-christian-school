@@ -53,21 +53,21 @@ const Academics: React.FC<AcademicsProps> = ({
       subtitle: 'Building Foundations through Play and Discovery',
       description: 'Our preschool program focuses on social-emotional growth, motor skills, and spiritual formation. We provide a safe, nurturing environment where toddlers and kindergarteners learn to love God and others while developing early literacy and numeracy skills through interactive play.',
       features: ['Christ-centered values formation', 'Play-based learning approach', 'Safe and caring environment', 'Basic literacy and numeracy'],
-      image: 'https://images.unsplash.com/photo-1556379069-7c1b1b8990b0?auto=format&fit=crop&q=80&w=1200'
+      image: '/img/Home-Preshool.jpg'
     },
     elementary: {
       title: 'Elementary Department',
       subtitle: 'Nurturing Minds and Character',
       description: 'The elementary years are crucial for academic and character development. Our curriculum integrates biblical truths across all subjects, ensuring that students not only excel academically but also grow in wisdom and stature.',
       features: ['Integrated Biblical Worldview', 'Strong core subjects (Math, Science, English)', 'Character development programs', 'Collaborative projects'],
-      image: 'https://images.unsplash.com/photo-1427504494785-3a9ca7044f45?auto=format&fit=crop&q=80&w=1200'
+      image: '/img/Home-Elementary.png'
     },
     junior: {
       title: 'Junior High School',
       subtitle: 'Equipping Future Leaders',
       description: 'Our Junior High program prepares students for the challenges of adolescence and higher education. We foster critical thinking, leadership skills, and a deeper personal relationship with God, equipping them to be salt and light in the world.',
       features: ['Advanced academic curriculum', 'Leadership training', 'Digital literacy and technology', 'Community service initiatives'],
-      image: 'https://images.unsplash.com/photo-1571260899304-425eee4c7efc?auto=format&fit=crop&q=80&w=1200'
+      image: '/img/Home-Junior_High.png'
     }
   };
 
@@ -162,7 +162,11 @@ const Academics: React.FC<AcademicsProps> = ({
                key={levels[activeTab].image} // Force re-render for animation
                src={levels[activeTab].image} 
                alt={levels[activeTab].title}
-               className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 hover:scale-105 animate-fadeIn"
+               className={`absolute inset-0 w-full h-full object-cover transition-transform duration-700 animate-fadeIn ${
+                 activeTab === 'preschool' 
+                   ? 'object-[60%_bottom] scale-125 origin-[60%_bottom] hover:scale-135' 
+                   : 'object-[65%_center] hover:scale-105'
+               }`}
              />
              <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent md:bg-gradient-to-r"></div>
            </div>

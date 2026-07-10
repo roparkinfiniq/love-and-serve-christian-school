@@ -14,13 +14,13 @@ const Footer: React.FC<FooterProps> = ({ onNavigate, onAdmissionProcessClick }) 
           <div className="flex items-center space-x-3 mb-8">
             <img 
               src="/logo.png" 
-              alt="LSCS Logo" 
+              alt="LSCSI Logo" 
               className="w-16 h-16 object-contain"
             />
-            <h4 className="text-3xl font-black">LSCS</h4>
+            <h4 className="text-3xl font-black">LSCSI</h4>
           </div>
           <p className="text-gray-400 leading-relaxed text-base md:text-lg">
-            Love and Serve Christian School<br />
+            Love and Serve Christian School Inc.<br />
             Philippines<br /><br />
             "Love the Lord your God with all your heart and with all your soul and with all your mind and with all your strength. Then Love your neighbor as yourself."<br />
             <span className="text-[#E11D48] font-bold italic">- Mark 12: 30-31</span>
@@ -77,7 +77,7 @@ const Footer: React.FC<FooterProps> = ({ onNavigate, onAdmissionProcessClick }) 
       </div>
       
       <div className="max-w-7xl mx-auto px-6 mt-20 pt-10 border-t border-gray-800 flex flex-col md:flex-row justify-between items-center text-gray-500 text-sm md:text-base">
-        <span>© {new Date().getFullYear()} Love and Serve Christian School. All Rights Reserved. Crafted with Faith.</span>
+        <span>© {new Date().getFullYear()} Love and Serve Christian School Inc. All Rights Reserved. Crafted with Faith.</span>
         <button onClick={() => window.location.href = '/admin'} className="mt-4 md:mt-0 text-gray-700 hover:text-gray-400 transition-colors">
           Admin Portal
         </button>

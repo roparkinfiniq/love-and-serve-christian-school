@@ -220,14 +220,23 @@ const App: React.FC = () => {
                 <div className="md:order-2">
                   <span className="inline-block text-[#E11D48] font-bold tracking-[0.2em] uppercase text-sm mb-6">Welcome Message</span>
                   <h2 className="text-4xl md:text-5xl font-black text-gray-900 mb-8 leading-tight">
-                    A Message from <br/>the Principal
+                    A Message from <br/>the School President
                   </h2>
                   <div className="space-y-6 text-gray-600 text-lg leading-relaxed font-medium">
-                    <p>
-                      Welcome to Love and Serve Christian School. We are dedicated to raising the next generation with faith, excellence, and love. Our commitment goes beyond academic rigor; we strive to mold character and instill values that last a lifetime.
+                    <p className="font-bold text-[#E11D48]">
+                      Welcome to Love and Serve Christian School!
                     </p>
                     <p>
-                      As we partner with parents and the community, our prayer is that every child who walks through our doors experiences the transformative love of Christ and discovers their God-given potential in a safe, nurturing environment.
+                      It is our joy to welcome you to our school family. At Love and Serve Christian School, we believe that every child is a precious gift from God, created with a unique purpose and great potential.
+                    </p>
+                    <p>
+                      Our desire is not only to provide quality education but also to help every student grow in faith, wisdom, character, and love. We are committed to creating a safe, nurturing, and Christ-centered environment where children are encouraged to discover their God-given gifts, develop a love for learning, and build a strong foundation for life.
+                    </p>
+                    <p>
+                      We are grateful for the opportunity to partner with parents and our community in guiding the next generation. Together, let us inspire our children to love God, serve others, and pursue excellence in all that they do.
+                    </p>
+                    <p>
+                      May the Lord bless you, and we look forward to growing together with your family.
                     </p>
                   </div>
                   
@@ -241,7 +250,7 @@ const App: React.FC = () => {
                     /> */}
                     <div>
                       <p className="font-bold text-gray-900 text-xl">Rev. Wonjae Park</p>
-                      <p className="text-[#E11D48] text-sm uppercase tracking-wider font-bold mt-1">School Principal</p>
+                      <p className="text-[#E11D48] text-sm uppercase tracking-wider font-bold mt-1">School President</p>
                     </div>
                   </div>
                 </div>
