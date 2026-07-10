@@ -5,19 +5,19 @@ import { Program } from '../types';
 const programs: Program[] = [
   { 
     id: 'preschool', 
-    image: 'https://images.unsplash.com/photo-1587654780291-39c9404d746b?auto=format&fit=crop&q=80&w=800', 
+    image: '/img/Home-Preshool.jpg', 
     title: 'Preschool', 
     description: 'Learning through play and discovery in a safe environment.' 
   },
   { 
     id: 'elementary', 
-    image: 'https://images.unsplash.com/photo-1503676260728-1c00da094a0b?auto=format&fit=crop&q=80&w=800', 
+    image: '/img/Home-Elementary.png', 
     title: 'Elementary', 
     description: 'Building strong fundamental skills and character foundations.' 
   },
   { 
     id: 'junior', 
-    image: 'https://images.unsplash.com/photo-1509062522246-3755977927d7?auto=format&fit=crop&q=80&w=800', 
+    image: '/img/Home-Junior_High.png', 
     title: 'Junior High', 
     description: 'Exploring interests and developing critical thinking skills.' 
   }
@@ -56,7 +56,11 @@ const Programs: React.FC<ProgramsProps> = ({ onProgramClick, onViewAll }) => {
               <img 
                 src={p.image} 
                 alt={p.title} 
-                className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110 transform-gpu will-change-transform antialiased [backface-visibility:hidden]"
+                className={`w-full h-full object-cover transition-transform duration-700 transform-gpu will-change-transform antialiased [backface-visibility:hidden] ${
+                  p.id === 'preschool'
+                    ? 'object-bottom scale-125 origin-bottom group-hover:scale-135'
+                    : 'group-hover:scale-110'
+                }`}
               />
             </div>
             
