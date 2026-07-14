@@ -19,22 +19,37 @@ const Team: React.FC = () => {
 
   // Data for Faculty
   const faculty = [
-    { name: 'Ms. Emily Chen', role: 'Preschool Head', image: 'https://images.unsplash.com/photo-1544005313-94ddf0286df2?auto=format&fit=crop&q=80&w=600' },
-    { name: 'Mr. James Wilson', role: 'Elementary Mathematics', image: 'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&q=80&w=600' },
-    { name: 'Mrs. Maria Santos', role: 'Science Department', image: 'https://images.unsplash.com/photo-1580489944761-15a19d654956?auto=format&fit=crop&q=80&w=600' },
-    { name: 'Mr. John Lee', role: 'Music & Arts', image: 'https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?auto=format&fit=crop&q=80&w=600' },
-    { name: 'Ms. Sarah Thompson', role: 'English Literature', image: 'https://images.unsplash.com/photo-1544717305-2782549b5136?auto=format&fit=crop&q=80&w=600' },
-    { name: 'Mr. Michael Brown', role: 'Physical Education', image: 'https://images.unsplash.com/photo-1531427186611-ecfd6d936c79?auto=format&fit=crop&q=80&w=600' },
-    { name: 'Mrs. Hannah White', role: 'Values Education', image: 'https://images.unsplash.com/photo-1567532939604-b6b5b0db2604?auto=format&fit=crop&q=80&w=600' },
-    { name: 'Mr. Robert Garcia', role: 'Junior High Adviser', image: 'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?auto=format&fit=crop&q=80&w=600' },
+    { name: 'Ms. Maria Luisa L. Gonzales', role: 'School Head', image: '' },
+    { name: 'Mr. Jhoven A. Penaflor', role: 'School Chaplain', image: '' },
+    { name: 'Ms. Glaiza T. Placencia', role: 'Pre School Dept. Coordinator', image: '' },
+    { name: 'Ms. Rosa B. Destura', role: 'Kinder I Adviser', image: '' },
+    { name: 'Ms. Mary Joy R. Despe', role: 'Kinder II Adviser', image: '' },
+    { name: 'Ms. Myra P. Peñaflor', role: 'Elem. Coordinator / Grade 6 Adviser', image: '' },
+    { name: 'Ms. Jonela A. Pentinio', role: 'Grade 1 Adviser', image: '' },
+    { name: 'Ms. Kizha Marie N. Delen', role: 'Grade 2 Adviser', image: '' },
+    { name: 'Ms. Maelyn B. Mede', role: 'Grade 3 Adviser', image: '' },
+    { name: 'Mr. Gechris O. Ortega', role: 'Grade 4 Adviser', image: '' },
+    { name: 'Mr. John Paolo A. Camagon', role: 'Grade 5 Adviser', image: '' },
+    { name: 'Ms. Leslie G. Pablea', role: 'NHS Coordinator / Grade 10 Adviser', image: '' },
+    { name: 'Mr. Joshua D. Gomez', role: 'Grade 9 Adviser', image: '' },
+    { name: 'Ms. Junafe Z. Verano', role: 'Grade 8 Adviser', image: '' },
+    { name: 'Mr. Adrian Poul P. Valderama', role: 'Grade 7 Adviser', image: '' },
+    { name: 'Ms. Janice O. Milante', role: 'Subject Teacher', image: '' },
+    { name: 'Mr. Marlon D. Macaraeg', role: 'Subject Teacher', image: '' },
+    { name: 'Ms. Roselyn P. Espuerta', role: 'Subject Teacher', image: '' },
+    { name: 'Mr. Kervin E. David', role: 'Subject Teacher', image: '' },
   ];
 
   // Data for Admin & Support
   const adminSupport = [
-    { name: 'Ms. Jennifer Wu', role: 'School Registrar', category: 'Office Staff', image: 'https://images.unsplash.com/photo-1573497019940-1c28c88b4f3e?auto=format&fit=crop&q=80&w=400' },
-    { name: 'Mr. Alex Turner', role: 'IT Support Lead', category: 'Technical Team', image: 'https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?auto=format&fit=crop&q=80&w=400' },
-    { name: 'Ms. Lisa Baker', role: 'School Accountant', category: 'Office Staff', image: 'https://images.unsplash.com/photo-1551836022-d5d88e9218df?auto=format&fit=crop&q=80&w=400' },
-    { name: 'Mr. Carlos Gomez', role: 'Head of Security', category: 'Support Staff', image: 'https://images.unsplash.com/photo-1566492031773-4f4e44671857?auto=format&fit=crop&q=80&w=400' },
+    { name: 'Ms. Julie Ann Mandeloso', role: 'School Cashier', image: '' },
+    { name: 'Ms. Kaye Z. Trilles', role: 'Registrar', image: '' },
+    { name: 'Ms. Aziel Anne L. Gonzales', role: 'Administrative Asst.', image: '' },
+    { name: 'Mr. Leonardo O. Tagal Jr.', role: 'School Guard', image: '' },
+    { name: 'Mr. Edwin V. Iniego', role: 'School Service Driver', image: '' },
+    { name: 'Mr. Patrick A. Pentinio', role: 'School Service Driver', image: '' },
+    { name: 'Mr. Hernando B. Tabago', role: 'Maintenance', image: '' },
+    { name: 'Mr. Randy P. Miranda', role: 'Support Staff', image: '' },
   ];
 
   return (
@@ -94,12 +109,16 @@ const Team: React.FC = () => {
                 key={idx} 
                 className="bg-white rounded-2xl overflow-hidden shadow-sm hover:shadow-xl transition-all duration-300 transform hover:-translate-y-2 group transform-gpu will-change-transform antialiased [backface-visibility:hidden]"
               >
-                <div className="h-72 overflow-hidden relative">
-                  <img 
-                    src={teacher.image} 
-                    alt={teacher.name} 
-                    className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110 transform-gpu will-change-transform antialiased [backface-visibility:hidden]"
-                  />
+                <div className="h-72 overflow-hidden relative bg-gray-100 flex items-center justify-center">
+                  {teacher.image ? (
+                    <img 
+                      src={teacher.image} 
+                      alt={teacher.name} 
+                      className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110 transform-gpu will-change-transform antialiased [backface-visibility:hidden]"
+                    />
+                  ) : (
+                    <i className="fa-solid fa-user text-6xl text-gray-300 transition-transform duration-700 group-hover:scale-110"></i>
+                  )}
                   <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
                 </div>
                 <div className="p-6 text-center border-t-4 border-transparent group-hover:border-[#E11D48] transition-colors">
@@ -125,19 +144,20 @@ const Team: React.FC = () => {
               key={idx} 
               className="flex items-center p-4 bg-white rounded-2xl border border-gray-100 shadow-sm hover:shadow-lg transition-all duration-300"
             >
-              <div className="w-20 h-20 flex-shrink-0 rounded-full overflow-hidden border-2 border-gray-100">
-                 <img 
-                   src={staff.image} 
-                   alt={staff.name} 
-                   className="w-full h-full object-cover"
-                 />
+              <div className="w-20 h-20 flex-shrink-0 rounded-full overflow-hidden border-2 border-gray-100 bg-gray-100 flex items-center justify-center">
+                 {staff.image ? (
+                   <img 
+                     src={staff.image} 
+                     alt={staff.name} 
+                     className="w-full h-full object-cover"
+                   />
+                 ) : (
+                   <i className="fa-solid fa-user text-3xl text-gray-300"></i>
+                 )}
               </div>
               <div className="ml-5">
-                 <h5 className="font-bold text-gray-900 text-lg">{staff.name}</h5>
-                 <p className="text-gray-500 text-sm">{staff.role}</p>
-                 <span className="inline-block mt-2 text-xs font-bold text-[#E11D48] bg-red-50 px-2 py-1 rounded-md">
-                   {staff.category}
-                 </span>
+                 <h5 className="font-bold text-gray-900 text-base leading-tight">{staff.name}</h5>
+                 <p className="text-[#E11D48] text-xs font-bold uppercase tracking-wider mt-1">{staff.role}</p>
               </div>
             </div>
           ))}
