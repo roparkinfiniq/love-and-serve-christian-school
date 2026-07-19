@@ -99,14 +99,16 @@ const INITIAL_EVENTS: CalendarEvent[] = [
 
 const INITIAL_GALLERY_IMAGES: GalleryImage[] = [
   { id: '1', src: 'https://images.unsplash.com/photo-1509062522246-3755977927d7?auto=format&fit=crop&q=80&w=1200', alt: 'Science Lab Experiment', category: 'Academics' },
-  { id: '2', src: 'https://images.unsplash.com/photo-1544717305-2782549b5136?auto=format&fit=crop&q=80&w=800', alt: 'Library Study Session', category: 'Academics' },
+  { id: '2', src: '/img/Campus_Life-Library.png', alt: 'Library Study Session', category: 'Academics' },
   { id: '3', src: 'https://images.unsplash.com/photo-1577896851231-70ef18881754?auto=format&fit=crop&q=80&w=1200', alt: 'Classroom Engagement', category: 'Academics' },
   { id: '4', src: 'https://images.unsplash.com/photo-1560421683-6856ea585c78?auto=format&fit=crop&q=80&w=800', alt: 'Creative Arts Class', category: 'Arts & Sports' },
   { id: '5', src: 'https://images.unsplash.com/photo-1560523160-754a9e25c68f?auto=format&fit=crop&q=80&w=1200', alt: 'Preschool Playtime', category: 'Student Life' },
   { id: '6', src: 'https://images.unsplash.com/photo-1529333166437-7750a6dd5a70?auto=format&fit=crop&q=80&w=800', alt: 'Student Friendship', category: 'Student Life' },
   { id: '7', src: 'https://images.unsplash.com/photo-1461896836934-ffe607ba8211?auto=format&fit=crop&q=80&w=1200', alt: 'Sports & Athletics', category: 'Arts & Sports' },
   { id: '8', src: 'https://images.unsplash.com/photo-1544725176-7c40e5a71c5e?auto=format&fit=crop&q=80&w=800', alt: 'Teacher & Student', category: 'Academics' },
-  { id: '9', src: 'https://images.unsplash.com/photo-1562774053-701939374585?auto=format&fit=crop&q=80&w=1200', alt: 'School Campus', category: 'Campus' },
+  { id: '9', src: '/img/Campus_Life-school grounds.png', alt: 'School Grounds', category: 'Campus' },
+  { id: '10', src: '/img/Campus_Life-worship hall.png', alt: 'Worship Hall', category: 'Campus' },
+  { id: '11', src: '/img/Campus_Life-School Office.png', alt: 'School Office', category: 'Campus' },
 ];
 
 const INITIAL_GALLERY_CATEGORIES = ['All', 'Academics', 'Student Life', 'Arts & Sports', 'Campus'];
@@ -116,7 +118,7 @@ const App: React.FC = () => {
     window.location.pathname === '/admin' ? 'Admin' : 'Home'
   );
   const [calendarEvents, setCalendarEvents] = useState<CalendarEvent[]>(INITIAL_EVENTS);
-  const [calendarPdfUrl, setCalendarPdfUrl] = useState<string | null>(null);
+  const [calendarPdfUrl, setCalendarPdfUrl] = useState<string | null>('/SCHOOL-CALENDAR-SY-2627.pdf');
   const [popups, setPopups] = useState<PopupData[]>([]);
   const [galleryImages, setGalleryImages] = useState<GalleryImage[]>(INITIAL_GALLERY_IMAGES);
   const [galleryCategories, setGalleryCategories] = useState<string[]>(INITIAL_GALLERY_CATEGORIES);

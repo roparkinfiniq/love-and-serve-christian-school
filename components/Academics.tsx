@@ -162,7 +162,7 @@ const Academics: React.FC<AcademicsProps> = ({
                key={levels[activeTab].image} // Force re-render for animation
                src={levels[activeTab].image} 
                alt={levels[activeTab].title}
-               className={`absolute inset-0 w-full h-full object-cover transition-transform duration-700 animate-fadeIn ${
+               className={`absolute inset-0 w-full h-full object-cover transition-transform duration-700 animate-pureFadeIn ${
                  activeTab === 'preschool' 
                    ? 'object-[60%_bottom] scale-125 origin-[60%_bottom] hover:scale-135' 
                    : 'object-[65%_center] hover:scale-105'

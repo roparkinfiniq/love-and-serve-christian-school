@@ -10,7 +10,7 @@ const Facilities: React.FC<FacilitiesProps> = ({ onNavigate, onScheduleVisit }) 
   const facilities = [
     { 
       title: 'School Ground', 
-      image: 'https://images.unsplash.com/photo-1541339907198-e08756ebafe1?auto=format&fit=crop&q=80&w=800',
+      image: '/img/Campus_Life-school grounds.png',
       desc: 'Wide and well-maintained open spaces for learning, activities, and community gatherings'
     },
     { 
@@ -20,7 +20,7 @@ const Facilities: React.FC<FacilitiesProps> = ({ onNavigate, onScheduleVisit }) 
     },
     { 
       title: 'Library', 
-      image: 'https://images.unsplash.com/photo-1568667256549-094345857637?auto=format&fit=crop&q=80&w=600',
+      image: '/img/Campus_Life-Library.png',
       desc: 'A quiet sanctuary filled with knowledge and study resources.'
     },
     { 
@@ -35,7 +35,7 @@ const Facilities: React.FC<FacilitiesProps> = ({ onNavigate, onScheduleVisit }) 
     },
     { 
       title: 'Worship Hall', 
-      image: 'https://images.unsplash.com/photo-1516450360452-9312f5e86fc7?auto=format&fit=crop&q=80&w=600',
+      image: '/img/Campus_Life-worship hall.png',
       desc: 'A spacious venue for school events, performances, and worship.'
     },
     { 
@@ -52,6 +52,11 @@ const Facilities: React.FC<FacilitiesProps> = ({ onNavigate, onScheduleVisit }) 
       title: 'School Clinic', 
       image: 'https://images.unsplash.com/photo-1519494026892-80bbd2d6fd0d?auto=format&fit=crop&q=80&w=600',
       desc: 'Clean and ready medical assistance for student health and safety.'
+    },
+    { 
+      title: 'School Office', 
+      image: '/img/Campus_Life-School Office.png',
+      desc: 'Dedicated space for administrative inquiry, student services, and school operations.'
     }
   ];
 
