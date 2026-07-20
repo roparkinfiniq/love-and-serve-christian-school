@@ -4,47 +4,47 @@ const Team: React.FC = () => {
   // Data for Leadership
   const leadership = [
     {
-      name: 'Dr. Sarah Johnson',
-      role: 'School Principal',
-      image: 'https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&q=80&w=800',
-      message: '"Leading with faith and a heart for every student\'s future."'
+      name: 'Rev. Wonjae Park',
+      role: 'School President',
+      image: '/img/About-President01.png',
+      message: '"Preparing the next generation as God-fearing leaders and future worshipers."',
+      position: 'center 15%'
     },
     {
-      name: 'Rev. David Martinez',
-      role: 'School Administrator',
-      image: 'https://images.unsplash.com/photo-1560250097-0b93528c311a?auto=format&fit=crop&q=80&w=800',
-      message: '"Building a foundation of excellence and service."'
+      name: 'Ms. Maria Luisa L. Gonzales',
+      role: 'School Head / Principal',
+      image: '',
+      message: '"Nurturing every child to discover their God-given gifts and develop a love for learning."'
     }
   ];
 
   // Data for Faculty
   const faculty = [
-    { name: 'Ms. Maria Luisa L. Gonzales', role: 'School Head', image: '' },
-    { name: 'Mr. Jhoven A. Penaflor', role: 'School Chaplain', image: '' },
-    { name: 'Ms. Glaiza T. Placencia', role: 'Pre School Dept. Coordinator', image: '' },
-    { name: 'Ms. Rosa B. Destura', role: 'Kinder I Adviser', image: '' },
-    { name: 'Ms. Mary Joy R. Despe', role: 'Kinder II Adviser', image: '' },
-    { name: 'Ms. Myra P. Peñaflor', role: 'Elem. Coordinator / Grade 6 Adviser', image: '' },
-    { name: 'Ms. Jonela A. Pentinio', role: 'Grade 1 Adviser', image: '' },
-    { name: 'Ms. Kizha Marie N. Delen', role: 'Grade 2 Adviser', image: '' },
-    { name: 'Ms. Maelyn B. Mede', role: 'Grade 3 Adviser', image: '' },
+    { name: 'Mr. Jhoven A. Penaflor', role: 'School Chaplain', image: '/img/OurTeam-Jhoven.png' },
+    { name: 'Ms. Glaiza T. Placencia', role: 'Pre School Dept. Coordinator', image: '/img/OurTeam-Glaiza.png' },
+    { name: 'Ms. Rosa B. Destura', role: 'Kinder I Adviser', image: '/img/OurTeam-Rosa.png' },
+    { name: 'Ms. Mary Joy R. Despe', role: 'Kinder II Adviser', image: '/img/OurTeam-Mary.png', position: 'center 20%' },
+    { name: 'Ms. Myra P. Peñaflor', role: 'Elem. Coordinator / Grade 6 Adviser', image: '/img/OurTeam-Myra.png' },
+    { name: 'Ms. Jonela A. Pentinio', role: 'Grade 1 Adviser', image: '/img/OurTeam-Jonela.png' },
+    { name: 'Ms. Kizha Marie N. Delen', role: 'Grade 2 Adviser', image: '/img/OurTeam-Kizha.png', position: 'center 20%' },
+    { name: 'Ms. Maelyn B. Mede', role: 'Grade 3 Adviser', image: '/img/OurTeam-Maelyn.png' },
     { name: 'Mr. Gechris O. Ortega', role: 'Grade 4 Adviser', image: '' },
     { name: 'Mr. John Paolo A. Camagon', role: 'Grade 5 Adviser', image: '' },
-    { name: 'Ms. Leslie G. Pablea', role: 'NHS Coordinator / Grade 10 Adviser', image: '' },
+    { name: 'Ms. Leslie G. Pablea', role: 'NHS Coordinator / Grade 10 Adviser', image: '/img/OurTeam-Leslie.png' },
     { name: 'Mr. Joshua D. Gomez', role: 'Grade 9 Adviser', image: '' },
     { name: 'Ms. Junafe Z. Verano', role: 'Grade 8 Adviser', image: '' },
     { name: 'Mr. Adrian Poul P. Valderama', role: 'Grade 7 Adviser', image: '' },
     { name: 'Ms. Janice O. Milante', role: 'Subject Teacher', image: '' },
     { name: 'Mr. Marlon D. Macaraeg', role: 'Subject Teacher', image: '' },
-    { name: 'Ms. Roselyn P. Espuerta', role: 'Subject Teacher', image: '' },
+    { name: 'Ms. Roselyn P. Espuerta', role: 'Subject Teacher', image: '/img/OurTeam-Roselyn.png' },
     { name: 'Mr. Kervin E. David', role: 'Subject Teacher', image: '' },
   ];
 
   // Data for Admin & Support
   const adminSupport = [
-    { name: 'Ms. Julie Ann Mandeloso', role: 'School Cashier', image: '' },
-    { name: 'Ms. Kaye Z. Trilles', role: 'Registrar', image: '' },
-    { name: 'Ms. Aziel Anne L. Gonzales', role: 'Administrative Asst.', image: '' },
+    { name: 'Ms. Julie Ann Mandeloso', role: 'School Cashier', image: '/img/OurTeam-Julie.png' },
+    { name: 'Ms. Kaye Z. Trilles', role: 'Registrar', image: '/img/OurTeam-Kaye.png' },
+    { name: 'Ms. Aziel Anne L. Gonzales', role: 'Administrative Asst.', image: '/img/OurTeam-Aziel.png' },
     { name: 'Mr. Leonardo O. Tagal Jr.', role: 'School Guard', image: '' },
     { name: 'Mr. Edwin V. Iniego', role: 'School Service Driver', image: '' },
     { name: 'Mr. Patrick A. Pentinio', role: 'School Service Driver', image: '' },
@@ -76,11 +76,18 @@ const Team: React.FC = () => {
             <div key={idx} className="flex flex-col items-center text-center group">
               <div className="relative w-64 h-64 md:w-80 md:h-80 mb-8">
                 <div className="absolute inset-0 bg-red-100 rounded-full transform translate-x-4 translate-y-4 group-hover:translate-x-2 group-hover:translate-y-2 transition-transform duration-300"></div>
-                <img 
-                  src={leader.image} 
-                  alt={leader.name} 
-                  className="w-full h-full object-cover rounded-full border-4 border-white shadow-xl relative z-10"
-                />
+                {leader.image ? (
+                  <img 
+                    src={leader.image} 
+                    alt={leader.name} 
+                    className="w-full h-full object-cover rounded-full border-4 border-white shadow-xl relative z-10"
+                    style={{ objectPosition: (leader as any).position || 'center' }}
+                  />
+                ) : (
+                  <div className="w-full h-full rounded-full border-4 border-white shadow-xl relative z-10 bg-slate-100 flex items-center justify-center">
+                    <i className="fa-solid fa-user text-8xl text-gray-300"></i>
+                  </div>
+                )}
                 <div className="absolute bottom-4 right-4 z-20 bg-[#E11D48] text-white w-12 h-12 rounded-full flex items-center justify-center text-xl shadow-lg">
                   <i className="fa-solid fa-quote-right"></i>
                 </div>
@@ -115,6 +122,7 @@ const Team: React.FC = () => {
                       src={teacher.image} 
                       alt={teacher.name} 
                       className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110 transform-gpu will-change-transform antialiased [backface-visibility:hidden]"
+                      style={{ objectPosition: teacher.position || 'center top' }}
                     />
                   ) : (
                     <i className="fa-solid fa-user text-6xl text-gray-300 transition-transform duration-700 group-hover:scale-110"></i>
@@ -150,6 +158,7 @@ const Team: React.FC = () => {
                      src={staff.image} 
                      alt={staff.name} 
                      className="w-full h-full object-cover"
+                     style={{ objectPosition: (staff as any).position || 'center top' }}
                    />
                  ) : (
                    <i className="fa-solid fa-user text-3xl text-gray-300"></i>
