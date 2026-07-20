@@ -206,11 +206,11 @@ const App: React.FC = () => {
               <div className="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-16 lg:gap-24 items-center">
                 {/* Left Column: Portrait - Mobile: First, Desktop: First (Order 1) */}
                 <div className="relative md:order-1">
-                  <div className="aspect-[3/4] md:aspect-square bg-gray-100 rounded-[2.5rem] overflow-hidden shadow-2xl relative z-10">
+                  <div className="aspect-[3/4] bg-white rounded-[2.5rem] overflow-hidden shadow-2xl relative z-10">
                     <img 
-                      src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&q=80&w=800" 
-                      alt="Principal" 
-                      className="w-full h-full object-cover"
+                      src="/img/About-President01.png" 
+                      alt="School President" 
+                      className="w-full h-full object-cover object-top"
                     />
                   </div>
                   {/* Decorative Elements */}
