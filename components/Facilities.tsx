@@ -15,7 +15,7 @@ const Facilities: React.FC<FacilitiesProps> = ({ onNavigate, onScheduleVisit }) 
     },
     { 
       title: 'Playground', 
-      image: 'https://images.unsplash.com/photo-1560523160-754a9e25c68f?auto=format&fit=crop&q=80&w=600',
+      image: '/img/Campus_Life-Playground.png',
       desc: 'A safe and vibrant space for active play and physical development.'
     },
     { 
@@ -25,7 +25,7 @@ const Facilities: React.FC<FacilitiesProps> = ({ onNavigate, onScheduleVisit }) 
     },
     { 
       title: 'Computer Lab', 
-      image: 'https://images.unsplash.com/photo-1531482615713-2afd69097998?auto=format&fit=crop&q=80&w=600',
+      image: '/img/Campus_Life-Computer_Room.png',
       desc: 'Modern workstations equipping students with digital skills.'
     },
     { 
@@ -40,12 +40,12 @@ const Facilities: React.FC<FacilitiesProps> = ({ onNavigate, onScheduleVisit }) 
     },
     { 
       title: 'Kindergarten Classroom', 
-      image: 'https://images.unsplash.com/photo-1503454537195-1dcabb73ffb9?auto=format&fit=crop&q=80&w=600',
+      image: '/img/Campus_Life-Kinder.png',
       desc: 'Colorful and interactive environments designed for early learners.'
     },
     { 
       title: 'Spacious Classrooms', 
-      image: 'https://images.unsplash.com/photo-1509062522246-3755977927d7?auto=format&fit=crop&q=80&w=600',
+      image: '/img/Campus_Life-Spacious_Claassrooms.png',
       desc: 'Bright, ventilated rooms conducive to focused learning.'
     },
     { 

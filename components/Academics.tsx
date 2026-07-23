@@ -45,7 +45,7 @@ const Academics: React.FC<AcademicsProps> = ({
       // Direct Tab Click: Use 'nearest' to avoid unnecessary jumping
       tabsSectionRef.current?.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
     }
-  };
+  }
 
   const levels = {
     preschool: {
@@ -73,8 +73,7 @@ const Academics: React.FC<AcademicsProps> = ({
 
   const enrichmentPrograms = [
     { title: 'Taekwondo', description: 'Build confidence, discipline, respect, and self-defense skills through martial arts training.', image: 'https://images.unsplash.com/photo-1555597673-b21d5c935865?auto=format&fit=crop&q=80&w=600', icon: 'fa-user-ninja' },
-    { title: 'Kendo', description: 'Learn the art of Japanese swordsmanship while developing focus, discipline, and self-control.', image: 'https://images.unsplash.com/photo-1599058917233-97ffad242663?auto=format&fit=crop&q=80&w=600', icon: 'fa-khanda' },
-    { title: 'Guitar Class', description: 'Discover the joy of music while learning guitar, creativity, and self-expression.', image: 'https://images.unsplash.com/photo-1510915361894-db8b60106cb1?auto=format&fit=crop&q=80&w=600', icon: 'fa-guitar' },
+    { title: 'Korean Culture Class', description: 'Explore Korean language, traditions, customs, and rich cultural heritage through interactive activities.', image: 'https://images.unsplash.com/photo-1538485399081-7191377e8241?auto=format&fit=crop&q=80&w=600', icon: 'fa-earth-asia' },
     { title: 'Piano Class', description: 'Develop musical skills, creativity, concentration, and confidence through piano lessons.', image: 'https://images.unsplash.com/photo-1552422535-c45813c61732?auto=format&fit=crop&q=80&w=600', icon: 'fa-music' },
     { title: 'Violin Class', description: 'Master the basics of violin while nurturing patience, discipline, and musical expression.', image: 'https://images.unsplash.com/photo-1612225330812-01a9c6b355ec?auto=format&fit=crop&q=80&w=600', icon: 'fa-music' },
     { title: 'Basketball Class', description: 'Sharpen basketball skills, teamwork, leadership, and sportsmanship on and off the court.', image: 'https://images.unsplash.com/photo-1519861531473-9200262188bf?auto=format&fit=crop&q=80&w=600', icon: 'fa-basketball' },

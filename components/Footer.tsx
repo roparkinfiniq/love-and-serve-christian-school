@@ -67,7 +67,7 @@ const Footer: React.FC<FooterProps> = ({ onNavigate, onAdmissionProcessClick }) 
           <div className="space-y-3 text-base md:text-lg text-gray-400">
             <p className="flex items-start"><i className="fa-solid fa-phone mt-1 mr-4 text-[#E11D48]"></i>
               <span>
-                +63999-982-1836 / 0917-710-7075<br/>
+                +63999-982-1836 / +63917-710-7075<br/>
                 (02) 7004-8359
               </span>
             </p>

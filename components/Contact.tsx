@@ -89,7 +89,7 @@ const Contact: React.FC<ContactProps> = ({ scrollToForm = false }) => {
     {
       icon: 'fa-phone',
       title: 'Call Us',
-      content: '+63999-982-1836 / 0917-710-7075',
+      content: '+63999-982-1836 / +63917-710-7075',
       sub: '(02) 7004-8359',
       action: 'tel:+639999821836'
     },
@@ -104,7 +104,7 @@ const Contact: React.FC<ContactProps> = ({ scrollToForm = false }) => {
       icon: 'fa-clock',
       title: 'Office Hours',
       content: 'Monday - Friday',
-      sub: '8:00 AM - 5:00 PM',
+      sub: '7:30 AM - 4:00 PM',
       action: null
     }
   ];

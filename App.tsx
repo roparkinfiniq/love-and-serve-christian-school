@@ -109,6 +109,10 @@ const INITIAL_GALLERY_IMAGES: GalleryImage[] = [
   { id: '9', src: '/img/Campus_Life-school grounds.png', alt: 'School Grounds', category: 'Campus' },
   { id: '10', src: '/img/Campus_Life-worship hall.png', alt: 'Worship Hall', category: 'Campus' },
   { id: '11', src: '/img/Campus_Life-School Office.png', alt: 'School Office', category: 'Campus' },
+  { id: '12', src: '/img/Campus_Life-Kinder.png', alt: 'Kindergarten Classroom', category: 'Campus' },
+  { id: '13', src: '/img/Campus_Life-Playground.png', alt: 'School Playground', category: 'Campus' },
+  { id: '14', src: '/img/Campus_Life-Spacious_Claassrooms.png', alt: 'Spacious Classrooms', category: 'Campus' },
+  { id: '15', src: '/img/Campus_Life-Computer_Room.png', alt: 'Computer Lab', category: 'Campus' },
 ];
 
 const INITIAL_GALLERY_CATEGORIES = ['All', 'Academics', 'Student Life', 'Arts & Sports', 'Campus'];

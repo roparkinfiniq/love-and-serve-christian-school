@@ -13,8 +13,9 @@ const Team: React.FC = () => {
     {
       name: 'Ms. Maria Luisa L. Gonzales',
       role: 'School Head / Principal',
-      image: '',
-      message: '"Nurturing every child to discover their God-given gifts and develop a love for learning."'
+      image: '/img/OurTeam-Luisa.png',
+      message: '"Nurturing every child to discover their God-given gifts and develop a love for learning."',
+      position: 'center 20%'
     }
   ];
 
@@ -28,16 +29,16 @@ const Team: React.FC = () => {
     { name: 'Ms. Jonela A. Pentinio', role: 'Grade 1 Adviser', image: '/img/OurTeam-Jonela.png' },
     { name: 'Ms. Kizha Marie N. Delen', role: 'Grade 2 Adviser', image: '/img/OurTeam-Kizha.png', position: 'center 20%' },
     { name: 'Ms. Maelyn B. Mede', role: 'Grade 3 Adviser', image: '/img/OurTeam-Maelyn.png' },
-    { name: 'Mr. Gechris O. Ortega', role: 'Grade 4 Adviser', image: '' },
-    { name: 'Mr. John Paolo A. Camagon', role: 'Grade 5 Adviser', image: '' },
+    { name: 'Mr. Gechris O. Ortega', role: 'Grade 4 Adviser', image: '/img/OurTeam-Gechris.png' },
+    { name: 'Mr. John Paolo A. Camagon', role: 'Grade 5 Adviser', image: '/img/OurTeam-John.png' },
     { name: 'Ms. Leslie G. Pablea', role: 'NHS Coordinator / Grade 10 Adviser', image: '/img/OurTeam-Leslie.png' },
-    { name: 'Mr. Joshua D. Gomez', role: 'Grade 9 Adviser', image: '' },
+    { name: 'Mr. Joshua D. Gomez', role: 'Grade 9 Adviser', image: '/img/OurTeam-Joshua.png' },
     { name: 'Ms. Junafe Z. Verano', role: 'Grade 8 Adviser', image: '' },
     { name: 'Mr. Adrian Poul P. Valderama', role: 'Grade 7 Adviser', image: '' },
     { name: 'Ms. Janice O. Milante', role: 'Subject Teacher', image: '' },
     { name: 'Mr. Marlon D. Macaraeg', role: 'Subject Teacher', image: '' },
     { name: 'Ms. Roselyn P. Espuerta', role: 'Subject Teacher', image: '/img/OurTeam-Roselyn.png' },
-    { name: 'Mr. Kervin E. David', role: 'Subject Teacher', image: '' },
+    { name: 'Mr. Kervin E. David', role: 'Subject Teacher', image: '/img/OurTeam-Kervin.png' },
   ];
 
   // Data for Admin & Support
@@ -45,11 +46,11 @@ const Team: React.FC = () => {
     { name: 'Ms. Julie Ann Mandeloso', role: 'School Cashier', image: '/img/OurTeam-Julie.png' },
     { name: 'Ms. Kaye Z. Trilles', role: 'Registrar', image: '/img/OurTeam-Kaye.png' },
     { name: 'Ms. Aziel Anne L. Gonzales', role: 'Administrative Asst.', image: '/img/OurTeam-Aziel.png' },
-    { name: 'Mr. Leonardo O. Tagal Jr.', role: 'School Guard', image: '' },
-    { name: 'Mr. Edwin V. Iniego', role: 'School Service Driver', image: '' },
-    { name: 'Mr. Patrick A. Pentinio', role: 'School Service Driver', image: '' },
-    { name: 'Mr. Hernando B. Tabago', role: 'Maintenance', image: '' },
-    { name: 'Mr. Randy P. Miranda', role: 'Support Staff', image: '' },
+    { name: 'Mr. Leonardo O. Tagal Jr.', role: 'School Guard', image: '/img/OurTeam-Leonardo.png' },
+    { name: 'Mr. Edwin V. Iniego', role: 'School Service Driver', image: '/img/OurTeam-Edwin.png' },
+    { name: 'Mr. Patrick A. Pentinio', role: 'School Service Driver', image: '/img/OurTeam-Patrick.png' },
+    { name: 'Mr. Hernando B. Tabago', role: 'Maintenance', image: '/img/OurTeam-Hernando.png' },
+    { name: 'Mr. Randy P. Miranda', role: 'Support Staff', image: '/img/OurTeam-Randy.png' },
   ];
 
   return (
@@ -77,12 +78,17 @@ const Team: React.FC = () => {
               <div className="relative w-64 h-64 md:w-80 md:h-80 mb-8">
                 <div className="absolute inset-0 bg-red-100 rounded-full transform translate-x-4 translate-y-4 group-hover:translate-x-2 group-hover:translate-y-2 transition-transform duration-300"></div>
                 {leader.image ? (
-                  <img 
-                    src={leader.image} 
-                    alt={leader.name} 
-                    className="w-full h-full object-cover rounded-full border-4 border-white shadow-xl relative z-10"
-                    style={{ objectPosition: (leader as any).position || 'center' }}
-                  />
+                  <div className="w-full h-full rounded-full border-4 border-white shadow-xl relative z-10 overflow-hidden bg-white">
+                    <img 
+                      src={leader.image} 
+                      alt={leader.name} 
+                      className="w-full h-full object-cover transition-transform duration-300"
+                      style={{ 
+                        objectPosition: (leader as any).position || 'center',
+                        transform: (leader as any).scale ? `scale(${(leader as any).scale})` : undefined
+                      }}
+                    />
+                  </div>
                 ) : (
                   <div className="w-full h-full rounded-full border-4 border-white shadow-xl relative z-10 bg-slate-100 flex items-center justify-center">
                     <i className="fa-solid fa-user text-8xl text-gray-300"></i>
