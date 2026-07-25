@@ -289,15 +289,6 @@ const Admin: React.FC<AdminProps> = ({
             </p>
           </div>
           <div className="flex items-center gap-3">
-            {isSupabaseConfigured ? (
-              <span className="bg-emerald-100 text-emerald-800 text-xs font-bold px-3.5 py-2 rounded-full flex items-center gap-2 border border-emerald-300 shadow-sm">
-                <i className="fa-solid fa-database text-emerald-600"></i> Supabase DB Connected (Real-Time)
-              </span>
-            ) : (
-              <span className="bg-amber-100 text-amber-800 text-xs font-bold px-3.5 py-2 rounded-full flex items-center gap-2 border border-amber-300 shadow-sm" title="Add VITE_SUPABASE_URL and VITE_SUPABASE_ANON_KEY to Cloudflare Pages for Cloud DB sync">
-                <i className="fa-solid fa-cloud text-amber-600"></i> Local Sync Mode (Connect Supabase)
-              </span>
-            )}
             <button 
               onClick={() => setIsLoggedIn(false)}
               className="text-gray-500 hover:text-gray-900 text-sm font-bold transition-colors whitespace-nowrap"
