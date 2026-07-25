@@ -104,9 +104,24 @@ const Admin: React.FC<AdminProps> = ({
 
   const handleDeleteTeamMember = (id: string) => {
     if (window.confirm('Are you sure you want to remove this team member?')) {
+      deleteTeamMemberFromDb(id);
       setTeamMembers?.(prev => prev.filter(m => m.id !== id));
       showToast('Team member deleted.');
     }
+  };
+
+  const handleMoveTeamMember = (id: string, direction: 'up' | 'down') => {
+    if (!setTeamMembers) return;
+    const index = teamMembers.findIndex(m => m.id === id);
+    if (index === -1) return;
+    const targetIndex = direction === 'up' ? index - 1 : index + 1;
+    if (targetIndex < 0 || targetIndex >= teamMembers.length) return;
+
+    const updated = [...teamMembers];
+    const [moved] = updated.splice(index, 1);
+    updated.splice(targetIndex, 0, moved);
+    setTeamMembers(updated);
+    showToast('Team member order updated.');
   };
 
   const handleTeamImageUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -424,18 +439,38 @@ const Admin: React.FC<AdminProps> = ({
 
                         <div className="flex items-center gap-1">
                           <button 
-                            onClick={() => setEditingTeamMember(member)}
-                            className="p-2 text-gray-500 hover:text-[#E11D48] transition"
-                            title="Edit"
+                            type="button"
+                            onClick={() => handleMoveTeamMember(member.id, 'up')}
+                            disabled={teamMembers.findIndex(m => m.id === member.id) === 0}
+                            className="p-1.5 text-gray-400 hover:text-gray-900 disabled:opacity-20 disabled:hover:text-gray-400 transition rounded-lg hover:bg-gray-100"
+                            title="Move Up"
                           >
-                            <i className="fa-solid fa-pen-to-square"></i>
+                            <i className="fa-solid fa-arrow-up text-xs"></i>
                           </button>
                           <button 
+                            type="button"
+                            onClick={() => handleMoveTeamMember(member.id, 'down')}
+                            disabled={teamMembers.findIndex(m => m.id === member.id) === teamMembers.length - 1}
+                            className="p-1.5 text-gray-400 hover:text-gray-900 disabled:opacity-20 disabled:hover:text-gray-400 transition rounded-lg hover:bg-gray-100"
+                            title="Move Down"
+                          >
+                            <i className="fa-solid fa-arrow-down text-xs"></i>
+                          </button>
+                          <button 
+                            type="button"
+                            onClick={() => setEditingTeamMember(member)}
+                            className="p-1.5 text-gray-500 hover:text-[#E11D48] transition rounded-lg hover:bg-gray-100"
+                            title="Edit"
+                          >
+                            <i className="fa-solid fa-pen-to-square text-xs"></i>
+                          </button>
+                          <button 
+                            type="button"
                             onClick={() => handleDeleteTeamMember(member.id)}
-                            className="p-2 text-gray-400 hover:text-red-600 transition"
+                            className="p-1.5 text-gray-400 hover:text-red-600 transition rounded-lg hover:bg-gray-100"
                             title="Delete"
                           >
-                            <i className="fa-solid fa-trash-can"></i>
+                            <i className="fa-solid fa-trash-can text-xs"></i>
                           </button>
                         </div>
                       </div>
