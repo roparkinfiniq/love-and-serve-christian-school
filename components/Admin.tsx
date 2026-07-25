@@ -1,7 +1,7 @@
 import React, { useState, useRef } from 'react';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
-import { CalendarEvent, PopupData, GalleryImage } from '../types';
+import { CalendarEvent, PopupData, GalleryImage, TeamMember, FacilityItem } from '../types';
 
 interface AdminProps {
   calendarEvents?: CalendarEvent[];
@@ -14,6 +14,10 @@ interface AdminProps {
   setGalleryImages?: React.Dispatch<React.SetStateAction<GalleryImage[]>>;
   galleryCategories?: string[];
   setGalleryCategories?: React.Dispatch<React.SetStateAction<string[]>>;
+  teamMembers?: TeamMember[];
+  setTeamMembers?: React.Dispatch<React.SetStateAction<TeamMember[]>>;
+  facilitiesList?: FacilityItem[];
+  setFacilitiesList?: React.Dispatch<React.SetStateAction<FacilityItem[]>>;
 }
 
 const Admin: React.FC<AdminProps> = ({ 
@@ -21,16 +25,26 @@ const Admin: React.FC<AdminProps> = ({
   calendarPdfUrl, setCalendarPdfUrl, 
   popups = [], setPopups,
   galleryImages = [], setGalleryImages,
-  galleryCategories = [], setGalleryCategories
+  galleryCategories = [], setGalleryCategories,
+  teamMembers = [], setTeamMembers,
+  facilitiesList = [], setFacilitiesList
 }) => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
 
-  const [activeTab, setActiveTab] = useState<'popup' | 'info' | 'media' | 'calendar'>('popup');
+  const [activeTab, setActiveTab] = useState<'popup' | 'team' | 'facilities' | 'media' | 'calendar'>('popup');
   const [editingPopup, setEditingPopup] = useState<Partial<PopupData> | null>(null);
   const [editingEvent, setEditingEvent] = useState<Partial<CalendarEvent> | null>(null);
+
+  // Team & Facility Edit States
+  const [editingTeamMember, setEditingTeamMember] = useState<Partial<TeamMember> | null>(null);
+  const [teamFilterCategory, setTeamFilterCategory] = useState<string>('all');
+  const [teamFileName, setTeamFileName] = useState('');
+
+  const [editingFacility, setEditingFacility] = useState<Partial<FacilityItem> | null>(null);
+  const [facilityFileName, setFacilityFileName] = useState('');
 
   const [newPhotoSrc, setNewPhotoSrc] = useState('');
   const [newPhotoAlt, setNewPhotoAlt] = useState('');
@@ -50,6 +64,101 @@ const Admin: React.FC<AdminProps> = ({
   const showToast = (message: string, type: 'success' | 'error' = 'success') => {
     setToast({ message, type });
     setTimeout(() => setToast(null), 3000);
+  };
+
+  // Team Member CRUD Handlers
+  const handleSaveTeamMember = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!editingTeamMember || !editingTeamMember.name || !editingTeamMember.role) {
+      showToast('Name and Role are required.', 'error');
+      return;
+    }
+
+    const memberToSave: TeamMember = {
+      id: editingTeamMember.id || `t_${Date.now()}`,
+      name: editingTeamMember.name,
+      role: editingTeamMember.role,
+      category: (editingTeamMember.category as any) || 'Faculty',
+      image: editingTeamMember.image || '',
+      message: editingTeamMember.message || '',
+      position: editingTeamMember.position || 'center top'
+    };
+
+    if (editingTeamMember.id) {
+      setTeamMembers?.(prev => prev.map(m => m.id === memberToSave.id ? memberToSave : m));
+      showToast('Team member updated successfully!');
+    } else {
+      setTeamMembers?.(prev => [...prev, memberToSave]);
+      showToast('New team member added successfully!');
+    }
+    setEditingTeamMember(null);
+  };
+
+  const handleDeleteTeamMember = (id: string) => {
+    if (window.confirm('Are you sure you want to remove this team member?')) {
+      setTeamMembers?.(prev => prev.filter(m => m.id !== id));
+      showToast('Team member deleted.');
+    }
+  };
+
+  const handleTeamImageUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (file) {
+      setTeamFileName(file.name);
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        setEditingTeamMember(prev => prev ? { ...prev, image: reader.result as string } : { image: reader.result as string });
+      };
+      reader.readAsDataURL(file);
+    } else {
+      setTeamFileName('');
+    }
+  };
+
+  // Facility CRUD Handlers
+  const handleSaveFacility = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!editingFacility || !editingFacility.title) {
+      showToast('Facility Title is required.', 'error');
+      return;
+    }
+
+    const facilityToSave: FacilityItem = {
+      id: editingFacility.id || `f_${Date.now()}`,
+      title: editingFacility.title,
+      image: editingFacility.image || '',
+      desc: editingFacility.desc || ''
+    };
+
+    if (editingFacility.id) {
+      setFacilitiesList?.(prev => prev.map(f => f.id === facilityToSave.id ? facilityToSave : f));
+      showToast('Facility updated successfully!');
+    } else {
+      setFacilitiesList?.(prev => [...prev, facilityToSave]);
+      showToast('New facility added successfully!');
+    }
+    setEditingFacility(null);
+  };
+
+  const handleDeleteFacility = (id: string) => {
+    if (window.confirm('Are you sure you want to remove this facility?')) {
+      setFacilitiesList?.(prev => prev.filter(f => f.id !== id));
+      showToast('Facility deleted.');
+    }
+  };
+
+  const handleFacilityImageUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (file) {
+      setFacilityFileName(file.name);
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        setEditingFacility(prev => prev ? { ...prev, image: reader.result as string } : { image: reader.result as string });
+      };
+      reader.readAsDataURL(file);
+    } else {
+      setFacilityFileName('');
+    }
   };
 
   const insertMarkdown = (prefix: string, suffix: string) => {
@@ -195,15 +304,26 @@ const Admin: React.FC<AdminProps> = ({
                 Emergency Popups
               </button>
               <button
-                onClick={() => setActiveTab('info')}
+                onClick={() => setActiveTab('team')}
                 className={`whitespace-nowrap w-auto md:w-full flex-1 md:flex-none justify-center md:justify-start flex items-center px-4 py-3 text-sm font-bold rounded-lg transition-colors ${
-                  activeTab === 'info'
+                  activeTab === 'team'
                     ? 'bg-[#E11D48] text-white shadow-md'
                     : 'text-gray-700 hover:bg-gray-100'
                 }`}
               >
-                <i className="fa-solid fa-school w-6 text-center"></i>
-                School Basic Info
+                <i className="fa-solid fa-users w-6 text-center"></i>
+                Our Team (Faculty)
+              </button>
+              <button
+                onClick={() => setActiveTab('facilities')}
+                className={`whitespace-nowrap w-auto md:w-full flex-1 md:flex-none justify-center md:justify-start flex items-center px-4 py-3 text-sm font-bold rounded-lg transition-colors ${
+                  activeTab === 'facilities'
+                    ? 'bg-[#E11D48] text-white shadow-md'
+                    : 'text-gray-700 hover:bg-gray-100'
+                }`}
+              >
+                <i className="fa-solid fa-building w-6 text-center"></i>
+                Campus Facilities
               </button>
               <button
                 onClick={() => setActiveTab('media')}
@@ -233,6 +353,345 @@ const Admin: React.FC<AdminProps> = ({
 
           {/* Content Area */}
           <div className="flex-1 p-4 md:p-8 bg-white min-w-0 overflow-x-hidden">
+            {activeTab === 'team' && (
+              <div className="space-y-6 animate-fadeIn">
+                <div className="flex flex-col sm:flex-row justify-between items-start sm:items-end border-b pb-2 mb-6 gap-4 sm:gap-0">
+                  <div>
+                    <h2 className="text-2xl font-bold text-gray-900 border-none">Our Team (Faculty & Staff)</h2>
+                    <p className="text-gray-500 text-sm mt-1">Manage leadership, teachers, and support staff details.</p>
+                  </div>
+                  <button 
+                    className="bg-[#E11D48] text-white px-4 py-2 rounded-lg font-bold shadow hover:bg-rose-500 transition flex items-center whitespace-nowrap"
+                    onClick={() => setEditingTeamMember({ id: '', name: '', role: '', category: 'Faculty', image: '', message: '' })}
+                  >
+                    <i className="fa-solid fa-plus mr-2"></i> Add Team Member
+                  </button>
+                </div>
+
+                {/* Filter */}
+                <div className="flex items-center gap-2 mb-4 overflow-x-auto pb-2">
+                  <span className="text-sm font-bold text-gray-700">Category:</span>
+                  {['all', 'Leadership', 'Faculty', 'AdminSupport'].map(cat => (
+                    <button
+                      key={cat}
+                      onClick={() => setTeamFilterCategory(cat)}
+                      className={`px-3 py-1.5 rounded-full text-xs font-bold transition-colors ${
+                        teamFilterCategory === cat 
+                          ? 'bg-slate-900 text-white' 
+                          : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
+                      }`}
+                    >
+                      {cat === 'all' ? 'All' : cat === 'AdminSupport' ? 'Admin & Support' : cat}
+                    </button>
+                  ))}
+                </div>
+
+                {/* Team Members List */}
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                  {teamMembers
+                    .filter(m => teamFilterCategory === 'all' || m.category === teamFilterCategory)
+                    .map(member => (
+                      <div key={member.id} className="p-4 border border-gray-200 rounded-xl bg-white shadow-sm flex items-start justify-between gap-3">
+                        <div className="flex items-center gap-3">
+                          <div className="w-14 h-14 rounded-full overflow-hidden bg-gray-100 border flex-shrink-0 flex items-center justify-center">
+                            {member.image ? (
+                              <img src={member.image} alt={member.name} className="w-full h-full object-cover" />
+                            ) : (
+                              <i className="fa-solid fa-user text-2xl text-gray-300"></i>
+                            )}
+                          </div>
+                          <div>
+                            <span className={`inline-block text-[10px] uppercase font-bold px-2 py-0.5 rounded-full mb-1 ${
+                              member.category === 'Leadership' ? 'bg-amber-100 text-amber-800' :
+                              member.category === 'Faculty' ? 'bg-rose-100 text-rose-800' : 'bg-blue-100 text-blue-800'
+                            }`}>
+                              {member.category}
+                            </span>
+                            <h4 className="font-bold text-gray-900 text-sm leading-snug">{member.name}</h4>
+                            <p className="text-xs text-gray-500">{member.role}</p>
+                          </div>
+                        </div>
+
+                        <div className="flex items-center gap-1">
+                          <button 
+                            onClick={() => setEditingTeamMember(member)}
+                            className="p-2 text-gray-500 hover:text-[#E11D48] transition"
+                            title="Edit"
+                          >
+                            <i className="fa-solid fa-pen-to-square"></i>
+                          </button>
+                          <button 
+                            onClick={() => handleDeleteTeamMember(member.id)}
+                            className="p-2 text-gray-400 hover:text-red-600 transition"
+                            title="Delete"
+                          >
+                            <i className="fa-solid fa-trash-can"></i>
+                          </button>
+                        </div>
+                      </div>
+                    ))}
+                </div>
+
+                {/* Team Member Edit Modal */}
+                {editingTeamMember && (
+                  <div className="fixed inset-0 z-50 bg-black/50 backdrop-blur-sm flex items-center justify-center p-4 overflow-y-auto">
+                    <div className="bg-white rounded-2xl p-6 max-w-lg w-full shadow-2xl space-y-4 my-8">
+                      <div className="flex justify-between items-center border-b pb-3">
+                        <h3 className="text-xl font-bold text-gray-900">
+                          {editingTeamMember.id ? 'Edit Team Member' : 'Add New Team Member'}
+                        </h3>
+                        <button onClick={() => setEditingTeamMember(null)} className="text-gray-400 hover:text-gray-600">
+                          <i className="fa-solid fa-xmark text-xl"></i>
+                        </button>
+                      </div>
+
+                      <form onSubmit={handleSaveTeamMember} className="space-y-4">
+                        <div>
+                          <label className="block text-xs font-bold text-gray-700 uppercase mb-1">Name *</label>
+                          <input 
+                            type="text" 
+                            required 
+                            value={editingTeamMember.name || ''}
+                            onChange={e => setEditingTeamMember({...editingTeamMember, name: e.target.value})}
+                            className="w-full px-3 py-2 border rounded-lg text-sm focus:ring-2 focus:ring-[#E11D48] outline-none"
+                            placeholder="e.g. Ms. Jane Doe"
+                          />
+                        </div>
+
+                        <div>
+                          <label className="block text-xs font-bold text-gray-700 uppercase mb-1">Role / Designation *</label>
+                          <input 
+                            type="text" 
+                            required 
+                            value={editingTeamMember.role || ''}
+                            onChange={e => setEditingTeamMember({...editingTeamMember, role: e.target.value})}
+                            className="w-full px-3 py-2 border rounded-lg text-sm focus:ring-2 focus:ring-[#E11D48] outline-none"
+                            placeholder="e.g. Grade 1 Adviser"
+                          />
+                        </div>
+
+                        <div>
+                          <label className="block text-xs font-bold text-gray-700 uppercase mb-1">Category *</label>
+                          <select 
+                            value={editingTeamMember.category || 'Faculty'}
+                            onChange={e => setEditingTeamMember({...editingTeamMember, category: e.target.value as any})}
+                            className="w-full px-3 py-2 border rounded-lg text-sm focus:ring-2 focus:ring-[#E11D48] outline-none bg-white"
+                          >
+                            <option value="Leadership">School Leadership</option>
+                            <option value="Faculty">Faculty Teacher</option>
+                            <option value="AdminSupport">Admin & Support Staff</option>
+                          </select>
+                        </div>
+
+                        <div>
+                          <label className="block text-xs font-bold text-gray-700 uppercase mb-1">Photo Image</label>
+                          <div className="flex items-center gap-3 mb-2">
+                            {editingTeamMember.image && (
+                              <div className="w-12 h-12 rounded-full overflow-hidden border bg-gray-100 flex-shrink-0">
+                                <img src={editingTeamMember.image} alt="Preview" className="w-full h-full object-cover" />
+                              </div>
+                            )}
+                            <label className="cursor-pointer bg-rose-50 text-[#E11D48] hover:bg-rose-100 font-bold py-1.5 px-3 rounded-lg text-xs transition-colors text-center inline-flex items-center gap-1.5">
+                              <i className="fa-solid fa-cloud-arrow-up"></i>
+                              <span>Choose File</span>
+                              <input 
+                                type="file" 
+                                accept="image/*"
+                                className="hidden"
+                                onChange={handleTeamImageUpload}
+                              />
+                            </label>
+                            <span className="text-xs text-gray-500 truncate max-w-[180px]">
+                              {teamFileName || (editingTeamMember.image ? 'Image loaded' : 'No file chosen')}
+                            </span>
+                          </div>
+                          <input 
+                            type="text" 
+                            value={editingTeamMember.image || ''}
+                            onChange={e => setEditingTeamMember({...editingTeamMember, image: e.target.value})}
+                            className="w-full px-3 py-2 border rounded-lg text-xs text-gray-600 focus:ring-2 focus:ring-[#E11D48] outline-none"
+                            placeholder="Or enter Image URL (e.g. /img/OurTeam-Name.png)"
+                          />
+                        </div>
+
+                        {editingTeamMember.category === 'Leadership' && (
+                          <div>
+                            <label className="block text-xs font-bold text-gray-700 uppercase mb-1">Quote / Message (for Leadership)</label>
+                            <textarea 
+                              rows={2}
+                              value={editingTeamMember.message || ''}
+                              onChange={e => setEditingTeamMember({...editingTeamMember, message: e.target.value})}
+                              className="w-full px-3 py-2 border rounded-lg text-sm focus:ring-2 focus:ring-[#E11D48] outline-none"
+                              placeholder='"Preparing the next generation as God-fearing leaders..."'
+                            />
+                          </div>
+                        )}
+
+                        <div className="flex justify-end gap-2 pt-3 border-t">
+                          <button 
+                            type="button" 
+                            onClick={() => setEditingTeamMember(null)}
+                            className="px-4 py-2 border rounded-lg text-sm font-bold text-gray-600 hover:bg-gray-100"
+                          >
+                            Cancel
+                          </button>
+                          <button 
+                            type="submit" 
+                            className="px-5 py-2 bg-[#E11D48] text-white rounded-lg text-sm font-bold hover:bg-rose-600 shadow"
+                          >
+                            Save Member
+                          </button>
+                        </div>
+                      </form>
+                    </div>
+                  </div>
+                )}
+              </div>
+            )}
+
+            {activeTab === 'facilities' && (
+              <div className="space-y-6 animate-fadeIn">
+                <div className="flex flex-col sm:flex-row justify-between items-start sm:items-end border-b pb-2 mb-6 gap-4 sm:gap-0">
+                  <div>
+                    <h2 className="text-2xl font-bold text-gray-900 border-none">Campus Facilities</h2>
+                    <p className="text-gray-500 text-sm mt-1">Manage photos, titles, and descriptions of campus facilities.</p>
+                  </div>
+                  <button 
+                    className="bg-[#E11D48] text-white px-4 py-2 rounded-lg font-bold shadow hover:bg-rose-500 transition flex items-center whitespace-nowrap"
+                    onClick={() => setEditingFacility({ id: '', title: '', desc: '', image: '' })}
+                  >
+                    <i className="fa-solid fa-plus mr-2"></i> Add Facility
+                  </button>
+                </div>
+
+                {/* Facilities List Grid */}
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                  {facilitiesList.map(facility => (
+                    <div key={facility.id} className="border border-gray-200 rounded-xl overflow-hidden bg-white shadow-sm flex flex-col justify-between">
+                      <div>
+                        <div className="h-40 bg-gray-100 relative overflow-hidden">
+                          {facility.image ? (
+                            <img src={facility.image} alt={facility.title} className="w-full h-full object-cover" />
+                          ) : (
+                            <div className="w-full h-full flex items-center justify-center bg-slate-100">
+                              <i className="fa-solid fa-building text-4xl text-gray-300"></i>
+                            </div>
+                          )}
+                        </div>
+                        <div className="p-4">
+                          <h4 className="font-bold text-gray-900 text-base mb-1">{facility.title}</h4>
+                          <p className="text-xs text-gray-500 leading-relaxed line-clamp-2">{facility.desc}</p>
+                        </div>
+                      </div>
+
+                      <div className="p-3 border-t bg-gray-50 flex justify-end gap-2">
+                        <button 
+                          onClick={() => setEditingFacility(facility)}
+                          className="px-3 py-1.5 bg-white border border-gray-200 rounded-lg text-xs font-bold text-gray-700 hover:text-[#E11D48] transition flex items-center gap-1 shadow-sm"
+                        >
+                          <i className="fa-solid fa-pen-to-square"></i> Edit
+                        </button>
+                        <button 
+                          onClick={() => handleDeleteFacility(facility.id)}
+                          className="px-3 py-1.5 bg-white border border-gray-200 rounded-lg text-xs font-bold text-red-600 hover:bg-red-50 transition flex items-center gap-1 shadow-sm"
+                        >
+                          <i className="fa-solid fa-trash-can"></i> Delete
+                        </button>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+
+                {/* Facility Edit Modal */}
+                {editingFacility && (
+                  <div className="fixed inset-0 z-50 bg-black/50 backdrop-blur-sm flex items-center justify-center p-4 overflow-y-auto">
+                    <div className="bg-white rounded-2xl p-6 max-w-lg w-full shadow-2xl space-y-4 my-8">
+                      <div className="flex justify-between items-center border-b pb-3">
+                        <h3 className="text-xl font-bold text-gray-900">
+                          {editingFacility.id ? 'Edit Facility' : 'Add New Facility'}
+                        </h3>
+                        <button onClick={() => setEditingFacility(null)} className="text-gray-400 hover:text-gray-600">
+                          <i className="fa-solid fa-xmark text-xl"></i>
+                        </button>
+                      </div>
+
+                      <form onSubmit={handleSaveFacility} className="space-y-4">
+                        <div>
+                          <label className="block text-xs font-bold text-gray-700 uppercase mb-1">Facility Title *</label>
+                          <input 
+                            type="text" 
+                            required 
+                            value={editingFacility.title || ''}
+                            onChange={e => setEditingFacility({...editingFacility, title: e.target.value})}
+                            className="w-full px-3 py-2 border rounded-lg text-sm focus:ring-2 focus:ring-[#E11D48] outline-none"
+                            placeholder="e.g. Science Laboratory"
+                          />
+                        </div>
+
+                        <div>
+                          <label className="block text-xs font-bold text-gray-700 uppercase mb-1">Description</label>
+                          <textarea 
+                            rows={3}
+                            value={editingFacility.desc || ''}
+                            onChange={e => setEditingFacility({...editingFacility, desc: e.target.value})}
+                            className="w-full px-3 py-2 border rounded-lg text-sm focus:ring-2 focus:ring-[#E11D48] outline-none"
+                            placeholder="Describe this facility..."
+                          />
+                        </div>
+
+                        <div>
+                          <label className="block text-xs font-bold text-gray-700 uppercase mb-1">Facility Photo</label>
+                          <div className="flex items-center gap-3 mb-2">
+                            {editingFacility.image && (
+                              <div className="w-16 h-12 rounded overflow-hidden border bg-gray-100 flex-shrink-0">
+                                <img src={editingFacility.image} alt="Preview" className="w-full h-full object-cover" />
+                              </div>
+                            )}
+                            <label className="cursor-pointer bg-rose-50 text-[#E11D48] hover:bg-rose-100 font-bold py-1.5 px-3 rounded-lg text-xs transition-colors text-center inline-flex items-center gap-1.5">
+                              <i className="fa-solid fa-cloud-arrow-up"></i>
+                              <span>Choose File</span>
+                              <input 
+                                type="file" 
+                                accept="image/*"
+                                className="hidden"
+                                onChange={handleFacilityImageUpload}
+                              />
+                            </label>
+                            <span className="text-xs text-gray-500 truncate max-w-[180px]">
+                              {facilityFileName || (editingFacility.image ? 'Image loaded' : 'No file chosen')}
+                            </span>
+                          </div>
+                          <input 
+                            type="text" 
+                            value={editingFacility.image || ''}
+                            onChange={e => setEditingFacility({...editingFacility, image: e.target.value})}
+                            className="w-full px-3 py-2 border rounded-lg text-xs text-gray-600 focus:ring-2 focus:ring-[#E11D48] outline-none"
+                            placeholder="Or enter Image URL (e.g. /img/Campus_Life-Library.png)"
+                          />
+                        </div>
+
+                        <div className="flex justify-end gap-2 pt-3 border-t">
+                          <button 
+                            type="button" 
+                            onClick={() => setEditingFacility(null)}
+                            className="px-4 py-2 border rounded-lg text-sm font-bold text-gray-600 hover:bg-gray-100"
+                          >
+                            Cancel
+                          </button>
+                          <button 
+                            type="submit" 
+                            className="px-5 py-2 bg-[#E11D48] text-white rounded-lg text-sm font-bold hover:bg-rose-600 shadow"
+                          >
+                            Save Facility
+                          </button>
+                        </div>
+                      </form>
+                    </div>
+                  </div>
+                )}
+              </div>
+            )}
+
             {activeTab === 'calendar' && (
               <div className="space-y-6 animate-fadeIn">
                 <div className="flex flex-col sm:flex-row justify-between items-start sm:items-end border-b pb-2 mb-6 gap-4 sm:gap-0">
@@ -600,38 +1059,6 @@ const Admin: React.FC<AdminProps> = ({
                     </div>
                   </div>
                 )}
-              </div>
-            )}
-
-            {activeTab === 'info' && (
-              <div className="space-y-6 animate-fadeIn">
-                <div>
-                  <h2 className="text-2xl font-bold text-gray-900 border-b pb-2 mb-6">School Basic Info</h2>
-                  <p className="text-gray-600 mb-6">The information entered here manages basic school details and reference information for visitors.</p>
-                </div>
-
-                <div className="space-y-6">
-                  <div>
-                    <label className="block text-sm font-bold text-gray-700 mb-1">Tuition & Fees Guide</label>
-                    <textarea rows={3} className="w-full border border-gray-300 rounded-lg p-3 focus:ring-2 focus:ring-rose-500 focus:border-red-500 outline-none" placeholder="Tuition by grade, payment period, etc." defaultValue="Preschool: 3,000,000 KRW/year&#10;Elementary: 4,500,000 KRW/year"></textarea>
-                  </div>
-                  <div>
-                    <label className="block text-sm font-bold text-gray-700 mb-1">Admission Process Summary</label>
-                    <textarea rows={3} className="w-full border border-gray-300 rounded-lg p-3 focus:ring-2 focus:ring-rose-500 focus:border-red-500 outline-none" placeholder="Step-by-step admission process" defaultValue="1. Submit application and documents&#10;2. Student interview and level test&#10;3. Parent interview&#10;4. Final decision and tuition payment"></textarea>
-                  </div>
-                  <div>
-                    <label className="block text-sm font-bold text-gray-700 mb-1">Key Curriculum Features</label>
-                    <textarea rows={3} className="w-full border border-gray-300 rounded-lg p-3 focus:ring-2 focus:ring-rose-500 focus:border-red-500 outline-none" placeholder="Specialized school curriculum" defaultValue="Bilingual (English/Korean) education based on a biblical worldview. Project-Based Learning (PBL) and creative character education."></textarea>
-                  </div>
-                  <div>
-                    <label className="block text-sm font-bold text-gray-700 mb-1">Frequently Asked Questions (FAQ Data)</label>
-                    <textarea rows={4} className="w-full border border-gray-300 rounded-lg p-3 focus:ring-2 focus:ring-rose-500 focus:border-red-500 outline-none" placeholder="Write in Q&A format" defaultValue="Q: Is there a school bus?&#10;A: Yes, we run school buses to major areas (Antipolo, Manila, etc.)."></textarea>
-                  </div>
-                </div>
-
-                <div className="pt-4 text-right">
-                   <button className="bg-[#E11D48] text-white px-6 py-2 rounded-lg font-bold shadow hover:bg-rose-500 transition">Update Data (Sync with AI)</button>
-                </div>
               </div>
             )}
 

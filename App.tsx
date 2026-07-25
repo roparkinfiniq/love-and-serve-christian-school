@@ -16,7 +16,8 @@ import Careers from './components/Careers';
 import Admin from './components/Admin';
 import Calendar from './components/Calendar';
 import PopupsOverlay from './components/PopupsOverlay';
-import { Page, CalendarEvent, PopupData, GalleryImage } from './types';
+import { Page, CalendarEvent, PopupData, GalleryImage, TeamMember, FacilityItem } from './types';
+import { INITIAL_TEAM_MEMBERS, INITIAL_FACILITIES } from './data/initialData';
 
 const INITIAL_EVENTS: CalendarEvent[] = [
   // June 2026
@@ -130,6 +131,40 @@ const App: React.FC = () => {
   const [popups, setPopups] = useState<PopupData[]>([]);
   const [galleryImages, setGalleryImages] = useState<GalleryImage[]>(INITIAL_GALLERY_IMAGES);
   const [galleryCategories, setGalleryCategories] = useState<string[]>(INITIAL_GALLERY_CATEGORIES);
+
+  const [teamMembers, setTeamMembers] = useState<TeamMember[]>(() => {
+    try {
+      const saved = localStorage.getItem('lscs_team_members');
+      return saved ? JSON.parse(saved) : INITIAL_TEAM_MEMBERS;
+    } catch {
+      return INITIAL_TEAM_MEMBERS;
+    }
+  });
+
+  const [facilitiesList, setFacilitiesList] = useState<FacilityItem[]>(() => {
+    try {
+      const saved = localStorage.getItem('lscs_facilities_list');
+      return saved ? JSON.parse(saved) : INITIAL_FACILITIES;
+    } catch {
+      return INITIAL_FACILITIES;
+    }
+  });
+
+  useEffect(() => {
+    try {
+      localStorage.setItem('lscs_team_members', JSON.stringify(teamMembers));
+    } catch (e) {
+      console.error(e);
+    }
+  }, [teamMembers]);
+
+  useEffect(() => {
+    try {
+      localStorage.setItem('lscs_facilities_list', JSON.stringify(facilitiesList));
+    } catch (e) {
+      console.error(e);
+    }
+  }, [facilitiesList]);
   const [academicsTab, setAcademicsTab] = useState<'preschool' | 'elementary' | 'junior'>('preschool');
   const [scrollToTabs, setScrollToTabs] = useState(false);
   const [scrollToAdmissionProcess, setScrollToAdmissionProcess] = useState(false);
@@ -433,7 +468,7 @@ const App: React.FC = () => {
       case 'Admissions':
         return <Admissions onNavigate={handlePageChange} scrollToProcess={scrollToAdmissionProcess} />;
       case 'Facilities':
-        return <Facilities onNavigate={handlePageChange} onScheduleVisit={handleContactFormNavigation} />;
+        return <Facilities onNavigate={handlePageChange} onScheduleVisit={handleContactFormNavigation} facilitiesList={facilitiesList} />;
       case 'Gallery':
         return <Gallery images={galleryImages} categories={galleryCategories} />;
       case 'Calendar':
@@ -441,7 +476,7 @@ const App: React.FC = () => {
       case 'Contact':
         return <Contact scrollToForm={scrollToContactForm} />;
       case 'Team':
-        return <Team />;
+        return <Team teamMembers={teamMembers} />;
       case 'Careers':
         return <Careers />;
       case 'Admin':
@@ -456,6 +491,10 @@ const App: React.FC = () => {
           setGalleryImages={setGalleryImages}
           galleryCategories={galleryCategories}
           setGalleryCategories={setGalleryCategories}
+          teamMembers={teamMembers}
+          setTeamMembers={setTeamMembers}
+          facilitiesList={facilitiesList}
+          setFacilitiesList={setFacilitiesList}
         />;
       default:
         return <Hero onNavigate={handlePageChange} />;

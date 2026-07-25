@@ -1,64 +1,19 @@
 import React from 'react';
-import { Page } from '../types';
+import { Page, FacilityItem } from '../types';
+import { INITIAL_FACILITIES } from '../data/initialData';
 
 interface FacilitiesProps {
   onNavigate: (page: Page) => void;
   onScheduleVisit?: () => void;
+  facilitiesList?: FacilityItem[];
 }
 
-const Facilities: React.FC<FacilitiesProps> = ({ onNavigate, onScheduleVisit }) => {
-  const facilities = [
-    { 
-      title: 'School Ground', 
-      image: '/img/Campus_Life-school grounds.png',
-      desc: 'Wide and well-maintained open spaces for learning, activities, and community gatherings'
-    },
-    { 
-      title: 'Playground', 
-      image: '/img/Campus_Life-Playground.png',
-      desc: 'A safe and vibrant space for active play and physical development.'
-    },
-    { 
-      title: 'Library', 
-      image: '/img/Campus_Life-Library.png',
-      desc: 'A quiet sanctuary filled with knowledge and study resources.'
-    },
-    { 
-      title: 'Computer Lab', 
-      image: '/img/Campus_Life-Computer_Room.png',
-      desc: 'Modern workstations equipping students with digital skills.'
-    },
-    { 
-      title: 'Science Laboratory', 
-      image: '/img/Campus_Life-Laboratory.png',
-      desc: 'Fully equipped facility for hands-on experiments and discovery.'
-    },
-    { 
-      title: 'Worship Hall', 
-      image: '/img/Campus_Life-worship hall.png',
-      desc: 'A spacious venue for school events, performances, and worship.'
-    },
-    { 
-      title: 'Kindergarten Classroom', 
-      image: '/img/Campus_Life-Kinder.png',
-      desc: 'Colorful and interactive environments designed for early learners.'
-    },
-    { 
-      title: 'Spacious Classrooms', 
-      image: '/img/Campus_Life-Spacious_Claassrooms.png',
-      desc: 'Bright, ventilated rooms conducive to focused learning.'
-    },
-    { 
-      title: 'School Clinic', 
-      image: '/img/Campus_Life-Clinic.png',
-      desc: 'Clean and ready medical assistance for student health and safety.'
-    },
-    { 
-      title: 'School Office', 
-      image: '/img/Campus_Life-School Office.png',
-      desc: 'Dedicated space for administrative inquiry, student services, and school operations.'
-    }
-  ];
+const Facilities: React.FC<FacilitiesProps> = ({ 
+  onNavigate, 
+  onScheduleVisit,
+  facilitiesList = INITIAL_FACILITIES 
+}) => {
+  const facilities = facilitiesList;
 
   return (
     <div className="animate-fadeIn bg-white min-h-screen">

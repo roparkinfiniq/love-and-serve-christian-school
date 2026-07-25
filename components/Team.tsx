@@ -1,57 +1,15 @@
 import React from 'react';
+import { TeamMember } from '../types';
+import { INITIAL_TEAM_MEMBERS } from '../data/initialData';
 
-const Team: React.FC = () => {
-  // Data for Leadership
-  const leadership = [
-    {
-      name: 'Rev. Wonjae Park',
-      role: 'School President',
-      image: '/img/About-President01.png',
-      message: '"Preparing the next generation as God-fearing leaders and future worshipers."',
-      position: 'center 15%'
-    },
-    {
-      name: 'Ms. Maria Luisa L. Gonzales',
-      role: 'School Head / Principal',
-      image: '/img/OurTeam-Luisa.png',
-      message: '"Nurturing every child to discover their God-given gifts and develop a love for learning."',
-      position: 'center 20%'
-    }
-  ];
+interface TeamProps {
+  teamMembers?: TeamMember[];
+}
 
-  // Data for Faculty
-  const faculty = [
-    { name: 'Mr. Jhoven A. Penaflor', role: 'School Chaplain', image: '/img/OurTeam-Jhoven.png' },
-    { name: 'Ms. Glaiza T. Placencia', role: 'Pre School Dept. Coordinator', image: '/img/OurTeam-Glaiza.png' },
-    { name: 'Ms. Rosa B. Destura', role: 'Kinder I Adviser', image: '/img/OurTeam-Rosa.png' },
-    { name: 'Ms. Mary Joy R. Despe', role: 'Kinder II Adviser', image: '/img/OurTeam-Mary.png', position: 'center 20%' },
-    { name: 'Ms. Myra P. Peñaflor', role: 'Elem. Coordinator / Grade 6 Adviser', image: '/img/OurTeam-Myra.png' },
-    { name: 'Ms. Jonela A. Pentinio', role: 'Grade 1 Adviser', image: '/img/OurTeam-Jonela.png' },
-    { name: 'Ms. Kizha Marie N. Delen', role: 'Grade 2 Adviser', image: '/img/OurTeam-Kizha.png', position: 'center 20%' },
-    { name: 'Ms. Maelyn B. Mede', role: 'Grade 3 Adviser', image: '/img/OurTeam-Maelyn.png' },
-    { name: 'Mr. Gechris O. Ortega', role: 'Grade 4 Adviser', image: '/img/OurTeam-Gechris.png' },
-    { name: 'Mr. John Paolo A. Camagon', role: 'Grade 5 Adviser', image: '/img/OurTeam-John.png' },
-    { name: 'Ms. Leslie G. Pablea', role: 'NHS Coordinator / Grade 10 Adviser', image: '/img/OurTeam-Leslie.png' },
-    { name: 'Mr. Joshua D. Gomez', role: 'Grade 9 Adviser', image: '/img/OurTeam-Joshua.png' },
-    { name: 'Ms. Junafe Z. Verano', role: 'Grade 8 Adviser', image: '' },
-    { name: 'Mr. Adrian Poul P. Valderama', role: 'Grade 7 Adviser', image: '' },
-    { name: 'Ms. Janice O. Milante', role: 'Subject Teacher', image: '' },
-    { name: 'Mr. Marlon D. Macaraeg', role: 'Subject Teacher', image: '' },
-    { name: 'Ms. Roselyn P. Espuerta', role: 'Subject Teacher', image: '/img/OurTeam-Roselyn.png' },
-    { name: 'Mr. Kervin E. David', role: 'Subject Teacher', image: '/img/OurTeam-Kervin.png' },
-  ];
-
-  // Data for Admin & Support
-  const adminSupport = [
-    { name: 'Ms. Julie Ann Mandeloso', role: 'School Cashier', image: '/img/OurTeam-Julie.png' },
-    { name: 'Ms. Kaye Z. Trilles', role: 'Registrar', image: '/img/OurTeam-Kaye.png' },
-    { name: 'Ms. Aziel Anne L. Gonzales', role: 'Administrative Asst.', image: '/img/OurTeam-Aziel.png' },
-    { name: 'Mr. Leonardo O. Tagal Jr.', role: 'School Guard', image: '/img/OurTeam-Leonardo.png' },
-    { name: 'Mr. Edwin V. Iniego', role: 'School Service Driver', image: '/img/OurTeam-Edwin.png' },
-    { name: 'Mr. Patrick A. Pentinio', role: 'School Service Driver', image: '/img/OurTeam-Patrick.png' },
-    { name: 'Mr. Hernando B. Tabago', role: 'Maintenance', image: '/img/OurTeam-Hernando.png' },
-    { name: 'Mr. Randy P. Miranda', role: 'Maintenance Technician', image: '/img/OurTeam-Randy.png' },
-  ];
+const Team: React.FC<TeamProps> = ({ teamMembers = INITIAL_TEAM_MEMBERS }) => {
+  const leadership = teamMembers.filter(m => m.category === 'Leadership');
+  const faculty = teamMembers.filter(m => m.category === 'Faculty');
+  const adminSupport = teamMembers.filter(m => m.category === 'AdminSupport');
 
   return (
     <div className="animate-fadeIn bg-white min-h-screen">

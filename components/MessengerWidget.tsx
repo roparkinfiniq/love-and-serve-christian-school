@@ -61,19 +61,19 @@ const MessengerWidget: React.FC = () => {
           {/* Header (LSCS Theme) */}
           <div className="bg-[#E11D48] text-white px-5 py-4 flex items-center justify-between shadow-md relative">
             <div className="flex items-center space-x-3">
-              <div className="relative w-11 h-11 shrink-0">
-                <div className="w-11 h-11 bg-white rounded-full p-1 shadow-sm flex items-center justify-center overflow-hidden border border-white/40">
+              <div className="relative w-12 h-12 shrink-0">
+                <div className="w-12 h-12 bg-white rounded-full shadow-md flex items-center justify-center overflow-hidden border-2 border-white/80 relative">
                   <img 
-                    src="/img/lscs-logo.png" 
+                    src="/logo.png" 
                     alt="LSCS Logo" 
-                    className="w-full h-full object-contain"
+                    className="w-full h-full object-cover scale-105"
                     onError={(e) => {
-                      // Fallback icon if logo fails to load
-                      (e.target as HTMLImageElement).style.display = 'none';
+                      (e.target as HTMLImageElement).onerror = null;
+                      (e.target as HTMLImageElement).src = 'data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="%23E11D48" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 10v6M2 10l10-5 10 5-10 5z"/><path d="M6 12v5c3 3 9 3 12 0v-5"/></svg>';
                     }}
                   />
                 </div>
-                <span className="absolute bottom-0 right-0 w-3.5 h-3.5 bg-green-500 border-2 border-white rounded-full z-10"></span>
+                <span className="absolute bottom-0 right-0 w-3.5 h-3.5 bg-green-500 border-2 border-white rounded-full z-10 shadow-sm"></span>
               </div>
               <div>
                 <h3 className="font-bold text-sm md:text-base leading-tight">Love and Serve Christian School</h3>

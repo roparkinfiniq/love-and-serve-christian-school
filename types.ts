@@ -32,6 +32,23 @@ export interface CalendarEvent {
   category: 'Academic' | 'Holiday' | 'Religious' | 'Special' | string;
 }
 
+export interface TeamMember {
+  id: string;
+  name: string;
+  role: string;
+  category: 'Leadership' | 'Faculty' | 'AdminSupport';
+  image?: string;
+  message?: string;
+  position?: string;
+}
+
+export interface FacilityItem {
+  id: string;
+  title: string;
+  image: string;
+  desc: string;
+}
+
 export interface Program {
   title: string;
   description: string;
