@@ -28,7 +28,7 @@ const Admin: React.FC<AdminProps> = ({
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
 
-  const [activeTab, setActiveTab] = useState<'popup' | 'info' | 'media' | 'chatbot' | 'calendar'>('popup');
+  const [activeTab, setActiveTab] = useState<'popup' | 'info' | 'media' | 'calendar'>('popup');
   const [editingPopup, setEditingPopup] = useState<Partial<PopupData> | null>(null);
   const [editingEvent, setEditingEvent] = useState<Partial<CalendarEvent> | null>(null);
 
@@ -168,7 +168,7 @@ const Admin: React.FC<AdminProps> = ({
           <div>
             <h1 className="text-3xl font-black text-gray-900 break-words">Admin Dashboard</h1>
             <p className="mt-2 text-sm text-gray-600">
-              Manage school information, media, and AI counselor settings.
+              Manage school information, media, emergency popups, and calendar.
             </p>
           </div>
           <button 
@@ -216,17 +216,7 @@ const Admin: React.FC<AdminProps> = ({
                 <i className="fa-solid fa-photo-film w-6 text-center"></i>
                 Media & Documents
               </button>
-              <button
-                onClick={() => setActiveTab('chatbot')}
-                className={`whitespace-nowrap w-auto md:w-full flex-1 md:flex-none justify-center md:justify-start flex items-center px-4 py-3 text-sm font-bold rounded-lg transition-colors ${
-                  activeTab === 'chatbot'
-                    ? 'bg-[#E11D48] text-white shadow-md'
-                    : 'text-gray-700 hover:bg-gray-100'
-                }`}
-              >
-                <i className="fa-solid fa-robot w-6 text-center"></i>
-                AI Chatbot Settings
-              </button>
+
               <button
                 onClick={() => setActiveTab('calendar')}
                 className={`whitespace-nowrap w-auto md:w-full flex-1 md:flex-none justify-center md:justify-start flex items-center px-4 py-3 text-sm font-bold rounded-lg transition-colors ${
@@ -616,8 +606,8 @@ const Admin: React.FC<AdminProps> = ({
             {activeTab === 'info' && (
               <div className="space-y-6 animate-fadeIn">
                 <div>
-                  <h2 className="text-2xl font-bold text-gray-900 border-b pb-2 mb-6">School Basic Info (For AI Learning)</h2>
-                  <p className="text-gray-600 mb-6">The information entered here helps the AI Counselor accurately answer questions from parents and students.</p>
+                  <h2 className="text-2xl font-bold text-gray-900 border-b pb-2 mb-6">School Basic Info</h2>
+                  <p className="text-gray-600 mb-6">The information entered here manages basic school details and reference information for visitors.</p>
                 </div>
 
                 <div className="space-y-6">
@@ -836,38 +826,7 @@ const Admin: React.FC<AdminProps> = ({
               </div>
             )}
 
-            {activeTab === 'chatbot' && (
-              <div className="space-y-6 animate-fadeIn">
-                <div>
-                  <h2 className="text-2xl font-bold text-gray-900 border-b pb-2 mb-6">AI Chatbot Settings</h2>
-                </div>
 
-                <div className="space-y-6">
-                   <div>
-                    <label className="block text-sm font-bold text-gray-700 mb-1">Welcome Message</label>
-                    <input type="text" className="w-full border border-gray-300 rounded-lg p-3 focus:ring-2 focus:ring-rose-500 focus:border-red-500 outline-none" defaultValue="Hello! I am the LSCS AI Counselor. Ask me anything about admissions or school life!" />
-                  </div>
-
-                  <div>
-                     <label className="block text-sm font-bold text-gray-700 mb-1">Chatbot Activation (Show on website)</label>
-                     <select className="w-full border border-gray-300 rounded-lg p-3 focus:ring-2 focus:ring-rose-500 focus:border-red-500 outline-none">
-                        <option>Always visible (Bottom right)</option>
-                        <option>Pop-up only during admission season</option>
-                        <option>Disabled (Hidden)</option>
-                     </select>
-                  </div>
-                </div>
-
-                <div className="pt-4 text-right">
-                  <button 
-                    className="bg-[#E11D48] text-white px-6 py-2 rounded-lg font-bold shadow hover:bg-rose-500 transition"
-                    onClick={() => alert('Settings saved successfully!')}
-                  >
-                    Save Settings
-                  </button>
-                </div>
-              </div>
-            )}
           </div>
         </div>
       </div>

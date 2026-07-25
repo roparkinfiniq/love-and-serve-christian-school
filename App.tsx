@@ -5,7 +5,7 @@ import CoreValues from './components/CoreValues';
 import Programs from './components/Programs';
 import LatestNews from './components/LatestNews';
 import Footer from './components/Footer';
-import AICounselor from './components/AICounselor';
+import MessengerWidget from './components/MessengerWidget';
 import Contact from './components/Contact';
 import Academics from './components/Academics';
 import Admissions from './components/Admissions';
@@ -478,7 +478,7 @@ const App: React.FC = () => {
         onNavigate={handlePageChange} 
         onAdmissionProcessClick={handleAdmissionProcessNavigation}
       />
-      {currentPage !== 'Admin' && <div className={isMobileMenuOpen ? 'hidden' : ''}><AICounselor /></div>}
+      {currentPage !== 'Admin' && <div className={isMobileMenuOpen ? 'hidden' : ''}><MessengerWidget /></div>}
     </div>
   );
 };
