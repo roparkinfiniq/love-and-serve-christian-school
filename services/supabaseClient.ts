@@ -5,8 +5,8 @@ import facilitiesJson from '../public/content/facilities.json';
 import galleryJson from '../public/content/gallery.json';
 import calendarJson from '../public/content/calendar.json';
 
-const supabaseUrl = import.meta.env.VITE_SUPABASE_URL || '';
-const supabaseAnonKey = import.meta.env.VITE_SUPABASE_ANON_KEY || '';
+const supabaseUrl = import.meta.env.VITE_SUPABASE_URL || 'https://wnwwjrgtdglarbqsqdda.supabase.co';
+const supabaseAnonKey = import.meta.env.VITE_SUPABASE_ANON_KEY || 'sb_publishable_mJ6Flsmr-EZLM32zZj6vLw_ZNqF091B';
 
 export const isSupabaseConfigured = Boolean(supabaseUrl && supabaseAnonKey);
 
