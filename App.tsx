@@ -122,10 +122,25 @@ const INITIAL_GALLERY_IMAGES: GalleryImage[] = [
 
 const INITIAL_GALLERY_CATEGORIES = ['All', 'Academics', 'Student Life', 'Arts & Sports', 'Campus'];
 
+const getPageFromPathname = (): Page => {
+  const path = window.location.pathname.replace(/^\/|\/$/g, '').toLowerCase();
+  switch (path) {
+    case 'about': return 'About';
+    case 'academics': return 'Academics';
+    case 'admissions': return 'Admissions';
+    case 'facilities': return 'Facilities';
+    case 'gallery': return 'Gallery';
+    case 'contact': return 'Contact';
+    case 'team': return 'Team';
+    case 'careers': return 'Careers';
+    case 'admin': return 'Admin';
+    case 'calendar': return 'Calendar';
+    default: return 'Home';
+  }
+};
+
 const App: React.FC = () => {
-  const [currentPage, setCurrentPage] = useState<Page>(
-    window.location.pathname === '/admin' ? 'Admin' : 'Home'
-  );
+  const [currentPage, setCurrentPage] = useState<Page>(getPageFromPathname());
   const [calendarEvents, setCalendarEvents] = useState<CalendarEvent[]>(INITIAL_EVENTS);
   const [calendarPdfUrl, setCalendarPdfUrl] = useState<string | null>('/SCHOOL-CALENDAR-SY-2627.pdf');
   const [popups, setPopups] = useState<PopupData[]>([]);
@@ -175,6 +190,23 @@ const App: React.FC = () => {
   useEffect(() => {
     window.scrollTo(0, 0);
   }, [currentPage]);
+
+  // Update URL pathname when page changes
+  useEffect(() => {
+    const path = currentPage === 'Home' ? '/' : `/${currentPage.toLowerCase()}`;
+    if (window.location.pathname !== path) {
+      window.history.pushState(null, '', path);
+    }
+  }, [currentPage]);
+
+  // Handle browser back/forward buttons
+  useEffect(() => {
+    const handlePopState = () => {
+      setCurrentPage(getPageFromPathname());
+    };
+    window.addEventListener('popstate', handlePopState);
+    return () => window.removeEventListener('popstate', handlePopState);
+  }, []);
 
   // Wrapper for standard page navigation (resets specific scroll targets)
   const handlePageChange = (page: Page) => {
