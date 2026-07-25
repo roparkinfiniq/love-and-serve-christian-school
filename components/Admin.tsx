@@ -67,6 +67,7 @@ const Admin: React.FC<AdminProps> = ({
 
   const [toast, setToast] = useState<{message: string, type: 'success' | 'error'} | null>(null);
   const [eventToDelete, setEventToDelete] = useState<string | null>(null);
+  const [deletingPhotoId, setDeletingPhotoId] = useState<string | null>(null);
 
   const showToast = (message: string, type: 'success' | 'error' = 'success') => {
     setToast({ message, type });
@@ -1228,16 +1229,31 @@ const Admin: React.FC<AdminProps> = ({
                           <div className="absolute bottom-0 left-0 right-0 bg-black/60 p-2 text-white text-xs opacity-0 group-hover:opacity-100 transition-opacity flex justify-between items-center">
                             <span className="truncate pr-2">{img.category}</span>
                             <button 
-                              className="bg-red-500 hover:bg-red-600 text-white w-6 h-6 rounded flex items-center justify-center shrink-0"
-                              onClick={() => {
-                                if (window.confirm('Are you sure you want to delete this photo from the gallery?')) {
+                              type="button"
+                              className={`w-7 h-7 rounded-lg flex items-center justify-center shrink-0 transition-all ${
+                                deletingPhotoId === img.id
+                                  ? 'bg-emerald-500 hover:bg-emerald-600 text-white scale-110 shadow-md ring-2 ring-white/50'
+                                  : 'bg-red-500 hover:bg-red-600 text-white'
+                              }`}
+                              title={deletingPhotoId === img.id ? 'Click again to confirm deletion' : 'Delete photo'}
+                              onClick={(e) => {
+                                e.stopPropagation();
+                                if (deletingPhotoId === img.id) {
+                                  deleteGalleryImageFromDb(img.id);
                                   if (setGalleryImages) {
                                     setGalleryImages(galleryImages.filter(i => i.id !== img.id));
                                   }
+                                  setDeletingPhotoId(null);
+                                  showToast('Photo deleted successfully');
+                                } else {
+                                  setDeletingPhotoId(img.id);
+                                  setTimeout(() => {
+                                    setDeletingPhotoId(prev => (prev === img.id ? null : prev));
+                                  }, 3000);
                                 }
                               }}
                             >
-                              <i className="fa-solid fa-trash text-[10px]"></i>
+                              <i className={`fa-solid ${deletingPhotoId === img.id ? 'fa-check text-[12px]' : 'fa-trash text-[10px]'}`}></i>
                             </button>
                           </div>
                         </div>
