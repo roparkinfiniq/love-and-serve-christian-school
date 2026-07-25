@@ -44,7 +44,8 @@ export async function fetchTeamMembers(): Promise<TeamMember[]> {
 export async function saveTeamMembers(members: TeamMember[]): Promise<boolean> {
   if (!supabase) return false;
   try {
-    const payload = members.map(m => ({
+    const baseTime = new Date('2026-01-01T00:00:00Z').getTime();
+    const payload = members.map((m, index) => ({
       id: m.id,
       name: m.name,
       role: m.role,
@@ -52,6 +53,7 @@ export async function saveTeamMembers(members: TeamMember[]): Promise<boolean> {
       image: m.image || '',
       message: m.message || null,
       position: m.position || null,
+      created_at: new Date(baseTime + index * 1000).toISOString(),
     }));
     const { error } = await supabase.from('team_members').upsert(payload, { onConflict: 'id' });
     if (error) console.error('Failed to upsert team members:', error);
