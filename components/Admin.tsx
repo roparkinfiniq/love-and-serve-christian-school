@@ -7,7 +7,10 @@ import {
   deleteTeamMemberFromDb, 
   deleteFacilityFromDb, 
   deleteCalendarEventFromDb, 
-  deletePopupFromDb 
+  deletePopupFromDb,
+  fetchInquiries,
+  deleteInquiryFromDb,
+  InquiryData
 } from '../services/supabaseClient';
 
 interface AdminProps {
@@ -41,9 +44,18 @@ const Admin: React.FC<AdminProps> = ({
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
 
-  const [activeTab, setActiveTab] = useState<'popup' | 'team' | 'facilities' | 'media' | 'calendar'>('popup');
+  const [activeTab, setActiveTab] = useState<'popup' | 'inquiries' | 'team' | 'facilities' | 'media' | 'calendar'>('popup');
   const [editingPopup, setEditingPopup] = useState<Partial<PopupData> | null>(null);
   const [editingEvent, setEditingEvent] = useState<Partial<CalendarEvent> | null>(null);
+  const [inquiries, setInquiries] = useState<InquiryData[]>([]);
+
+  React.useEffect(() => {
+    async function loadInquiries() {
+      const data = await fetchInquiries();
+      setInquiries(data);
+    }
+    loadInquiries();
+  }, [activeTab]);
 
   // Team & Facility Edit States
   const [editingTeamMember, setEditingTeamMember] = useState<Partial<TeamMember> | null>(null);
@@ -341,6 +353,26 @@ const Admin: React.FC<AdminProps> = ({
                 Emergency Popups
               </button>
               <button
+                onClick={() => setActiveTab('inquiries')}
+                className={`whitespace-nowrap w-auto md:w-full flex-1 md:flex-none justify-between flex items-center px-4 py-3 text-sm font-bold rounded-lg transition-colors ${
+                  activeTab === 'inquiries'
+                    ? 'bg-[#E11D48] text-white shadow-md'
+                    : 'text-gray-700 hover:bg-gray-100'
+                }`}
+              >
+                <span className="flex items-center">
+                  <i className="fa-solid fa-envelope w-6 text-center"></i>
+                  Contact Messages
+                </span>
+                {inquiries.length > 0 && (
+                  <span className={`text-[10px] px-2 py-0.5 rounded-full font-bold ${
+                    activeTab === 'inquiries' ? 'bg-white text-[#E11D48]' : 'bg-red-100 text-red-600'
+                  }`}>
+                    {inquiries.length}
+                  </span>
+                )}
+              </button>
+              <button
                 onClick={() => setActiveTab('team')}
                 className={`whitespace-nowrap w-auto md:w-full flex-1 md:flex-none justify-center md:justify-start flex items-center px-4 py-3 text-sm font-bold rounded-lg transition-colors ${
                   activeTab === 'team'
@@ -390,6 +422,90 @@ const Admin: React.FC<AdminProps> = ({
 
           {/* Content Area */}
           <div className="flex-1 p-4 md:p-8 bg-white min-w-0 overflow-x-hidden">
+            {activeTab === 'inquiries' && (
+              <div className="space-y-6 animate-fadeIn">
+                <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center border-b pb-4 gap-4 sm:gap-0">
+                  <div>
+                    <h2 className="text-2xl font-bold text-gray-900 border-none">Contact Form Messages ({inquiries.length})</h2>
+                    <p className="text-gray-500 text-sm mt-1">Messages and inquiries submitted by parents and students via Contact Us page.</p>
+                  </div>
+                  <button 
+                    onClick={async () => {
+                      const data = await fetchInquiries();
+                      setInquiries(data);
+                      showToast('Messages refreshed');
+                    }}
+                    className="px-3.5 py-2 bg-gray-100 hover:bg-gray-200 text-gray-700 text-xs font-bold rounded-lg transition flex items-center gap-2"
+                  >
+                    <i className="fa-solid fa-arrows-rotate"></i> Refresh Inbox
+                  </button>
+                </div>
+
+                {inquiries.length === 0 ? (
+                  <div className="text-center py-20 bg-gray-50 rounded-2xl border border-dashed border-gray-200">
+                    <i className="fa-solid fa-inbox text-5xl text-gray-300 mb-4"></i>
+                    <p className="text-gray-700 font-bold text-base">No contact messages yet.</p>
+                    <p className="text-xs text-gray-400 mt-1">Submissions from the Contact Us form will appear here in real-time.</p>
+                  </div>
+                ) : (
+                  <div className="space-y-4">
+                    {inquiries.map((inq) => (
+                      <div key={inq.id} className="p-5 border border-gray-200 rounded-2xl bg-white shadow-sm hover:shadow-md transition">
+                        <div className="flex flex-col sm:flex-row justify-between sm:items-center gap-2 mb-3 border-b border-gray-100 pb-3">
+                          <div className="flex items-center gap-3">
+                            <div className="w-10 h-10 rounded-full bg-red-50 text-[#E11D48] flex items-center justify-center font-bold text-sm shrink-0">
+                              {inq.name.charAt(0).toUpperCase()}
+                            </div>
+                            <div>
+                              <h4 className="font-bold text-gray-900 text-sm">{inq.name}</h4>
+                              <a href={`mailto:${inq.email}`} className="text-xs text-[#E11D48] hover:underline flex items-center gap-1">
+                                <i className="fa-solid fa-envelope text-[10px]"></i> {inq.email}
+                              </a>
+                            </div>
+                          </div>
+                          <div className="flex items-center gap-3">
+                            <span className="text-[11px] font-bold px-3 py-1 rounded-full bg-slate-100 text-slate-700">
+                              {inq.subject}
+                            </span>
+                            {inq.created_at && (
+                              <span className="text-[11px] text-gray-400">
+                                {new Date(inq.created_at).toLocaleDateString()} {new Date(inq.created_at).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
+                              </span>
+                            )}
+                          </div>
+                        </div>
+
+                        <div className="bg-gray-50 p-4 rounded-xl text-xs text-gray-800 leading-relaxed whitespace-pre-wrap mb-3 border border-gray-100 font-sans">
+                          {inq.message}
+                        </div>
+
+                        <div className="flex justify-end gap-2">
+                          <a 
+                            href={`mailto:${inq.email}?subject=Re: [LSCS Inquiry] ${encodeURIComponent(inq.subject)}`}
+                            className="px-3.5 py-1.5 bg-[#E11D48] hover:bg-rose-700 text-white text-xs font-bold rounded-lg transition flex items-center gap-1.5"
+                          >
+                            <i className="fa-solid fa-reply"></i> Reply via Email
+                          </a>
+                          <button 
+                            onClick={async () => {
+                              if (window.confirm('Delete this message?')) {
+                                await deleteInquiryFromDb(inq.id);
+                                setInquiries(prev => prev.filter(i => i.id !== inq.id));
+                                showToast('Message deleted.');
+                              }
+                            }}
+                            className="px-3 py-1.5 bg-gray-100 hover:bg-red-100 text-gray-600 hover:text-red-600 text-xs font-bold rounded-lg transition flex items-center gap-1.5"
+                          >
+                            <i className="fa-solid fa-trash-can"></i> Delete
+                          </button>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                )}
+              </div>
+            )}
+
             {activeTab === 'team' && (
               <div className="space-y-6 animate-fadeIn">
                 <div className="flex flex-col sm:flex-row justify-between items-start sm:items-end border-b pb-2 mb-6 gap-4 sm:gap-0">

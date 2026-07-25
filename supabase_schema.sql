@@ -57,12 +57,23 @@ CREATE TABLE IF NOT EXISTS public.popups (
     created_at TIMESTAMP WITH TIME ZONE DEFAULT timezone('utc'::text, now()) NOT NULL
 );
 
+-- 6. Inquiries Table (Contact Messages)
+CREATE TABLE IF NOT EXISTS public.inquiries (
+    id TEXT PRIMARY KEY,
+    name TEXT NOT NULL,
+    email TEXT NOT NULL,
+    subject TEXT NOT NULL,
+    message TEXT NOT NULL,
+    created_at TIMESTAMP WITH TIME ZONE DEFAULT timezone('utc'::text, now()) NOT NULL
+);
+
 -- Enable Row Level Security (RLS) & Allow Public Read/Write
 ALTER TABLE public.team_members ENABLE ROW LEVEL SECURITY;
 ALTER TABLE public.facilities ENABLE ROW LEVEL SECURITY;
 ALTER TABLE public.gallery_images ENABLE ROW LEVEL SECURITY;
 ALTER TABLE public.calendar_events ENABLE ROW LEVEL SECURITY;
 ALTER TABLE public.popups ENABLE ROW LEVEL SECURITY;
+ALTER TABLE public.inquiries ENABLE ROW LEVEL SECURITY;
 
 CREATE POLICY "Allow public select on team_members" ON public.team_members FOR SELECT USING (true);
 CREATE POLICY "Allow public insert/update/delete on team_members" ON public.team_members FOR ALL USING (true);
@@ -78,3 +89,6 @@ CREATE POLICY "Allow public insert/update/delete on calendar_events" ON public.c
 
 CREATE POLICY "Allow public select on popups" ON public.popups FOR SELECT USING (true);
 CREATE POLICY "Allow public insert/update/delete on popups" ON public.popups FOR ALL USING (true);
+
+CREATE POLICY "Allow public select on inquiries" ON public.inquiries FOR SELECT USING (true);
+CREATE POLICY "Allow public insert/update/delete on inquiries" ON public.inquiries FOR ALL USING (true);

@@ -268,3 +268,97 @@ export async function deletePopupFromDb(id: string): Promise<boolean> {
     return false;
   }
 }
+
+// --- INQUIRIES (CONTACT MESSAGES) ---
+export interface InquiryData {
+  id: string;
+  name: string;
+  email: string;
+  subject: string;
+  message: string;
+  created_at?: string;
+}
+
+export async function fetchInquiries(): Promise<InquiryData[]> {
+  if (!supabase) {
+    try {
+      const saved = localStorage.getItem('lscs_inquiries');
+      return saved ? JSON.parse(saved) : [];
+    } catch {
+      return [];
+    }
+  }
+  try {
+    const { data, error } = await supabase.from('inquiries').select('*').order('created_at', { ascending: false });
+    if (error || !data) {
+      const saved = localStorage.getItem('lscs_inquiries');
+      return saved ? JSON.parse(saved) : [];
+    }
+    return data.map((item: any) => ({
+      id: item.id,
+      name: item.name,
+      email: item.email,
+      subject: item.subject,
+      message: item.message,
+      created_at: item.created_at,
+    }));
+  } catch (e) {
+    console.warn('Supabase fetch inquiries failed', e);
+    try {
+      const saved = localStorage.getItem('lscs_inquiries');
+      return saved ? JSON.parse(saved) : [];
+    } catch {
+      return [];
+    }
+  }
+}
+
+export async function saveInquiry(inquiry: Omit<InquiryData, 'id' | 'created_at'>): Promise<boolean> {
+  const newInquiry: InquiryData = {
+    id: Date.now().toString(),
+    name: inquiry.name,
+    email: inquiry.email,
+    subject: inquiry.subject,
+    message: inquiry.message,
+    created_at: new Date().toISOString(),
+  };
+
+  try {
+    const saved = localStorage.getItem('lscs_inquiries');
+    const list: InquiryData[] = saved ? JSON.parse(saved) : [];
+    list.unshift(newInquiry);
+    localStorage.setItem('lscs_inquiries', JSON.stringify(list));
+  } catch (e) {
+    console.error(e);
+  }
+
+  if (!supabase) return true;
+  try {
+    const { error } = await supabase.from('inquiries').insert([newInquiry]);
+    return !error;
+  } catch (e) {
+    console.error('Save inquiry to Supabase failed', e);
+    return false;
+  }
+}
+
+export async function deleteInquiryFromDb(id: string): Promise<boolean> {
+  try {
+    const saved = localStorage.getItem('lscs_inquiries');
+    if (saved) {
+      const list: InquiryData[] = JSON.parse(saved);
+      localStorage.setItem('lscs_inquiries', JSON.stringify(list.filter(item => item.id !== id)));
+    }
+  } catch (e) {
+    console.error(e);
+  }
+
+  if (!supabase) return true;
+  try {
+    const { error } = await supabase.from('inquiries').delete().eq('id', id);
+    return !error;
+  } catch (e) {
+    console.error('Delete inquiry failed', e);
+    return false;
+  }
+}

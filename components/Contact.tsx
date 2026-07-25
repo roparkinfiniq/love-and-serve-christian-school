@@ -1,4 +1,5 @@
 import React, { useRef, useEffect, useState } from 'react';
+import { saveInquiry } from '../services/supabaseClient';
 
 interface ContactProps {
   scrollToForm?: boolean;
@@ -68,14 +69,25 @@ const Contact: React.FC<ContactProps> = ({ scrollToForm = false }) => {
     setMessageError('');
     setIsSubmitting(true);
 
-    // Simulate API call (backend will be connected later)
-    setTimeout(() => {
-      setIsSubmitting(false);
-      setIsSuccess(true);
-      setFormData({ name: '', email: '', subject: 'General Inquiry', message: '' });
-      
-      setTimeout(() => setIsSuccess(false), 4000);
-    }, 1500);
+    async function processSubmit() {
+      try {
+        await saveInquiry({
+          name: formData.name,
+          email: formData.email,
+          subject: formData.subject,
+          message: formData.message,
+        });
+      } catch (err) {
+        console.error('Failed to save inquiry:', err);
+      } finally {
+        setIsSubmitting(false);
+        setIsSuccess(true);
+        setFormData({ name: '', email: '', subject: 'General Inquiry', message: '' });
+        setTimeout(() => setIsSuccess(false), 4000);
+      }
+    }
+
+    processSubmit();
   };
 
   const contactInfo = [
