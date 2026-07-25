@@ -21,7 +21,7 @@ CREATE TABLE IF NOT EXISTS public.facilities (
     id TEXT PRIMARY KEY,
     title TEXT NOT NULL,
     image TEXT NOT NULL,
-    desc TEXT NOT NULL,
+    "desc" TEXT NOT NULL,
     created_at TIMESTAMP WITH TIME ZONE DEFAULT timezone('utc'::text, now()) NOT NULL
 );
 
