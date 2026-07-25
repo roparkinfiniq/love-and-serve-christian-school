@@ -67,7 +67,7 @@ const Academics: React.FC<AcademicsProps> = ({
       subtitle: 'Equipping Future Leaders',
       description: 'Our Junior High program prepares students for the challenges of adolescence and higher education. We foster critical thinking, leadership skills, and a deeper personal relationship with God, equipping them to be salt and light in the world.',
       features: ['Advanced academic curriculum', 'Leadership training', 'Digital literacy and technology', 'Community service initiatives'],
-      image: '/img/Home-Junior_High.png'
+      image: '/img/Home-JuniorHigh.jpg'
     }
   };
 
@@ -89,7 +89,7 @@ const Academics: React.FC<AcademicsProps> = ({
       <section className="relative h-[60vh] min-h-[500px] flex items-center justify-center overflow-hidden">
         <div className="absolute inset-0">
           <img 
-            src="https://images.unsplash.com/photo-1523580494863-6f3031224c94?auto=format&fit=crop&q=80&w=2000" 
+            src="/img/Campus_Life-Academics.jpg" 
             alt="Academics Hero" 
             className="w-full h-full object-cover"
           />
@@ -164,7 +164,9 @@ const Academics: React.FC<AcademicsProps> = ({
                className={`absolute inset-0 w-full h-full object-cover transition-transform duration-700 animate-pureFadeIn ${
                  activeTab === 'preschool' 
                    ? 'object-[60%_bottom] scale-125 origin-[60%_bottom] hover:scale-135' 
-                   : 'object-[65%_center] hover:scale-105'
+                   : activeTab === 'junior'
+                     ? 'object-[50%_center] hover:scale-105'
+                     : 'object-[65%_center] hover:scale-105'
                }`}
              />
              <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent md:bg-gradient-to-r"></div>

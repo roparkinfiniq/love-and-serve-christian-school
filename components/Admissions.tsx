@@ -22,8 +22,8 @@ const Admissions: React.FC<AdmissionsProps> = ({ onNavigate, scrollToProcess = f
 
   const steps = [
     { number: 1, title: 'Submit Admission Requirements', desc: 'Bring the required documents to the Admissions Office.' },
-    { number: 2, title: 'Complete the Application Form', desc: 'Fill out the Student Application Form with the necessary information.' },
-    { number: 3, title: 'Take the Entrance Assessment', desc: 'New & Transferee students will take an entrance examination or assessment.' },
+    { number: 2, title: 'Take the Entrance Assessment', desc: 'New & Transferee students will take an entrance examination or assessment.' },
+    { number: 3, title: 'Complete the Application Form', desc: 'Fill out the Student Application Form with the necessary information.' },
     { number: 4, title: 'Payment of Fees', desc: 'Settle the enrollment fee to secure the student’s slot.' },
     { number: 5, title: 'Attend the Orientation Program', desc: 'Parents and students will attend the orientation before the start of classes.' },
   ];
@@ -57,8 +57,8 @@ const Admissions: React.FC<AdmissionsProps> = ({ onNavigate, scrollToProcess = f
         <section className="relative h-[60vh] min-h-[500px] flex items-center justify-center overflow-hidden">
             <div className="absolute inset-0">
                 <img 
-                  src="https://images.unsplash.com/photo-1523240795612-9a054b0db644?auto=format&fit=crop&q=80&w=2000" 
-                  alt="Students Walking Together" 
+                  src="/img/Admission-Join_Our_Family.png" 
+                  alt="Join Our Family - LSCS Students" 
                   className="w-full h-full object-cover" 
                 />
                 <div className="absolute inset-0 bg-red-900/60 mix-blend-multiply"></div>

@@ -30,7 +30,7 @@ const Facilities: React.FC<FacilitiesProps> = ({ onNavigate, onScheduleVisit }) 
     },
     { 
       title: 'Science Laboratory', 
-      image: 'https://images.unsplash.com/photo-1532094349884-543bc11b234d?auto=format&fit=crop&q=80&w=600',
+      image: '/img/Campus_Life-Laboratory.png',
       desc: 'Fully equipped facility for hands-on experiments and discovery.'
     },
     { 
@@ -50,7 +50,7 @@ const Facilities: React.FC<FacilitiesProps> = ({ onNavigate, onScheduleVisit }) 
     },
     { 
       title: 'School Clinic', 
-      image: 'https://images.unsplash.com/photo-1519494026892-80bbd2d6fd0d?auto=format&fit=crop&q=80&w=600',
+      image: '/img/Campus_Life-Clinic.png',
       desc: 'Clean and ready medical assistance for student health and safety.'
     },
     { 

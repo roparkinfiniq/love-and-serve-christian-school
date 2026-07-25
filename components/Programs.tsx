@@ -17,7 +17,7 @@ const programs: Program[] = [
   },
   { 
     id: 'junior', 
-    image: '/img/Home-Junior_High.png', 
+    image: '/img/Home-JuniorHigh.jpg', 
     title: 'Junior High', 
     description: 'Exploring interests and developing critical thinking skills.' 
   }

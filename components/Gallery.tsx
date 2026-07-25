@@ -33,7 +33,7 @@ const Gallery: React.FC<GalleryProps> = ({ images, categories }) => {
        <section className="relative h-[50vh] min-h-[400px] flex items-center justify-center overflow-hidden">
           <div className="absolute inset-0">
              <img 
-               src="https://images.unsplash.com/photo-1568792923760-d70635a89fdc?auto=format&fit=crop&q=80&w=2000" 
+               src="/img/Campus_Life-Our_Gallery.png" 
                alt="Gallery Hero" 
                className="w-full h-full object-cover"
              />

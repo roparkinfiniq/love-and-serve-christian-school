@@ -98,7 +98,7 @@ const INITIAL_EVENTS: CalendarEvent[] = [
 ];
 
 const INITIAL_GALLERY_IMAGES: GalleryImage[] = [
-  { id: '1', src: 'https://images.unsplash.com/photo-1509062522246-3755977927d7?auto=format&fit=crop&q=80&w=1200', alt: 'Science Lab Experiment', category: 'Academics' },
+  { id: '1', src: '/img/Campus_Life-Laboratory.png', alt: 'Science Laboratory', category: 'Academics' },
   { id: '2', src: '/img/Campus_Life-Library.png', alt: 'Library Study Session', category: 'Academics' },
   { id: '3', src: 'https://images.unsplash.com/photo-1577896851231-70ef18881754?auto=format&fit=crop&q=80&w=1200', alt: 'Classroom Engagement', category: 'Academics' },
   { id: '4', src: 'https://images.unsplash.com/photo-1560421683-6856ea585c78?auto=format&fit=crop&q=80&w=800', alt: 'Creative Arts Class', category: 'Arts & Sports' },
@@ -113,6 +113,10 @@ const INITIAL_GALLERY_IMAGES: GalleryImage[] = [
   { id: '13', src: '/img/Campus_Life-Playground.png', alt: 'School Playground', category: 'Campus' },
   { id: '14', src: '/img/Campus_Life-Spacious_Claassrooms.png', alt: 'Spacious Classrooms', category: 'Campus' },
   { id: '15', src: '/img/Campus_Life-Computer_Room.png', alt: 'Computer Lab', category: 'Campus' },
+  { id: '16', src: '/img/Campus_Life-Academics.jpg', alt: 'Academic Excellence', category: 'Academics' },
+  { id: '17', src: '/img/Campus_Life-Clinic.png', alt: 'School Clinic', category: 'Campus' },
+  { id: '18', src: '/img/Admission-Join_Our_Family.png', alt: 'Join Our Family', category: 'Student Life' },
+  { id: '19', src: '/img/Campus_Life-Our_Gallery.png', alt: 'Our Gallery Highlights', category: 'Campus' },
 ];
 
 const INITIAL_GALLERY_CATEGORIES = ['All', 'Academics', 'Student Life', 'Arts & Sports', 'Campus'];
@@ -278,19 +282,39 @@ const App: React.FC = () => {
                   <div className="space-y-12 md:space-y-24 relative">
                     {[
                       {
-                        year: "2014",
-                        title: "The Beginning",
-                        description: "Established in Antipolo Rizal under the organization Love and Serve All Nations International Inc. (LASANII)."
+                        year: "1997",
+                        title: "The Vision Begins",
+                        description: "Love and Serve All Nations International Inc. (LASANII) was founded, beginning its mission of sharing God's love and serving the Filipino people."
                       },
                       {
-                        year: "Growth",
-                        title: "Mission Expansion",
-                        description: "Expanded with 5 core missions to become a rising Christian school."
+                        year: "2011",
+                        title: "Groundbreaking",
+                        description: "The Ground Breaking Ceremony and Ribbon Cutting marked the first step toward establishing Love and Serve Christian School."
+                      },
+                      {
+                        year: "2012",
+                        title: "Dedication Service",
+                        description: "A Dedication Service was held to officially prepare the school for its operations and commit its ministry to God."
+                      },
+                      {
+                        year: "2014",
+                        title: "The Beginning",
+                        description: "Love and Serve Christian School (LSCSI) officially opened its Academic Year in Antipolo, Rizal, with the vision of providing Christ-centered education rooted in a Biblical worldview."
+                      },
+                      {
+                        year: "2015",
+                        title: "Growing Together",
+                        description: "The Elementary Department officially opened, expanding the school's ministry and educational programs."
+                      },
+                      {
+                        year: "2019",
+                        title: "First Graduation",
+                        description: "Five years after opening, LSCSI celebrated its first graduating class—a testimony of God's faithfulness and the fulfillment of its mission."
                       },
                       {
                         year: "Present",
-                        title: "Next Generation",
-                        description: "Preparing the next generation as God-fearing leaders and future worshipers."
+                        title: "Preparing the Next Generation",
+                        description: "LSCSI continues to develop students spiritually and academically through Biblical education, God-fearing teachers, strong parent-school partnerships, and a commitment to raising future worshipers and servant leaders."
                       }
                     ].map((item, index) => (
                       <div key={index} className={`relative flex items-center justify-between w-full ${index % 2 !== 0 ? 'md:flex-row-reverse' : ''}`}>

@@ -53,9 +53,10 @@ const Hero: React.FC<HeroProps> = ({ onNavigate }) => {
         <div className="relative group lg:ml-10 order-1 lg:order-2">
           <div className="w-full h-[400px] md:h-[600px] bg-gray-100 rounded-[3rem] md:rounded-[5rem] overflow-hidden shadow-[0_30px_60px_-15px_rgba(0,0,0,0.1)] border-4 border-white transform transition-all duration-700 group-hover:rotate-1 transform-gpu will-change-transform antialiased [backface-visibility:hidden]">
             <img 
-              src="/img/Home-main.jpg" 
+              src="/img/Home-main.png" 
               alt="Students" 
               className="w-full h-full object-cover"
+              style={{ objectPosition: '65% 50%' }}
             />
             <div className="absolute inset-0 bg-gradient-to-tr from-white/10 to-transparent"></div>
           </div>

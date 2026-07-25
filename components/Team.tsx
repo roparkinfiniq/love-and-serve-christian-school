@@ -50,7 +50,7 @@ const Team: React.FC = () => {
     { name: 'Mr. Edwin V. Iniego', role: 'School Service Driver', image: '/img/OurTeam-Edwin.png' },
     { name: 'Mr. Patrick A. Pentinio', role: 'School Service Driver', image: '/img/OurTeam-Patrick.png' },
     { name: 'Mr. Hernando B. Tabago', role: 'Maintenance', image: '/img/OurTeam-Hernando.png' },
-    { name: 'Mr. Randy P. Miranda', role: 'Support Staff', image: '/img/OurTeam-Randy.png' },
+    { name: 'Mr. Randy P. Miranda', role: 'Maintenance Technician', image: '/img/OurTeam-Randy.png' },
   ];
 
   return (
