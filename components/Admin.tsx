@@ -339,8 +339,8 @@ const Admin: React.FC<AdminProps> = ({
 
         <div className="bg-white shadow rounded-lg overflow-hidden flex flex-col md:flex-row min-h-[600px]">
           {/* Sidebar */}
-          <div className="w-full md:w-64 bg-gray-50 border-b md:border-b-0 md:border-r border-gray-200 p-4">
-            <nav className="flex flex-wrap md:flex-col gap-2 md:space-y-2">
+          <div className="w-full md:w-64 bg-gray-50 border-b md:border-b-0 md:border-r border-gray-200 p-3 md:p-4">
+            <nav className="flex flex-nowrap md:flex-col gap-2 md:space-y-2 overflow-x-auto pb-2 md:pb-0 scrollbar-none">
               <button
                 onClick={() => setActiveTab('popup')}
                 className={`whitespace-nowrap w-auto md:w-full flex-1 md:flex-none justify-center md:justify-start flex items-center px-4 py-3 text-sm font-bold rounded-lg transition-colors ${

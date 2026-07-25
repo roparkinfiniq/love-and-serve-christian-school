@@ -122,31 +122,31 @@ const Contact: React.FC<ContactProps> = ({ scrollToForm = false }) => {
   ];
 
   return (
-    <section className="py-24 bg-gray-50 min-h-screen animate-fadeIn">
+    <section className="py-16 md:py-24 bg-gray-50 min-h-screen animate-fadeIn">
       {/* Header Section */}
-      <div className="max-w-7xl mx-auto px-6 mb-16 text-center">
-        <span className="text-[#E11D48] font-bold tracking-widest uppercase text-sm">Get in Touch</span>
-        <h2 className="text-4xl md:text-5xl font-black text-slate-900 mt-3 mb-6">Contact Us</h2>
-        <p className="text-xl text-gray-500 max-w-2xl mx-auto">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 mb-10 md:mb-16 text-center">
+        <span className="text-[#E11D48] font-bold tracking-widest uppercase text-xs sm:text-sm">Get in Touch</span>
+        <h2 className="text-3xl md:text-5xl font-black text-slate-900 mt-2 mb-4 md:mb-6">Contact Us</h2>
+        <p className="text-base md:text-xl text-gray-500 max-w-2xl mx-auto leading-relaxed">
           Have questions about admissions, academics, or school life? We're here to help you start your journey with LSCS.
         </p>
       </div>
 
-      <div className="max-w-7xl mx-auto px-6">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6">
         {/* Top Section: Info Cards */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-16">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6 mb-12 md:mb-16">
           {contactInfo.map((info, idx) => (
             <a 
               key={idx} 
               href={info.action || '#'} 
-              className={`bg-white p-8 rounded-[2rem] shadow-sm border border-gray-100 flex flex-col items-center text-center transition-all duration-300 hover:shadow-xl hover:-translate-y-1 group transform-gpu will-change-transform antialiased [backface-visibility:hidden] ${!info.action ? 'cursor-default' : ''}`}
+              className={`bg-white p-6 md:p-8 rounded-2xl md:rounded-[2rem] shadow-sm border border-gray-100 flex flex-col items-center text-center transition-all duration-300 hover:shadow-xl hover:-translate-y-1 group transform-gpu will-change-transform antialiased [backface-visibility:hidden] ${!info.action ? 'cursor-default' : ''}`}
             >
-              <div className="w-16 h-16 bg-red-50 text-[#E11D48] rounded-2xl flex items-center justify-center text-2xl mb-6 group-hover:scale-110 transition-transform duration-300 transform-gpu will-change-transform antialiased [backface-visibility:hidden]">
+              <div className="w-12 h-12 md:w-16 md:h-16 bg-red-50 text-[#E11D48] rounded-2xl flex items-center justify-center text-xl md:text-2xl mb-4 md:mb-6 group-hover:scale-110 transition-transform duration-300 transform-gpu will-change-transform antialiased [backface-visibility:hidden]">
                 <i className={`fa-solid ${info.icon}`}></i>
               </div>
-              <h3 className="text-lg font-bold text-slate-800 mb-2">{info.title}</h3>
-              <p className="text-gray-900 font-semibold mb-1">{info.content}</p>
-              <p className="text-sm text-gray-400">{info.sub}</p>
+              <h3 className="text-base md:text-lg font-bold text-slate-800 mb-1.5 md:mb-2">{info.title}</h3>
+              <p className="text-sm md:text-base text-gray-900 font-semibold mb-1">{info.content}</p>
+              <p className="text-xs md:text-sm text-gray-400">{info.sub}</p>
             </a>
           ))}
         </div>

@@ -109,15 +109,15 @@ const Calendar: React.FC<CalendarProps> = ({ events = [], calendarPdfUrl }) => {
       <section className="bg-slate-900 py-16 px-6 relative overflow-hidden">
         <div className="absolute top-0 right-0 w-96 h-96 bg-[#E11D48] rounded-full mix-blend-multiply filter blur-[128px] opacity-20 -mr-20 -mt-20"></div>
         <div className="max-w-5xl mx-auto relative z-10 text-center">
-            <h1 className="text-4xl md:text-5xl font-black text-white mb-4">School Calendar</h1>
-            <p className="text-gray-400 text-lg max-w-2xl mx-auto mb-6">
+            <h1 className="text-3xl sm:text-4xl md:text-5xl font-black text-white mb-3 md:mb-4">School Calendar</h1>
+            <p className="text-gray-400 text-sm sm:text-base md:text-lg max-w-2xl mx-auto mb-6">
               SY 2026 - 2027 Calendar of Activities
             </p>
             <button 
               onClick={handleDownloadPDF}
-              className="bg-[#E11D48] hover:bg-rose-500 text-white font-bold py-3 px-8 rounded-full inline-flex items-center transition-all hover:scale-105 active:scale-95 shadow-lg shadow-red-900/30 transform-gpu will-change-transform antialiased [backface-visibility:hidden]"
+              className="bg-[#E11D48] hover:bg-rose-500 text-white font-bold py-2.5 px-6 sm:py-3 sm:px-8 rounded-full inline-flex items-center text-sm sm:text-base transition-all hover:scale-105 active:scale-95 shadow-lg shadow-red-900/30 transform-gpu will-change-transform antialiased [backface-visibility:hidden]"
             >
-              <i className="fa-solid fa-file-pdf mr-3"></i>
+              <i className="fa-solid fa-file-pdf mr-2.5"></i>
               Download as PDF
             </button>
         </div>
