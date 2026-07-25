@@ -21,8 +21,8 @@ import { INITIAL_TEAM_MEMBERS, INITIAL_FACILITIES } from './data/initialData';
 import calendarJson from './public/content/calendar.json';
 import galleryJson from './public/content/gallery.json';
 
-const INITIAL_EVENTS: CalendarEvent[] = calendarJson as CalendarEvent[];
-const INITIAL_GALLERY_IMAGES: GalleryImage[] = galleryJson as GalleryImage[];
+const INITIAL_EVENTS: CalendarEvent[] = (calendarJson.events || calendarJson) as CalendarEvent[];
+const INITIAL_GALLERY_IMAGES: GalleryImage[] = (galleryJson.images || galleryJson) as GalleryImage[];
 
 const INITIAL_GALLERY_CATEGORIES = ['All', 'Academics', 'Student Life', 'Arts & Sports', 'Campus'];
 
