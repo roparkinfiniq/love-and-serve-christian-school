@@ -1,0 +1,61 @@
+backend:
+  name: github
+  repo: roparkinfiniq/love-and-serve-christian-school
+  branch: main
+  site_domain: lscs.com.ph
+
+media_folder: "public/img"
+public_folder: "/img"
+
+collections:
+  - name: "team"
+    label: "Team Members"
+    file: "public/content/team.json"
+    format: "json"
+    fields:
+      - { label: "Team Members", name: "members", widget: "list", fields: [
+          { label: "ID", name: "id", widget: "string" },
+          { label: "Name", name: "name", widget: "string" },
+          { label: "Role", name: "role", widget: "string" },
+          { label: "Category", name: "category", widget: "select", options: ["Leadership", "Faculty", "AdminSupport"] },
+          { label: "Image", name: "image", widget: "image", required: false },
+          { label: "Message", name: "message", widget: "text", required: false },
+          { label: "Position", name: "position", widget: "string", required: false }
+        ]}
+
+  - name: "facilities"
+    label: "Facilities"
+    file: "public/content/facilities.json"
+    format: "json"
+    fields:
+      - { label: "Facilities", name: "items", widget: "list", fields: [
+          { label: "ID", name: "id", widget: "string" },
+          { label: "Title", name: "title", widget: "string" },
+          { label: "Image", name: "image", widget: "image" },
+          { label: "Description", name: "desc", widget: "text" }
+        ]}
+
+  - name: "gallery"
+    label: "Gallery Images"
+    file: "public/content/gallery.json"
+    format: "json"
+    fields:
+      - { label: "Gallery Images", name: "images", widget: "list", fields: [
+          { label: "ID", name: "id", widget: "string" },
+          { label: "Image", name: "src", widget: "image" },
+          { label: "Alt Text", name: "alt", widget: "string" },
+          { label: "Category", name: "category", widget: "string" }
+        ]}
+
+  - name: "calendar"
+    label: "Calendar Events"
+    file: "public/content/calendar.json"
+    format: "json"
+    fields:
+      - { label: "Calendar Events", name: "events", widget: "list", fields: [
+          { label: "ID", name: "id", widget: "string" },
+          { label: "Date (YYYY-MM-DD)", name: "date", widget: "string" },
+          { label: "End Date (YYYY-MM-DD)", name: "endDate", widget: "string", required: false },
+          { label: "Title", name: "title", widget: "string" },
+          { label: "Category", name: "category", widget: "select", options: ["Academic", "Holiday", "Religious", "Special"] }
+        ]}

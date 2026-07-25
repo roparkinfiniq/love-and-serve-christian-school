@@ -18,107 +18,11 @@ import Calendar from './components/Calendar';
 import PopupsOverlay from './components/PopupsOverlay';
 import { Page, CalendarEvent, PopupData, GalleryImage, TeamMember, FacilityItem } from './types';
 import { INITIAL_TEAM_MEMBERS, INITIAL_FACILITIES } from './data/initialData';
+import calendarJson from './public/content/calendar.json';
+import galleryJson from './public/content/gallery.json';
 
-const INITIAL_EVENTS: CalendarEvent[] = [
-  // June 2026
-  { id: 'e1', date: '2026-06-02', title: "Parent's Orientation (8:30-11:00 AM) & Dedication of Teachers", category: 'Special' },
-  { id: 'e2', date: '2026-06-03', title: 'Medical Mission (Afternoon)', category: 'Special' },
-  { id: 'e3', date: '2026-06-04', title: 'Medical Mission (Whole Day)', category: 'Special' },
-  { id: 'e4', date: '2026-06-08', endDate: '2026-06-11', title: 'Opening Block: Start of Term 1', category: 'Academic' },
-  { id: 'e5', date: '2026-06-09', title: 'Class Opening Worship', category: 'Religious' },
-  { id: 'e6', date: '2026-06-10', endDate: '2026-06-11', title: "Student's Orientation", category: 'Academic' },
-  { id: 'e7', date: '2026-06-12', title: 'Independence Day (Regular Holiday)', category: 'Holiday' },
-  { id: 'e8', date: '2026-06-15', title: 'Start of Regular Classes for All Levels', category: 'Academic' },
-  { id: 'e9', date: '2026-06-19', title: 'First Chapel Service (8:00 - 9:00 AM)', category: 'Religious' },
-
-  // July 2026
-  { id: 'e10', date: '2026-07-09', endDate: '2026-07-10', title: '1st Summative Test', category: 'Academic' },
-  { id: 'e11', date: '2026-07-24', title: 'Nutrition Day', category: 'Special' },
-  { id: 'e12', date: '2026-07-30', endDate: '2026-07-31', title: '2nd Summative Test', category: 'Academic' },
-
-  // August 2026
-  { id: 'e13', date: '2026-08-21', title: 'Ninoy Aquino Day (Non-Working Holiday)', category: 'Holiday' },
-  { id: 'e14', date: '2026-08-26', endDate: '2026-08-28', title: 'Term 1 Examination', category: 'Academic' },
-  { id: 'e15', date: '2026-08-28', title: 'Buwan ng Wika (By Classroom)', category: 'Special' },
-
-  // September 2026
-  { id: 'e16', date: '2026-09-02', endDate: '2026-09-15', title: 'End-of-Term Block', category: 'Academic' },
-  { id: 'e17', date: '2026-09-11', title: "1st Parent's & Teacher's Conference & Card Giving", category: 'Academic' },
-  { id: 'e18', date: '2026-09-14', endDate: '2026-09-15', title: 'Wellness Break of Learners (Tentative)', category: 'Special' },
-  { id: 'e19', date: '2026-09-14', endDate: '2026-09-15', title: 'INSET (Tentative)', category: 'Special' },
-  { id: 'e20', date: '2026-09-16', title: 'Start of Term 2', category: 'Academic' },
-  { id: 'e21', date: '2026-09-16', title: 'Testing Window for NCAE (Grade 10)', category: 'Academic' },
-  { id: 'e22', date: '2026-09-24', title: 'Field Trip', category: 'Special' },
-
-  // October 2026
-  { id: 'e23', date: '2026-10-05', endDate: '2026-10-09', title: 'NAT for Grade 10', category: 'Academic' },
-  { id: 'e24', date: '2026-10-06', title: "World Teacher's Day", category: 'Special' },
-  { id: 'e25', date: '2026-10-15', endDate: '2026-10-16', title: '1st Summative Test', category: 'Academic' },
-  { id: 'e26', date: '2026-10-28', endDate: '2026-10-29', title: '2nd Summative Test', category: 'Academic' },
-  { id: 'e27', date: '2026-10-30', title: 'UN Day/Mission Month Celebration', category: 'Special' },
-
-  // November 2026
-  { id: 'e28', date: '2026-11-02', title: "All Soul's Day (Special Non-Working Holiday)", category: 'Holiday' },
-  { id: 'e29', date: '2026-11-27', title: 'Thanksgiving Celebration', category: 'Religious' },
-  { id: 'e30', date: '2026-11-30', title: 'Bonifacio Day (Holiday)', category: 'Holiday' },
-
-  // December 2026
-  { id: 'e31', date: '2026-12-03', endDate: '2026-12-04', title: 'Term 2 Examination', category: 'Academic' },
-  { id: 'e32', date: '2026-12-07', endDate: '2026-12-18', title: 'End-of-Term Block', category: 'Academic' },
-  { id: 'e33', date: '2026-12-08', title: 'Feast of Immaculate Conception (Holiday)', category: 'Holiday' },
-  { id: 'e34', date: '2026-12-16', title: 'Classroom Christmas Party', category: 'Special' },
-  { id: 'e35', date: '2026-12-17', title: 'General Christmas Celebration', category: 'Special' },
-  { id: 'e36', date: '2026-12-18', title: "Teacher's Christmas Celebration", category: 'Special' },
-  { id: 'e37', date: '2026-12-19', endDate: '2027-01-01', title: 'Year End Break (Wellness Break)', category: 'Holiday' },
-
-  // January 2027
-  { id: 'e38', date: '2027-01-04', title: 'Start of Term 3', category: 'Academic' },
-  { id: 'e39', date: '2027-01-08', title: "2nd Parent's & Teacher's Conference & Card Giving", category: 'Academic' },
-  { id: 'e40', date: '2027-01-25', endDate: '2027-01-29', title: 'Bible Week Celebration', category: 'Religious' },
-  { id: 'e41', date: '2027-01-28', endDate: '2027-01-29', title: '1st Summative Test', category: 'Academic' },
-
-  // February 2027
-  { id: 'e42', date: '2027-02-18', endDate: '2027-02-19', title: '2nd Summative Test', category: 'Academic' },
-  { id: 'e43', date: '2027-02-25', title: 'People Power Anniversary (Regular Holiday)', category: 'Holiday' },
-  { id: 'e44', date: '2027-02-27', title: 'Purity Night', category: 'Special' },
-
-  // March 2027
-  { id: 'e45', date: '2027-03-08', endDate: '2027-03-12', title: 'NAT for Grade 6', category: 'Academic' },
-  { id: 'e46', date: '2027-03-09', endDate: '2027-03-11', title: 'Term 3 Exam (Moving Up & Graduating)', category: 'Academic' },
-  { id: 'e47', date: '2027-03-17', endDate: '2027-03-19', title: 'Term 3 Exam (Non-Graduating)', category: 'Academic' },
-  { id: 'e48', date: '2027-03-23', title: 'Academic Deliberation (Moving Up/Graduating)', category: 'Academic' },
-  { id: 'e49', date: '2027-03-24', title: 'Academic Deliberation (Non-Graduating)', category: 'Academic' },
-  { id: 'e50', date: '2027-03-25', title: 'Maundy Thursday (Regular Holiday)', category: 'Holiday' },
-  { id: 'e51', date: '2027-03-26', title: 'Good Friday (Regular Holiday)', category: 'Holiday' },
-  { id: 'e52', date: '2027-03-30', title: 'Moving Up (AM) & Recognition Day Gr 1-5 (PM)', category: 'Academic' },
-  { id: 'e53', date: '2027-03-31', title: 'Recognition & Commencement Gr 6-10 (AM)', category: 'Academic' },
-
-  // April 2027
-  { id: 'e54', date: '2027-04-01', endDate: '2027-04-08', title: 'End-of-Term Block', category: 'Academic' },
-  { id: 'e55', date: '2027-04-08', title: 'Final Card Distribution', category: 'Academic' }
-];
-
-const INITIAL_GALLERY_IMAGES: GalleryImage[] = [
-  { id: '1', src: '/img/Campus_Life-Laboratory.png', alt: 'Science Laboratory', category: 'Academics' },
-  { id: '2', src: '/img/Campus_Life-Library.png', alt: 'Library Study Session', category: 'Academics' },
-  { id: '3', src: 'https://images.unsplash.com/photo-1577896851231-70ef18881754?auto=format&fit=crop&q=80&w=1200', alt: 'Classroom Engagement', category: 'Academics' },
-  { id: '4', src: 'https://images.unsplash.com/photo-1560421683-6856ea585c78?auto=format&fit=crop&q=80&w=800', alt: 'Creative Arts Class', category: 'Arts & Sports' },
-  { id: '5', src: 'https://images.unsplash.com/photo-1560523160-754a9e25c68f?auto=format&fit=crop&q=80&w=1200', alt: 'Preschool Playtime', category: 'Student Life' },
-  { id: '6', src: 'https://images.unsplash.com/photo-1529333166437-7750a6dd5a70?auto=format&fit=crop&q=80&w=800', alt: 'Student Friendship', category: 'Student Life' },
-  { id: '7', src: 'https://images.unsplash.com/photo-1461896836934-ffe607ba8211?auto=format&fit=crop&q=80&w=1200', alt: 'Sports & Athletics', category: 'Arts & Sports' },
-  { id: '8', src: 'https://images.unsplash.com/photo-1544725176-7c40e5a71c5e?auto=format&fit=crop&q=80&w=800', alt: 'Teacher & Student', category: 'Academics' },
-  { id: '9', src: '/img/Campus_Life-school grounds.png', alt: 'School Grounds', category: 'Campus' },
-  { id: '10', src: '/img/Campus_Life-worship hall.png', alt: 'Worship Hall', category: 'Campus' },
-  { id: '11', src: '/img/Campus_Life-School Office.png', alt: 'School Office', category: 'Campus' },
-  { id: '12', src: '/img/Campus_Life-Kinder.png', alt: 'Kindergarten Classroom', category: 'Campus' },
-  { id: '13', src: '/img/Campus_Life-Playground.png', alt: 'School Playground', category: 'Campus' },
-  { id: '14', src: '/img/Campus_Life-Spacious_Claassrooms.png', alt: 'Spacious Classrooms', category: 'Campus' },
-  { id: '15', src: '/img/Campus_Life-Computer_Room.png', alt: 'Computer Lab', category: 'Campus' },
-  { id: '16', src: '/img/Campus_Life-Academics.jpg', alt: 'Academic Excellence', category: 'Academics' },
-  { id: '17', src: '/img/Campus_Life-Clinic.png', alt: 'School Clinic', category: 'Campus' },
-  { id: '18', src: '/img/Admission-Join_Our_Family.png', alt: 'Join Our Family', category: 'Student Life' },
-  { id: '19', src: '/img/Campus_Life-Our_Gallery.png', alt: 'Our Gallery Highlights', category: 'Campus' },
-];
+const INITIAL_EVENTS: CalendarEvent[] = calendarJson as CalendarEvent[];
+const INITIAL_GALLERY_IMAGES: GalleryImage[] = galleryJson as GalleryImage[];
 
 const INITIAL_GALLERY_CATEGORIES = ['All', 'Academics', 'Student Life', 'Arts & Sports', 'Campus'];
 

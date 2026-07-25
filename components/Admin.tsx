@@ -280,12 +280,23 @@ const Admin: React.FC<AdminProps> = ({
               Manage school information, media, emergency popups, and calendar.
             </p>
           </div>
-          <button 
-            onClick={() => setIsLoggedIn(false)}
-            className="text-gray-500 hover:text-gray-900 text-sm font-bold transition-colors whitespace-nowrap"
-          >
-            Sign out <i className="fa-solid fa-arrow-right-from-bracket ml-1"></i>
-          </button>
+          <div className="flex items-center gap-3">
+            <a 
+              href="/admin/index.html" 
+              target="_blank" 
+              rel="noopener noreferrer"
+              className="bg-emerald-600 hover:bg-emerald-700 text-white px-4 py-2 rounded-lg text-sm font-bold shadow transition flex items-center gap-2"
+            >
+              <i className="fa-solid fa-cloud-arrow-up"></i>
+              Open Decap CMS (Git Auto-Save)
+            </a>
+            <button 
+              onClick={() => setIsLoggedIn(false)}
+              className="text-gray-500 hover:text-gray-900 text-sm font-bold transition-colors whitespace-nowrap"
+            >
+              Sign out <i className="fa-solid fa-arrow-right-from-bracket ml-1"></i>
+            </button>
+          </div>
         </div>
 
         <div className="bg-white shadow rounded-lg overflow-hidden flex flex-col md:flex-row min-h-[600px]">
