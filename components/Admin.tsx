@@ -1,7 +1,14 @@
 import React, { useState, useRef } from 'react';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
-import { CalendarEvent, PopupData, GalleryImage, TeamMember, FacilityItem } from '../types';
+import { 
+  isSupabaseConfigured, 
+  deleteGalleryImageFromDb, 
+  deleteTeamMemberFromDb, 
+  deleteFacilityFromDb, 
+  deleteCalendarEventFromDb, 
+  deletePopupFromDb 
+} from '../services/supabaseClient';
 
 interface AdminProps {
   calendarEvents?: CalendarEvent[];
@@ -281,15 +288,15 @@ const Admin: React.FC<AdminProps> = ({
             </p>
           </div>
           <div className="flex items-center gap-3">
-            <a 
-              href="/admin/index.html" 
-              target="_blank" 
-              rel="noopener noreferrer"
-              className="bg-emerald-600 hover:bg-emerald-700 text-white px-4 py-2 rounded-lg text-sm font-bold shadow transition flex items-center gap-2"
-            >
-              <i className="fa-solid fa-cloud-arrow-up"></i>
-              Open Decap CMS (Git Auto-Save)
-            </a>
+            {isSupabaseConfigured ? (
+              <span className="bg-emerald-100 text-emerald-800 text-xs font-bold px-3.5 py-2 rounded-full flex items-center gap-2 border border-emerald-300 shadow-sm">
+                <i className="fa-solid fa-database text-emerald-600"></i> Supabase DB Connected (Real-Time)
+              </span>
+            ) : (
+              <span className="bg-amber-100 text-amber-800 text-xs font-bold px-3.5 py-2 rounded-full flex items-center gap-2 border border-amber-300 shadow-sm" title="Add VITE_SUPABASE_URL and VITE_SUPABASE_ANON_KEY to Cloudflare Pages for Cloud DB sync">
+                <i className="fa-solid fa-cloud text-amber-600"></i> Local Sync Mode (Connect Supabase)
+              </span>
+            )}
             <button 
               onClick={() => setIsLoggedIn(false)}
               className="text-gray-500 hover:text-gray-900 text-sm font-bold transition-colors whitespace-nowrap"

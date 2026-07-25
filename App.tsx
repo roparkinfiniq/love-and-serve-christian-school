@@ -21,6 +21,14 @@ import { INITIAL_TEAM_MEMBERS, INITIAL_FACILITIES } from './data/initialData';
 import calendarJson from './public/content/calendar.json';
 import galleryJson from './public/content/gallery.json';
 
+import { 
+  fetchTeamMembers, saveTeamMembers, 
+  fetchFacilities, saveFacilities, 
+  fetchGalleryImages, saveGalleryImages, 
+  fetchCalendarEvents, saveCalendarEvents, 
+  fetchPopups, savePopups 
+} from './services/supabaseClient';
+
 const INITIAL_EVENTS: CalendarEvent[] = (calendarJson.events || calendarJson) as CalendarEvent[];
 const INITIAL_GALLERY_IMAGES: GalleryImage[] = (galleryJson.images || galleryJson) as GalleryImage[];
 
@@ -69,12 +77,36 @@ const App: React.FC = () => {
     }
   });
 
+  // Load data from Supabase DB on mount
+  useEffect(() => {
+    async function loadDataFromSupabase() {
+      try {
+        const [team, facs, gallery, events, pop] = await Promise.all([
+          fetchTeamMembers(),
+          fetchFacilities(),
+          fetchGalleryImages(),
+          fetchCalendarEvents(),
+          fetchPopups(),
+        ]);
+        if (team && team.length > 0) setTeamMembers(team);
+        if (facs && facs.length > 0) setFacilitiesList(facs);
+        if (gallery && gallery.length > 0) setGalleryImages(gallery);
+        if (events && events.length > 0) setCalendarEvents(events);
+        if (pop) setPopups(pop);
+      } catch (e) {
+        console.warn('Initial Supabase fetch completed with fallback', e);
+      }
+    }
+    loadDataFromSupabase();
+  }, []);
+
   useEffect(() => {
     try {
       localStorage.setItem('lscs_team_members', JSON.stringify(teamMembers));
     } catch (e) {
       console.error(e);
     }
+    saveTeamMembers(teamMembers);
   }, [teamMembers]);
 
   useEffect(() => {
@@ -83,7 +115,20 @@ const App: React.FC = () => {
     } catch (e) {
       console.error(e);
     }
+    saveFacilities(facilitiesList);
   }, [facilitiesList]);
+
+  useEffect(() => {
+    saveGalleryImages(galleryImages);
+  }, [galleryImages]);
+
+  useEffect(() => {
+    saveCalendarEvents(calendarEvents);
+  }, [calendarEvents]);
+
+  useEffect(() => {
+    savePopups(popups);
+  }, [popups]);
   const [academicsTab, setAcademicsTab] = useState<'preschool' | 'elementary' | 'junior'>('preschool');
   const [scrollToTabs, setScrollToTabs] = useState(false);
   const [scrollToAdmissionProcess, setScrollToAdmissionProcess] = useState(false);
