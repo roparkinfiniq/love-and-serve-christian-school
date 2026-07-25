@@ -1212,8 +1212,10 @@ const Admin: React.FC<AdminProps> = ({
                             <button 
                               className="bg-red-500 hover:bg-red-600 text-white w-6 h-6 rounded flex items-center justify-center shrink-0"
                               onClick={() => {
-                                if (setGalleryImages) {
-                                  setGalleryImages(galleryImages.filter(i => i.id !== img.id));
+                                if (window.confirm('Are you sure you want to delete this photo from the gallery?')) {
+                                  if (setGalleryImages) {
+                                    setGalleryImages(galleryImages.filter(i => i.id !== img.id));
+                                  }
                                 }
                               }}
                             >
