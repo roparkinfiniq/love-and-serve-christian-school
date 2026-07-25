@@ -77,6 +77,8 @@ const App: React.FC = () => {
     }
   });
 
+  const [isDataLoaded, setIsDataLoaded] = useState(false);
+
   // Load data from Supabase DB on mount
   useEffect(() => {
     async function loadDataFromSupabase() {
@@ -95,40 +97,47 @@ const App: React.FC = () => {
         if (pop) setPopups(pop);
       } catch (e) {
         console.warn('Initial Supabase fetch completed with fallback', e);
+      } finally {
+        setIsDataLoaded(true);
       }
     }
     loadDataFromSupabase();
   }, []);
 
   useEffect(() => {
+    if (!isDataLoaded) return;
     try {
       localStorage.setItem('lscs_team_members', JSON.stringify(teamMembers));
     } catch (e) {
       console.error(e);
     }
     saveTeamMembers(teamMembers);
-  }, [teamMembers]);
+  }, [teamMembers, isDataLoaded]);
 
   useEffect(() => {
+    if (!isDataLoaded) return;
     try {
       localStorage.setItem('lscs_facilities_list', JSON.stringify(facilitiesList));
     } catch (e) {
       console.error(e);
     }
     saveFacilities(facilitiesList);
-  }, [facilitiesList]);
+  }, [facilitiesList, isDataLoaded]);
 
   useEffect(() => {
+    if (!isDataLoaded) return;
     saveGalleryImages(galleryImages);
-  }, [galleryImages]);
+  }, [galleryImages, isDataLoaded]);
 
   useEffect(() => {
+    if (!isDataLoaded) return;
     saveCalendarEvents(calendarEvents);
-  }, [calendarEvents]);
+  }, [calendarEvents, isDataLoaded]);
 
   useEffect(() => {
+    if (!isDataLoaded) return;
     savePopups(popups);
-  }, [popups]);
+  }, [popups, isDataLoaded]);
   const [academicsTab, setAcademicsTab] = useState<'preschool' | 'elementary' | 'junior'>('preschool');
   const [scrollToTabs, setScrollToTabs] = useState(false);
   const [scrollToAdmissionProcess, setScrollToAdmissionProcess] = useState(false);
