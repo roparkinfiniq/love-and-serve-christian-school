@@ -111,15 +111,27 @@ const Admin: React.FC<AdminProps> = ({
   };
 
   const handleMoveTeamMember = (id: string, direction: 'up' | 'down') => {
-    if (!setTeamMembers) return;
-    const index = teamMembers.findIndex(m => m.id === id);
-    if (index === -1) return;
-    const targetIndex = direction === 'up' ? index - 1 : index + 1;
-    if (targetIndex < 0 || targetIndex >= teamMembers.length) return;
+    if (!setTeamMembers || teamFilterCategory === 'all') return;
+    
+    const categoryMembers = teamMembers.filter(m => m.category === teamFilterCategory);
+    const catIndex = categoryMembers.findIndex(m => m.id === id);
+    if (catIndex === -1) return;
+
+    const targetCatIndex = direction === 'up' ? catIndex - 1 : catIndex + 1;
+    if (targetCatIndex < 0 || targetCatIndex >= categoryMembers.length) return;
+
+    const currentMember = categoryMembers[catIndex];
+    const targetMember = categoryMembers[targetCatIndex];
+
+    const currentGlobalIndex = teamMembers.findIndex(m => m.id === currentMember.id);
+    const targetGlobalIndex = teamMembers.findIndex(m => m.id === targetMember.id);
+
+    if (currentGlobalIndex === -1 || targetGlobalIndex === -1) return;
 
     const updated = [...teamMembers];
-    const [moved] = updated.splice(index, 1);
-    updated.splice(targetIndex, 0, moved);
+    updated[currentGlobalIndex] = targetMember;
+    updated[targetGlobalIndex] = currentMember;
+
     setTeamMembers(updated);
     showToast('Team member order updated.');
   };
@@ -438,24 +450,28 @@ const Admin: React.FC<AdminProps> = ({
                         </div>
 
                         <div className="flex items-center gap-1">
-                          <button 
-                            type="button"
-                            onClick={() => handleMoveTeamMember(member.id, 'up')}
-                            disabled={teamMembers.findIndex(m => m.id === member.id) === 0}
-                            className="p-1.5 text-gray-400 hover:text-gray-900 disabled:opacity-20 disabled:hover:text-gray-400 transition rounded-lg hover:bg-gray-100"
-                            title="Move Up"
-                          >
-                            <i className="fa-solid fa-arrow-up text-xs"></i>
-                          </button>
-                          <button 
-                            type="button"
-                            onClick={() => handleMoveTeamMember(member.id, 'down')}
-                            disabled={teamMembers.findIndex(m => m.id === member.id) === teamMembers.length - 1}
-                            className="p-1.5 text-gray-400 hover:text-gray-900 disabled:opacity-20 disabled:hover:text-gray-400 transition rounded-lg hover:bg-gray-100"
-                            title="Move Down"
-                          >
-                            <i className="fa-solid fa-arrow-down text-xs"></i>
-                          </button>
+                          {teamFilterCategory !== 'all' && (
+                            <>
+                              <button 
+                                type="button"
+                                onClick={() => handleMoveTeamMember(member.id, 'up')}
+                                disabled={teamMembers.filter(m => m.category === teamFilterCategory).findIndex(m => m.id === member.id) === 0}
+                                className="p-1.5 text-gray-400 hover:text-gray-900 disabled:opacity-20 disabled:hover:text-gray-400 transition rounded-lg hover:bg-gray-100"
+                                title="Move Up"
+                              >
+                                <i className="fa-solid fa-arrow-up text-xs"></i>
+                              </button>
+                              <button 
+                                type="button"
+                                onClick={() => handleMoveTeamMember(member.id, 'down')}
+                                disabled={teamMembers.filter(m => m.category === teamFilterCategory).findIndex(m => m.id === member.id) === teamMembers.filter(m => m.category === teamFilterCategory).length - 1}
+                                className="p-1.5 text-gray-400 hover:text-gray-900 disabled:opacity-20 disabled:hover:text-gray-400 transition rounded-lg hover:bg-gray-100"
+                                title="Move Down"
+                              >
+                                <i className="fa-solid fa-arrow-down text-xs"></i>
+                              </button>
+                            </>
+                          )}
                           <button 
                             type="button"
                             onClick={() => setEditingTeamMember(member)}
