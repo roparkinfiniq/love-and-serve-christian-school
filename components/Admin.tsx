@@ -91,8 +91,12 @@ const Admin: React.FC<AdminProps> = ({
   // Team Member CRUD Handlers
   const handleSaveTeamMember = (e: React.FormEvent) => {
     e.preventDefault();
-    if (!editingTeamMember || !editingTeamMember.name || !editingTeamMember.role) {
-      showToast('Name and Role are required.', 'error');
+    if (!editingTeamMember || !editingTeamMember.name?.trim()) {
+      showToast('Please enter the team member name.', 'error');
+      return;
+    }
+    if (!editingTeamMember.role?.trim()) {
+      showToast('Please enter the role/designation.', 'error');
       return;
     }
 
@@ -147,7 +151,10 @@ const Admin: React.FC<AdminProps> = ({
 
   const handleSaveFacility = (e: React.FormEvent) => {
     e.preventDefault();
-    if (!editingFacility || !setFacilitiesList) return;
+    if (!editingFacility || !editingFacility.title?.trim()) {
+      showToast('Please enter the facility title.', 'error');
+      return;
+    }
 
     const facilityToSave: FacilityItem = {
       ...editingFacility,
@@ -260,7 +267,7 @@ const Admin: React.FC<AdminProps> = ({
               Sign in to manage the school website
             </p>
           </div>
-          <form className="mt-8 space-y-6" onSubmit={handleLogin}>
+          <form className="mt-8 space-y-6" noValidate onSubmit={handleLogin}>
             {error && (
               <div className="bg-red-50 border border-red-200 text-red-600 px-4 py-3 rounded-lg text-sm font-medium">
                 {error}
@@ -271,7 +278,6 @@ const Admin: React.FC<AdminProps> = ({
                 <label className="block text-sm font-bold text-gray-700 mb-1">Username</label>
                 <input
                   type="text"
-                  required
                   value={username}
                   onChange={(e) => setUsername(e.target.value)}
                   className="appearance-none rounded-lg relative block w-full px-3 py-3 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-rose-500 focus:border-red-500 focus:z-10 sm:text-sm"
@@ -282,7 +288,6 @@ const Admin: React.FC<AdminProps> = ({
                 <label className="block text-sm font-bold text-gray-700 mb-1">Password</label>
                 <input
                   type="password"
-                  required
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
                   className="appearance-none rounded-lg relative block w-full px-3 py-3 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-rose-500 focus:border-red-500 focus:z-10 sm:text-sm"
@@ -1317,12 +1322,11 @@ const Admin: React.FC<AdminProps> = ({
               </button>
             </div>
 
-            <form onSubmit={handleSaveTeamMember} className="space-y-4">
+            <form noValidate onSubmit={handleSaveTeamMember} className="space-y-4">
               <div>
                 <label className="block text-xs font-bold text-gray-700 uppercase mb-1">Name *</label>
                 <input 
                   type="text" 
-                  required 
                   value={editingTeamMember.name || ''}
                   onChange={e => setEditingTeamMember({...editingTeamMember, name: e.target.value})}
                   className="w-full px-3 py-2 border rounded-lg text-sm focus:ring-2 focus:ring-[#E11D48] outline-none"
@@ -1334,7 +1338,6 @@ const Admin: React.FC<AdminProps> = ({
                 <label className="block text-xs font-bold text-gray-700 uppercase mb-1">Role / Designation *</label>
                 <input 
                   type="text" 
-                  required 
                   value={editingTeamMember.role || ''}
                   onChange={e => setEditingTeamMember({...editingTeamMember, role: e.target.value})}
                   className="w-full px-3 py-2 border rounded-lg text-sm focus:ring-2 focus:ring-[#E11D48] outline-none"
@@ -1432,12 +1435,11 @@ const Admin: React.FC<AdminProps> = ({
               </button>
             </div>
 
-            <form onSubmit={handleSaveFacility} className="space-y-4">
+            <form noValidate onSubmit={handleSaveFacility} className="space-y-4">
               <div>
                 <label className="block text-xs font-bold text-gray-700 uppercase mb-1">Facility Title *</label>
                 <input 
                   type="text" 
-                  required 
                   value={editingFacility.title || ''}
                   onChange={e => setEditingFacility({...editingFacility, title: e.target.value})}
                   className="w-full px-3 py-2 border rounded-lg text-sm focus:ring-2 focus:ring-[#E11D48] outline-none"
@@ -1521,9 +1523,13 @@ const Admin: React.FC<AdminProps> = ({
               </button>
             </div>
 
-            <form onSubmit={(e) => {
+            <form noValidate onSubmit={(e) => {
               e.preventDefault();
               if (!editingPhoto || !setGalleryImages) return;
+              if (!editingPhoto.alt?.trim()) {
+                showToast('Please enter a photo description.', 'error');
+                return;
+              }
               setGalleryImages(prev => prev.map(img => img.id === editingPhoto.id ? editingPhoto : img));
               setEditingPhoto(null);
               showToast('Photo details updated successfully!');
@@ -1552,7 +1558,6 @@ const Admin: React.FC<AdminProps> = ({
                 <label className="block text-xs font-bold text-gray-700 uppercase mb-1">Description / Alt Text *</label>
                 <input 
                   type="text" 
-                  required 
                   value={editingPhoto.alt}
                   onChange={e => setEditingPhoto({...editingPhoto, alt: e.target.value})}
                   className="w-full px-3 py-2 border rounded-lg text-sm focus:ring-2 focus:ring-[#E11D48] outline-none text-gray-900 font-medium"
