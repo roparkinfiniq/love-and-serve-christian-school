@@ -18,9 +18,14 @@ const Gallery: React.FC<GalleryProps> = ({ images, categories }) => {
   const [selectedImage, setSelectedImage] = useState<GalleryImage | null>(null);
 
   const handleCategoryChange = (cat: string) => {
+    if (cat === activeCategory || isAnimating) return;
     setIsAnimating(true);
-    setActiveCategory(cat);
-    setTimeout(() => setIsAnimating(false), 300);
+    setTimeout(() => {
+      setActiveCategory(cat);
+      setTimeout(() => {
+        setIsAnimating(false);
+      }, 50);
+    }, 200);
   };
 
   const filteredImages = activeCategory === 'All' 
@@ -69,7 +74,9 @@ const Gallery: React.FC<GalleryProps> = ({ images, categories }) => {
           </div>
 
           {/* Masonry Grid */}
-          <div className={`columns-1 sm:columns-2 md:columns-3 lg:columns-4 gap-4 sm:gap-6 space-y-4 sm:space-y-6 transition-opacity duration-300 ${isAnimating ? 'opacity-0' : 'opacity-100'}`}>
+          <div className={`columns-1 sm:columns-2 md:columns-3 lg:columns-4 gap-4 sm:gap-6 space-y-4 sm:space-y-6 transition-all duration-300 ease-out ${
+            isAnimating ? 'opacity-0 scale-95 translate-y-2' : 'opacity-100 scale-100 translate-y-0'
+          }`}>
              {filteredImages.map((img, idx) => (
                 <div key={`${img.src}-${idx}`} className="break-inside-avoid">
                    <button 
