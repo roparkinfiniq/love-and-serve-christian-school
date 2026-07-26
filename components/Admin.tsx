@@ -995,7 +995,7 @@ const Admin: React.FC<AdminProps> = ({
                       <button 
                         onClick={() => {
                           if (!editingPopup.startDate || !editingPopup.endDate) {
-                            alert("Please fill out required fields: Start Date, End Date.");
+                            showToast("Please fill out required fields: Start Date and End Date.", 'error');
                             return;
                           }
                           if (setPopups) {
@@ -1146,7 +1146,7 @@ const Admin: React.FC<AdminProps> = ({
                                 fileInputRef.current.value = '';
                               }
                             } else {
-                              alert('Please provide an image file and description.');
+                              showToast('Please provide an image file and description.', 'error');
                             }
                           }}
                         >
