@@ -998,6 +998,10 @@ const Admin: React.FC<AdminProps> = ({
                     <div className="pt-4 text-right">
                       <button 
                         onClick={() => {
+                          if (!editingPopup.title?.trim()) {
+                            showToast('Please enter the popup title.', 'error');
+                            return;
+                          }
                           if (!editingPopup.startDate || !editingPopup.endDate) {
                             showToast("Please fill out required fields: Start Date and End Date.", 'error');
                             return;
@@ -1285,12 +1289,20 @@ const Admin: React.FC<AdminProps> = ({
               <button 
                 className="bg-[#E11D48] text-white px-4 py-2 rounded-lg font-bold shadow hover:bg-rose-500 transition"
                 onClick={() => {
-                  if (setCalendarEvents && editingEvent.title && editingEvent.date) {
-                    if (editingEvent.endDate && new Date(editingEvent.date) > new Date(editingEvent.endDate)) {
-                      showToast('Start date cannot be after end date.', 'error');
-                      return;
-                    }
+                  if (!editingEvent.title?.trim()) {
+                    showToast('Please enter the event title.', 'error');
+                    return;
+                  }
+                  if (!editingEvent.date) {
+                    showToast('Please select a start date.', 'error');
+                    return;
+                  }
+                  if (editingEvent.endDate && new Date(editingEvent.date) > new Date(editingEvent.endDate)) {
+                    showToast('Start date cannot be after end date.', 'error');
+                    return;
+                  }
 
+                  if (setCalendarEvents) {
                     if (editingEvent.id) {
                       setCalendarEvents(prev => prev.map(ev => ev.id === editingEvent.id ? editingEvent as CalendarEvent : ev));
                       showToast('Successfully updated.');
