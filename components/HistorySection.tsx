@@ -83,7 +83,7 @@ const HistorySection: React.FC = () => {
         {/* Interactive Timeline Navigation Bar */}
         <div className="relative mb-10 pt-4">
           {/* Progress Connecting Line */}
-          <div className="absolute top-1/2 left-4 right-4 sm:left-10 sm:right-10 -translate-y-1/2 h-1 bg-gray-200 rounded-full z-0">
+          <div className="absolute top-[34px] sm:top-[38px] left-8 right-8 sm:left-12 sm:right-12 -translate-y-1/2 h-1 bg-gray-200 rounded-full z-0">
             <div 
               className="h-full bg-[#E11D48] rounded-full transition-all duration-500 ease-out"
               style={{ width: `${(activeIndex / (HISTORY_DATA.length - 1)) * 100}%` }}
