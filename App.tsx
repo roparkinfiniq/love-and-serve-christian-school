@@ -16,6 +16,7 @@ import Careers from './components/Careers';
 import Admin from './components/Admin';
 import Calendar from './components/Calendar';
 import PopupsOverlay from './components/PopupsOverlay';
+import HistorySection from './components/HistorySection';
 import { Page, CalendarEvent, PopupData, GalleryImage, TeamMember, FacilityItem } from './types';
 import { INITIAL_TEAM_MEMBERS, INITIAL_FACILITIES } from './data/initialData';
 import calendarJson from './public/content/calendar.json';
@@ -292,78 +293,8 @@ const App: React.FC = () => {
               </div>
             </section>
 
-            {/* History Section - Vertical Timeline */}
-            <section className="py-24 px-6 bg-white overflow-hidden">
-              <div className="max-w-6xl mx-auto">
-                <div className="text-center mb-20">
-                  <span className="text-[#E11D48] font-bold tracking-widest uppercase text-sm">Our Journey</span>
-                  <h2 className="text-4xl md:text-5xl font-black text-gray-900 mt-3">History of LSCSI</h2>
-                </div>
-
-                <div className="relative">
-                  {/* Vertical Line - Updated to Gradient Fade In/Out */}
-                  <div className="absolute left-8 md:left-1/2 transform md:-translate-x-1/2 top-0 bottom-0 w-1 bg-gradient-to-b from-transparent via-red-300 to-transparent rounded-full"></div>
-
-                  <div className="space-y-12 md:space-y-24 relative">
-                    {[
-                      {
-                        year: "1997",
-                        title: "The Vision Begins",
-                        description: "Love and Serve All Nations International Inc. (LASANII) was founded, beginning its mission of sharing God's love and serving the Filipino people."
-                      },
-                      {
-                        year: "2011",
-                        title: "Groundbreaking",
-                        description: "The Ground Breaking Ceremony and Ribbon Cutting marked the first step toward establishing Love and Serve Christian School."
-                      },
-                      {
-                        year: "2012",
-                        title: "Dedication Service",
-                        description: "A Dedication Service was held to officially prepare the school for its operations and commit its ministry to God."
-                      },
-                      {
-                        year: "2014",
-                        title: "The Beginning",
-                        description: "Love and Serve Christian School (LSCSI) officially opened its Academic Year in Antipolo, Rizal, with the vision of providing Christ-centered education rooted in a Biblical worldview."
-                      },
-                      {
-                        year: "2015",
-                        title: "Growing Together",
-                        description: "The Elementary Department officially opened, expanding the school's ministry and educational programs."
-                      },
-                      {
-                        year: "2019",
-                        title: "First Graduation",
-                        description: "Five years after opening, LSCSI celebrated its first graduating class—a testimony of God's faithfulness and the fulfillment of its mission."
-                      },
-                      {
-                        year: "Present",
-                        title: "Preparing the Next Generation",
-                        description: "LSCSI continues to develop students spiritually and academically through Biblical education, God-fearing teachers, strong parent-school partnerships, and a commitment to raising future worshipers and servant leaders."
-                      }
-                    ].map((item, index) => (
-                      <div key={index} className={`relative flex items-center justify-between w-full ${index % 2 !== 0 ? 'md:flex-row-reverse' : ''}`}>
-                        
-                        {/* Timeline Dot */}
-                        <div className="absolute left-8 md:left-1/2 transform -translate-x-1/2 w-6 h-6 rounded-full bg-[#E11D48] border-4 border-white shadow-md z-20"></div>
-
-                        {/* Content Card */}
-                        <div className="w-full pl-24 md:pl-0 md:w-5/12">
-                           <div className={`bg-white p-8 rounded-2xl shadow-sm border border-gray-50 hover:shadow-xl hover:-translate-y-2 transition-all duration-300 relative group text-left transform-gpu will-change-transform antialiased [backface-visibility:hidden]`}>
-                             <span className="text-[#E11D48] font-black text-3xl mb-2 block">{item.year}</span>
-                             <h3 className="text-xl font-bold text-gray-800 mb-3">{item.title}</h3>
-                             <p className="text-gray-600 leading-relaxed">{item.description}</p>
-                           </div>
-                        </div>
-
-                        {/* Spacer for Desktop Zig-Zag */}
-                        <div className="hidden md:block md:w-5/12"></div>
-                      </div>
-                    ))}
-                  </div>
-                </div>
-              </div>
-            </section>
+            {/* History Section - Interactive Horizontal Timeline */}
+            <HistorySection />
 
             {/* Vision & Mission Sections - Minimalist 2-Column Grid */}
             <section className="py-24 px-6 bg-white">
