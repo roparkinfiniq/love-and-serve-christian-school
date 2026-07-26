@@ -33,7 +33,7 @@ const Hero: React.FC<HeroProps> = ({ onNavigate }) => {
             {/* Primary CTA: Enroll Now - Updated Hover Effect to be Brighter */}
             <button 
               onClick={() => onNavigate('Admissions')}
-              className="w-full sm:w-auto bg-[#E11D48] hover:bg-[#ff4f70] text-white px-6 py-3.5 md:px-12 md:py-6 rounded-2xl font-black text-base md:text-xl transition-all duration-300 shadow-[0_10px_30px_-10px_rgba(225,29,72,0.5)] hover:shadow-[0_15px_40px_-10px_rgba(225,29,72,0.6)] hover:-translate-y-1 active:scale-95 transform-gpu will-change-transform antialiased [backface-visibility:hidden]"
+              className="w-full sm:w-auto bg-[#E11D48] hover:bg-[#ff4f70] text-white px-6 py-3.5 md:px-12 md:py-6 rounded-2xl font-black text-base md:text-xl transition-all duration-500 ease-in-out shadow-[0_10px_30px_-10px_rgba(225,29,72,0.5)] hover:shadow-[0_15px_40px_-10px_rgba(225,29,72,0.6)] hover:-translate-y-1 active:scale-95 transform-gpu will-change-transform antialiased [backface-visibility:hidden]"
             >
               Enroll Now
             </button>
@@ -41,9 +41,9 @@ const Hero: React.FC<HeroProps> = ({ onNavigate }) => {
             {/* Secondary CTA: Virtual Tour - Added Lift and Shadow to match Enroll Now */}
             <button 
               onClick={() => onNavigate('Facilities')}
-              className="w-full sm:w-auto group flex items-center justify-center border-2 border-slate-200 text-slate-600 bg-white px-6 py-3.5 md:px-12 md:py-6 rounded-2xl font-black text-base md:text-xl transition-all duration-300 hover:border-[#E11D48] hover:text-[#E11D48] hover:bg-rose-50 shadow-[0_10px_30px_-10px_rgba(148,163,184,0.1)] hover:shadow-[0_15px_40px_-10px_rgba(225,29,72,0.2)] hover:-translate-y-1 active:scale-95 transform-gpu will-change-transform antialiased [backface-visibility:hidden]"
+              className="w-full sm:w-auto group flex items-center justify-center border-2 border-slate-200 text-slate-600 bg-white px-6 py-3.5 md:px-12 md:py-6 rounded-2xl font-black text-base md:text-xl transition-all duration-500 ease-in-out hover:border-[#E11D48] hover:text-[#E11D48] hover:bg-rose-50 shadow-[0_10px_30px_-10px_rgba(148,163,184,0.1)] hover:shadow-[0_15px_40px_-10px_rgba(225,29,72,0.2)] hover:-translate-y-1 active:scale-95 transform-gpu will-change-transform antialiased [backface-visibility:hidden]"
             >
-              <i className="fa-solid fa-camera-rotate mr-3 text-slate-400 group-hover:text-[#E11D48] transition-colors duration-300"></i>
+              <i className="fa-solid fa-camera-rotate mr-3 text-slate-400 group-hover:text-[#E11D48] transition-colors duration-500 ease-in-out"></i>
               <span>Virtual Tour</span>
             </button>
           </div>
