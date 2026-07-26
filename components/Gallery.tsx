@@ -25,7 +25,7 @@ const Gallery: React.FC<GalleryProps> = ({ images, categories }) => {
       setTimeout(() => {
         setIsAnimating(false);
       }, 50);
-    }, 200);
+    }, 300);
   };
 
   const filteredImages = activeCategory === 'All' 
@@ -62,7 +62,7 @@ const Gallery: React.FC<GalleryProps> = ({ images, categories }) => {
               <button
                 key={cat}
                 onClick={() => handleCategoryChange(cat)}
-                className={`px-4 py-2 sm:px-6 sm:py-2.5 rounded-full font-bold text-xs sm:text-sm md:text-base transition-all duration-300 transform hover:-translate-y-1 transform-gpu will-change-transform antialiased [backface-visibility:hidden] ${
+                className={`px-4 py-2 sm:px-6 sm:py-2.5 rounded-full font-bold text-xs sm:text-sm md:text-base transition-all duration-500 ease-in-out transform hover:-translate-y-1 transform-gpu will-change-transform antialiased [backface-visibility:hidden] ${
                   activeCategory === cat
                     ? 'bg-[#E11D48] text-white shadow-lg shadow-red-200'
                     : 'bg-gray-100 text-gray-600 hover:bg-white hover:shadow-md'
@@ -75,7 +75,7 @@ const Gallery: React.FC<GalleryProps> = ({ images, categories }) => {
 
           {/* Empty State when no photos in category */}
           {filteredImages.length === 0 ? (
-            <div className={`py-16 sm:py-24 text-center bg-gray-50/60 rounded-3xl border border-dashed border-gray-200 my-8 transition-all duration-300 ${
+            <div className={`py-16 sm:py-24 text-center bg-gray-50/60 rounded-3xl border border-dashed border-gray-200 my-8 transition-all duration-500 ease-in-out ${
               isAnimating ? 'opacity-0 scale-95' : 'opacity-100 scale-100'
             }`}>
               <div className="w-16 h-16 sm:w-20 sm:h-20 bg-rose-100 text-[#E11D48] rounded-full flex items-center justify-center mx-auto mb-4 text-2xl sm:text-3xl shadow-sm">
@@ -87,14 +87,14 @@ const Gallery: React.FC<GalleryProps> = ({ images, categories }) => {
               </p>
               <button
                 onClick={() => handleCategoryChange('All')}
-                className="px-6 py-3 bg-[#E11D48] hover:bg-rose-600 text-white font-bold text-sm rounded-xl shadow-md hover:shadow-lg transition-all active:scale-95 inline-flex items-center gap-2"
+                className="px-6 py-3 bg-[#E11D48] hover:bg-rose-600 text-white font-bold text-sm rounded-xl shadow-md hover:shadow-lg transition-all duration-500 ease-in-out active:scale-95 inline-flex items-center gap-2"
               >
                 <i className="fa-solid fa-border-all"></i> View All Photos
               </button>
             </div>
           ) : (
             /* Masonry Grid */
-            <div className={`columns-1 sm:columns-2 md:columns-3 lg:columns-4 gap-4 sm:gap-6 space-y-4 sm:space-y-6 transition-all duration-300 ease-out ${
+            <div className={`columns-1 sm:columns-2 md:columns-3 lg:columns-4 gap-4 sm:gap-6 space-y-4 sm:space-y-6 transition-all duration-500 ease-in-out ${
               isAnimating ? 'opacity-0 scale-95 translate-y-2' : 'opacity-100 scale-100 translate-y-0'
             }`}>
                {filteredImages.map((img, idx) => (

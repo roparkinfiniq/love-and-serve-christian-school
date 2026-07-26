@@ -88,7 +88,7 @@ const HistorySection: React.FC = () => {
               {/* Progress Connecting Line */}
               <div className="absolute top-1/2 left-6 right-6 -translate-y-1/2 h-1 bg-gray-200 rounded-full z-0">
                 <div 
-                  className="h-full bg-[#E11D48] rounded-full transition-all duration-500 ease-out"
+                  className="h-full bg-[#E11D48] rounded-full transition-all duration-700 ease-in-out"
                   style={{ width: `${(activeIndex / (HISTORY_DATA.length - 1)) * 100}%` }}
                 ></div>
               </div>
@@ -101,10 +101,10 @@ const HistorySection: React.FC = () => {
                   <button
                     key={item.year}
                     onClick={() => setActiveIndex(index)}
-                    className="relative z-10 flex flex-col items-center group focus:outline-none transition-all duration-300"
+                    className="relative z-10 flex flex-col items-center group focus:outline-none transition-all duration-500 ease-in-out"
                   >
                     {/* Node Circle */}
-                    <div className={`relative w-10 h-10 sm:w-12 sm:h-12 rounded-full flex items-center justify-center transition-transform duration-300 ease-out transform-gpu ${
+                    <div className={`relative w-10 h-10 sm:w-12 sm:h-12 rounded-full flex items-center justify-center transition-transform duration-500 ease-in-out transform-gpu ${
                       isActive ? 'scale-110' : 'scale-100'
                     }`}>
                       {/* Outer Ring Overlay (Smooth Opacity Fade) */}
