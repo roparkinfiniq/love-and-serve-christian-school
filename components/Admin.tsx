@@ -80,6 +80,7 @@ const Admin: React.FC<AdminProps> = ({
   const [toast, setToast] = useState<{message: string, type: 'success' | 'error'} | null>(null);
   const [eventToDelete, setEventToDelete] = useState<string | null>(null);
   const [deletingPhotoId, setDeletingPhotoId] = useState<string | null>(null);
+  const [editingPhoto, setEditingPhoto] = useState<GalleryImage | null>(null);
 
   const showToast = (message: string, type: 'success' | 'error' = 'success') => {
     setToast({ message, type });
@@ -1364,35 +1365,48 @@ const Admin: React.FC<AdminProps> = ({
                       {galleryImages.map(img => (
                         <div key={img.id} className="relative aspect-square bg-gray-100 rounded-lg overflow-hidden group">
                           <img src={img.src} alt={img.alt} className="w-full h-full object-cover" />
-                          <div className="absolute bottom-0 left-0 right-0 bg-black/60 p-2 text-white text-xs opacity-0 group-hover:opacity-100 transition-opacity flex justify-between items-center">
-                            <span className="truncate pr-2">{img.category}</span>
-                            <button 
-                              type="button"
-                              className={`w-7 h-7 rounded-lg flex items-center justify-center shrink-0 transition-all ${
-                                deletingPhotoId === img.id
-                                  ? 'bg-emerald-500 hover:bg-emerald-600 text-white scale-110 shadow-md ring-2 ring-white/50'
-                                  : 'bg-red-500 hover:bg-red-600 text-white'
-                              }`}
-                              title={deletingPhotoId === img.id ? 'Click again to confirm deletion' : 'Delete photo'}
-                              onClick={async (e) => {
-                                e.stopPropagation();
-                                if (deletingPhotoId === img.id) {
-                                  await deleteGalleryImageFromDb(img.id);
-                                  if (setGalleryImages) {
-                                    setGalleryImages(prev => prev.filter(i => i.id !== img.id));
+                          <div className="absolute bottom-0 left-0 right-0 bg-black/75 p-2 text-white text-xs opacity-0 group-hover:opacity-100 transition-opacity flex justify-between items-center gap-1">
+                            <span className="truncate text-[11px] font-semibold flex-1" title={`${img.alt} (${img.category})`}>{img.category}</span>
+                            <div className="flex items-center gap-1 shrink-0">
+                              <button 
+                                type="button"
+                                className="w-7 h-7 rounded-lg bg-blue-600 hover:bg-blue-700 text-white flex items-center justify-center transition shadow-sm"
+                                title="Edit category and description"
+                                onClick={(e) => {
+                                  e.stopPropagation();
+                                  setEditingPhoto({ ...img });
+                                }}
+                              >
+                                <i className="fa-solid fa-pen-to-square text-[11px]"></i>
+                              </button>
+                              <button 
+                                type="button"
+                                className={`w-7 h-7 rounded-lg flex items-center justify-center shrink-0 transition-all ${
+                                  deletingPhotoId === img.id
+                                    ? 'bg-emerald-500 hover:bg-emerald-600 text-white scale-110 shadow-md ring-2 ring-white/50'
+                                    : 'bg-red-500 hover:bg-red-600 text-white'
+                                }`}
+                                title={deletingPhotoId === img.id ? 'Click again to confirm deletion' : 'Delete photo'}
+                                onClick={async (e) => {
+                                  e.stopPropagation();
+                                  if (deletingPhotoId === img.id) {
+                                    await deleteGalleryImageFromDb(img.id);
+                                    if (setGalleryImages) {
+                                      setGalleryImages(prev => prev.filter(i => i.id !== img.id));
+                                    }
+                                    setDeletingPhotoId(null);
+                                    showToast('Photo deleted successfully');
+                                  } else {
+                                    setDeletingPhotoId(img.id);
+                                    setTimeout(() => {
+                                      setDeletingPhotoId(prev => (prev === img.id ? null : prev));
+                                    }, 3000);
                                   }
-                                  setDeletingPhotoId(null);
-                                  showToast('Photo deleted successfully');
-                                } else {
-                                  setDeletingPhotoId(img.id);
-                                  setTimeout(() => {
-                                    setDeletingPhotoId(prev => (prev === img.id ? null : prev));
-                                  }, 3000);
-                                }
-                              }}
-                            >
-                              <i className={`fa-solid ${deletingPhotoId === img.id ? 'fa-check text-[12px]' : 'fa-trash text-[10px]'}`}></i>
-                            </button>
+                                }}
+                              >
+                                <i className={`fa-solid ${deletingPhotoId === img.id ? 'fa-check text-[12px]' : 'fa-trash text-[10px]'}`}></i>
+                              </button>
+                            </div>
                           </div>
                         </div>
                       ))}
@@ -1494,6 +1508,81 @@ const Admin: React.FC<AdminProps> = ({
         </div>
       )}
       
+      {/* Photo Edit Modal */}
+      {editingPhoto && (
+        <div className="fixed inset-0 z-[60] bg-black/60 backdrop-blur-sm flex items-center justify-center p-4">
+          <div className="bg-white rounded-2xl p-6 max-w-md w-full shadow-2xl space-y-4 animate-fadeIn">
+            <div className="flex justify-between items-center border-b pb-3">
+              <h3 className="text-xl font-bold text-gray-900 flex items-center gap-2">
+                <i className="fa-solid fa-pen-to-square text-[#E11D48]"></i>
+                Edit Photo Details
+              </h3>
+              <button onClick={() => setEditingPhoto(null)} className="text-gray-400 hover:text-gray-600">
+                <i className="fa-solid fa-xmark text-xl"></i>
+              </button>
+            </div>
+
+            <form onSubmit={async (e) => {
+              e.preventDefault();
+              if (!editingPhoto || !setGalleryImages) return;
+              const updated = galleryImages.map(img => img.id === editingPhoto.id ? editingPhoto : img);
+              setGalleryImages(updated);
+              await saveGalleryImages(updated);
+              setEditingPhoto(null);
+              showToast('Photo details updated successfully!');
+            }} className="space-y-4">
+              <div>
+                <label className="block text-xs font-bold text-gray-700 uppercase mb-1">Photo Preview</label>
+                <div className="h-44 bg-gray-100 rounded-xl overflow-hidden border border-gray-200 shadow-inner">
+                  <img src={editingPhoto.src} alt={editingPhoto.alt} className="w-full h-full object-cover" />
+                </div>
+              </div>
+
+              <div>
+                <label className="block text-xs font-bold text-gray-700 uppercase mb-1">Category (Tag) *</label>
+                <select 
+                  value={editingPhoto.category}
+                  onChange={e => setEditingPhoto({...editingPhoto, category: e.target.value})}
+                  className="w-full px-3 py-2 border rounded-lg text-sm focus:ring-2 focus:ring-[#E11D48] outline-none bg-white font-medium text-gray-800"
+                >
+                  {galleryCategories.filter(c => c !== 'All').map(cat => (
+                    <option key={cat} value={cat}>{cat}</option>
+                  ))}
+                </select>
+              </div>
+
+              <div>
+                <label className="block text-xs font-bold text-gray-700 uppercase mb-1">Description / Alt Text *</label>
+                <input 
+                  type="text" 
+                  required 
+                  value={editingPhoto.alt}
+                  onChange={e => setEditingPhoto({...editingPhoto, alt: e.target.value})}
+                  className="w-full px-3 py-2 border rounded-lg text-sm focus:ring-2 focus:ring-[#E11D48] outline-none text-gray-900 font-medium"
+                  placeholder="e.g. Students in Science Laboratory"
+                />
+              </div>
+
+              <div className="flex justify-end gap-2 pt-3 border-t">
+                <button 
+                  type="button" 
+                  onClick={() => setEditingPhoto(null)}
+                  className="px-4 py-2 border rounded-lg text-sm font-bold text-gray-600 hover:bg-gray-100"
+                >
+                  Cancel
+                </button>
+                <button 
+                  type="submit" 
+                  className="px-5 py-2 bg-[#E11D48] text-white rounded-lg text-sm font-bold hover:bg-rose-600 shadow"
+                >
+                  Save Changes
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      )}
+
       {/* Event Delete Confirmation Modal */}
       {eventToDelete && (
         <div className="fixed inset-0 bg-black/60 z-[60] flex items-center justify-center p-4">
