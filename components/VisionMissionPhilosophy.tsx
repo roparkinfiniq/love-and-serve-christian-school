@@ -17,10 +17,10 @@ const VisionMissionPhilosophy: React.FC = () => {
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-12">
             {/* Vision Card */}
-            <div className="bg-white rounded-3xl p-8 sm:p-10 border border-gray-100 shadow-lg hover:shadow-2xl transition-all duration-300 relative group overflow-hidden text-left">
-              <div className="absolute top-0 right-0 w-32 h-32 bg-rose-100/50 rounded-bl-full -z-0 transition-transform duration-500 group-hover:scale-110"></div>
+            <div className="bg-white rounded-3xl p-8 sm:p-10 border border-gray-100 shadow-lg hover:shadow-2xl hover:-translate-y-2 transition-all duration-700 ease-out relative group overflow-hidden text-left transform-gpu will-change-transform">
+              <div className="absolute top-0 right-0 w-32 h-32 bg-rose-100/50 rounded-bl-full -z-0 transition-transform duration-700 ease-out group-hover:scale-110"></div>
               <div className="relative z-10">
-                <div className="w-16 h-16 rounded-2xl bg-rose-100 text-[#E11D48] flex items-center justify-center text-3xl mb-6 shadow-sm group-hover:scale-110 group-hover:bg-[#E11D48] group-hover:text-white transition-all duration-300">
+                <div className="w-16 h-16 rounded-2xl bg-rose-100 text-[#E11D48] flex items-center justify-center text-3xl mb-6 shadow-sm group-hover:scale-110 group-hover:bg-[#E11D48] group-hover:text-white transition-all duration-700 ease-out">
                   <i className="fa-solid fa-compass"></i>
                 </div>
                 <span className="text-xs font-black uppercase tracking-widest text-[#E11D48] mb-1 block">Our Future Direction</span>
@@ -32,10 +32,10 @@ const VisionMissionPhilosophy: React.FC = () => {
             </div>
 
             {/* Mission Card */}
-            <div className="bg-white rounded-3xl p-8 sm:p-10 border border-gray-100 shadow-lg hover:shadow-2xl transition-all duration-300 relative group overflow-hidden text-left">
-              <div className="absolute top-0 right-0 w-32 h-32 bg-rose-100/50 rounded-bl-full -z-0 transition-transform duration-500 group-hover:scale-110"></div>
+            <div className="bg-white rounded-3xl p-8 sm:p-10 border border-gray-100 shadow-lg hover:shadow-2xl hover:-translate-y-2 transition-all duration-700 ease-out relative group overflow-hidden text-left transform-gpu will-change-transform">
+              <div className="absolute top-0 right-0 w-32 h-32 bg-rose-100/50 rounded-bl-full -z-0 transition-transform duration-700 ease-out group-hover:scale-110"></div>
               <div className="relative z-10">
-                <div className="w-16 h-16 rounded-2xl bg-rose-100 text-[#E11D48] flex items-center justify-center text-3xl mb-6 shadow-sm group-hover:scale-110 group-hover:bg-[#E11D48] group-hover:text-white transition-all duration-300">
+                <div className="w-16 h-16 rounded-2xl bg-rose-100 text-[#E11D48] flex items-center justify-center text-3xl mb-6 shadow-sm group-hover:scale-110 group-hover:bg-[#E11D48] group-hover:text-white transition-all duration-700 ease-out">
                   <i className="fa-solid fa-hand-holding-heart"></i>
                 </div>
                 <span className="text-xs font-black uppercase tracking-widest text-[#E11D48] mb-1 block">Our Daily Calling</span>
@@ -79,8 +79,8 @@ const VisionMissionPhilosophy: React.FC = () => {
                     desc: "The school is dedicated to help pupils excel academically, develop Christian values and patriotism, enhance talents, and build self-esteem."
                   }
                 ].map((item, idx) => (
-                  <div key={idx} className="flex items-start gap-5 p-6 rounded-2xl bg-gray-50/70 border border-gray-100 hover:bg-rose-50/40 hover:border-rose-200 transition-all duration-300 group">
-                    <div className="w-12 h-12 rounded-xl bg-white text-[#E11D48] shadow-sm border border-gray-100 flex items-center justify-center shrink-0 group-hover:scale-110 group-hover:bg-[#E11D48] group-hover:text-white transition-all duration-300 text-xl">
+                  <div key={idx} className="flex items-start gap-5 p-6 rounded-2xl bg-gray-50/70 border border-gray-100 hover:bg-rose-50/50 hover:border-rose-200/80 hover:-translate-y-1 hover:shadow-md transition-all duration-700 ease-out group transform-gpu will-change-transform">
+                    <div className="w-12 h-12 rounded-xl bg-white text-[#E11D48] shadow-sm border border-gray-100 flex items-center justify-center shrink-0 group-hover:scale-110 group-hover:bg-[#E11D48] group-hover:text-white transition-all duration-700 ease-out text-xl">
                       <i className={`fa-solid ${item.icon}`}></i>
                     </div>
                     <div>
@@ -95,7 +95,7 @@ const VisionMissionPhilosophy: React.FC = () => {
             {/* Right Column: Decorative Badge */}
             <div className="w-full md:w-1/3 flex justify-center">
               <div className="relative w-64 h-64 sm:w-80 sm:h-80 rounded-3xl bg-gradient-to-br from-rose-100 via-rose-50 to-white p-8 flex flex-col items-center justify-center text-center border border-rose-100 shadow-xl group">
-                <div className="w-24 h-24 rounded-full bg-[#E11D48] text-white flex items-center justify-center text-5xl mb-4 shadow-lg group-hover:scale-110 transition-transform duration-500">
+                <div className="w-24 h-24 rounded-full bg-[#E11D48] text-white flex items-center justify-center text-5xl mb-4 shadow-lg group-hover:scale-110 transition-transform duration-700 ease-out">
                   <i className="fa-solid fa-seedling"></i>
                 </div>
                 <h4 className="text-xl font-black text-gray-900">Christ-Centered</h4>
