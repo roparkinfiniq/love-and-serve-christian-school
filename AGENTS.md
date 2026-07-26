@@ -8,14 +8,8 @@
 ## 🎬 Motion & Animation
 - **Subtle & Slow Motion**: Never use fast/snappy transitions (e.g., 200ms-300ms). Always use smooth, slow, natural, and subtle animations (`duration-500` ~ `duration-700` with `ease-in-out` / `ease-out`).
 
-## 👁️ Icons & Aesthetics
-- **Warm & Inspirational Iconography**: Avoid intense/creepy icons (e.g., solid staring eye). Use warm Christian school icons (e.g., compass for vision, hand-holding-heart for mission, cross, seedling).
-
-## 📐 Layout & UX Rules
-- **Compact Layouts**: Avoid tall vertically stretched timelines. Prefer compact interactive horizontal tracks/steppers.
-- **Custom Toast Validation**: Never trigger HTML5 browser default tooltips (`required`). Always use custom English red Toast alerts (`showToast(..., 'error')`).
-- **Gallery Empty State**: When a category has 0 photos, display a friendly empty state card with a `View All Photos` button instead of a blank white space.
-- **Asset Optimization**: Keep images web-optimized under 500KB-1.5MB for fast page loading.
+## ⚠️ UX & Validation
+- **Custom Toast Validation**: Use custom English red Toast alerts (`showToast(..., 'error')`) instead of browser default tooltips.
 
 ## 📝 Maintenance Rule
-- Automatically update this document whenever new design rules, colors, or core architecture preferences are updated by the user.
+- Update this document only for core rules confirmed with the user.
