@@ -81,45 +81,63 @@ const HistorySection: React.FC = () => {
         </div>
 
         {/* Interactive Timeline Navigation Bar */}
-        <div className="relative mb-10 pt-4">
-          {/* Progress Connecting Line */}
-          <div className="absolute top-[34px] sm:top-[38px] left-8 right-8 sm:left-12 sm:right-12 -translate-y-1/2 h-1 bg-gray-200 rounded-full z-0">
-            <div 
-              className="h-full bg-[#E11D48] rounded-full transition-all duration-500 ease-out"
-              style={{ width: `${(activeIndex / (HISTORY_DATA.length - 1)) * 100}%` }}
-            ></div>
-          </div>
+        <div className="relative mb-10 overflow-x-auto pt-6 pb-4 px-4 scrollbar-none">
+          <div className="min-w-[650px] max-w-5xl mx-auto relative">
+            {/* Circle Row with Background Line Shared Container */}
+            <div className="relative h-14 flex items-center justify-between">
+              {/* Progress Connecting Line */}
+              <div className="absolute top-1/2 left-6 right-6 -translate-y-1/2 h-1 bg-gray-200 rounded-full z-0">
+                <div 
+                  className="h-full bg-[#E11D48] rounded-full transition-all duration-500 ease-out"
+                  style={{ width: `${(activeIndex / (HISTORY_DATA.length - 1)) * 100}%` }}
+                ></div>
+              </div>
 
-          {/* Milestone Buttons Track */}
-          <div className="relative z-10 flex justify-between items-center overflow-x-auto pb-4 pt-1 px-2 scrollbar-none">
-            {HISTORY_DATA.map((item, index) => {
-              const isActive = index === activeIndex;
-              const isPast = index <= activeIndex;
-              return (
-                <button
-                  key={item.year}
-                  onClick={() => setActiveIndex(index)}
-                  className={`flex flex-col items-center group focus:outline-none transition-all duration-300 shrink-0 px-2 sm:px-4`}
-                >
-                  {/* Node Circle */}
-                  <div className={`w-9 h-9 sm:w-11 sm:h-11 rounded-full flex items-center justify-center font-black text-xs sm:text-sm transition-all duration-300 ${
-                    isActive 
-                      ? 'bg-[#E11D48] text-white scale-110 shadow-lg ring-4 ring-rose-200' 
-                      : isPast 
-                        ? 'bg-[#E11D48] text-white' 
-                        : 'bg-white text-gray-400 border-2 border-gray-300 group-hover:border-[#E11D48] group-hover:text-[#E11D48]'
-                  }`}>
-                    {index + 1}
-                  </div>
-                  {/* Year Label */}
-                  <span className={`text-xs sm:text-sm font-bold mt-2.5 transition-colors ${
-                    isActive ? 'text-[#E11D48] scale-105' : isPast ? 'text-gray-800' : 'text-gray-400 group-hover:text-gray-600'
-                  }`}>
-                    {item.year}
-                  </span>
-                </button>
-              );
-            })}
+              {/* Milestone Circles */}
+              {HISTORY_DATA.map((item, index) => {
+                const isActive = index === activeIndex;
+                const isPast = index <= activeIndex;
+                return (
+                  <button
+                    key={item.year}
+                    onClick={() => setActiveIndex(index)}
+                    className="relative z-10 flex flex-col items-center group focus:outline-none transition-all duration-300"
+                  >
+                    {/* Node Circle */}
+                    <div className={`w-10 h-10 sm:w-12 sm:h-12 rounded-full flex items-center justify-center font-black text-xs sm:text-sm transition-all duration-300 ${
+                      isActive 
+                        ? 'bg-[#E11D48] text-white scale-110 shadow-lg ring-4 ring-rose-200' 
+                        : isPast 
+                          ? 'bg-[#E11D48] text-white' 
+                          : 'bg-white text-gray-400 border-2 border-gray-300 group-hover:border-[#E11D48] group-hover:text-[#E11D48]'
+                    }`}>
+                      {index + 1}
+                    </div>
+                  </button>
+                );
+              })}
+            </div>
+
+            {/* Year Labels Row */}
+            <div className="flex justify-between items-center mt-2">
+              {HISTORY_DATA.map((item, index) => {
+                const isActive = index === activeIndex;
+                const isPast = index <= activeIndex;
+                return (
+                  <button
+                    key={`year-${item.year}`}
+                    onClick={() => setActiveIndex(index)}
+                    className="flex flex-col items-center group focus:outline-none transition-all duration-300 w-10 sm:w-12 text-center"
+                  >
+                    <span className={`text-xs sm:text-sm font-bold transition-colors ${
+                      isActive ? 'text-[#E11D48] font-black scale-105' : isPast ? 'text-gray-800' : 'text-gray-400 group-hover:text-gray-600'
+                    }`}>
+                      {item.year}
+                    </span>
+                  </button>
+                );
+              })}
+            </div>
           </div>
         </div>
 
