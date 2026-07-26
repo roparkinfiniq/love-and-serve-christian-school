@@ -73,40 +73,61 @@ const Gallery: React.FC<GalleryProps> = ({ images, categories }) => {
             ))}
           </div>
 
-          {/* Masonry Grid */}
-          <div className={`columns-1 sm:columns-2 md:columns-3 lg:columns-4 gap-4 sm:gap-6 space-y-4 sm:space-y-6 transition-all duration-300 ease-out ${
-            isAnimating ? 'opacity-0 scale-95 translate-y-2' : 'opacity-100 scale-100 translate-y-0'
-          }`}>
-             {filteredImages.map((img, idx) => (
-                <div key={`${img.src}-${idx}`} className="break-inside-avoid">
-                   <button 
-                     onClick={() => setSelectedImage(img)}
-                     className="block w-full text-left relative group rounded-2xl overflow-hidden shadow-md hover:shadow-2xl transition-all duration-300 hover:-translate-y-2 bg-gray-100 transform-gpu will-change-transform antialiased [backface-visibility:hidden]"
-                   >
-                      <img 
-                        src={img.src} 
-                        alt={img.alt} 
-                        className="w-full h-auto transform transition-transform duration-700 group-hover:scale-110 transform-gpu will-change-transform antialiased [backface-visibility:hidden]"
-                        loading="lazy"
-                      />
-                      
-                      {/* Overlay */}
-                      <div className="absolute inset-x-0 bottom-0 h-3/5 bg-gradient-to-t from-black/90 via-black/40 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none"></div>
-                      
-                      {/* Caption */}
-                      <div className="absolute bottom-0 left-0 right-0 p-6 opacity-0 group-hover:opacity-100 transition-all duration-500 translate-y-4 group-hover:translate-y-0 flex justify-between items-end pointer-events-none transform-gpu will-change-transform antialiased [backface-visibility:hidden]">
-                         <div>
-                           <p className="text-white font-bold text-lg tracking-wide drop-shadow-md">{img.alt}</p>
-                           <p className="text-gray-300 text-xs mt-1 uppercase tracking-wider font-semibold drop-shadow-md">{img.category}</p>
-                         </div>
-                         <div className="w-10 h-10 rounded-full bg-white/20 backdrop-blur-md flex items-center justify-center text-white border border-white/30 shadow-[0_4px_30px_rgba(0,0,0,0.1)] transition-transform duration-500 shrink-0">
-                            <i className="fa-solid fa-expand text-sm"></i>
-                         </div>
-                      </div>
-                   </button>
-                </div>
-             ))}
-          </div>
+          {/* Empty State when no photos in category */}
+          {filteredImages.length === 0 ? (
+            <div className={`py-16 sm:py-24 text-center bg-gray-50/60 rounded-3xl border border-dashed border-gray-200 my-8 transition-all duration-300 ${
+              isAnimating ? 'opacity-0 scale-95' : 'opacity-100 scale-100'
+            }`}>
+              <div className="w-16 h-16 sm:w-20 sm:h-20 bg-rose-100 text-[#E11D48] rounded-full flex items-center justify-center mx-auto mb-4 text-2xl sm:text-3xl shadow-sm">
+                <i className="fa-solid fa-images"></i>
+              </div>
+              <h3 className="text-xl sm:text-2xl font-bold text-gray-800 mb-2">No photos in "{activeCategory}" yet</h3>
+              <p className="text-gray-500 text-sm sm:text-base max-w-md mx-auto mb-6 px-4">
+                We are currently updating our gallery for this category. Please check back soon or explore all our campus photos!
+              </p>
+              <button
+                onClick={() => handleCategoryChange('All')}
+                className="px-6 py-3 bg-[#E11D48] hover:bg-rose-600 text-white font-bold text-sm rounded-xl shadow-md hover:shadow-lg transition-all active:scale-95 inline-flex items-center gap-2"
+              >
+                <i className="fa-solid fa-border-all"></i> View All Photos
+              </button>
+            </div>
+          ) : (
+            /* Masonry Grid */
+            <div className={`columns-1 sm:columns-2 md:columns-3 lg:columns-4 gap-4 sm:gap-6 space-y-4 sm:space-y-6 transition-all duration-300 ease-out ${
+              isAnimating ? 'opacity-0 scale-95 translate-y-2' : 'opacity-100 scale-100 translate-y-0'
+            }`}>
+               {filteredImages.map((img, idx) => (
+                  <div key={`${img.src}-${idx}`} className="break-inside-avoid">
+                     <button 
+                       onClick={() => setSelectedImage(img)}
+                       className="block w-full text-left relative group rounded-2xl overflow-hidden shadow-md hover:shadow-2xl transition-all duration-300 hover:-translate-y-2 bg-gray-100 transform-gpu will-change-transform antialiased [backface-visibility:hidden]"
+                     >
+                        <img 
+                          src={img.src} 
+                          alt={img.alt} 
+                          className="w-full h-auto transform transition-transform duration-700 group-hover:scale-110 transform-gpu will-change-transform antialiased [backface-visibility:hidden]"
+                          loading="lazy"
+                        />
+                        
+                        {/* Overlay */}
+                        <div className="absolute inset-x-0 bottom-0 h-3/5 bg-gradient-to-t from-black/90 via-black/40 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none"></div>
+                        
+                        {/* Caption */}
+                        <div className="absolute bottom-0 left-0 right-0 p-6 opacity-0 group-hover:opacity-100 transition-all duration-500 translate-y-4 group-hover:translate-y-0 flex justify-between items-end pointer-events-none transform-gpu will-change-transform antialiased [backface-visibility:hidden]">
+                           <div>
+                             <p className="text-white font-bold text-lg tracking-wide drop-shadow-md">{img.alt}</p>
+                             <p className="text-gray-300 text-xs mt-1 uppercase tracking-wider font-semibold drop-shadow-md">{img.category}</p>
+                           </div>
+                           <div className="w-10 h-10 rounded-full bg-white/20 backdrop-blur-md flex items-center justify-center text-white border border-white/30 shadow-[0_4px_30px_rgba(0,0,0,0.1)] transition-transform duration-500 shrink-0">
+                              <i className="fa-solid fa-expand text-sm"></i>
+                           </div>
+                        </div>
+                     </button>
+                  </div>
+               ))}
+            </div>
+          )}
        </section>
 
        {/* Image Modal */}
