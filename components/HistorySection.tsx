@@ -54,14 +54,28 @@ const HISTORY_DATA: HistoryMilestone[] = [
 
 const HistorySection: React.FC = () => {
   const [activeIndex, setActiveIndex] = useState(0);
+  const [isAnimating, setIsAnimating] = useState(false);
   const activeMilestone = HISTORY_DATA[activeIndex];
 
+  const handleSelectIndex = (newIndex: number) => {
+    if (newIndex === activeIndex || isAnimating) return;
+    setIsAnimating(true);
+    setTimeout(() => {
+      setActiveIndex(newIndex);
+      setTimeout(() => {
+        setIsAnimating(false);
+      }, 50);
+    }, 200);
+  };
+
   const handlePrev = () => {
-    setActiveIndex(prev => (prev === 0 ? HISTORY_DATA.length - 1 : prev - 1));
+    const nextIdx = activeIndex === 0 ? HISTORY_DATA.length - 1 : activeIndex - 1;
+    handleSelectIndex(nextIdx);
   };
 
   const handleNext = () => {
-    setActiveIndex(prev => (prev === HISTORY_DATA.length - 1 ? 0 : prev + 1));
+    const nextIdx = activeIndex === HISTORY_DATA.length - 1 ? 0 : activeIndex + 1;
+    handleSelectIndex(nextIdx);
   };
 
   return (
@@ -85,10 +99,10 @@ const HistorySection: React.FC = () => {
           <div className="min-w-[650px] max-w-5xl mx-auto relative">
             {/* Circle Row with Background Line Shared Container */}
             <div className="relative h-14 flex items-center justify-between">
-              {/* Progress Connecting Line */}
+              {/* Progress Connecting Line - Smooth Slow Fill */}
               <div className="absolute top-1/2 left-6 right-6 -translate-y-1/2 h-1 bg-gray-200 rounded-full z-0">
                 <div 
-                  className="h-full bg-[#E11D48] rounded-full transition-all duration-500 ease-out"
+                  className="h-full bg-[#E11D48] rounded-full transition-all duration-700 ease-in-out"
                   style={{ width: `${(activeIndex / (HISTORY_DATA.length - 1)) * 100}%` }}
                 ></div>
               </div>
@@ -100,20 +114,20 @@ const HistorySection: React.FC = () => {
                 return (
                   <button
                     key={item.year}
-                    onClick={() => setActiveIndex(index)}
-                    className="relative z-10 flex flex-col items-center group focus:outline-none transition-all duration-300"
+                    onClick={() => handleSelectIndex(index)}
+                    className="relative z-10 flex flex-col items-center group focus:outline-none transition-all duration-500 ease-in-out"
                   >
                     {/* Node Circle */}
-                    <div className={`relative w-10 h-10 sm:w-12 sm:h-12 rounded-full flex items-center justify-center transition-transform duration-300 ease-out transform-gpu ${
+                    <div className={`relative w-10 h-10 sm:w-12 sm:h-12 rounded-full flex items-center justify-center transition-transform duration-500 ease-in-out transform-gpu ${
                       isActive ? 'scale-110' : 'scale-100'
                     }`}>
                       {/* Outer Ring Overlay (Smooth Opacity Fade) */}
-                      <div className={`absolute -inset-1 rounded-full bg-rose-300/60 transition-opacity duration-300 ${
+                      <div className={`absolute -inset-1 rounded-full bg-rose-300/60 transition-opacity duration-500 ease-in-out ${
                         isActive ? 'opacity-100 scale-100' : 'opacity-0 scale-90 pointer-events-none'
                       }`}></div>
 
                       {/* Circle Core */}
-                      <div className={`relative z-10 w-full h-full rounded-full flex items-center justify-center font-black text-xs sm:text-sm transition-colors duration-300 ${
+                      <div className={`relative z-10 w-full h-full rounded-full flex items-center justify-center font-black text-xs sm:text-sm transition-colors duration-500 ease-in-out ${
                         isActive || isPast 
                           ? 'bg-[#E11D48] text-white shadow-md' 
                           : 'bg-white text-gray-400 border-2 border-gray-300 group-hover:border-[#E11D48] group-hover:text-[#E11D48]'
@@ -134,10 +148,10 @@ const HistorySection: React.FC = () => {
                 return (
                   <button
                     key={`year-${item.year}`}
-                    onClick={() => setActiveIndex(index)}
-                    className="flex flex-col items-center group focus:outline-none transition-all duration-300 w-10 sm:w-12 text-center"
+                    onClick={() => handleSelectIndex(index)}
+                    className="flex flex-col items-center group focus:outline-none transition-all duration-500 ease-in-out w-10 sm:w-12 text-center"
                   >
-                    <span className={`text-xs sm:text-sm font-bold transition-colors ${
+                    <span className={`text-xs sm:text-sm font-bold transition-all duration-500 ease-in-out ${
                       isActive ? 'text-[#E11D48] font-black scale-105' : isPast ? 'text-gray-800' : 'text-gray-400 group-hover:text-gray-600'
                     }`}>
                       {item.year}
@@ -149,14 +163,18 @@ const HistorySection: React.FC = () => {
           </div>
         </div>
 
-        {/* Featured Showcase Card */}
-        <div className="relative bg-white border border-gray-100 rounded-3xl p-6 sm:p-10 md:p-12 shadow-xl hover:shadow-2xl transition-all duration-500 overflow-hidden">
+        {/* Featured Showcase Card with Smooth Transitions */}
+        <div className="relative bg-white border border-gray-100 rounded-3xl p-6 sm:p-10 md:p-12 shadow-xl hover:shadow-2xl transition-all duration-700 ease-in-out overflow-hidden">
           {/* Watermark Year Background */}
-          <div className="absolute right-4 bottom-2 text-7xl sm:text-9xl font-black text-rose-500/5 select-none pointer-events-none font-mono tracking-tighter">
+          <div className={`absolute right-4 bottom-2 text-7xl sm:text-9xl font-black text-rose-500/5 select-none pointer-events-none font-mono tracking-tighter transition-all duration-500 ease-in-out ${
+            isAnimating ? 'opacity-0 scale-95' : 'opacity-100 scale-100'
+          }`}>
             {activeMilestone.year}
           </div>
 
-          <div className="relative z-10 flex flex-col md:flex-row items-start md:items-center justify-between gap-6 md:gap-10">
+          <div className={`relative z-10 flex flex-col md:flex-row items-start md:items-center justify-between gap-6 md:gap-10 transition-all duration-500 ease-in-out ${
+            isAnimating ? 'opacity-0 scale-98 translate-y-2' : 'opacity-100 scale-100 translate-y-0'
+          }`}>
             {/* Left Content Column */}
             <div className="flex-1 space-y-4 text-left">
               <div className="flex items-center gap-3">
@@ -185,14 +203,14 @@ const HistorySection: React.FC = () => {
               <div className="flex items-center gap-2">
                 <button
                   onClick={handlePrev}
-                  className="w-12 h-12 rounded-2xl bg-gray-100 hover:bg-[#E11D48] text-gray-700 hover:text-white transition-all flex items-center justify-center shadow-sm active:scale-95"
+                  className="w-12 h-12 rounded-2xl bg-gray-100 hover:bg-[#E11D48] text-gray-700 hover:text-white transition-all duration-500 ease-in-out flex items-center justify-center shadow-sm active:scale-95"
                   title="Previous Milestone"
                 >
                   <i className="fa-solid fa-arrow-left text-base"></i>
                 </button>
                 <button
                   onClick={handleNext}
-                  className="w-12 h-12 rounded-2xl bg-[#E11D48] hover:bg-rose-600 text-white transition-all flex items-center justify-center shadow-md hover:shadow-lg active:scale-95"
+                  className="w-12 h-12 rounded-2xl bg-[#E11D48] hover:bg-rose-600 text-white transition-all duration-500 ease-in-out flex items-center justify-center shadow-md hover:shadow-lg active:scale-95"
                   title="Next Milestone"
                 >
                   <i className="fa-solid fa-arrow-right text-base"></i>
@@ -207,8 +225,8 @@ const HistorySection: React.FC = () => {
           {HISTORY_DATA.map((item, idx) => (
             <button
               key={item.year}
-              onClick={() => setActiveIndex(idx)}
-              className={`p-3.5 rounded-2xl border text-left transition-all duration-300 ${
+              onClick={() => handleSelectIndex(idx)}
+              className={`p-3.5 rounded-2xl border text-left transition-all duration-500 ease-in-out ${
                 idx === activeIndex 
                   ? 'bg-rose-50 border-[#E11D48] text-[#E11D48] shadow-sm font-bold ring-1 ring-[#E11D48]' 
                   : 'bg-white border-gray-200 text-gray-600 hover:border-rose-300 hover:bg-gray-50'
