@@ -108,7 +108,7 @@ const MessengerWidget: React.FC = () => {
                 <span className="absolute bottom-0 right-0 w-3.5 h-3.5 bg-green-500 border-2 border-white rounded-full z-10 shadow-sm"></span>
               </div>
               <div>
-                <h3 className="font-bold text-sm md:text-base leading-tight">Love and Serve Christian School</h3>
+                <h3 className="font-bold text-sm md:text-base leading-tight">Love and Serve Christian School Inc.</h3>
                 <div className="flex items-center space-x-1.5 text-[11px] text-rose-100 mt-0.5">
                   <i className="fa-brands fa-facebook-messenger text-white text-xs"></i>
                   <span>Messenger Support • Online</span>
