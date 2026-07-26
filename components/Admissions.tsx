@@ -129,8 +129,6 @@ const Admissions: React.FC<AdmissionsProps> = ({ onNavigate, scrollToProcess = f
                             <i className="fa-solid fa-laptop-file mr-3 group-hover:scale-110 transition-transform"></i> Apply Online Now
                         </button>
                     </div>
-
-                    <p className="text-xs text-gray-400 mt-6">Form updated for SY 2026-2027</p>
                 </div>
             </div>
         </section>
