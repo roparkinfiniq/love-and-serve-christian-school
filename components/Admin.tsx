@@ -114,9 +114,9 @@ const Admin: React.FC<AdminProps> = ({
     setEditingTeamMember(null);
   };
 
-  const handleDeleteTeamMember = (id: string) => {
+  const handleDeleteTeamMember = async (id: string) => {
     if (window.confirm('Are you sure you want to remove this team member?')) {
-      deleteTeamMemberFromDb(id);
+      await deleteTeamMemberFromDb(id);
       setTeamMembers?.(prev => prev.filter(m => m.id !== id));
       showToast('Team member deleted.');
     }
@@ -128,67 +128,47 @@ const Admin: React.FC<AdminProps> = ({
     const categoryMembers = teamMembers.filter(m => m.category === teamFilterCategory);
     const catIndex = categoryMembers.findIndex(m => m.id === id);
     if (catIndex === -1) return;
-
+    
     const targetCatIndex = direction === 'up' ? catIndex - 1 : catIndex + 1;
     if (targetCatIndex < 0 || targetCatIndex >= categoryMembers.length) return;
-
-    const currentMember = categoryMembers[catIndex];
+    
     const targetMember = categoryMembers[targetCatIndex];
+    
+    const globalIdx1 = teamMembers.findIndex(m => m.id === id);
+    const globalIdx2 = teamMembers.findIndex(m => m.id === targetMember.id);
+    if (globalIdx1 === -1 || globalIdx2 === -1) return;
 
-    const currentGlobalIndex = teamMembers.findIndex(m => m.id === currentMember.id);
-    const targetGlobalIndex = teamMembers.findIndex(m => m.id === targetMember.id);
+    const newTeam = [...teamMembers];
+    const temp = newTeam[globalIdx1];
+    newTeam[globalIdx1] = newTeam[globalIdx2];
+    newTeam[globalIdx2] = temp;
 
-    if (currentGlobalIndex === -1 || targetGlobalIndex === -1) return;
-
-    const updated = [...teamMembers];
-    updated[currentGlobalIndex] = targetMember;
-    updated[targetGlobalIndex] = currentMember;
-
-    setTeamMembers(updated);
-    showToast('Team member order updated.');
+    setTeamMembers(newTeam);
+    showToast('Member order updated!');
   };
 
-  const handleTeamImageUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0];
-    if (file) {
-      setTeamFileName(file.name);
-      const reader = new FileReader();
-      reader.onloadend = () => {
-        setEditingTeamMember(prev => prev ? { ...prev, image: reader.result as string } : { image: reader.result as string });
-      };
-      reader.readAsDataURL(file);
-    } else {
-      setTeamFileName('');
-    }
-  };
-
-  // Facility CRUD Handlers
   const handleSaveFacility = (e: React.FormEvent) => {
     e.preventDefault();
-    if (!editingFacility || !editingFacility.title) {
-      showToast('Facility Title is required.', 'error');
-      return;
-    }
+    if (!editingFacility || !setFacilitiesList) return;
 
     const facilityToSave: FacilityItem = {
-      id: editingFacility.id || `f_${Date.now()}`,
-      title: editingFacility.title,
-      image: editingFacility.image || '',
-      desc: editingFacility.desc || ''
+      ...editingFacility,
+      id: editingFacility.id || Math.random().toString(36).substr(2, 9)
     };
 
     if (editingFacility.id) {
-      setFacilitiesList?.(prev => prev.map(f => f.id === facilityToSave.id ? facilityToSave : f));
+      setFacilitiesList(facilitiesList.map(f => f.id === editingFacility.id ? facilityToSave : f));
       showToast('Facility updated successfully!');
     } else {
-      setFacilitiesList?.(prev => [...prev, facilityToSave]);
+      setFacilitiesList([...facilitiesList, facilityToSave]);
       showToast('New facility added successfully!');
     }
     setEditingFacility(null);
   };
 
-  const handleDeleteFacility = (id: string) => {
+  const handleDeleteFacility = async (id: string) => {
     if (window.confirm('Are you sure you want to remove this facility?')) {
+      await deleteFacilityFromDb(id);
       setFacilitiesList?.(prev => prev.filter(f => f.id !== id));
       showToast('Facility deleted.');
     }
@@ -1394,12 +1374,12 @@ const Admin: React.FC<AdminProps> = ({
                                   : 'bg-red-500 hover:bg-red-600 text-white'
                               }`}
                               title={deletingPhotoId === img.id ? 'Click again to confirm deletion' : 'Delete photo'}
-                              onClick={(e) => {
+                              onClick={async (e) => {
                                 e.stopPropagation();
                                 if (deletingPhotoId === img.id) {
-                                  deleteGalleryImageFromDb(img.id);
+                                  await deleteGalleryImageFromDb(img.id);
                                   if (setGalleryImages) {
-                                    setGalleryImages(galleryImages.filter(i => i.id !== img.id));
+                                    setGalleryImages(prev => prev.filter(i => i.id !== img.id));
                                   }
                                   setDeletingPhotoId(null);
                                   showToast('Photo deleted successfully');
@@ -1556,10 +1536,13 @@ const Admin: React.FC<AdminProps> = ({
               </button>
               <button 
                 className="px-4 py-2 bg-red-600 text-white font-bold hover:bg-red-700 rounded-lg transition shadow-md"
-                onClick={() => {
-                  if (setCalendarEvents) {
-                    setCalendarEvents(prev => prev.filter(e => e.id !== eventToDelete));
-                    showToast('Successfully deleted.');
+                onClick={async () => {
+                  if (eventToDelete) {
+                    await deleteCalendarEventFromDb(eventToDelete);
+                    if (setCalendarEvents) {
+                      setCalendarEvents(prev => prev.filter(e => e.id !== eventToDelete));
+                      showToast('Successfully deleted.');
+                    }
                   }
                   setEventToDelete(null);
                 }}
