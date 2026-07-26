@@ -1522,12 +1522,10 @@ const Admin: React.FC<AdminProps> = ({
               </button>
             </div>
 
-            <form onSubmit={async (e) => {
+            <form onSubmit={(e) => {
               e.preventDefault();
               if (!editingPhoto || !setGalleryImages) return;
-              const updated = galleryImages.map(img => img.id === editingPhoto.id ? editingPhoto : img);
-              setGalleryImages(updated);
-              await saveGalleryImages(updated);
+              setGalleryImages(prev => prev.map(img => img.id === editingPhoto.id ? editingPhoto : img));
               setEditingPhoto(null);
               showToast('Photo details updated successfully!');
             }} className="space-y-4">
