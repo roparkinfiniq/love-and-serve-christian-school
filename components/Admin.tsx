@@ -589,121 +589,6 @@ const Admin: React.FC<AdminProps> = ({
                       </div>
                     ))}
                 </div>
-
-                {/* Team Member Edit Modal */}
-                {editingTeamMember && (
-                  <div className="fixed inset-0 z-50 bg-black/50 backdrop-blur-sm flex items-center justify-center p-4 overflow-y-auto">
-                    <div className="bg-white rounded-2xl p-6 max-w-lg w-full shadow-2xl space-y-4 my-8">
-                      <div className="flex justify-between items-center border-b pb-3">
-                        <h3 className="text-xl font-bold text-gray-900">
-                          {editingTeamMember.id ? 'Edit Team Member' : 'Add New Team Member'}
-                        </h3>
-                        <button onClick={() => setEditingTeamMember(null)} className="text-gray-400 hover:text-gray-600">
-                          <i className="fa-solid fa-xmark text-xl"></i>
-                        </button>
-                      </div>
-
-                      <form onSubmit={handleSaveTeamMember} className="space-y-4">
-                        <div>
-                          <label className="block text-xs font-bold text-gray-700 uppercase mb-1">Name *</label>
-                          <input 
-                            type="text" 
-                            required 
-                            value={editingTeamMember.name || ''}
-                            onChange={e => setEditingTeamMember({...editingTeamMember, name: e.target.value})}
-                            className="w-full px-3 py-2 border rounded-lg text-sm focus:ring-2 focus:ring-[#E11D48] outline-none"
-                            placeholder="e.g. Ms. Jane Doe"
-                          />
-                        </div>
-
-                        <div>
-                          <label className="block text-xs font-bold text-gray-700 uppercase mb-1">Role / Designation *</label>
-                          <input 
-                            type="text" 
-                            required 
-                            value={editingTeamMember.role || ''}
-                            onChange={e => setEditingTeamMember({...editingTeamMember, role: e.target.value})}
-                            className="w-full px-3 py-2 border rounded-lg text-sm focus:ring-2 focus:ring-[#E11D48] outline-none"
-                            placeholder="e.g. Grade 1 Adviser"
-                          />
-                        </div>
-
-                        <div>
-                          <label className="block text-xs font-bold text-gray-700 uppercase mb-1">Category *</label>
-                          <select 
-                            value={editingTeamMember.category || 'Faculty'}
-                            onChange={e => setEditingTeamMember({...editingTeamMember, category: e.target.value as any})}
-                            className="w-full px-3 py-2 border rounded-lg text-sm focus:ring-2 focus:ring-[#E11D48] outline-none bg-white"
-                          >
-                            <option value="Leadership">School Leadership</option>
-                            <option value="Faculty">Faculty Teacher</option>
-                            <option value="AdminSupport">Admin & Support Staff</option>
-                          </select>
-                        </div>
-
-                        <div>
-                          <label className="block text-xs font-bold text-gray-700 uppercase mb-1">Photo Image</label>
-                          <div className="flex items-center gap-3 mb-2">
-                            {editingTeamMember.image && (
-                              <div className="w-12 h-12 rounded-full overflow-hidden border bg-gray-100 flex-shrink-0">
-                                <img src={editingTeamMember.image} alt="Preview" className="w-full h-full object-cover" />
-                              </div>
-                            )}
-                            <label className="cursor-pointer bg-rose-50 text-[#E11D48] hover:bg-rose-100 font-bold py-1.5 px-3 rounded-lg text-xs transition-colors text-center inline-flex items-center gap-1.5">
-                              <i className="fa-solid fa-cloud-arrow-up"></i>
-                              <span>Choose File</span>
-                              <input 
-                                type="file" 
-                                accept="image/*"
-                                className="hidden"
-                                onChange={handleTeamImageUpload}
-                              />
-                            </label>
-                            <span className="text-xs text-gray-500 truncate max-w-[180px]">
-                              {teamFileName || (editingTeamMember.image ? 'Image loaded' : 'No file chosen')}
-                            </span>
-                          </div>
-                          <input 
-                            type="text" 
-                            value={editingTeamMember.image || ''}
-                            onChange={e => setEditingTeamMember({...editingTeamMember, image: e.target.value})}
-                            className="w-full px-3 py-2 border rounded-lg text-xs text-gray-600 focus:ring-2 focus:ring-[#E11D48] outline-none"
-                            placeholder="Or enter Image URL (e.g. /img/OurTeam-Name.png)"
-                          />
-                        </div>
-
-                        {editingTeamMember.category === 'Leadership' && (
-                          <div>
-                            <label className="block text-xs font-bold text-gray-700 uppercase mb-1">Quote / Message (for Leadership)</label>
-                            <textarea 
-                              rows={2}
-                              value={editingTeamMember.message || ''}
-                              onChange={e => setEditingTeamMember({...editingTeamMember, message: e.target.value})}
-                              className="w-full px-3 py-2 border rounded-lg text-sm focus:ring-2 focus:ring-[#E11D48] outline-none"
-                              placeholder='"Preparing the next generation as God-fearing leaders..."'
-                            />
-                          </div>
-                        )}
-
-                        <div className="flex justify-end gap-2 pt-3 border-t">
-                          <button 
-                            type="button" 
-                            onClick={() => setEditingTeamMember(null)}
-                            className="px-4 py-2 border rounded-lg text-sm font-bold text-gray-600 hover:bg-gray-100"
-                          >
-                            Cancel
-                          </button>
-                          <button 
-                            type="submit" 
-                            className="px-5 py-2 bg-[#E11D48] text-white rounded-lg text-sm font-bold hover:bg-rose-600 shadow"
-                          >
-                            Save Member
-                          </button>
-                        </div>
-                      </form>
-                    </div>
-                  </div>
-                )}
               </div>
             )}
 
@@ -759,94 +644,6 @@ const Admin: React.FC<AdminProps> = ({
                     </div>
                   ))}
                 </div>
-
-                {/* Facility Edit Modal */}
-                {editingFacility && (
-                  <div className="fixed inset-0 z-50 bg-black/50 backdrop-blur-sm flex items-center justify-center p-4 overflow-y-auto">
-                    <div className="bg-white rounded-2xl p-6 max-w-lg w-full shadow-2xl space-y-4 my-8">
-                      <div className="flex justify-between items-center border-b pb-3">
-                        <h3 className="text-xl font-bold text-gray-900">
-                          {editingFacility.id ? 'Edit Facility' : 'Add New Facility'}
-                        </h3>
-                        <button onClick={() => setEditingFacility(null)} className="text-gray-400 hover:text-gray-600">
-                          <i className="fa-solid fa-xmark text-xl"></i>
-                        </button>
-                      </div>
-
-                      <form onSubmit={handleSaveFacility} className="space-y-4">
-                        <div>
-                          <label className="block text-xs font-bold text-gray-700 uppercase mb-1">Facility Title *</label>
-                          <input 
-                            type="text" 
-                            required 
-                            value={editingFacility.title || ''}
-                            onChange={e => setEditingFacility({...editingFacility, title: e.target.value})}
-                            className="w-full px-3 py-2 border rounded-lg text-sm focus:ring-2 focus:ring-[#E11D48] outline-none"
-                            placeholder="e.g. Science Laboratory"
-                          />
-                        </div>
-
-                        <div>
-                          <label className="block text-xs font-bold text-gray-700 uppercase mb-1">Description</label>
-                          <textarea 
-                            rows={3}
-                            value={editingFacility.desc || ''}
-                            onChange={e => setEditingFacility({...editingFacility, desc: e.target.value})}
-                            className="w-full px-3 py-2 border rounded-lg text-sm focus:ring-2 focus:ring-[#E11D48] outline-none"
-                            placeholder="Describe this facility..."
-                          />
-                        </div>
-
-                        <div>
-                          <label className="block text-xs font-bold text-gray-700 uppercase mb-1">Facility Photo</label>
-                          <div className="flex items-center gap-3 mb-2">
-                            {editingFacility.image && (
-                              <div className="w-16 h-12 rounded overflow-hidden border bg-gray-100 flex-shrink-0">
-                                <img src={editingFacility.image} alt="Preview" className="w-full h-full object-cover" />
-                              </div>
-                            )}
-                            <label className="cursor-pointer bg-rose-50 text-[#E11D48] hover:bg-rose-100 font-bold py-1.5 px-3 rounded-lg text-xs transition-colors text-center inline-flex items-center gap-1.5">
-                              <i className="fa-solid fa-cloud-arrow-up"></i>
-                              <span>Choose File</span>
-                              <input 
-                                type="file" 
-                                accept="image/*"
-                                className="hidden"
-                                onChange={handleFacilityImageUpload}
-                              />
-                            </label>
-                            <span className="text-xs text-gray-500 truncate max-w-[180px]">
-                              {facilityFileName || (editingFacility.image ? 'Image loaded' : 'No file chosen')}
-                            </span>
-                          </div>
-                          <input 
-                            type="text" 
-                            value={editingFacility.image || ''}
-                            onChange={e => setEditingFacility({...editingFacility, image: e.target.value})}
-                            className="w-full px-3 py-2 border rounded-lg text-xs text-gray-600 focus:ring-2 focus:ring-[#E11D48] outline-none"
-                            placeholder="Or enter Image URL (e.g. /img/Campus_Life-Library.png)"
-                          />
-                        </div>
-
-                        <div className="flex justify-end gap-2 pt-3 border-t">
-                          <button 
-                            type="button" 
-                            onClick={() => setEditingFacility(null)}
-                            className="px-4 py-2 border rounded-lg text-sm font-bold text-gray-600 hover:bg-gray-100"
-                          >
-                            Cancel
-                          </button>
-                          <button 
-                            type="submit" 
-                            className="px-5 py-2 bg-[#E11D48] text-white rounded-lg text-sm font-bold hover:bg-rose-600 shadow"
-                          >
-                            Save Facility
-                          </button>
-                        </div>
-                      </form>
-                    </div>
-                  </div>
-                )}
               </div>
             )}
 
@@ -1508,6 +1305,209 @@ const Admin: React.FC<AdminProps> = ({
         </div>
       )}
       
+      {/* Team Member Edit Modal */}
+      {editingTeamMember && (
+        <div className="fixed inset-0 z-[60] bg-black/60 backdrop-blur-sm flex items-center justify-center p-4 overflow-y-auto">
+          <div className="bg-white rounded-2xl p-6 max-w-lg w-full shadow-2xl space-y-4 my-8 animate-fadeIn">
+            <div className="flex justify-between items-center border-b pb-3">
+              <h3 className="text-xl font-bold text-gray-900">
+                {editingTeamMember.id ? 'Edit Team Member' : 'Add New Team Member'}
+              </h3>
+              <button onClick={() => setEditingTeamMember(null)} className="text-gray-400 hover:text-gray-600">
+                <i className="fa-solid fa-xmark text-xl"></i>
+              </button>
+            </div>
+
+            <form onSubmit={handleSaveTeamMember} className="space-y-4">
+              <div>
+                <label className="block text-xs font-bold text-gray-700 uppercase mb-1">Name *</label>
+                <input 
+                  type="text" 
+                  required 
+                  value={editingTeamMember.name || ''}
+                  onChange={e => setEditingTeamMember({...editingTeamMember, name: e.target.value})}
+                  className="w-full px-3 py-2 border rounded-lg text-sm focus:ring-2 focus:ring-[#E11D48] outline-none"
+                  placeholder="e.g. Ms. Jane Doe"
+                />
+              </div>
+
+              <div>
+                <label className="block text-xs font-bold text-gray-700 uppercase mb-1">Role / Designation *</label>
+                <input 
+                  type="text" 
+                  required 
+                  value={editingTeamMember.role || ''}
+                  onChange={e => setEditingTeamMember({...editingTeamMember, role: e.target.value})}
+                  className="w-full px-3 py-2 border rounded-lg text-sm focus:ring-2 focus:ring-[#E11D48] outline-none"
+                  placeholder="e.g. Grade 1 Adviser"
+                />
+              </div>
+
+              <div>
+                <label className="block text-xs font-bold text-gray-700 uppercase mb-1">Category *</label>
+                <select 
+                  value={editingTeamMember.category || 'Faculty'}
+                  onChange={e => setEditingTeamMember({...editingTeamMember, category: e.target.value as any})}
+                  className="w-full px-3 py-2 border rounded-lg text-sm focus:ring-2 focus:ring-[#E11D48] outline-none bg-white font-medium"
+                >
+                  <option value="Leadership">School Leadership</option>
+                  <option value="Faculty">Faculty Teacher</option>
+                  <option value="AdminSupport">Admin & Support Staff</option>
+                </select>
+              </div>
+
+              <div>
+                <label className="block text-xs font-bold text-gray-700 uppercase mb-1">Photo Image</label>
+                <div className="flex items-center gap-3 mb-2">
+                  {editingTeamMember.image && (
+                    <div className="w-12 h-12 rounded-full overflow-hidden border bg-gray-100 flex-shrink-0">
+                      <img src={editingTeamMember.image} alt="Preview" className="w-full h-full object-cover" />
+                    </div>
+                  )}
+                  <label className="cursor-pointer bg-rose-50 text-[#E11D48] hover:bg-rose-100 font-bold py-1.5 px-3 rounded-lg text-xs transition-colors text-center inline-flex items-center gap-1.5">
+                    <i className="fa-solid fa-cloud-arrow-up"></i>
+                    <span>Choose File</span>
+                    <input 
+                      type="file" 
+                      accept="image/*"
+                      className="hidden"
+                      onChange={handleTeamImageUpload}
+                    />
+                  </label>
+                  <span className="text-xs text-gray-500 truncate max-w-[180px]">
+                    {teamFileName || (editingTeamMember.image ? 'Image loaded' : 'No file chosen')}
+                  </span>
+                </div>
+                <input 
+                  type="text" 
+                  value={editingTeamMember.image || ''}
+                  onChange={e => setEditingTeamMember({...editingTeamMember, image: e.target.value})}
+                  className="w-full px-3 py-2 border rounded-lg text-xs text-gray-600 focus:ring-2 focus:ring-[#E11D48] outline-none"
+                  placeholder="Or enter Image URL (e.g. /img/OurTeam-Name.png)"
+                />
+              </div>
+
+              {editingTeamMember.category === 'Leadership' && (
+                <div>
+                  <label className="block text-xs font-bold text-gray-700 uppercase mb-1">Quote / Message (for Leadership)</label>
+                  <textarea 
+                    rows={2}
+                    value={editingTeamMember.message || ''}
+                    onChange={e => setEditingTeamMember({...editingTeamMember, message: e.target.value})}
+                    className="w-full px-3 py-2 border rounded-lg text-sm focus:ring-2 focus:ring-[#E11D48] outline-none"
+                    placeholder='"Preparing the next generation as God-fearing leaders..."'
+                  />
+                </div>
+              )}
+
+              <div className="flex justify-end gap-2 pt-3 border-t">
+                <button 
+                  type="button" 
+                  onClick={() => setEditingTeamMember(null)}
+                  className="px-4 py-2 border rounded-lg text-sm font-bold text-gray-600 hover:bg-gray-100"
+                >
+                  Cancel
+                </button>
+                <button 
+                  type="submit" 
+                  className="px-5 py-2 bg-[#E11D48] text-white rounded-lg text-sm font-bold hover:bg-rose-600 shadow"
+                >
+                  Save Member
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      )}
+
+      {/* Facility Edit Modal */}
+      {editingFacility && (
+        <div className="fixed inset-0 z-[60] bg-black/60 backdrop-blur-sm flex items-center justify-center p-4 overflow-y-auto">
+          <div className="bg-white rounded-2xl p-6 max-w-lg w-full shadow-2xl space-y-4 my-8 animate-fadeIn">
+            <div className="flex justify-between items-center border-b pb-3">
+              <h3 className="text-xl font-bold text-gray-900">
+                {editingFacility.id ? 'Edit Facility' : 'Add New Facility'}
+              </h3>
+              <button onClick={() => setEditingFacility(null)} className="text-gray-400 hover:text-gray-600">
+                <i className="fa-solid fa-xmark text-xl"></i>
+              </button>
+            </div>
+
+            <form onSubmit={handleSaveFacility} className="space-y-4">
+              <div>
+                <label className="block text-xs font-bold text-gray-700 uppercase mb-1">Facility Title *</label>
+                <input 
+                  type="text" 
+                  required 
+                  value={editingFacility.title || ''}
+                  onChange={e => setEditingFacility({...editingFacility, title: e.target.value})}
+                  className="w-full px-3 py-2 border rounded-lg text-sm focus:ring-2 focus:ring-[#E11D48] outline-none"
+                  placeholder="e.g. Science Laboratory"
+                />
+              </div>
+
+              <div>
+                <label className="block text-xs font-bold text-gray-700 uppercase mb-1">Description</label>
+                <textarea 
+                  rows={3}
+                  value={editingFacility.desc || ''}
+                  onChange={e => setEditingFacility({...editingFacility, desc: e.target.value})}
+                  className="w-full px-3 py-2 border rounded-lg text-sm focus:ring-2 focus:ring-[#E11D48] outline-none"
+                  placeholder="Describe this facility..."
+                />
+              </div>
+
+              <div>
+                <label className="block text-xs font-bold text-gray-700 uppercase mb-1">Facility Photo</label>
+                <div className="flex items-center gap-3 mb-2">
+                  {editingFacility.image && (
+                    <div className="w-16 h-12 rounded overflow-hidden border bg-gray-100 flex-shrink-0">
+                      <img src={editingFacility.image} alt="Preview" className="w-full h-full object-cover" />
+                    </div>
+                  )}
+                  <label className="cursor-pointer bg-rose-50 text-[#E11D48] hover:bg-rose-100 font-bold py-1.5 px-3 rounded-lg text-xs transition-colors text-center inline-flex items-center gap-1.5">
+                    <i className="fa-solid fa-cloud-arrow-up"></i>
+                    <span>Choose File</span>
+                    <input 
+                      type="file" 
+                      accept="image/*"
+                      className="hidden"
+                      onChange={handleFacilityImageUpload}
+                    />
+                  </label>
+                  <span className="text-xs text-gray-500 truncate max-w-[180px]">
+                    {facilityFileName || (editingFacility.image ? 'Image loaded' : 'No file chosen')}
+                  </span>
+                </div>
+                <input 
+                  type="text" 
+                  value={editingFacility.image || ''}
+                  onChange={e => setEditingFacility({...editingFacility, image: e.target.value})}
+                  className="w-full px-3 py-2 border rounded-lg text-xs text-gray-600 focus:ring-2 focus:ring-[#E11D48] outline-none"
+                  placeholder="Or enter Image URL (e.g. /img/Campus_Life-Library.png)"
+                />
+              </div>
+
+              <div className="flex justify-end gap-2 pt-3 border-t">
+                <button 
+                  type="button" 
+                  onClick={() => setEditingFacility(null)}
+                  className="px-4 py-2 border rounded-lg text-sm font-bold text-gray-600 hover:bg-gray-100"
+                >
+                  Cancel
+                </button>
+                <button 
+                  type="submit" 
+                  className="px-5 py-2 bg-[#E11D48] text-white rounded-lg text-sm font-bold hover:bg-rose-600 shadow"
+                >
+                  Save Facility
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      )}
+
       {/* Photo Edit Modal */}
       {editingPhoto && (
         <div className="fixed inset-0 z-[60] bg-black/60 backdrop-blur-sm flex items-center justify-center p-4">
