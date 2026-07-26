@@ -104,14 +104,22 @@ const HistorySection: React.FC = () => {
                     className="relative z-10 flex flex-col items-center group focus:outline-none transition-all duration-300"
                   >
                     {/* Node Circle */}
-                    <div className={`w-10 h-10 sm:w-12 sm:h-12 rounded-full flex items-center justify-center font-black text-xs sm:text-sm transition-all duration-300 ${
-                      isActive 
-                        ? 'bg-[#E11D48] text-white scale-110 shadow-lg ring-4 ring-rose-200' 
-                        : isPast 
-                          ? 'bg-[#E11D48] text-white' 
-                          : 'bg-white text-gray-400 border-2 border-gray-300 group-hover:border-[#E11D48] group-hover:text-[#E11D48]'
+                    <div className={`relative w-10 h-10 sm:w-12 sm:h-12 rounded-full flex items-center justify-center transition-transform duration-300 ease-out transform-gpu ${
+                      isActive ? 'scale-110' : 'scale-100'
                     }`}>
-                      {index + 1}
+                      {/* Outer Ring Overlay (Smooth Opacity Fade) */}
+                      <div className={`absolute -inset-1 rounded-full bg-rose-300/60 transition-opacity duration-300 ${
+                        isActive ? 'opacity-100 scale-100' : 'opacity-0 scale-90 pointer-events-none'
+                      }`}></div>
+
+                      {/* Circle Core */}
+                      <div className={`relative z-10 w-full h-full rounded-full flex items-center justify-center font-black text-xs sm:text-sm transition-colors duration-300 ${
+                        isActive || isPast 
+                          ? 'bg-[#E11D48] text-white shadow-md' 
+                          : 'bg-white text-gray-400 border-2 border-gray-300 group-hover:border-[#E11D48] group-hover:text-[#E11D48]'
+                      }`}>
+                        {index + 1}
+                      </div>
                     </div>
                   </button>
                 );
