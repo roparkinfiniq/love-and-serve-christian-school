@@ -189,6 +189,20 @@ const Admin: React.FC<AdminProps> = ({
     }
   };
 
+  const handleTeamImageUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (file) {
+      setTeamFileName(file.name);
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        setEditingTeamMember(prev => prev ? { ...prev, image: reader.result as string } : { image: reader.result as string });
+      };
+      reader.readAsDataURL(file);
+    } else {
+      setTeamFileName('');
+    }
+  };
+
   const insertMarkdown = (prefix: string, suffix: string) => {
     const textarea = document.getElementById('popup-content-textarea') as HTMLTextAreaElement;
     if (!textarea) return;
