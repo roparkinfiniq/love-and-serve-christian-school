@@ -1399,31 +1399,6 @@ const Admin: React.FC<AdminProps> = ({
                     </div>
                   </div>
                 </div>
-
-                {/* PDFs */}
-                <div className="mb-8 border-t pt-8">
-                  <h3 className="text-lg font-bold text-gray-900 mb-3">📄 Upload Documents for Parents</h3>
-                  <div className="border border-gray-200 rounded-xl divide-y">
-                    <div className="flex items-center justify-between p-4 bg-gray-50 rounded-t-xl">
-                       <span className="font-bold text-gray-700 text-sm">Currently Registered Documents</span>
-                       <button className="text-[#E11D48] text-sm font-bold hover:underline"><i className="fa-solid fa-plus mr-1"></i> Add New Document</button>
-                    </div>
-                    <div className="flex items-center justify-between p-4 bg-white">
-                      <div className="flex items-center text-gray-700">
-                        <i className="fa-regular fa-file-pdf text-red-500 text-xl mr-3"></i>
-                        <span>2026_Admission_Application.pdf</span>
-                      </div>
-                      <button className="text-gray-400 hover:text-red-500"><i className="fa-solid fa-xmark"></i></button>
-                    </div>
-                    <div className="flex items-center justify-between p-4 bg-white">
-                      <div className="flex items-center text-gray-700">
-                         <i className="fa-regular fa-file-pdf text-red-500 text-xl mr-3"></i>
-                         <span>Academic_Calendar.pdf</span>
-                      </div>
-                      <button className="text-gray-400 hover:text-red-500"><i className="fa-solid fa-xmark"></i></button>
-                    </div>
-                  </div>
-                </div>
               </div>
             )}
 
