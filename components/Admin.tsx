@@ -79,6 +79,7 @@ const Admin: React.FC<AdminProps> = ({
 
   const [toast, setToast] = useState<{message: string, type: 'success' | 'error'} | null>(null);
   const [eventToDelete, setEventToDelete] = useState<string | null>(null);
+  const [itemToDelete, setItemToDelete] = useState<{ type: 'team' | 'facility' | 'popup' | 'event' | 'inquiry', id: string, title?: string } | null>(null);
   const [deletingPhotoId, setDeletingPhotoId] = useState<string | null>(null);
   const [editingPhoto, setEditingPhoto] = useState<GalleryImage | null>(null);
 
@@ -115,12 +116,8 @@ const Admin: React.FC<AdminProps> = ({
     setEditingTeamMember(null);
   };
 
-  const handleDeleteTeamMember = async (id: string) => {
-    if (window.confirm('Are you sure you want to remove this team member?')) {
-      await deleteTeamMemberFromDb(id);
-      setTeamMembers?.(prev => prev.filter(m => m.id !== id));
-      showToast('Team member deleted.');
-    }
+  const handleDeleteTeamMember = (id: string, name?: string) => {
+    setItemToDelete({ type: 'team', id, title: name });
   };
 
   const handleMoveTeamMember = (id: string, direction: 'up' | 'down') => {
@@ -167,12 +164,8 @@ const Admin: React.FC<AdminProps> = ({
     setEditingFacility(null);
   };
 
-  const handleDeleteFacility = async (id: string) => {
-    if (window.confirm('Are you sure you want to remove this facility?')) {
-      await deleteFacilityFromDb(id);
-      setFacilitiesList?.(prev => prev.filter(f => f.id !== id));
-      showToast('Facility deleted.');
-    }
+  const handleDeleteFacility = (id: string, title?: string) => {
+    setItemToDelete({ type: 'facility', id, title });
   };
 
   const handleFacilityImageUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -482,13 +475,7 @@ const Admin: React.FC<AdminProps> = ({
                             <i className="fa-solid fa-reply"></i> Reply via Email
                           </a>
                           <button 
-                            onClick={async () => {
-                              if (window.confirm('Delete this message?')) {
-                                await deleteInquiryFromDb(inq.id);
-                                setInquiries(prev => prev.filter(i => i.id !== inq.id));
-                                showToast('Message deleted.');
-                              }
-                            }}
+                            onClick={() => setItemToDelete({ type: 'inquiry', id: inq.id, title: inq.name })}
                             className="px-3 py-1.5 bg-gray-100 hover:bg-red-100 text-gray-600 hover:text-red-600 text-xs font-bold rounded-lg transition flex items-center gap-1.5"
                           >
                             <i className="fa-solid fa-trash-can"></i> Delete
@@ -593,7 +580,7 @@ const Admin: React.FC<AdminProps> = ({
                           </button>
                           <button 
                             type="button"
-                            onClick={() => handleDeleteTeamMember(member.id)}
+                            onClick={() => handleDeleteTeamMember(member.id, member.name)}
                             className="p-1.5 text-gray-400 hover:text-red-600 transition rounded-lg hover:bg-gray-100"
                             title="Delete"
                           >
@@ -649,7 +636,7 @@ const Admin: React.FC<AdminProps> = ({
                           <i className="fa-solid fa-pen-to-square"></i> Edit
                         </button>
                         <button 
-                          onClick={() => handleDeleteFacility(facility.id)}
+                          onClick={() => handleDeleteFacility(facility.id, facility.title)}
                           className="px-3 py-1.5 bg-white border border-gray-200 rounded-lg text-xs font-bold text-red-600 hover:bg-red-50 transition flex items-center gap-1 shadow-sm"
                         >
                           <i className="fa-solid fa-trash-can"></i> Delete
@@ -777,9 +764,7 @@ const Admin: React.FC<AdminProps> = ({
                             </button>
                             <button 
                               className="text-red-600 hover:text-red-900"
-                              onClick={() => {
-                                setEventToDelete(ev.id);
-                              }}
+                              onClick={() => setItemToDelete({ type: 'event', id: ev.id, title: ev.title })}
                             >
                               Delete
                             </button>
@@ -862,7 +847,7 @@ const Admin: React.FC<AdminProps> = ({
                                 </button>
                                 <button
                                   className="text-red-600 hover:text-red-900"
-                                  onClick={() => setPopups && setPopups(popups.filter(p => p.id !== popup.id))}
+                                  onClick={() => setItemToDelete({ type: 'popup', id: popup.id, title: popup.title })}
                                 >
                                   <i className="fa-solid fa-trash"></i> Delete
                                 </button>
@@ -1233,8 +1218,8 @@ const Admin: React.FC<AdminProps> = ({
       </div>
 
       {editingEvent && (
-        <div className="fixed inset-0 bg-black/60 z-50 flex items-center justify-center p-4">
-          <div className="bg-white rounded-xl shadow-xl max-w-md w-full p-6 animate-fadeIn">
+        <div className="fixed inset-0 z-[60] bg-black/60 backdrop-blur-sm flex items-center justify-center p-4 overflow-y-auto">
+          <div className="bg-white rounded-2xl shadow-2xl max-w-md w-full p-6 animate-fadeIn">
             <h3 className="text-xl font-bold text-gray-900 mb-4">
               {editingEvent.id ? 'Edit Event' : 'Add Event'}
             </h3>
@@ -1595,32 +1580,56 @@ const Admin: React.FC<AdminProps> = ({
         </div>
       )}
 
-      {/* Event Delete Confirmation Modal */}
-      {eventToDelete && (
-        <div className="fixed inset-0 bg-black/60 z-[60] flex items-center justify-center p-4">
-          <div className="bg-white rounded-2xl w-full max-w-sm p-6 shadow-2xl animate-fadeIn">
-            <h3 className="text-xl font-black text-gray-900 mb-4">Are you sure you want to delete this?</h3>
-            <p className="text-gray-600 mb-6 font-medium">
-              This action is permanent and cannot be undone.
+      {/* Unified Delete Confirmation Modal */}
+      {itemToDelete && (
+        <div className="fixed inset-0 z-[60] bg-black/60 backdrop-blur-sm flex items-center justify-center p-4">
+          <div className="bg-white rounded-2xl w-full max-w-sm p-6 shadow-2xl animate-fadeIn space-y-4">
+            <div className="flex items-center gap-3 text-red-600">
+              <div className="w-10 h-10 rounded-full bg-red-100 flex items-center justify-center shrink-0">
+                <i className="fa-solid fa-trash-can text-lg"></i>
+              </div>
+              <h3 className="text-lg font-extrabold text-gray-900 leading-tight">Confirm Deletion</h3>
+            </div>
+            
+            <p className="text-sm text-gray-600 font-medium">
+              Are you sure you want to delete <strong className="text-gray-900">{itemToDelete.title || 'this item'}</strong>? This action is permanent and cannot be undone.
             </p>
-            <div className="flex justify-end gap-3">
+
+            <div className="flex justify-end gap-2 pt-2">
               <button 
-                className="px-4 py-2 font-bold text-gray-600 hover:bg-gray-100 rounded-lg transition"
-                onClick={() => setEventToDelete(null)}
+                type="button"
+                className="px-4 py-2 border rounded-lg text-sm font-bold text-gray-600 hover:bg-gray-100 transition"
+                onClick={() => setItemToDelete(null)}
               >
                 Cancel
               </button>
               <button 
-                className="px-4 py-2 bg-red-600 text-white font-bold hover:bg-red-700 rounded-lg transition shadow-md"
+                type="button"
+                className="px-4 py-2 bg-red-600 hover:bg-red-700 text-white text-sm font-bold rounded-lg transition shadow"
                 onClick={async () => {
-                  if (eventToDelete) {
-                    await deleteCalendarEventFromDb(eventToDelete);
-                    if (setCalendarEvents) {
-                      setCalendarEvents(prev => prev.filter(e => e.id !== eventToDelete));
-                      showToast('Successfully deleted.');
-                    }
+                  const { type, id } = itemToDelete;
+                  setItemToDelete(null);
+                  if (type === 'team') {
+                    await deleteTeamMemberFromDb(id);
+                    setTeamMembers?.(prev => prev.filter(m => m.id !== id));
+                    showToast('Team member deleted.');
+                  } else if (type === 'facility') {
+                    await deleteFacilityFromDb(id);
+                    setFacilitiesList?.(prev => prev.filter(f => f.id !== id));
+                    showToast('Facility deleted.');
+                  } else if (type === 'popup') {
+                    await deletePopupFromDb(id);
+                    setPopups?.(prev => prev.filter(p => p.id !== id));
+                    showToast('Emergency popup deleted.');
+                  } else if (type === 'event') {
+                    await deleteCalendarEventFromDb(id);
+                    setCalendarEvents?.(prev => prev.filter(e => e.id !== id));
+                    showToast('Calendar event deleted.');
+                  } else if (type === 'inquiry') {
+                    await deleteInquiryFromDb(id);
+                    setInquiries(prev => prev.filter(i => i.id !== id));
+                    showToast('Message deleted.');
                   }
-                  setEventToDelete(null);
                 }}
               >
                 Delete
