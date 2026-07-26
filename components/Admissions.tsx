@@ -114,23 +114,23 @@ const Admissions: React.FC<AdmissionsProps> = ({ onNavigate, scrollToProcess = f
                     </ul>
                 </div>
 
-                <div className="bg-white p-10 rounded-[2.5rem] shadow-xl text-center border border-gray-100 transform hover:-translate-y-2 transition-transform duration-300 transform-gpu will-change-transform antialiased [backface-visibility:hidden]">
-                    <div className="w-20 h-20 bg-red-50 text-[#E11D48] rounded-2xl flex items-center justify-center mx-auto mb-6 text-3xl">
+                <div className="bg-white p-8 md:p-10 rounded-[2.5rem] shadow-xl text-center border border-gray-100 transform hover:-translate-y-2 transition-transform duration-300 transform-gpu will-change-transform antialiased [backface-visibility:hidden]">
+                    <div className="w-16 h-16 md:w-20 md:h-20 bg-red-50 text-[#E11D48] rounded-2xl flex items-center justify-center mx-auto mb-6 text-2xl md:text-3xl">
                         <i className="fa-solid fa-pen-to-square"></i>
                     </div>
-                    <h3 className="text-2xl font-bold text-gray-900 mb-2">Ready to Apply?</h3>
-                    <p className="text-gray-500 mb-8">Start your application online for the fastest processing, or download the form to submit in person.</p>
+                    <h3 className="text-xl md:text-2xl font-bold text-gray-900 mb-2">Ready to Apply?</h3>
+                    <p className="text-gray-500 text-sm md:text-base mb-6 md:mb-8">Start your application online for the fastest processing, or contact our admissions team directly.</p>
                     
-                    <div className="space-y-4">
-                        <a href="#" className="w-full bg-[#E11D48] text-white py-4 rounded-xl font-bold text-lg shadow-lg hover:bg-rose-500 hover:shadow-red-200 transition-all active:scale-95 flex items-center justify-center group">
+                    <div className="space-y-3">
+                        <button 
+                            onClick={() => onNavigate('Contact')}
+                            className="w-full bg-[#E11D48] text-white py-4 rounded-xl font-bold text-base md:text-lg shadow-lg hover:bg-rose-500 hover:shadow-red-200 transition-all active:scale-95 flex items-center justify-center group"
+                        >
                             <i className="fa-solid fa-laptop-file mr-3 group-hover:scale-110 transition-transform"></i> Apply Online Now
-                        </a>
-                        <button className="w-full bg-white border-2 border-[#E11D48] text-[#E11D48] py-4 rounded-xl font-bold text-lg hover:bg-red-50 transition-all active:scale-95 flex items-center justify-center">
-                            <i className="fa-solid fa-download mr-3"></i> Download PDF Form
                         </button>
                     </div>
 
-                    <p className="text-xs text-gray-400 mt-6">Form updated for SY 2024-2025</p>
+                    <p className="text-xs text-gray-400 mt-6">Form updated for SY 2026-2027</p>
                 </div>
             </div>
         </section>
