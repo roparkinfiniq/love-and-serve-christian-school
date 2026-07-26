@@ -17,6 +17,7 @@ import Admin from './components/Admin';
 import Calendar from './components/Calendar';
 import PopupsOverlay from './components/PopupsOverlay';
 import HistorySection from './components/HistorySection';
+import VisionMissionPhilosophy from './components/VisionMissionPhilosophy';
 import { Page, CalendarEvent, PopupData, GalleryImage, TeamMember, FacilityItem } from './types';
 import { INITIAL_TEAM_MEMBERS, INITIAL_FACILITIES } from './data/initialData';
 import calendarJson from './public/content/calendar.json';
@@ -296,60 +297,8 @@ const App: React.FC = () => {
             {/* History Section - Interactive Horizontal Timeline */}
             <HistorySection />
 
-            {/* Vision & Mission Sections - Minimalist 2-Column Grid */}
-            <section className="py-24 px-6 bg-white">
-              <div className="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-16 md:gap-24">
-                
-                {/* Vision */}
-                <div className="flex flex-col items-center text-center group">
-                  <i className="fa-solid fa-eye text-6xl text-[#E11D48] mb-8 transition-transform duration-500 group-hover:scale-110 transform-gpu will-change-transform antialiased [backface-visibility:hidden]"></i>
-                  <h2 className="text-4xl font-black text-gray-900 uppercase mb-6 tracking-tight">Vision</h2>
-                  <p className="text-lg md:text-xl text-gray-600 leading-relaxed max-w-md">
-                    LSCSI aimed to be a competent Christian School in academic and non-academic matters, producing well-rounded citizens and God-fearing individuals.
-                  </p>
-                </div>
-
-                {/* Mission */}
-                <div className="flex flex-col items-center text-center group">
-                  <i className="fa-solid fa-heart text-6xl text-[#E11D48] mb-8 transition-transform duration-500 group-hover:scale-110 transform-gpu will-change-transform antialiased [backface-visibility:hidden]"></i>
-                  <h2 className="text-4xl font-black text-gray-900 uppercase mb-6 tracking-tight">Mission</h2>
-                  <p className="text-lg md:text-xl text-gray-600 leading-relaxed max-w-md">
-                    LSCSI is committed to train children to love and serve God and others, develop, nurture, and enhance their potentials to be fully equipped in the service and calling that God entrusted them.
-                  </p>
-                </div>
-
-              </div>
-            </section>
-
-            {/* Philosophy Section */}
-            <section className="py-28 bg-white px-6">
-              <div className="max-w-6xl mx-auto">
-                {/* Mobile: Image First (flex-col-reverse), Desktop: Text First (flex-row) */}
-                <div className="flex flex-col-reverse md:flex-row items-center gap-20">
-                  <div className="w-full md:w-2/3">
-                    <div className="w-20 h-1.5 bg-[#E11D48] mb-8"></div>
-                    <h2 className="text-4xl md:text-5xl font-black mb-6 md:mb-10 text-gray-900 uppercase tracking-tight break-words">Philosophy</h2>
-                    <div className="space-y-8">
-                      {[
-                        "We believe in God, the Creator, Holy, and Love. We believe in the Holy Trinity and the Bible.",
-                        "We believe that man is God's special creation and was created with a purpose to nurture the world through restoring his relationship with God by means of loving and serving Him and others.",
-                        "The school is dedicated to help pupils to be excellent in their academic skills, develop Christian values and patriotism, enhance their talents and gifts, and build up their self-esteem."
-                      ].map((text, i) => (
-                        <div key={i} className="flex gap-6 group/phil p-6 rounded-2xl hover:bg-red-50/30 transition-colors duration-500">
-                          <span className="text-3xl font-black text-[#E11D48] transition-transform duration-500">{i + 1}.</span>
-                          <p className="text-xl text-gray-600 leading-relaxed transition-colors duration-500 group-hover/phil:text-gray-800">{text}</p>
-                        </div>
-                      ))}
-                    </div>
-                  </div>
-                  <div className="w-full md:w-1/3 flex justify-center">
-                     <div className="w-64 h-64 md:w-80 md:h-80 bg-red-50 rounded-[4rem] md:rounded-[5rem] flex items-center justify-center transform rotate-3 border-4 border-white shadow-lg transition-all duration-700 hover:rotate-0 hover:scale-102 transform-gpu will-change-transform antialiased [backface-visibility:hidden]">
-                        <i className="fa-solid fa-seedling text-7xl md:text-9xl text-[#E11D48] opacity-80"></i>
-                     </div>
-                  </div>
-                </div>
-              </div>
-            </section>
+            {/* Vision, Mission & Philosophy Section */}
+            <VisionMissionPhilosophy />
 
             {/* Modern Faculty and Staff CTA Section */}
             <section className="relative py-40 md:py-60 overflow-hidden group">
