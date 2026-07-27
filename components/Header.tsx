@@ -153,21 +153,21 @@ const Header: React.FC<HeaderProps> = ({ currentPage, onPageChange, isMobileMenu
         </div>
       </div>
 
-      {/* Mobile Menu */}
+      {/* Mobile Menu Overlay */}
       <div 
-        className={`lg:hidden absolute top-full left-0 w-full bg-white shadow-[0_20px_40px_-20px_rgba(0,0,0,0.1)] overflow-hidden transition-all duration-300 ease-in-out ${
-          isMobileMenuOpen ? 'max-h-[calc(100vh-100px)] opacity-100 border-t border-gray-100' : 'max-h-0 opacity-0'
+        className={`lg:hidden absolute top-full left-0 w-full bg-white shadow-2xl overflow-hidden transition-all duration-300 ease-in-out ${
+          isMobileMenuOpen ? 'max-h-[calc(100vh-80px)] opacity-100 border-t border-gray-100' : 'max-h-0 opacity-0'
         }`}
       >
-        <div className="p-6 flex flex-col space-y-4 overflow-y-auto" style={{ maxHeight: 'calc(100vh - 100px)' }}>
+        <div className="p-4 sm:p-5 flex flex-col space-y-2 overflow-y-auto" style={{ maxHeight: 'calc(100vh - 80px)' }}>
           {navItems.map((item, idx) => (
             <div key={idx} className="flex flex-col">
               {item.items ? (
-                <div className="mb-2">
-                  <div className="py-2 text-xs font-black text-gray-400 uppercase tracking-widest pl-2">
-                    {item.label}
+                <div className="my-1">
+                  <div className="pt-2 pb-1 text-[11px] font-black text-[#E11D48] uppercase tracking-widest px-3 flex items-center gap-1.5">
+                    <span>{item.label}</span>
                   </div>
-                  <div className="flex flex-col space-y-1 pl-4 border-l-2 border-red-100 ml-2 mt-2">
+                  <div className="flex flex-col space-y-0.5 pl-3 border-l-2 border-rose-100 ml-2 mt-1">
                     {item.items.map(subItem => (
                       <button
                         key={subItem.page}
@@ -175,10 +175,10 @@ const Header: React.FC<HeaderProps> = ({ currentPage, onPageChange, isMobileMenu
                           onPageChange(subItem.page);
                           setIsMobileMenuOpen(false);
                         }}
-                        className={`text-left font-bold text-lg py-2.5 px-3 rounded-lg transition-colors ${
+                        className={`text-left font-bold text-sm py-2 px-3 rounded-lg transition-all duration-200 ${
                           currentPage === subItem.page 
-                            ? 'bg-red-50 text-[#E11D48]' 
-                            : 'text-gray-600 hover:bg-gray-50'
+                            ? 'bg-rose-50 text-[#E11D48] font-extrabold shadow-2xs' 
+                            : 'text-slate-600 hover:bg-slate-50 hover:text-slate-900'
                         }`}
                       >
                         {subItem.label}
@@ -192,8 +192,10 @@ const Header: React.FC<HeaderProps> = ({ currentPage, onPageChange, isMobileMenu
                     if (item.page) onPageChange(item.page);
                     setIsMobileMenuOpen(false);
                   }}
-                  className={`text-left font-bold text-xl py-3 px-2 transition-colors ${
-                    currentPage === item.page ? 'text-[#E11D48]' : 'text-gray-900 hover:text-[#E11D48]'
+                  className={`text-left font-extrabold text-base py-2.5 px-3 rounded-xl transition-all duration-200 ${
+                    currentPage === item.page 
+                      ? 'bg-rose-50 text-[#E11D48]' 
+                      : 'text-slate-800 hover:bg-slate-50 hover:text-[#E11D48]'
                   }`}
                 >
                   {item.label}
@@ -201,13 +203,13 @@ const Header: React.FC<HeaderProps> = ({ currentPage, onPageChange, isMobileMenu
               )}
             </div>
           ))}
-          <div className="pt-6 mt-4 border-t border-gray-100 pb-4">
+          <div className="pt-3 mt-2 border-t border-gray-100 pb-2">
             <button 
               onClick={() => {
                 onPageChange('Contact');
                 setIsMobileMenuOpen(false);
               }}
-              className="w-full bg-[#E11D48] text-white px-6 py-3 rounded-xl font-black shadow-lg uppercase tracking-widest text-sm"
+              className="w-full bg-[#E11D48] hover:bg-rose-700 text-white px-5 py-2.5 rounded-xl font-bold shadow-md text-sm transition"
             >
               Contact Us
             </button>
