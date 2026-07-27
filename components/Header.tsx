@@ -16,6 +16,19 @@ interface NavGroup {
 
 const Header: React.FC<HeaderProps> = ({ currentPage, onPageChange, isMobileMenuOpen, setIsMobileMenuOpen }) => {
   const [logoError, setLogoError] = useState(false);
+  const [isScrolled, setIsScrolled] = useState(false);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      if (window.scrollY > 20) {
+        setIsScrolled(true);
+      } else {
+        setIsScrolled(false);
+      }
+    };
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
 
   useEffect(() => {
     if (isMobileMenuOpen) {
@@ -50,11 +63,17 @@ const Header: React.FC<HeaderProps> = ({ currentPage, onPageChange, isMobileMenu
   ];
 
   return (
-    <nav className="sticky top-0 z-50 bg-white/95 backdrop-blur-md border-b border-gray-50">
-      <div className="max-w-7xl mx-auto flex justify-between items-center px-6 py-5">
+    <nav className={`sticky top-0 z-50 bg-white/95 backdrop-blur-md transition-all duration-500 ease-in-out ${
+      isScrolled ? 'shadow-md border-b border-gray-100' : 'border-b border-gray-50'
+    }`}>
+      <div className={`max-w-7xl mx-auto flex justify-between items-center px-4 sm:px-6 transition-all duration-500 ease-in-out ${
+        isScrolled ? 'py-2.5 sm:py-3' : 'py-3.5 sm:py-5'
+      }`}>
         {/* Logo and Name */}
-        <div className="flex items-center space-x-4 cursor-pointer group" onClick={() => onPageChange('Home')}>
-          <div className="w-16 h-16 flex items-center justify-center group-hover:scale-105 transition-transform duration-700 ease-in-out transform-gpu will-change-transform antialiased [backface-visibility:hidden]">
+        <div className="flex items-center space-x-3 sm:space-x-4 cursor-pointer group" onClick={() => onPageChange('Home')}>
+          <div className={`flex items-center justify-center group-hover:scale-105 transition-all duration-500 ease-in-out transform-gpu will-change-transform antialiased [backface-visibility:hidden] ${
+            isScrolled ? 'w-10 h-10 sm:w-12 sm:h-12' : 'w-12 h-12 sm:w-16 sm:h-16'
+          }`}>
             {!logoError ? (
               <img 
                 src="/logo.png" 
@@ -63,12 +82,16 @@ const Header: React.FC<HeaderProps> = ({ currentPage, onPageChange, isMobileMenu
                 onError={() => setLogoError(true)}
               />
             ) : (
-              <i className="fa-solid fa-cross text-[#E11D48] text-2xl transform-gpu antialiased"></i>
+              <i className="fa-solid fa-cross text-[#E11D48] text-xl sm:text-2xl transform-gpu antialiased"></i>
             )}
           </div>
           <div className="transform-gpu antialiased">
-            <h1 className="text-2xl font-extrabold text-[#E11D48] leading-none tracking-tight">LSCSI</h1>
-            <p className="hidden md:block text-xs font-bold text-gray-400 uppercase tracking-wider mt-1">Love and Serve Christian School Inc.</p>
+            <h1 className={`font-extrabold text-[#E11D48] leading-none tracking-tight transition-all duration-500 ease-in-out ${
+              isScrolled ? 'text-lg sm:text-xl md:text-2xl' : 'text-xl sm:text-2xl'
+            }`}>LSCSI</h1>
+            <p className={`hidden md:block text-xs font-bold text-gray-400 uppercase tracking-wider transition-all duration-500 ease-in-out ${
+              isScrolled ? 'mt-0.5 opacity-80' : 'mt-1 opacity-100'
+            }`}>Love and Serve Christian School Inc.</p>
           </div>
         </div>
 
