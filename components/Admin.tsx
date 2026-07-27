@@ -50,11 +50,13 @@ const Admin: React.FC<AdminProps> = ({
   const [editingEvent, setEditingEvent] = useState<Partial<CalendarEvent> | null>(null);
   const [inquiries, setInquiries] = useState<InquiryData[]>([]);
   const [viewingInquiry, setViewingInquiry] = useState<InquiryData | null>(null);
+  const [replyText, setReplyText] = useState('');
 
   const unreadInquiriesCount = inquiries.filter(i => !i.read).length;
 
   const handleViewInquiry = (inq: InquiryData) => {
     setViewingInquiry(inq);
+    setReplyText('');
     if (!inq.read) {
       markInquiryAsRead(inq.id, true);
       setInquiries(prev => prev.map(i => i.id === inq.id ? { ...i, read: true } : i));
@@ -72,16 +74,22 @@ const Admin: React.FC<AdminProps> = ({
     showToast(newRead ? 'Message marked as read' : 'Message marked as unread');
   };
 
-  const handleReplyViaEmail = (e: React.MouseEvent, inq: InquiryData) => {
+  const handleReplyViaEmail = (e: React.MouseEvent, inq: InquiryData, customText?: string) => {
     e.stopPropagation();
     try {
       navigator.clipboard.writeText(inq.email);
     } catch (err) {
       console.warn('Clipboard write failed:', err);
     }
+
+    const responseContent = customText && customText.trim().length > 0
+      ? customText.trim()
+      : `[ Please type your reply message here / 여기에 답장 내용을 작성해 주세요 ]`;
     
     const subject = encodeURIComponent(`Re: [LSCS Inquiry] ${inq.subject}`);
-    const body = encodeURIComponent(`Dear ${inq.name},\n\nThank you for reaching out to Love and Serve Christian School Inc.\n\nRegarding your inquiry:\n"${inq.message}"\n\nBest regards,\nLSCS Admissions Team`);
+    const bodyText = `Dear ${inq.name},\n\n${responseContent}\n\n--------------------------------------------------\nOriginal Inquiry Details:\nSubject: ${inq.subject}\nSubmitted Date: ${inq.created_at ? new Date(inq.created_at).toLocaleString() : ''}\n\n"${inq.message}"\n--------------------------------------------------\n\nBest regards,\nLSCS Admissions Team\nLove and Serve Christian School Inc.`;
+
+    const body = encodeURIComponent(bodyText);
     const gmailUrl = `https://mail.google.com/mail/?view=cm&fs=1&to=${encodeURIComponent(inq.email)}&su=${subject}&body=${body}`;
 
     const win = window.open(gmailUrl, '_blank', 'noopener,noreferrer');
@@ -1756,13 +1764,32 @@ const Admin: React.FC<AdminProps> = ({
               </div>
             </div>
 
-            {/* Full Message Text Area */}
-            <div className="flex-1 overflow-y-auto space-y-2 pr-1">
-              <label className="block text-xs font-black text-gray-500 uppercase tracking-wider">
-                Full Inquiry Message
-              </label>
-              <div className="bg-slate-50 border border-slate-200 rounded-2xl p-6 text-sm text-slate-800 leading-relaxed font-sans whitespace-pre-wrap break-words [word-break:break-word] select-text shadow-inner min-h-[160px]">
-                {viewingInquiry.message}
+            {/* Full Message Text & Reply Area Container */}
+            <div className="flex-1 overflow-y-auto space-y-4 pr-1">
+              <div>
+                <label className="block text-xs font-black text-gray-500 uppercase tracking-wider mb-2">
+                  Full Inquiry Message
+                </label>
+                <div className="bg-slate-50 border border-slate-200 rounded-2xl p-5 text-sm text-slate-800 leading-relaxed font-sans whitespace-pre-wrap break-words [word-break:break-word] select-text shadow-inner min-h-[120px]">
+                  {viewingInquiry.message}
+                </div>
+              </div>
+
+              {/* Optional Interactive Reply Drafting Box */}
+              <div className="space-y-2 pt-2 border-t border-gray-100">
+                <div className="flex justify-between items-center">
+                  <label className="block text-xs font-black text-[#E11D48] uppercase tracking-wider flex items-center gap-1.5">
+                    <i className="fa-solid fa-pen-to-square"></i> Draft Your Reply / 답장 내용 작성
+                  </label>
+                  <span className="text-[11px] text-gray-400 font-medium">Type your response below to auto-fill into Gmail</span>
+                </div>
+                <textarea
+                  value={replyText}
+                  onChange={(e) => setReplyText(e.target.value)}
+                  placeholder="Type your response to the parent/student here (e.g. Thank you for your interest! School SY 2026-2027 admissions are currently open...)"
+                  rows={3}
+                  className="w-full p-4 border border-rose-200 rounded-2xl text-sm focus:ring-2 focus:ring-[#E11D48] focus:border-transparent outline-none bg-rose-50/20 text-gray-900 leading-relaxed font-sans placeholder-gray-400"
+                />
               </div>
             </div>
 
@@ -1790,7 +1817,7 @@ const Admin: React.FC<AdminProps> = ({
                 </button>
                 <button 
                   type="button"
-                  onClick={(e) => handleReplyViaEmail(e, viewingInquiry)}
+                  onClick={(e) => handleReplyViaEmail(e, viewingInquiry, replyText)}
                   className="px-4 py-2.5 bg-[#E11D48] hover:bg-rose-700 text-white text-xs font-bold rounded-xl transition shadow flex items-center gap-2"
                 >
                   <i className="fa-solid fa-reply"></i> Reply via Email
