@@ -72,6 +72,26 @@ const Admin: React.FC<AdminProps> = ({
     showToast(newRead ? 'Message marked as read' : 'Message marked as unread');
   };
 
+  const handleReplyViaEmail = (e: React.MouseEvent, inq: InquiryData) => {
+    e.stopPropagation();
+    try {
+      navigator.clipboard.writeText(inq.email);
+    } catch (err) {
+      console.warn('Clipboard write failed:', err);
+    }
+    
+    const subject = encodeURIComponent(`Re: [LSCS Inquiry] ${inq.subject}`);
+    const body = encodeURIComponent(`Dear ${inq.name},\n\nThank you for reaching out to Love and Serve Christian School Inc.\n\nRegarding your inquiry:\n"${inq.message}"\n\nBest regards,\nLSCS Admissions Team`);
+    const gmailUrl = `https://mail.google.com/mail/?view=cm&fs=1&to=${encodeURIComponent(inq.email)}&su=${subject}&body=${body}`;
+
+    const win = window.open(gmailUrl, '_blank', 'noopener,noreferrer');
+    if (!win || win.closed || typeof win.closed === 'undefined') {
+      window.location.href = `mailto:${inq.email}?subject=${subject}&body=${body}`;
+    }
+
+    showToast(`Email copied & opening Gmail for ${inq.email}`);
+  };
+
   React.useEffect(() => {
     async function loadInquiries() {
       const data = await fetchInquiries();
@@ -544,13 +564,13 @@ const Admin: React.FC<AdminProps> = ({
                           >
                             <i className={`fa-solid ${inq.read ? 'fa-envelope-open' : 'fa-envelope'}`}></i> {inq.read ? 'Mark Unread' : 'Mark Read'}
                           </button>
-                          <a 
-                            href={`mailto:${inq.email}?subject=Re: [LSCS Inquiry] ${encodeURIComponent(inq.subject)}`}
-                            onClick={(e) => e.stopPropagation()}
+                          <button 
+                            type="button"
+                            onClick={(e) => handleReplyViaEmail(e, inq)}
                             className="px-3.5 py-1.5 bg-[#E11D48] hover:bg-rose-700 text-white text-xs font-bold rounded-lg transition flex items-center gap-1.5 shadow-sm"
                           >
                             <i className="fa-solid fa-reply"></i> Reply via Email
-                          </a>
+                          </button>
                           <button 
                             type="button"
                             onClick={(e) => {
@@ -1768,12 +1788,13 @@ const Admin: React.FC<AdminProps> = ({
                   <i className={`fa-solid ${viewingInquiry.read ? 'fa-envelope-open' : 'fa-envelope'}`}></i>
                   {viewingInquiry.read ? 'Mark as Unread' : 'Mark as Read'}
                 </button>
-                <a 
-                  href={`mailto:${viewingInquiry.email}?subject=Re: [LSCS Inquiry] ${encodeURIComponent(viewingInquiry.subject)}`}
+                <button 
+                  type="button"
+                  onClick={(e) => handleReplyViaEmail(e, viewingInquiry)}
                   className="px-4 py-2.5 bg-[#E11D48] hover:bg-rose-700 text-white text-xs font-bold rounded-xl transition shadow flex items-center gap-2"
                 >
                   <i className="fa-solid fa-reply"></i> Reply via Email
-                </a>
+                </button>
                 <button 
                   type="button"
                   onClick={() => {
