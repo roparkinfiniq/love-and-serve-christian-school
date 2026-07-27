@@ -56,9 +56,9 @@ const Programs: React.FC<ProgramsProps> = ({ onProgramClick, onViewAll }) => {
               <img 
                 src={p.image} 
                 alt={p.title} 
-                className={`w-full h-full object-cover transition-transform duration-700 transform-gpu will-change-transform antialiased [backface-visibility:hidden] ${
+                className={`w-full h-full object-cover transition-transform duration-700 ease-in-out transform-gpu will-change-transform antialiased [backface-visibility:hidden] ${
                   p.id === 'preschool'
-                    ? 'object-bottom scale-125 origin-bottom group-hover:scale-135'
+                    ? 'object-bottom scale-105 origin-bottom group-hover:scale-[1.20]'
                     : 'group-hover:scale-110'
                 }`}
               />
