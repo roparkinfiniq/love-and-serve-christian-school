@@ -1765,7 +1765,7 @@ const Admin: React.FC<AdminProps> = ({
             </div>
 
             {/* Full Message Text & Reply Area Container */}
-            <div className="flex-1 overflow-y-auto space-y-4 pr-1">
+            <div className="flex-1 overflow-y-auto space-y-4 px-1 py-0.5">
               <div>
                 <label className="block text-xs font-black text-gray-500 uppercase tracking-wider mb-2">
                   Full Inquiry Message
@@ -1788,7 +1788,7 @@ const Admin: React.FC<AdminProps> = ({
                   onChange={(e) => setReplyText(e.target.value)}
                   placeholder="Type your response to the parent/student here (e.g. Thank you for your interest! School SY 2026-2027 admissions are currently open...)"
                   rows={3}
-                  className="w-full p-4 border border-rose-200 rounded-2xl text-sm focus:ring-2 focus:ring-[#E11D48] focus:border-transparent outline-none bg-rose-50/20 text-gray-900 leading-relaxed font-sans placeholder-gray-400"
+                  className="w-full p-4 border-2 border-rose-200 focus:border-[#E11D48] focus:bg-white rounded-2xl text-sm outline-none bg-rose-50/20 text-gray-900 leading-relaxed font-sans placeholder-gray-400 transition-all shadow-sm"
                 />
               </div>
             </div>
