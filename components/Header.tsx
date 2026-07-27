@@ -59,7 +59,7 @@ const Header: React.FC<HeaderProps> = ({ currentPage, onPageChange, isMobileMenu
               <img 
                 src="/logo.png" 
                 alt="LSCSI Logo" 
-                className="w-full h-full object-contain filter drop-shadow-sm transform-gpu antialiased [image-rendering:-webkit-optimize-contrast]"
+                className="w-full h-full object-contain filter drop-shadow-sm transform-gpu antialiased [backface-visibility:hidden]"
                 onError={() => setLogoError(true)}
               />
             ) : (
