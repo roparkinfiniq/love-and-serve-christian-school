@@ -10,6 +10,7 @@ import {
   deletePopupFromDb,
   fetchInquiries,
   deleteInquiryFromDb,
+  markInquiryAsRead,
   InquiryData
 } from '../services/supabaseClient';
 
@@ -49,6 +50,27 @@ const Admin: React.FC<AdminProps> = ({
   const [editingEvent, setEditingEvent] = useState<Partial<CalendarEvent> | null>(null);
   const [inquiries, setInquiries] = useState<InquiryData[]>([]);
   const [viewingInquiry, setViewingInquiry] = useState<InquiryData | null>(null);
+
+  const unreadInquiriesCount = inquiries.filter(i => !i.read).length;
+
+  const handleViewInquiry = (inq: InquiryData) => {
+    setViewingInquiry(inq);
+    if (!inq.read) {
+      markInquiryAsRead(inq.id, true);
+      setInquiries(prev => prev.map(i => i.id === inq.id ? { ...i, read: true } : i));
+    }
+  };
+
+  const handleToggleRead = (e: React.MouseEvent, inq: InquiryData) => {
+    e.stopPropagation();
+    const newRead = !inq.read;
+    markInquiryAsRead(inq.id, newRead);
+    setInquiries(prev => prev.map(i => i.id === inq.id ? { ...i, read: newRead } : i));
+    if (viewingInquiry?.id === inq.id) {
+      setViewingInquiry({ ...viewingInquiry, read: newRead });
+    }
+    showToast(newRead ? 'Message marked as read' : 'Message marked as unread');
+  };
 
   React.useEffect(() => {
     async function loadInquiries() {
@@ -358,13 +380,19 @@ const Admin: React.FC<AdminProps> = ({
                   <i className="fa-solid fa-envelope w-6 text-center"></i>
                   Contact Messages
                 </span>
-                {inquiries.length > 0 && (
-                  <span className={`text-[10px] px-2 py-0.5 rounded-full font-bold ${
-                    activeTab === 'inquiries' ? 'bg-white text-[#E11D48]' : 'bg-red-100 text-red-600'
+                {unreadInquiriesCount > 0 ? (
+                  <span className={`text-[10px] px-2 py-0.5 rounded-full font-bold animate-pulse ${
+                    activeTab === 'inquiries' ? 'bg-white text-[#E11D48]' : 'bg-[#E11D48] text-white shadow-sm'
                   }`}>
-                    {inquiries.length}
+                    {unreadInquiriesCount}
                   </span>
-                )}
+                ) : inquiries.length > 0 ? (
+                  <span className={`text-[10px] px-2 py-0.5 rounded-full font-bold ${
+                    activeTab === 'inquiries' ? 'bg-white/20 text-white' : 'bg-gray-100 text-gray-400'
+                  }`}>
+                    0
+                  </span>
+                ) : null}
               </button>
               <button
                 onClick={() => setActiveTab('team')}
@@ -446,8 +474,12 @@ const Admin: React.FC<AdminProps> = ({
                     {inquiries.map((inq) => (
                       <div 
                         key={inq.id} 
-                        onClick={() => setViewingInquiry(inq)}
-                        className="p-5 border border-gray-200 hover:border-rose-300 rounded-2xl bg-white shadow-sm hover:shadow-md transition cursor-pointer group"
+                        onClick={() => handleViewInquiry(inq)}
+                        className={`p-5 border rounded-2xl bg-white shadow-sm hover:shadow-md transition cursor-pointer group relative ${
+                          !inq.read 
+                            ? 'border-l-4 border-l-[#E11D48] border-rose-200 bg-rose-50/20' 
+                            : 'border-gray-200 hover:border-rose-300'
+                        }`}
                       >
                         <div className="flex flex-col sm:flex-row justify-between sm:items-center gap-2 mb-3 border-b border-gray-100 pb-3">
                           <div className="flex items-center gap-3">
@@ -455,7 +487,14 @@ const Admin: React.FC<AdminProps> = ({
                               {inq.name.charAt(0).toUpperCase()}
                             </div>
                             <div>
-                              <h4 className="font-bold text-gray-900 text-sm group-hover:text-[#E11D48] transition-colors">{inq.name}</h4>
+                              <div className="flex items-center gap-2">
+                                <h4 className="font-bold text-gray-900 text-sm group-hover:text-[#E11D48] transition-colors">{inq.name}</h4>
+                                {!inq.read && (
+                                  <span className="text-[10px] font-black px-2 py-0.5 rounded-full bg-[#E11D48] text-white tracking-wider animate-pulse shadow-sm">
+                                    NEW
+                                  </span>
+                                )}
+                              </div>
                               <a 
                                 href={`mailto:${inq.email}`} 
                                 onClick={(e) => e.stopPropagation()}
@@ -491,11 +530,19 @@ const Admin: React.FC<AdminProps> = ({
                             type="button"
                             onClick={(e) => {
                               e.stopPropagation();
-                              setViewingInquiry(inq);
+                              handleViewInquiry(inq);
                             }}
                             className="px-3.5 py-1.5 bg-slate-900 hover:bg-black text-white text-xs font-bold rounded-lg transition flex items-center gap-1.5 shadow-sm"
                           >
                             <i className="fa-solid fa-expand text-[10px]"></i> View Full Message / 자세히 보기
+                          </button>
+                          <button
+                            type="button"
+                            onClick={(e) => handleToggleRead(e, inq)}
+                            className="px-3 py-1.5 bg-gray-100 hover:bg-gray-200 text-gray-700 text-xs font-bold rounded-lg transition flex items-center gap-1.5"
+                            title={inq.read ? 'Mark as Unread' : 'Mark as Read'}
+                          >
+                            <i className={`fa-solid ${inq.read ? 'fa-envelope-open' : 'fa-envelope'}`}></i> {inq.read ? 'Mark Unread' : 'Mark Read'}
                           </button>
                           <a 
                             href={`mailto:${inq.email}?subject=Re: [LSCS Inquiry] ${encodeURIComponent(inq.subject)}`}
@@ -1713,6 +1760,14 @@ const Admin: React.FC<AdminProps> = ({
               </button>
 
               <div className="flex items-center gap-2">
+                <button
+                  type="button"
+                  onClick={(e) => handleToggleRead(e, viewingInquiry)}
+                  className="px-4 py-2.5 bg-gray-100 hover:bg-gray-200 text-gray-700 text-xs font-bold rounded-xl transition flex items-center gap-1.5"
+                >
+                  <i className={`fa-solid ${viewingInquiry.read ? 'fa-envelope-open' : 'fa-envelope'}`}></i>
+                  {viewingInquiry.read ? 'Mark as Unread' : 'Mark as Read'}
+                </button>
                 <a 
                   href={`mailto:${viewingInquiry.email}?subject=Re: [LSCS Inquiry] ${encodeURIComponent(viewingInquiry.subject)}`}
                   className="px-4 py-2.5 bg-[#E11D48] hover:bg-rose-700 text-white text-xs font-bold rounded-xl transition shadow flex items-center gap-2"

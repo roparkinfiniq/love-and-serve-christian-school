@@ -276,6 +276,7 @@ export interface InquiryData {
   email: string;
   subject: string;
   message: string;
+  read?: boolean;
   created_at?: string;
 }
 
@@ -300,6 +301,7 @@ export async function fetchInquiries(): Promise<InquiryData[]> {
       email: item.email,
       subject: item.subject,
       message: item.message,
+      read: Boolean(item.read),
       created_at: item.created_at,
     }));
   } catch (e) {
@@ -320,6 +322,7 @@ export async function saveInquiry(inquiry: Omit<InquiryData, 'id' | 'created_at'
     email: inquiry.email,
     subject: inquiry.subject,
     message: inquiry.message,
+    read: false,
     created_at: new Date().toISOString(),
   };
 
@@ -338,6 +341,28 @@ export async function saveInquiry(inquiry: Omit<InquiryData, 'id' | 'created_at'
     return !error;
   } catch (e) {
     console.error('Save inquiry to Supabase failed', e);
+    return false;
+  }
+}
+
+export async function markInquiryAsRead(id: string, read: boolean = true): Promise<boolean> {
+  try {
+    const saved = localStorage.getItem('lscs_inquiries');
+    if (saved) {
+      const list: InquiryData[] = JSON.parse(saved);
+      const updated = list.map(item => item.id === id ? { ...item, read } : item);
+      localStorage.setItem('lscs_inquiries', JSON.stringify(updated));
+    }
+  } catch (e) {
+    console.error(e);
+  }
+
+  if (!supabase) return true;
+  try {
+    const { error } = await supabase.from('inquiries').update({ read }).eq('id', id);
+    return !error;
+  } catch (e) {
+    console.error('Update inquiry read status failed', e);
     return false;
   }
 }
