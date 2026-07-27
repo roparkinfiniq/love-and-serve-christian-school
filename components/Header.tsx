@@ -54,19 +54,19 @@ const Header: React.FC<HeaderProps> = ({ currentPage, onPageChange, isMobileMenu
       <div className="max-w-7xl mx-auto flex justify-between items-center px-6 py-5">
         {/* Logo and Name */}
         <div className="flex items-center space-x-4 cursor-pointer group" onClick={() => onPageChange('Home')}>
-          <div className="w-16 h-16 flex items-center justify-center group-hover:scale-105 transition-transform duration-500">
+          <div className="w-16 h-16 flex items-center justify-center group-hover:scale-105 transition-transform duration-700 ease-in-out transform-gpu will-change-transform antialiased [backface-visibility:hidden]">
             {!logoError ? (
               <img 
                 src="/logo.png" 
                 alt="LSCSI Logo" 
-                className="w-full h-full object-contain filter drop-shadow-sm"
+                className="w-full h-full object-contain filter drop-shadow-sm transform-gpu antialiased [image-rendering:-webkit-optimize-contrast]"
                 onError={() => setLogoError(true)}
               />
             ) : (
-              <i className="fa-solid fa-cross text-[#E11D48] text-2xl"></i>
+              <i className="fa-solid fa-cross text-[#E11D48] text-2xl transform-gpu antialiased"></i>
             )}
           </div>
-          <div>
+          <div className="transform-gpu antialiased">
             <h1 className="text-2xl font-extrabold text-[#E11D48] leading-none tracking-tight">LSCSI</h1>
             <p className="hidden md:block text-xs font-bold text-gray-400 uppercase tracking-wider mt-1">Love and Serve Christian School Inc.</p>
           </div>
