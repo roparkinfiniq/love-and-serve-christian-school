@@ -1,5 +1,6 @@
 import React, { useRef, useEffect, useState } from 'react';
 import { saveInquiry } from '../services/supabaseClient';
+import { sendEmailNotification } from '../services/emailService';
 
 interface ContactProps {
   scrollToForm?: boolean;
@@ -24,7 +25,7 @@ const Contact: React.FC<ContactProps> = ({ scrollToForm = false }) => {
   useEffect(() => {
     if (scrollToForm && formRef.current) {
       setTimeout(() => {
-        formRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        formRef.current?.scrollIntoView({ behavior: 'smooth' });
       }, 100);
     }
   }, [scrollToForm]);
@@ -70,15 +71,20 @@ const Contact: React.FC<ContactProps> = ({ scrollToForm = false }) => {
     setIsSubmitting(true);
 
     async function processSubmit() {
+      const payload = {
+        name: formData.name,
+        email: formData.email,
+        subject: formData.subject,
+        message: formData.message,
+      };
+
       try {
-        await saveInquiry({
-          name: formData.name,
-          email: formData.email,
-          subject: formData.subject,
-          message: formData.message,
-        });
+        await Promise.allSettled([
+          saveInquiry(payload),
+          sendEmailNotification(payload)
+        ]);
       } catch (err) {
-        console.error('Failed to save inquiry:', err);
+        console.error('Failed during inquiry submission:', err);
       } finally {
         setIsSubmitting(false);
         setIsSuccess(true);
