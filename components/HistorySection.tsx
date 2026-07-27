@@ -163,17 +163,17 @@ const HistorySection: React.FC = () => {
           </div>
         </div>
 
-        {/* Featured Showcase Card with Smooth Transitions */}
-        <div className="relative bg-white border border-gray-100 rounded-3xl p-6 sm:p-10 md:p-12 shadow-xl hover:shadow-2xl transition-all duration-700 ease-in-out overflow-hidden">
+        {/* Featured Showcase Card with Smooth Transitions (Anti-Jitter GPU Accelerated) */}
+        <div className="relative bg-white border border-gray-100 rounded-3xl p-6 sm:p-10 md:p-12 shadow-xl hover:shadow-2xl transition-all duration-700 ease-in-out overflow-hidden transform-gpu will-change-transform antialiased [backface-visibility:hidden]">
           {/* Watermark Year Background */}
-          <div className={`absolute right-4 bottom-2 text-7xl sm:text-9xl font-black text-rose-500/5 select-none pointer-events-none font-mono tracking-tighter transition-all duration-500 ease-in-out ${
-            isAnimating ? 'opacity-0 scale-95' : 'opacity-100 scale-100'
+          <div className={`absolute right-4 bottom-2 text-7xl sm:text-9xl font-black text-rose-500/5 select-none pointer-events-none font-mono tracking-tighter transition-all duration-500 ease-in-out transform-gpu ${
+            isAnimating ? 'opacity-0 translate-y-2' : 'opacity-100 translate-y-0'
           }`}>
             {activeMilestone.year}
           </div>
 
-          <div className={`relative z-10 flex flex-col md:flex-row items-start md:items-center justify-between gap-6 md:gap-10 transition-all duration-500 ease-in-out ${
-            isAnimating ? 'opacity-0 scale-98 translate-y-2' : 'opacity-100 scale-100 translate-y-0'
+          <div className={`relative z-10 flex flex-col md:flex-row items-start md:items-center justify-between gap-6 md:gap-10 transition-all duration-500 ease-in-out transform-gpu will-change-transform antialiased [backface-visibility:hidden] ${
+            isAnimating ? 'opacity-0 translate-y-1.5' : 'opacity-100 translate-y-0'
           }`}>
             {/* Left Content Column */}
             <div className="flex-1 space-y-4 text-left">
