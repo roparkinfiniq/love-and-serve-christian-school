@@ -48,6 +48,7 @@ const Admin: React.FC<AdminProps> = ({
   const [editingPopup, setEditingPopup] = useState<Partial<PopupData> | null>(null);
   const [editingEvent, setEditingEvent] = useState<Partial<CalendarEvent> | null>(null);
   const [inquiries, setInquiries] = useState<InquiryData[]>([]);
+  const [viewingInquiry, setViewingInquiry] = useState<InquiryData | null>(null);
 
   React.useEffect(() => {
     async function loadInquiries() {
@@ -443,44 +444,72 @@ const Admin: React.FC<AdminProps> = ({
                 ) : (
                   <div className="space-y-4">
                     {inquiries.map((inq) => (
-                      <div key={inq.id} className="p-5 border border-gray-200 rounded-2xl bg-white shadow-sm hover:shadow-md transition">
+                      <div 
+                        key={inq.id} 
+                        onClick={() => setViewingInquiry(inq)}
+                        className="p-5 border border-gray-200 hover:border-rose-300 rounded-2xl bg-white shadow-sm hover:shadow-md transition cursor-pointer group"
+                      >
                         <div className="flex flex-col sm:flex-row justify-between sm:items-center gap-2 mb-3 border-b border-gray-100 pb-3">
                           <div className="flex items-center gap-3">
-                            <div className="w-10 h-10 rounded-full bg-red-50 text-[#E11D48] flex items-center justify-center font-bold text-sm shrink-0">
+                            <div className="w-10 h-10 rounded-full bg-rose-100 text-[#E11D48] flex items-center justify-center font-black text-sm shrink-0 shadow-sm group-hover:scale-105 transition-transform">
                               {inq.name.charAt(0).toUpperCase()}
                             </div>
                             <div>
-                              <h4 className="font-bold text-gray-900 text-sm">{inq.name}</h4>
-                              <a href={`mailto:${inq.email}`} className="text-xs text-[#E11D48] hover:underline flex items-center gap-1">
+                              <h4 className="font-bold text-gray-900 text-sm group-hover:text-[#E11D48] transition-colors">{inq.name}</h4>
+                              <a 
+                                href={`mailto:${inq.email}`} 
+                                onClick={(e) => e.stopPropagation()}
+                                className="text-xs text-[#E11D48] hover:underline flex items-center gap-1 font-medium"
+                              >
                                 <i className="fa-solid fa-envelope text-[10px]"></i> {inq.email}
                               </a>
                             </div>
                           </div>
                           <div className="flex items-center gap-3">
-                            <span className="text-[11px] font-bold px-3 py-1 rounded-full bg-slate-100 text-slate-700">
+                            <span className="text-[11px] font-bold px-3 py-1 rounded-full bg-rose-50 text-[#E11D48] border border-rose-100">
                               {inq.subject}
                             </span>
                             {inq.created_at && (
-                              <span className="text-[11px] text-gray-400">
+                              <span className="text-[11px] text-gray-400 font-medium">
                                 {new Date(inq.created_at).toLocaleDateString()} {new Date(inq.created_at).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
                               </span>
                             )}
                           </div>
                         </div>
 
-                        <div className="bg-gray-50 p-4 rounded-xl text-xs text-gray-800 leading-relaxed whitespace-pre-wrap mb-3 border border-gray-100 font-sans">
+                        {/* Message Preview Box */}
+                        <div className="bg-gray-50/80 p-4 rounded-xl text-xs sm:text-sm text-gray-800 leading-relaxed whitespace-pre-wrap mb-4 border border-gray-100 font-sans max-h-24 overflow-hidden relative">
                           {inq.message}
+                          {inq.message.length > 120 && (
+                            <div className="absolute bottom-0 inset-x-0 h-8 bg-gradient-to-t from-gray-50 to-transparent pointer-events-none"></div>
+                          )}
                         </div>
 
-                        <div className="flex justify-end gap-2">
+                        {/* Card Action Buttons */}
+                        <div className="flex flex-wrap items-center justify-end gap-2">
+                          <button
+                            type="button"
+                            onClick={(e) => {
+                              e.stopPropagation();
+                              setViewingInquiry(inq);
+                            }}
+                            className="px-3.5 py-1.5 bg-slate-900 hover:bg-black text-white text-xs font-bold rounded-lg transition flex items-center gap-1.5 shadow-sm"
+                          >
+                            <i className="fa-solid fa-expand text-[10px]"></i> View Full Message / 자세히 보기
+                          </button>
                           <a 
                             href={`mailto:${inq.email}?subject=Re: [LSCS Inquiry] ${encodeURIComponent(inq.subject)}`}
-                            className="px-3.5 py-1.5 bg-[#E11D48] hover:bg-rose-700 text-white text-xs font-bold rounded-lg transition flex items-center gap-1.5"
+                            onClick={(e) => e.stopPropagation()}
+                            className="px-3.5 py-1.5 bg-[#E11D48] hover:bg-rose-700 text-white text-xs font-bold rounded-lg transition flex items-center gap-1.5 shadow-sm"
                           >
                             <i className="fa-solid fa-reply"></i> Reply via Email
                           </a>
                           <button 
-                            onClick={() => setItemToDelete({ type: 'inquiry', id: inq.id, title: inq.name })}
+                            type="button"
+                            onClick={(e) => {
+                              e.stopPropagation();
+                              setItemToDelete({ type: 'inquiry', id: inq.id, title: inq.name });
+                            }}
                             className="px-3 py-1.5 bg-gray-100 hover:bg-red-100 text-gray-600 hover:text-red-600 text-xs font-bold rounded-lg transition flex items-center gap-1.5"
                           >
                             <i className="fa-solid fa-trash-can"></i> Delete
@@ -1593,6 +1622,117 @@ const Admin: React.FC<AdminProps> = ({
                 </button>
               </div>
             </form>
+          </div>
+        </div>
+      )}
+
+      {/* Inquiry Detail Viewer Modal */}
+      {viewingInquiry && (
+        <div className="fixed inset-0 z-[60] bg-black/60 backdrop-blur-sm flex items-center justify-center p-4">
+          <div className="bg-white rounded-3xl p-6 sm:p-8 max-w-2xl w-full shadow-2xl space-y-6 animate-fadeIn relative max-h-[90vh] flex flex-col">
+            {/* Modal Header */}
+            <div className="flex justify-between items-center border-b pb-4 shrink-0">
+              <div className="flex items-center gap-3">
+                <div className="w-10 h-10 rounded-xl bg-rose-100 text-[#E11D48] flex items-center justify-center text-lg font-bold shrink-0">
+                  <i className="fa-solid fa-envelope-open-text"></i>
+                </div>
+                <div>
+                  <h3 className="text-xl font-black text-gray-900 leading-tight">Inquiry Message Details</h3>
+                  <p className="text-xs text-gray-400 font-medium">Submitted via LSCS Contact Us Form</p>
+                </div>
+              </div>
+              <button 
+                onClick={() => setViewingInquiry(null)} 
+                className="w-9 h-9 rounded-full bg-gray-100 hover:bg-gray-200 text-gray-500 hover:text-gray-800 transition flex items-center justify-center"
+              >
+                <i className="fa-solid fa-xmark text-lg"></i>
+              </button>
+            </div>
+
+            {/* Sender & Timestamp Info */}
+            <div className="bg-rose-50/50 p-5 rounded-2xl border border-rose-100 shrink-0 space-y-3">
+              <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+                <div className="flex items-center gap-3">
+                  <div className="w-12 h-12 rounded-full bg-[#E11D48] text-white flex items-center justify-center font-black text-lg shadow-sm shrink-0">
+                    {viewingInquiry.name.charAt(0).toUpperCase()}
+                  </div>
+                  <div>
+                    <h4 className="text-base font-black text-gray-900">{viewingInquiry.name}</h4>
+                    <div className="flex items-center gap-2 mt-0.5">
+                      <a href={`mailto:${viewingInquiry.email}`} className="text-xs font-bold text-[#E11D48] hover:underline flex items-center gap-1">
+                        <i className="fa-solid fa-envelope text-[10px]"></i> {viewingInquiry.email}
+                      </a>
+                      <button 
+                        type="button"
+                        onClick={() => {
+                          navigator.clipboard.writeText(viewingInquiry.email);
+                          showToast('Email address copied to clipboard!');
+                        }}
+                        className="text-[11px] bg-white border border-gray-200 hover:bg-gray-50 text-gray-600 px-2 py-0.5 rounded-md font-bold transition flex items-center gap-1"
+                        title="Copy Email Address"
+                      >
+                        <i className="fa-solid fa-copy text-[10px]"></i> Copy
+                      </button>
+                    </div>
+                  </div>
+                </div>
+                <div className="text-left sm:text-right shrink-0">
+                  <span className="inline-block text-xs font-black px-3 py-1 rounded-full bg-[#E11D48] text-white mb-1 shadow-sm">
+                    {viewingInquiry.subject}
+                  </span>
+                  {viewingInquiry.created_at && (
+                    <div className="text-[11px] font-medium text-gray-500">
+                      {new Date(viewingInquiry.created_at).toLocaleString()}
+                    </div>
+                  )}
+                </div>
+              </div>
+            </div>
+
+            {/* Full Message Text Area */}
+            <div className="flex-1 overflow-y-auto space-y-2 pr-1">
+              <label className="block text-xs font-black text-gray-500 uppercase tracking-wider">
+                Full Inquiry Message
+              </label>
+              <div className="bg-slate-50 border border-slate-200 rounded-2xl p-6 text-sm text-slate-800 leading-relaxed font-sans whitespace-pre-wrap select-text shadow-inner min-h-[160px]">
+                {viewingInquiry.message}
+              </div>
+            </div>
+
+            {/* Modal Actions Footer */}
+            <div className="flex flex-wrap justify-between items-center gap-3 pt-4 border-t shrink-0">
+              <button
+                type="button"
+                onClick={() => {
+                  navigator.clipboard.writeText(`From: ${viewingInquiry.name} (${viewingInquiry.email})\nSubject: ${viewingInquiry.subject}\n\n${viewingInquiry.message}`);
+                  showToast('Full message text copied to clipboard!');
+                }}
+                className="px-4 py-2 bg-gray-100 hover:bg-gray-200 text-gray-700 text-xs font-bold rounded-xl transition flex items-center gap-1.5"
+              >
+                <i className="fa-solid fa-copy"></i> Copy Full Text
+              </button>
+
+              <div className="flex items-center gap-2">
+                <a 
+                  href={`mailto:${viewingInquiry.email}?subject=Re: [LSCS Inquiry] ${encodeURIComponent(viewingInquiry.subject)}`}
+                  className="px-4 py-2.5 bg-[#E11D48] hover:bg-rose-700 text-white text-xs font-bold rounded-xl transition shadow flex items-center gap-2"
+                >
+                  <i className="fa-solid fa-reply"></i> Reply via Email
+                </a>
+                <button 
+                  type="button"
+                  onClick={() => {
+                    const id = viewingInquiry.id;
+                    const name = viewingInquiry.name;
+                    setViewingInquiry(null);
+                    setItemToDelete({ type: 'inquiry', id, title: name });
+                  }}
+                  className="px-4 py-2.5 bg-red-50 hover:bg-red-100 text-red-600 text-xs font-bold rounded-xl transition flex items-center gap-1.5"
+                >
+                  <i className="fa-solid fa-trash-can"></i> Delete
+                </button>
+              </div>
+            </div>
           </div>
         </div>
       )}
