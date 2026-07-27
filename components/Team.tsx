@@ -74,13 +74,13 @@ const Team: React.FC<TeamProps> = ({ teamMembers = INITIAL_TEAM_MEMBERS }) => {
             <p className="text-gray-500 mt-2 sm:mt-4 text-xs sm:text-base md:text-lg">Committed educators shaping minds and hearts.</p>
           </div>
           
-          <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-3 sm:gap-6 lg:gap-8">
+          <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-2.5 sm:gap-6 lg:gap-8">
             {faculty.map((teacher, idx) => (
               <div 
                 key={idx} 
-                className="bg-white rounded-xl sm:rounded-2xl overflow-hidden shadow-xs hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1.5 group transform-gpu will-change-transform antialiased [backface-visibility:hidden] border border-gray-100"
+                className="bg-white rounded-xl sm:rounded-2xl overflow-hidden shadow-xs hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1.5 group transform-gpu will-change-transform antialiased [backface-visibility:hidden] border border-gray-100/90 flex flex-col"
               >
-                <div className="h-40 sm:h-56 md:h-72 overflow-hidden relative bg-gray-100 flex items-center justify-center">
+                <div className="w-full aspect-[4/3] sm:aspect-[4/3] md:h-64 lg:h-72 overflow-hidden relative bg-slate-100 flex items-center justify-center shrink-0">
                   {teacher.image ? (
                     <img 
                       src={teacher.image} 
@@ -89,12 +89,12 @@ const Team: React.FC<TeamProps> = ({ teamMembers = INITIAL_TEAM_MEMBERS }) => {
                       style={{ objectPosition: teacher.position || 'center top' }}
                     />
                   ) : (
-                    <i className="fa-solid fa-user text-4xl sm:text-6xl text-gray-300 transition-transform duration-700 group-hover:scale-110"></i>
+                    <i className="fa-solid fa-user text-3xl sm:text-6xl text-gray-300 transition-transform duration-700 group-hover:scale-110"></i>
                   )}
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
                 </div>
-                <div className="p-3 sm:p-5 text-center border-t-3 sm:border-t-4 border-transparent group-hover:border-[#E11D48] transition-colors">
-                  <h4 className="text-sm sm:text-lg font-extrabold text-gray-900 mb-0.5 leading-tight">{teacher.name}</h4>
+                <div className="p-2.5 sm:p-4 text-center border-t-2 sm:border-t-4 border-transparent group-hover:border-[#E11D48] transition-colors flex-1 flex flex-col justify-center bg-white">
+                  <h4 className="text-xs sm:text-base md:text-lg font-extrabold text-slate-900 mb-0.5 leading-snug">{teacher.name}</h4>
                   <p className="text-[#E11D48] font-bold text-[10px] sm:text-xs md:text-sm uppercase tracking-wide">{teacher.role}</p>
                 </div>
               </div>
