@@ -67,20 +67,20 @@ const Team: React.FC<TeamProps> = ({ teamMembers = INITIAL_TEAM_MEMBERS }) => {
       </section>
 
       {/* Tier 2: Faculty */}
-      <section className="py-12 sm:py-16 md:py-24 px-4 sm:px-6 bg-slate-50">
+      <section className="py-10 sm:py-16 md:py-24 px-3 sm:px-6 bg-slate-50">
         <div className="max-w-7xl mx-auto">
-          <div className="text-center mb-10 sm:mb-16">
+          <div className="text-center mb-8 sm:mb-16">
             <h2 className="text-2.5xl sm:text-3xl font-black text-gray-900">Our Faculty</h2>
-            <p className="text-gray-500 mt-2 sm:mt-4 text-sm sm:text-base md:text-lg">Committed educators shaping minds and hearts.</p>
+            <p className="text-gray-500 mt-2 sm:mt-4 text-xs sm:text-base md:text-lg">Committed educators shaping minds and hearts.</p>
           </div>
           
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 sm:gap-8">
+          <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-3 sm:gap-6 lg:gap-8">
             {faculty.map((teacher, idx) => (
               <div 
                 key={idx} 
-                className="bg-white rounded-2xl overflow-hidden shadow-xs hover:shadow-xl transition-all duration-300 transform hover:-translate-y-2 group transform-gpu will-change-transform antialiased [backface-visibility:hidden]"
+                className="bg-white rounded-xl sm:rounded-2xl overflow-hidden shadow-xs hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1.5 group transform-gpu will-change-transform antialiased [backface-visibility:hidden] border border-gray-100"
               >
-                <div className="h-60 sm:h-72 overflow-hidden relative bg-gray-100 flex items-center justify-center">
+                <div className="h-40 sm:h-56 md:h-72 overflow-hidden relative bg-gray-100 flex items-center justify-center">
                   {teacher.image ? (
                     <img 
                       src={teacher.image} 
@@ -89,13 +89,13 @@ const Team: React.FC<TeamProps> = ({ teamMembers = INITIAL_TEAM_MEMBERS }) => {
                       style={{ objectPosition: teacher.position || 'center top' }}
                     />
                   ) : (
-                    <i className="fa-solid fa-user text-5xl sm:text-6xl text-gray-300 transition-transform duration-700 group-hover:scale-110"></i>
+                    <i className="fa-solid fa-user text-4xl sm:text-6xl text-gray-300 transition-transform duration-700 group-hover:scale-110"></i>
                   )}
                   <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
                 </div>
-                <div className="p-5 sm:p-6 text-center border-t-4 border-transparent group-hover:border-[#E11D48] transition-colors">
-                  <h4 className="text-lg sm:text-xl font-bold text-gray-900 mb-1">{teacher.name}</h4>
-                  <p className="text-[#E11D48] font-medium text-xs sm:text-sm uppercase tracking-wide">{teacher.role}</p>
+                <div className="p-3 sm:p-5 text-center border-t-3 sm:border-t-4 border-transparent group-hover:border-[#E11D48] transition-colors">
+                  <h4 className="text-sm sm:text-lg font-extrabold text-gray-900 mb-0.5 leading-tight">{teacher.name}</h4>
+                  <p className="text-[#E11D48] font-bold text-[10px] sm:text-xs md:text-sm uppercase tracking-wide">{teacher.role}</p>
                 </div>
               </div>
             ))}
@@ -104,19 +104,19 @@ const Team: React.FC<TeamProps> = ({ teamMembers = INITIAL_TEAM_MEMBERS }) => {
       </section>
 
       {/* Tier 3: Admin & Support */}
-      <section className="py-12 sm:py-16 md:py-24 px-4 sm:px-6 max-w-7xl mx-auto">
-        <div className="text-center mb-10 sm:mb-16">
+      <section className="py-10 sm:py-16 md:py-24 px-3 sm:px-6 max-w-7xl mx-auto">
+        <div className="text-center mb-8 sm:mb-16">
           <h2 className="text-2.5xl sm:text-3xl font-black text-gray-900">Administrative & Support Team</h2>
-          <p className="text-gray-500 mt-2 sm:mt-4 text-sm sm:text-base md:text-lg">The pillars ensuring our school runs smoothly and safely.</p>
+          <p className="text-gray-500 mt-2 sm:mt-4 text-xs sm:text-base md:text-lg">The pillars ensuring our school runs smoothly and safely.</p>
         </div>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-6">
           {adminSupport.map((staff, idx) => (
             <div 
               key={idx} 
-              className="flex items-center p-3.5 sm:p-4 bg-white rounded-2xl border border-gray-100 shadow-xs hover:shadow-lg transition-all duration-300"
+              className="flex items-center p-3 sm:p-4 bg-white rounded-xl sm:rounded-2xl border border-gray-100 shadow-xs hover:shadow-lg transition-all duration-300"
             >
-              <div className="w-14 h-14 sm:w-20 sm:h-20 flex-shrink-0 rounded-full overflow-hidden border-2 border-gray-100 bg-gray-100 flex items-center justify-center">
+              <div className="w-12 h-12 sm:w-16 sm:h-16 flex-shrink-0 rounded-full overflow-hidden border-2 border-gray-100 bg-gray-100 flex items-center justify-center">
                  {staff.image ? (
                    <img 
                      src={staff.image} 
@@ -125,12 +125,12 @@ const Team: React.FC<TeamProps> = ({ teamMembers = INITIAL_TEAM_MEMBERS }) => {
                      style={{ objectPosition: (staff as any).position || 'center top' }}
                    />
                  ) : (
-                   <i className="fa-solid fa-user text-2xl sm:text-3xl text-gray-300"></i>
+                   <i className="fa-solid fa-user text-xl sm:text-3xl text-gray-300"></i>
                  )}
               </div>
-              <div className="ml-4 sm:ml-5">
-                 <h5 className="font-bold text-gray-900 text-sm sm:text-base leading-tight">{staff.name}</h5>
-                 <p className="text-[#E11D48] text-[11px] sm:text-xs font-bold uppercase tracking-wider mt-1">{staff.role}</p>
+              <div className="ml-3 sm:ml-4">
+                 <h5 className="font-bold text-gray-900 text-xs sm:text-base leading-tight">{staff.name}</h5>
+                 <p className="text-[#E11D48] text-[10px] sm:text-xs font-bold uppercase tracking-wider mt-0.5">{staff.role}</p>
               </div>
             </div>
           ))}
