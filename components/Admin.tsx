@@ -517,7 +517,7 @@ const Admin: React.FC<AdminProps> = ({
                         </div>
 
                         {/* Message Preview Box */}
-                        <div className="bg-gray-50/80 p-4 rounded-xl text-xs sm:text-sm text-gray-800 leading-relaxed whitespace-pre-wrap mb-4 border border-gray-100 font-sans max-h-24 overflow-hidden relative">
+                        <div className="bg-gray-50/80 p-4 rounded-xl text-xs sm:text-sm text-gray-800 leading-relaxed whitespace-pre-wrap break-words [word-break:break-word] mb-4 border border-gray-100 font-sans max-h-24 overflow-hidden relative">
                           {inq.message}
                           {inq.message.length > 120 && (
                             <div className="absolute bottom-0 inset-x-0 h-8 bg-gradient-to-t from-gray-50 to-transparent pointer-events-none"></div>
@@ -1741,7 +1741,7 @@ const Admin: React.FC<AdminProps> = ({
               <label className="block text-xs font-black text-gray-500 uppercase tracking-wider">
                 Full Inquiry Message
               </label>
-              <div className="bg-slate-50 border border-slate-200 rounded-2xl p-6 text-sm text-slate-800 leading-relaxed font-sans whitespace-pre-wrap select-text shadow-inner min-h-[160px]">
+              <div className="bg-slate-50 border border-slate-200 rounded-2xl p-6 text-sm text-slate-800 leading-relaxed font-sans whitespace-pre-wrap break-words [word-break:break-word] select-text shadow-inner min-h-[160px]">
                 {viewingInquiry.message}
               </div>
             </div>
