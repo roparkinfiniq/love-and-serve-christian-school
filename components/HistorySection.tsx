@@ -57,9 +57,29 @@ const HistorySection: React.FC = () => {
   const [isAnimating, setIsAnimating] = useState(false);
   const activeMilestone = HISTORY_DATA[activeIndex];
 
+  const scrollContainerRef = React.useRef<HTMLDivElement>(null);
+  const nodeRefs = React.useRef<(HTMLButtonElement | null)[]>([]);
+
+  const scrollToNode = (index: number) => {
+    const node = nodeRefs.current[index];
+    const container = scrollContainerRef.current;
+    if (node && container) {
+      const nodeLeft = node.offsetLeft;
+      const nodeWidth = node.offsetWidth;
+      const containerWidth = container.offsetWidth;
+      const targetLeft = nodeLeft - (containerWidth / 2) + (nodeWidth / 2);
+      
+      container.scrollTo({
+        left: Math.max(0, targetLeft),
+        behavior: 'smooth'
+      });
+    }
+  };
+
   const handleSelectIndex = (newIndex: number) => {
     if (newIndex === activeIndex || isAnimating) return;
     setIsAnimating(true);
+    scrollToNode(newIndex);
     setTimeout(() => {
       setActiveIndex(newIndex);
       setTimeout(() => {
@@ -102,7 +122,10 @@ const HistorySection: React.FC = () => {
             <span>Swipe left/right to navigate all 7 milestones</span>
           </div>
 
-          <div className="overflow-x-auto pt-4 pb-4 px-2 sm:px-4 scrollbar-thin scrollbar-thumb-rose-200 rounded-2xl bg-gray-50/50 border border-gray-100/80">
+          <div 
+            ref={scrollContainerRef}
+            className="overflow-x-auto pt-4 pb-4 px-2 sm:px-4 scrollbar-thin scrollbar-thumb-rose-200 rounded-2xl bg-gray-50/50 border border-gray-100/80"
+          >
             <div className="min-w-[620px] max-w-5xl mx-auto relative px-4">
               {/* Circle Row with Background Line Shared Container */}
               <div className="relative h-14 flex items-center justify-between">
@@ -121,6 +144,7 @@ const HistorySection: React.FC = () => {
                   return (
                     <button
                       key={item.year}
+                      ref={(el) => (nodeRefs.current[index] = el)}
                       onClick={() => handleSelectIndex(index)}
                       className="relative z-10 flex flex-col items-center group focus:outline-none transition-all duration-500 ease-in-out"
                     >
