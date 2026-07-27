@@ -29,7 +29,6 @@ export const PopupsOverlay: React.FC<PopupsOverlayProps> = ({ popups }) => {
       return true;
     });
     
-    // Sort so newest or arbitrary order is consistent
     setActivePopups(visible);
   }, [popups]);
 
@@ -62,85 +61,95 @@ export const PopupsOverlay: React.FC<PopupsOverlayProps> = ({ popups }) => {
   if (!currentPopup) return null;
 
   return (
-    <div className="fixed inset-0 z-[9999] flex items-center justify-center bg-black/60 p-4 transition-opacity">
-       <div className="relative bg-white rounded-2xl shadow-2xl overflow-hidden w-full max-w-[90vw] sm:max-w-sm md:max-w-md shrink-0 animate-fadeIn flex flex-col max-h-[90vh]">
+    <div className="fixed inset-0 z-[9999] flex items-center justify-center bg-slate-900/60 backdrop-blur-sm p-4 transition-opacity animate-fadeIn">
+      <div className="relative bg-white rounded-3xl shadow-2xl border border-gray-100 overflow-hidden w-full max-w-[92vw] sm:max-w-md md:max-w-lg shrink-0 flex flex-col max-h-[88vh] transform-gpu transition-all duration-500 ease-in-out">
+        
+        {/* Pagination Counter Badge */}
+        {activePopups.length > 1 && (
+          <div className="absolute top-4 left-4 z-20 bg-slate-900/70 backdrop-blur-md text-white px-3 py-1 rounded-full text-xs font-black tracking-wider shadow-md">
+            {currentIndex + 1} / {activePopups.length}
+          </div>
+        )}
+
+        {/* Close Button */}
+        <button 
+          onClick={(e) => handleClose(false, e)}
+          className="absolute top-4 right-4 z-20 w-9 h-9 flex items-center justify-center bg-slate-900/70 hover:bg-slate-900 backdrop-blur-md text-white rounded-full transition-all duration-300 shadow-md hover:scale-105"
+          title="Close Popup"
+        >
+          <i className="fa-solid fa-xmark text-sm"></i>
+        </button>
+
+        {/* Scrollable Popup Content Body */}
+        <div className="overflow-y-auto flex-1 bg-white flex flex-col scrollbar-thin">
           
-          {/* Header Controls */}
-          {activePopups.length > 1 && (
-            <div className="absolute top-3 left-3 z-10 bg-black/40 backdrop-blur-md text-white px-3 py-1 rounded-full text-xs font-medium">
-              {currentIndex + 1} / {activePopups.length}
+          {/* Top Featured Banner Image */}
+          {currentPopup.imageUrl && (
+            <div className="relative w-full max-h-[42vh] bg-slate-100 overflow-hidden shrink-0">
+              <img 
+                src={currentPopup.imageUrl} 
+                alt={currentPopup.title || "School Announcement"} 
+                className="w-full h-full max-h-[42vh] object-cover" 
+              />
             </div>
           )}
 
+          {/* Text Content Section */}
+          <div className="p-6 sm:p-8 flex flex-col flex-1 text-left">
+            <div className="mb-3">
+              <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-rose-50 text-[#E11D48] text-xs font-black uppercase tracking-wider border border-rose-100 shadow-xs">
+                <i className="fa-solid fa-bullhorn text-[11px]"></i> School Announcement
+              </span>
+            </div>
+
+            {/* Popup Title */}
+            {currentPopup.title && (
+              <h3 className="text-xl sm:text-2xl font-extrabold text-slate-900 tracking-tight mb-3 leading-snug">
+                {currentPopup.title}
+              </h3>
+            )}
+
+            {/* Markdown Message Body */}
+            {currentPopup.content && (
+              <div className="prose prose-slate prose-sm max-w-none text-slate-700 leading-relaxed font-sans break-words [word-break:break-word] flex-1">
+                <Markdown>{currentPopup.content}</Markdown>
+              </div>
+            )}
+
+            {/* Optional Call to Action Button */}
+            {currentPopup.linkUrl && (
+              <a 
+                href={currentPopup.linkUrl} 
+                target="_blank" 
+                rel="noopener noreferrer" 
+                className="mt-6 w-full inline-flex items-center justify-center gap-2 px-5 py-3.5 bg-[#E11D48] hover:bg-rose-700 text-white text-sm font-bold rounded-2xl transition shadow-md hover:shadow-lg"
+              >
+                <span>View Full Details / 자세히 보기</span>
+                <i className="fa-solid fa-arrow-right text-xs"></i>
+              </a>
+            )}
+          </div>
+        </div>
+
+        {/* Footer Actions Bar */}
+        <div className="flex border-t border-gray-100 bg-gray-50/60 shrink-0">
+          <button 
+            onClick={(e) => handleClose(true, e)}
+            className="flex-1 py-3.5 px-4 text-xs sm:text-sm font-bold text-gray-500 hover:text-gray-900 hover:bg-gray-100/80 transition border-r border-gray-100 flex items-center justify-center gap-2"
+          >
+            <i className="fa-regular fa-clock text-gray-400"></i>
+            <span>Hide for 24 hours</span>
+          </button>
           <button 
             onClick={(e) => handleClose(false, e)}
-            className="absolute top-3 right-3 z-10 w-8 h-8 flex items-center justify-center bg-black/40 backdrop-blur-md text-white rounded-full hover:bg-black/70 transition-colors shadow-lg"
-            title="Close"
+            className="flex-1 py-3.5 px-4 text-xs sm:text-sm font-black text-slate-900 hover:text-[#E11D48] hover:bg-gray-100/80 transition flex items-center justify-center gap-2"
           >
-            <i className="fa-solid fa-xmark"></i>
+            <i className="fa-solid fa-xmark text-sm"></i>
+            <span>Close</span>
           </button>
+        </div>
 
-          <div className="overflow-y-auto flex-1 bg-gray-50 flex flex-col">
-             {currentPopup.linkUrl ? (
-               <a href={currentPopup.linkUrl} target="_blank" rel="noopener noreferrer" className="flex flex-col flex-1 outline-none hover:opacity-95 transition-opacity">
-                 {currentPopup.imageUrl && <img src={currentPopup.imageUrl} alt="Popup Image" className="w-full h-auto max-h-[60vh] object-contain shrink-0" />}
-                 {(currentPopup.content || !currentPopup.imageUrl) && (
-                   <div className="p-6 bg-white border-t border-gray-100 break-words break-all sm:break-words w-full overflow-hidden text-gray-800 text-sm md:text-base leading-relaxed flex-1 flex items-center justify-center min-h-[120px] text-center">
-                      <div className="w-full max-w-full prose prose-sm max-w-none prose-p:text-center prose-h1:text-center prose-h2:text-center prose-h3:text-center prose-h4:text-center text-center">
-                        <Markdown>{currentPopup.content || currentPopup.title}</Markdown>
-                      </div>
-                   </div>
-                 )}
-               </a>
-             ) : (
-               <div className="flex flex-col flex-1 cursor-default">
-                 {currentPopup.imageUrl && <img src={currentPopup.imageUrl} alt="Popup Image" className="w-full h-auto max-h-[60vh] object-contain shrink-0" />}
-                 {(currentPopup.content || !currentPopup.imageUrl) && (
-                   <div className="p-6 bg-white border-t border-gray-100 break-words break-all sm:break-words w-full overflow-hidden text-gray-800 text-sm md:text-base leading-relaxed flex-1 flex items-center justify-center min-h-[120px] text-center">
-                      <div className="w-full max-w-full prose prose-sm max-w-none prose-p:text-center prose-h1:text-center prose-h2:text-center prose-h3:text-center prose-h4:text-center text-center">
-                        <Markdown>{currentPopup.content || currentPopup.title}</Markdown>
-                      </div>
-                   </div>
-                 )}
-               </div>
-             )}
-          </div>
-
-          {/* Footer Actions */}
-          <div className="flex border-t border-gray-200">
-             <button 
-                onClick={(e) => handleClose(true, e)}
-                className="flex-1 px-4 py-3.5 text-sm text-gray-500 hover:bg-gray-100 transition-colors border-r border-gray-200 font-medium"
-             >
-                <i className="fa-regular fa-clock mr-2"></i>
-                Hide for 24 hours
-             </button>
-             <button 
-                onClick={(e) => handleClose(false, e)}
-                className="flex-1 px-4 py-3.5 text-sm font-bold text-gray-900 hover:bg-gray-100 transition-colors"
-             >
-                Close
-             </button>
-          </div>
-
-          {/* Carousel Buttons */}
-          {activePopups.length > 1 && (
-             <>
-               <button 
-                  onClick={() => setCurrentIndex(prev => (prev === 0 ? activePopups.length - 1 : prev - 1))}
-                  className="absolute left-2 top-1/2 -translate-y-1/2 w-8 h-8 flex items-center justify-center bg-black/30 backdrop-blur-md text-white rounded-full hover:bg-black/60 transition-colors shadow-sm"
-               >
-                 <i className="fa-solid fa-chevron-left"></i>
-               </button>
-               <button 
-                  onClick={() => setCurrentIndex(prev => (prev === activePopups.length - 1 ? 0 : prev + 1))}
-                  className="absolute right-2 top-1/2 -translate-y-1/2 w-8 h-8 flex items-center justify-center bg-black/30 backdrop-blur-md text-white rounded-full hover:bg-black/60 transition-colors shadow-sm"
-               >
-                 <i className="fa-solid fa-chevron-right"></i>
-               </button>
-             </>
-          )}
-       </div>
+      </div>
     </div>
   );
 };
