@@ -10,8 +10,8 @@ interface CalendarProps {
 }
 
 const Calendar: React.FC<CalendarProps> = ({ events = [], calendarPdfUrl }) => {
-  // Use a fixed start (June 2026) for S.Y. 2026-2027
-  const [currentDate, setCurrentDate] = useState(new Date(2026, 5, 1));
+  // Always initialize to today's current date when entering the Calendar page
+  const [currentDate, setCurrentDate] = useState<Date>(() => new Date());
   const [selectedDay, setSelectedDay] = useState<{ date: Date, events: CalendarEvent[] } | null>(null);
 
   // We use the 'events' passed from App.tsx instead of 'rawEvents'
@@ -28,6 +28,7 @@ const Calendar: React.FC<CalendarProps> = ({ events = [], calendarPdfUrl }) => {
 
   const nextMonth = () => setCurrentDate(new Date(currentDate.getFullYear(), currentDate.getMonth() + 1, 1));
   const prevMonth = () => setCurrentDate(new Date(currentDate.getFullYear(), currentDate.getMonth() - 1, 1));
+  const goToToday = () => setCurrentDate(new Date());
 
   const year = currentDate.getFullYear();
   const month = currentDate.getMonth();
@@ -128,16 +129,23 @@ const Calendar: React.FC<CalendarProps> = ({ events = [], calendarPdfUrl }) => {
         <div ref={calendarRef} className="bg-white rounded-3xl shadow-xl overflow-hidden border border-gray-100">
           
           {/* Header Controls */}
-          <div className="px-4 py-4 md:px-6 md:py-6 border-b border-gray-100 flex items-center justify-between bg-white w-full">
-            <div className="flex items-center justify-between w-full md:w-auto md:space-x-4">
-              <button onClick={prevMonth} className="w-10 h-10 flex-shrink-0 rounded-full hover:bg-gray-100 flex items-center justify-center text-gray-500 transition-colors">
+          <div className="px-4 py-4 md:px-6 md:py-6 border-b border-gray-100 flex flex-wrap items-center justify-between gap-3 bg-white w-full">
+            <div className="flex items-center justify-between w-full md:w-auto space-x-3">
+              <button onClick={prevMonth} className="w-10 h-10 flex-shrink-0 rounded-full hover:bg-gray-100 flex items-center justify-center text-gray-500 transition-colors" title="Previous Month">
                 <i className="fa-solid fa-chevron-left"></i>
               </button>
               <h2 className="text-xl md:text-2xl font-black text-gray-900 min-w-[140px] md:min-w-[200px] text-center">
                 {monthNames[month]} {year}
               </h2>
-              <button onClick={nextMonth} className="w-10 h-10 flex-shrink-0 rounded-full hover:bg-gray-100 flex items-center justify-center text-gray-500 transition-colors">
+              <button onClick={nextMonth} className="w-10 h-10 flex-shrink-0 rounded-full hover:bg-gray-100 flex items-center justify-center text-gray-500 transition-colors" title="Next Month">
                 <i className="fa-solid fa-chevron-right"></i>
+              </button>
+              <button
+                onClick={goToToday}
+                className="px-3.5 py-1.5 text-xs font-black bg-rose-50 text-[#E11D48] hover:bg-[#E11D48] hover:text-white rounded-full transition-all duration-300 border border-rose-100 shadow-xs flex items-center gap-1.5 active:scale-95"
+                title="Jump to Today's Date"
+              >
+                <i className="fa-solid fa-calendar-day text-[11px]"></i> Today
               </button>
             </div>
 
