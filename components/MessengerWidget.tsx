@@ -1,14 +1,8 @@
 import React, { useState, useEffect } from 'react';
-import { saveInquiry } from '../services/supabaseClient';
 
 const MessengerWidget: React.FC = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [showTooltip, setShowTooltip] = useState(false);
-  const [name, setName] = useState('');
-  const [contact, setContact] = useState('');
-  const [message, setMessage] = useState('');
-  const [isSubmitting, setIsSubmitting] = useState(false);
-  const [isSuccess, setIsSuccess] = useState(false);
 
   const FACEBOOK_PAGE_USERNAME = "loveandserveinc";
 
@@ -48,37 +42,23 @@ const MessengerWidget: React.FC = () => {
     dismissTooltip();
   };
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    if (!message.trim()) return;
-
-    setIsSubmitting(true);
-    try {
-      await saveInquiry({
-        name: name.trim() || 'No-Login Website Visitor',
-        email: contact.includes('@') ? contact.trim() : 'no-login-visitor@lscs.com.ph',
-        phone: !contact.includes('@') ? contact.trim() : 'No Phone Provided',
-        department: 'Quick Inquiries (No Login)',
-        message: message.trim()
-      });
-      setIsSuccess(true);
-      setName('');
-      setContact('');
-      setMessage('');
-    } catch (err) {
-      console.error('Failed to submit quick inquiry:', err);
-    } finally {
-      setIsSubmitting(false);
-    }
+  const openMessengerWithTopic = (topicText?: string) => {
+    const url = topicText
+      ? `https://m.me/${FACEBOOK_PAGE_USERNAME}?text=${encodeURIComponent(topicText)}`
+      : `https://m.me/${FACEBOOK_PAGE_USERNAME}`;
+    window.open(url, '_blank');
   };
 
-  const openMessengerDirectly = () => {
-    window.open(`https://m.me/${FACEBOOK_PAGE_USERNAME}`, '_blank');
-  };
+  const quickTopics = [
+    { label: '🏫 Admissions Process', text: 'I would like to inquire about the Admissions Process for SY 2026-2027.' },
+    { label: '💰 Tuition & Scholarships', text: 'Could you provide information regarding Tuition & Fee details?' },
+    { label: '📍 Schedule a Campus Visit', text: 'I want to schedule a visit to the LSCS Campus.' },
+    { label: '📞 Contact School Officer', text: 'Please connect me with an Admissions Counselor.' }
+  ];
 
   return (
     <div className="fixed bottom-5 right-5 z-[100] flex flex-col items-end">
-      {/* No-Login Quick Inquiry Drawer */}
+      {/* Elegant Messenger Info Card Drawer (Polite Preview First) */}
       {isOpen && (
         <div className="mb-4 w-[330px] sm:w-[370px] bg-white rounded-3xl shadow-2xl border border-rose-100 flex flex-col overflow-hidden animate-fadeIn duration-300 transform-gpu text-left">
           
@@ -102,8 +82,8 @@ const MessengerWidget: React.FC = () => {
               <div>
                 <h3 className="font-extrabold text-sm leading-tight">Love and Serve Christian School</h3>
                 <div className="flex items-center space-x-1.5 text-[11px] text-rose-100 mt-0.5 font-medium">
-                  <i className="fa-solid fa-paper-plane text-white text-[10px]"></i>
-                  <span>No-Login Quick Inquiry • Online</span>
+                  <i className="fa-brands fa-facebook-messenger text-white text-xs"></i>
+                  <span>Facebook Messenger Support • Online</span>
                 </div>
               </div>
             </div>
@@ -116,94 +96,50 @@ const MessengerWidget: React.FC = () => {
             </button>
           </div>
 
-          {/* Form Content */}
+          {/* Drawer Body & Action Buttons */}
           <div className="p-5 bg-slate-50 space-y-4">
             
-            {isSuccess ? (
-              <div className="bg-emerald-50 border border-emerald-200 text-emerald-800 p-5 rounded-2xl text-center space-y-3 animate-fadeIn">
-                <div className="w-12 h-12 bg-emerald-500 text-white rounded-full flex items-center justify-center mx-auto text-xl shadow-md">
-                  <i className="fa-solid fa-check"></i>
-                </div>
-                <h4 className="font-black text-base">Inquiry Sent Successfully!</h4>
-                <p className="text-xs leading-relaxed text-emerald-700 font-medium">
-                  Thank you! Your message has been received by our admissions team. We will contact you shortly.
-                </p>
-                <button
-                  onClick={() => setIsSuccess(false)}
-                  className="mt-2 text-xs font-bold text-emerald-700 underline hover:text-emerald-900"
-                >
-                  Send another inquiry
-                </button>
+            {/* Friendly Greeting Card */}
+            <div className="bg-white p-4 rounded-2xl border border-gray-100 shadow-2xs">
+              <div className="flex items-center gap-2 mb-1.5">
+                <span className="w-2 h-2 rounded-full bg-green-500 animate-pulse"></span>
+                <span className="text-xs font-extrabold text-slate-800">1:1 Official Admissions Chat</span>
               </div>
-            ) : (
-              <form onSubmit={handleSubmit} className="space-y-3">
-                <div className="bg-white p-3.5 rounded-2xl border border-gray-100 shadow-2xs mb-2">
-                  <p className="text-xs text-slate-700 font-bold leading-relaxed">
-                    👋 Ask us anything without logging in! Leave your message and contact info below:
-                  </p>
-                </div>
+              <p className="text-xs text-slate-600 leading-relaxed font-medium">
+                Welcome to LSCS! Click below to start a 1:1 live chat directly with our admissions team on Facebook Messenger.
+              </p>
+            </div>
 
-                <div>
-                  <label className="block text-[11px] font-extrabold text-slate-700 uppercase tracking-wider mb-1">Your Name (Optional)</label>
-                  <input
-                    type="text"
-                    placeholder="e.g. Maria Santos"
-                    value={name}
-                    onChange={(e) => setName(e.target.value)}
-                    className="w-full bg-white border border-gray-200 rounded-xl px-3.5 py-2 text-xs text-slate-800 focus:outline-none focus:border-[#E11D48] transition"
-                  />
-                </div>
+            {/* Main Primary Messenger Connect Button */}
+            <button
+              onClick={() => openMessengerWithTopic()}
+              className="w-full py-3.5 px-4 bg-[#1877F2] hover:bg-blue-600 text-white font-extrabold text-xs sm:text-sm rounded-2xl transition-all duration-300 shadow-md hover:shadow-lg flex items-center justify-center gap-2.5 active:scale-95"
+            >
+              <i className="fa-brands fa-facebook-messenger text-lg"></i>
+              <span>Start 1:1 Chat on Messenger</span>
+              <i className="fa-solid fa-arrow-up-right-from-square text-xs ml-0.5"></i>
+            </button>
 
-                <div>
-                  <label className="block text-[11px] font-extrabold text-slate-700 uppercase tracking-wider mb-1">Phone Number / Email</label>
-                  <input
-                    type="text"
-                    placeholder="e.g. 0917-123-4567 or email@domain.com"
-                    value={contact}
-                    onChange={(e) => setContact(e.target.value)}
-                    className="w-full bg-white border border-gray-200 rounded-xl px-3.5 py-2 text-xs text-slate-800 focus:outline-none focus:border-[#E11D48] transition"
-                  />
-                </div>
+            {/* Quick Topic Chips */}
+            <div className="pt-2 border-t border-gray-200/80">
+              <p className="text-[11px] font-black text-gray-400 uppercase tracking-wider mb-2 text-left">Or Select an Inquiry Topic</p>
+              <div className="flex flex-col space-y-2">
+                {quickTopics.map((topic, idx) => (
+                  <button
+                    key={idx}
+                    onClick={() => openMessengerWithTopic(topic.text)}
+                    className="text-left w-full bg-white hover:bg-rose-50 text-slate-800 hover:text-[#E11D48] px-3.5 py-3 rounded-xl border border-gray-200/90 hover:border-rose-300 text-xs font-bold transition flex items-center justify-between group shadow-2xs active:scale-98"
+                  >
+                    <span>{topic.label}</span>
+                    <i className="fa-brands fa-facebook-messenger text-blue-500 text-xs group-hover:scale-110 transition-transform"></i>
+                  </button>
+                ))}
+              </div>
+            </div>
 
-                <div>
-                  <label className="block text-[11px] font-extrabold text-slate-700 uppercase tracking-wider mb-1">Your Inquiry / Message *</label>
-                  <textarea
-                    rows={3}
-                    required
-                    placeholder="Type your question regarding admissions, tuition fees, or campus tour..."
-                    value={message}
-                    onChange={(e) => setMessage(e.target.value)}
-                    className="w-full bg-white border border-gray-200 rounded-xl p-3 text-xs text-slate-800 focus:outline-none focus:border-[#E11D48] transition resize-none"
-                  ></textarea>
-                </div>
-
-                <button
-                  type="submit"
-                  disabled={isSubmitting || !message.trim()}
-                  className="w-full py-3 bg-[#E11D48] hover:bg-rose-700 disabled:opacity-40 text-white font-extrabold text-xs rounded-xl transition shadow-md flex items-center justify-center gap-2 active:scale-95"
-                >
-                  {isSubmitting ? (
-                    <span>Sending Inquiry...</span>
-                  ) : (
-                    <>
-                      <i className="fa-solid fa-paper-plane text-xs"></i>
-                      <span>Send Inquiry (No Login Required)</span>
-                    </>
-                  )}
-                </button>
-              </form>
-            )}
-
-            {/* Footer option for Facebook users */}
-            <div className="pt-2 border-t border-gray-200/80 text-center">
-              <button
-                onClick={openMessengerDirectly}
-                className="text-[11px] font-bold text-[#1877F2] hover:underline inline-flex items-center gap-1.5"
-              >
-                <i className="fa-brands fa-facebook-messenger"></i>
-                <span>Or Chat via Facebook Messenger</span>
-                <i className="fa-solid fa-arrow-up-right-from-square text-[9px]"></i>
-              </button>
+            {/* Footnote */}
+            <div className="text-center text-[10px] text-gray-400 font-medium pt-1">
+              Connects directly to @loveandserveinc on Facebook Messenger
             </div>
 
           </div>
@@ -219,8 +155,8 @@ const MessengerWidget: React.FC = () => {
         >
           <span className="w-2.5 h-2.5 rounded-full bg-[#E11D48] shrink-0 animate-pulse"></span>
           <div className="flex flex-col text-left">
-            <span className="text-gray-900 font-extrabold tracking-tight">Quick Inquiry (No Login Required)!</span>
-            <span className="text-[11px] text-gray-500 font-normal">Ask us anything about admissions & tuition</span>
+            <span className="text-gray-900 font-extrabold tracking-tight">Chat Live on Facebook Messenger!</span>
+            <span className="text-[11px] text-gray-500 font-normal">Connect 1:1 with LSCS Admissions Team</span>
           </div>
           <button 
             type="button"
@@ -240,14 +176,14 @@ const MessengerWidget: React.FC = () => {
       <button
         onClick={toggleWidget}
         className="bg-[#E11D48] hover:bg-rose-700 text-white w-14 h-14 md:w-16 md:h-16 rounded-full shadow-2xl shadow-rose-900/40 flex items-center justify-center text-2xl md:text-3xl hover:scale-110 transition-all duration-300 transform active:scale-95 relative border-2 border-white/20"
-        title="LSCS Quick Inquiry"
-        aria-label="Toggle Quick Inquiry Widget"
+        title="LSCS Messenger Chat"
+        aria-label="Toggle Messenger Widget"
       >
         {isOpen ? (
           <i className="fa-solid fa-xmark text-2xl"></i>
         ) : (
           <>
-            <i className="fa-solid fa-comment-dots"></i>
+            <i className="fa-brands fa-facebook-messenger"></i>
             <span className="absolute -top-1 -right-1 w-4 h-4 bg-green-500 border-2 border-white rounded-full"></span>
           </>
         )}
