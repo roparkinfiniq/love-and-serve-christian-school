@@ -153,10 +153,10 @@ const LatestNews: React.FC<LatestNewsProps> = ({ onNavigate }) => {
                 </span>
               </div>
 
-              {/* Seamless Mobile-Adapted Facebook iFrame Feed */}
+              {/* Seamless Mobile-Adapted Facebook iFrame Feed (Width=310 for 100% Fit) */}
               <div className="w-full overflow-hidden rounded-xl sm:rounded-2xl flex justify-center bg-white relative h-[480px] sm:h-[520px] border border-gray-100/60">
                 <iframe 
-                  src="https://www.facebook.com/plugins/page.php?href=https%3A%2F%2Fwww.facebook.com%2Floveandserveinc%2F&tabs=timeline&width=350&height=640&small_header=true&adapt_container_width=true&hide_cover=true&show_facepile=false&appId" 
+                  src="https://www.facebook.com/plugins/page.php?href=https%3A%2F%2Fwww.facebook.com%2Floveandserveinc%2F&tabs=timeline&width=310&height=640&small_header=true&adapt_container_width=true&hide_cover=true&show_facepile=false&appId" 
                   width="100%" 
                   height="640" 
                   scrolling="yes" 

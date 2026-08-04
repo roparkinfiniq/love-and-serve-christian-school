@@ -57,10 +57,10 @@ const MessengerWidget: React.FC = () => {
   ];
 
   return (
-    <div className="fixed bottom-4 right-4 sm:bottom-5 sm:right-5 z-[100] flex flex-col items-end">
+    <div className="fixed bottom-4 right-4 sm:bottom-6 sm:right-6 z-[100] flex flex-col items-end">
       {/* Compact Responsive Messenger Info Card Drawer */}
       {isOpen && (
-        <div className="mb-3 w-[calc(100vw-32px)] max-w-[320px] sm:w-[350px] bg-white rounded-2xl sm:rounded-3xl shadow-2xl border border-rose-100 flex flex-col overflow-hidden animate-fadeIn duration-300 transform-gpu text-left">
+        <div className="mb-3.5 w-[calc(100vw-32px)] max-w-[320px] sm:w-[350px] bg-white rounded-2xl sm:rounded-3xl shadow-2xl border border-rose-100 flex flex-col overflow-hidden animate-fadeIn duration-300 transform-gpu text-left">
           
           {/* Header */}
           <div className="bg-[#E11D48] text-white px-4 py-3 sm:px-5 sm:py-3.5 flex items-center justify-between shadow-md shrink-0">
@@ -169,17 +169,17 @@ const MessengerWidget: React.FC = () => {
         </div>
       )}
 
-      {/* Floating Toggle Button */}
+      {/* Bold Prominent Floating Toggle Button */}
       <button
         onClick={toggleWidget}
-        className="bg-[#E11D48] hover:bg-rose-700 text-white w-13 h-13 sm:w-14 sm:h-14 md:w-16 md:h-16 rounded-full shadow-2xl shadow-rose-900/40 flex items-center justify-center text-xl sm:text-2xl md:text-3xl hover:scale-110 transition-all duration-300 transform active:scale-95 relative border-2 border-white/20 shrink-0"
+        className="bg-[#E11D48] hover:bg-rose-700 text-white w-14 h-14 sm:w-16 sm:h-16 rounded-full shadow-2xl shadow-rose-900/50 flex items-center justify-center text-2xl sm:text-3xl hover:scale-110 transition-all duration-300 transform active:scale-95 relative border-2 border-white/30 shrink-0"
         title="LSCS Messenger Chat"
         aria-label="Toggle Messenger Widget"
       >
         {isOpen ? (
-          <i className="fa-solid fa-xmark text-xl sm:text-2xl"></i>
+          <i className="fa-solid fa-xmark text-2xl sm:text-3xl"></i>
         ) : (
-          <i className="fa-brands fa-facebook-messenger"></i>
+          <i className="fa-brands fa-facebook-messenger text-2.5xl sm:text-3xl"></i>
         )}
       </button>
     </div>
