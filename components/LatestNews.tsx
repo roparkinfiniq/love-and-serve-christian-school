@@ -1,10 +1,26 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 
 interface LatestNewsProps {
   onNavigate?: (page: any) => void;
 }
 
 const LatestNews: React.FC<LatestNewsProps> = ({ onNavigate }) => {
+  const [showScrollBadge, setShowScrollBadge] = useState(true);
+
+  // Auto-hide scroll badge after 6 seconds if user hasn't interacted
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setShowScrollBadge(false);
+    }, 6000);
+    return () => clearTimeout(timer);
+  }, []);
+
+  const handleFeedInteraction = () => {
+    if (showScrollBadge) {
+      setShowScrollBadge(false);
+    }
+  };
+
   return (
     <section className="py-16 sm:py-20 md:py-24 bg-gradient-to-b from-white via-rose-50/20 to-white px-4 sm:px-6 border-t border-gray-100">
       <div className="max-w-6xl mx-auto">
@@ -120,26 +136,13 @@ const LatestNews: React.FC<LatestNewsProps> = ({ onNavigate }) => {
 
           {/* Right Column: Clean Live Facebook Feed Container (col-span-5) */}
           <div className="lg:col-span-5 w-full flex flex-col items-center order-1 lg:order-2">
-            <div className="bg-white rounded-3xl p-3 sm:p-4 border border-gray-200/90 shadow-xl w-full max-w-[500px] flex flex-col overflow-hidden">
-              
-              {/* Single Clean Feed Header (No Duplicate Meta Header) */}
-              <div className="px-4 py-3 bg-slate-900 text-white rounded-2xl flex items-center justify-between mb-3 shadow-sm">
-                <div className="flex items-center space-x-2.5">
-                  <div className="w-8 h-8 rounded-full bg-[#1877F2] text-white flex items-center justify-center text-sm font-bold shadow-xs">
-                    <i className="fa-brands fa-facebook-f"></i>
-                  </div>
-                  <div className="text-left">
-                    <h4 className="text-xs font-black tracking-tight leading-tight">Love & Serve Christian School</h4>
-                    <span className="text-[10px] text-gray-400 font-medium">@loveandserveinc • Live Feed</span>
-                  </div>
-                </div>
-                <span className="flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-green-500/20 text-green-400 text-[10px] font-bold">
-                  <span className="w-1.5 h-1.5 rounded-full bg-green-400 animate-pulse"></span> Live
-                </span>
-              </div>
-
-              {/* Clean Facebook iFrame Feed (small_header=true & hide_cover=true to remove duplicate header) */}
-              <div className="w-full overflow-hidden rounded-2xl flex justify-center bg-gray-50 relative group">
+            <div 
+              onMouseEnter={handleFeedInteraction}
+              onTouchStart={handleFeedInteraction}
+              className="bg-white rounded-3xl p-3 sm:p-4 border border-gray-200/90 shadow-xl w-full max-w-[500px] flex flex-col overflow-hidden transition-all duration-300"
+            >
+              {/* Clean Facebook iFrame Feed (Single Native Header) */}
+              <div className="w-full overflow-hidden rounded-2xl flex justify-center bg-gray-50 relative">
                 <iframe 
                   src="https://www.facebook.com/plugins/page.php?href=https%3A%2F%2Fwww.facebook.com%2Floveandserveinc%2F&tabs=timeline&width=500&height=620&small_header=true&adapt_container_width=true&hide_cover=true&show_facepile=false&appId" 
                   width="500" 
@@ -154,8 +157,14 @@ const LatestNews: React.FC<LatestNewsProps> = ({ onNavigate }) => {
                 ></iframe>
               </div>
 
-              {/* Scroll Indicator Footer Badge */}
-              <div className="py-2.5 px-4 bg-slate-900/90 text-white rounded-2xl flex items-center justify-between text-xs font-bold mt-3 shadow-xs">
+              {/* Dynamic Auto-Hiding Scroll Indicator Badge */}
+              <div 
+                className={`py-2.5 px-4 bg-slate-900/90 text-white rounded-2xl flex items-center justify-between text-xs font-bold shadow-xs transition-all duration-500 ease-in-out ${
+                  showScrollBadge 
+                    ? 'opacity-100 max-h-12 mt-3 pointer-events-auto' 
+                    : 'opacity-0 max-h-0 mt-0 py-0 overflow-hidden pointer-events-none'
+                }`}
+              >
                 <span className="flex items-center gap-1.5 text-[11px] text-gray-300">
                   <i className="fa-solid fa-arrows-up-down text-[#E11D48]"></i> 
                   <span>Scroll inside box for more posts</span>
