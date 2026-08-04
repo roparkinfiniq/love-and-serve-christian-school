@@ -10,7 +10,7 @@ const LatestNews: React.FC<LatestNewsProps> = ({ onNavigate }) => {
       <div className="max-w-6xl mx-auto">
         
         {/* Header Section */}
-        <div className="flex flex-col md:flex-row items-start md:items-end justify-between mb-10 md:mb-12">
+        <div className="flex flex-col md:flex-row items-start md:items-end justify-between mb-8 md:mb-12">
           <div>
             <span className="text-[#E11D48] font-bold tracking-widest uppercase text-xs sm:text-sm bg-rose-50 px-3.5 py-1.5 rounded-full border border-rose-100 shadow-xs inline-block mb-3">
               Social & Campus Updates
@@ -39,7 +39,7 @@ const LatestNews: React.FC<LatestNewsProps> = ({ onNavigate }) => {
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
           
           {/* Left Column: Campus Highlights & Quick Announcement Cards (col-span-7) */}
-          <div className="lg:col-span-7 space-y-4 text-left">
+          <div className="lg:col-span-7 space-y-4 text-left order-2 lg:order-1">
             
             {/* Card 1: SY 2026-2027 Admissions */}
             <div className="bg-white rounded-3xl p-6 sm:p-7 border border-gray-100 shadow-md hover:shadow-xl transition-all duration-300 group relative overflow-hidden">
@@ -118,11 +118,11 @@ const LatestNews: React.FC<LatestNewsProps> = ({ onNavigate }) => {
 
           </div>
 
-          {/* Right Column: Live Facebook Feed Container (col-span-5) */}
-          <div className="lg:col-span-5 w-full flex flex-col items-center">
+          {/* Right Column: Clean Live Facebook Feed Container (col-span-5) */}
+          <div className="lg:col-span-5 w-full flex flex-col items-center order-1 lg:order-2">
             <div className="bg-white rounded-3xl p-3 sm:p-4 border border-gray-200/90 shadow-xl w-full max-w-[500px] flex flex-col overflow-hidden">
               
-              {/* Feed Header */}
+              {/* Single Clean Feed Header (No Duplicate Meta Header) */}
               <div className="px-4 py-3 bg-slate-900 text-white rounded-2xl flex items-center justify-between mb-3 shadow-sm">
                 <div className="flex items-center space-x-2.5">
                   <div className="w-8 h-8 rounded-full bg-[#1877F2] text-white flex items-center justify-center text-sm font-bold shadow-xs">
@@ -138,14 +138,14 @@ const LatestNews: React.FC<LatestNewsProps> = ({ onNavigate }) => {
                 </span>
               </div>
 
-              {/* Responsive Facebook iFrame Feed */}
-              <div className="w-full overflow-hidden rounded-2xl flex justify-center bg-gray-50">
+              {/* Clean Facebook iFrame Feed (small_header=true & hide_cover=true to remove duplicate header) */}
+              <div className="w-full overflow-hidden rounded-2xl flex justify-center bg-gray-50 relative group">
                 <iframe 
-                  src="https://www.facebook.com/plugins/page.php?href=https%3A%2F%2Fwww.facebook.com%2Floveandserveinc%2F&tabs=timeline&width=500&height=650&small_header=false&adapt_container_width=true&hide_cover=false&show_facepile=true&appId" 
+                  src="https://www.facebook.com/plugins/page.php?href=https%3A%2F%2Fwww.facebook.com%2Floveandserveinc%2F&tabs=timeline&width=500&height=620&small_header=true&adapt_container_width=true&hide_cover=true&show_facepile=false&appId" 
                   width="500" 
-                  height="650" 
-                  style={{ border: 'none', overflow: 'hidden', maxWidth: '100%', width: '100%', minHeight: '620px' }} 
-                  scrolling="no" 
+                  height="620" 
+                  style={{ border: 'none', overflow: 'hidden', maxWidth: '100%', width: '100%', minHeight: '520px', height: '580px' }} 
+                  scrolling="yes" 
                   frameBorder="0" 
                   allowFullScreen={true} 
                   allow="autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share"
@@ -153,6 +153,16 @@ const LatestNews: React.FC<LatestNewsProps> = ({ onNavigate }) => {
                   className="rounded-xl w-full"
                 ></iframe>
               </div>
+
+              {/* Scroll Indicator Footer Badge */}
+              <div className="py-2.5 px-4 bg-slate-900/90 text-white rounded-2xl flex items-center justify-between text-xs font-bold mt-3 shadow-xs">
+                <span className="flex items-center gap-1.5 text-[11px] text-gray-300">
+                  <i className="fa-solid fa-arrows-up-down text-[#E11D48]"></i> 
+                  <span>Scroll inside box for more posts</span>
+                </span>
+                <i className="fa-solid fa-chevron-down text-rose-400 text-xs animate-bounce"></i>
+              </div>
+
             </div>
           </div>
 
