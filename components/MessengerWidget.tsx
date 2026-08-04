@@ -3,19 +3,6 @@ import React, { useState, useEffect } from 'react';
 const MessengerWidget: React.FC = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [showTooltip, setShowTooltip] = useState(false);
-  const [inputMessage, setInputMessage] = useState('');
-  const [chatMessages, setChatMessages] = useState<Array<{ sender: 'bot' | 'user'; text: string; time?: string }>>([
-    {
-      sender: 'bot',
-      text: 'Hello! Welcome to Love and Serve Christian School. 👋 How can we help you today?',
-      time: 'Just now'
-    },
-    {
-      sender: 'bot',
-      text: 'Select a quick inquiry topic below or type your message to chat with us on Facebook Messenger.',
-      time: 'Just now'
-    }
-  ]);
 
   const FACEBOOK_PAGE_USERNAME = "loveandserveinc"; // m.me/loveandserveinc
 
@@ -32,7 +19,7 @@ const MessengerWidget: React.FC = () => {
       setShowTooltip(true);
     }, 2000);
 
-    // Auto-dismiss smoothly after 6 seconds of display (8 seconds total)
+    // Auto-dismiss smoothly after 8 seconds of display
     const hideTimer = setTimeout(() => {
       setShowTooltip(false);
     }, 8000);
@@ -64,37 +51,17 @@ const MessengerWidget: React.FC = () => {
     { label: '📞 Contact School Officer', text: 'Please connect me with an Admissions Counselor.' }
   ];
 
-  const handleSendMessage = (customText?: string) => {
-    const textToSend = customText || inputMessage.trim();
-    if (!textToSend) return;
-
-    // Append user message locally for responsive UX
-    const newMessages = [
-      ...chatMessages,
-      { sender: 'user' as const, text: textToSend, time: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }) },
-      { sender: 'bot' as const, text: 'Opening Facebook Messenger to connect you directly with our team...', time: 'Just now' }
-    ];
-    setChatMessages(newMessages);
-    setInputMessage('');
-
-    // Encode text and redirect to Facebook Messenger
-    setTimeout(() => {
-      const encodedText = encodeURIComponent(textToSend);
-      window.open(`https://m.me/${FACEBOOK_PAGE_USERNAME}?text=${encodedText}`, '_blank');
-    }, 600);
-  };
-
   return (
     <div className="fixed bottom-5 right-5 z-[100] flex flex-col items-end">
-      {/* Interactive Messenger Chat Drawer */}
+      {/* Direct Facebook Messenger Popup Drawer */}
       {isOpen && (
-        <div className="mb-4 w-[340px] sm:w-[380px] h-[520px] bg-white rounded-3xl shadow-2xl border border-rose-100 flex flex-col overflow-hidden animate-in fade-in slide-in-from-bottom-5 duration-300 transform-gpu">
+        <div className="mb-4 w-[320px] sm:w-[360px] bg-white rounded-3xl shadow-2xl border border-rose-100 flex flex-col overflow-hidden animate-fadeIn duration-300 transform-gpu">
           
           {/* Header (LSCS Theme) */}
           <div className="bg-[#E11D48] text-white px-5 py-4 flex items-center justify-between shadow-md relative">
             <div className="flex items-center space-x-3">
-              <div className="relative w-12 h-12 shrink-0">
-                <div className="w-12 h-12 bg-white rounded-full shadow-md flex items-center justify-center overflow-hidden border-2 border-white/80 relative">
+              <div className="relative w-11 h-11 shrink-0">
+                <div className="w-11 h-11 bg-white rounded-full shadow-md flex items-center justify-center overflow-hidden border-2 border-white/80">
                   <img 
                     src="/logo.png" 
                     alt="LSCS Logo" 
@@ -105,13 +72,13 @@ const MessengerWidget: React.FC = () => {
                     }}
                   />
                 </div>
-                <span className="absolute bottom-0 right-0 w-3.5 h-3.5 bg-green-500 border-2 border-white rounded-full z-10 shadow-sm"></span>
+                <span className="absolute bottom-0 right-0 w-3 h-3 bg-green-500 border-2 border-white rounded-full z-10 shadow-xs"></span>
               </div>
-              <div>
-                <h3 className="font-bold text-sm md:text-base leading-tight">Love and Serve Christian School Inc.</h3>
-                <div className="flex items-center space-x-1.5 text-[11px] text-rose-100 mt-0.5">
-                  <i className="fa-brands fa-facebook-messenger text-white text-xs"></i>
-                  <span>Messenger Support • Online</span>
+              <div className="text-left">
+                <h3 className="font-extrabold text-sm leading-tight">Love and Serve Christian School</h3>
+                <div className="flex items-center space-x-1 text-[11px] text-rose-100 mt-0.5 font-medium">
+                  <i className="fa-brands fa-facebook-messenger text-white"></i>
+                  <span>Official Messenger • Online</span>
                 </div>
               </div>
             </div>
@@ -124,88 +91,77 @@ const MessengerWidget: React.FC = () => {
             </button>
           </div>
 
-          {/* Chat Body */}
-          <div className="flex-1 bg-slate-50 p-4 overflow-y-auto space-y-3.5 custom-scrollbar">
-            {chatMessages.map((msg, index) => (
-              <div 
-                key={index} 
-                className={`flex flex-col ${msg.sender === 'user' ? 'items-end' : 'items-start'}`}
-              >
-                <div 
-                  className={`max-w-[85%] px-4 py-2.5 rounded-2xl text-xs sm:text-sm font-medium leading-relaxed shadow-sm ${
-                    msg.sender === 'user' 
-                      ? 'bg-[#E11D48] text-white rounded-br-none' 
-                      : 'bg-white text-gray-800 border border-gray-100 rounded-bl-none'
-                  }`}
-                >
-                  {msg.text}
+          {/* Direct Live Chat Body & Actions */}
+          <div className="bg-slate-50 p-5 flex flex-col justify-between overflow-y-auto space-y-4">
+            <div className="space-y-3">
+              {/* Official Greeting Banner */}
+              <div className="bg-white p-4 rounded-2xl border border-gray-100 shadow-xs text-left">
+                <div className="flex items-center gap-2 mb-1.5">
+                  <span className="w-2 h-2 rounded-full bg-green-500 animate-pulse"></span>
+                  <span className="text-xs font-extrabold text-gray-800">Direct Facebook Live Chat</span>
                 </div>
-                {msg.time && (
-                  <span className="text-[10px] text-gray-400 mt-1 px-1">{msg.time}</span>
-                )}
+                <p className="text-xs sm:text-sm text-gray-600 leading-relaxed font-medium">
+                  Welcome to LSCS! Click below to start a 1:1 direct chat with our admissions team on Facebook Messenger.
+                </p>
               </div>
-            ))}
 
-            {/* Quick Topic Chips */}
-            <div className="pt-2">
-              <p className="text-[11px] font-bold text-gray-400 uppercase tracking-wider mb-2">Quick Inquiry Topics</p>
-              <div className="flex flex-col space-y-2">
-                {quickTopics.map((topic, idx) => (
-                  <button
-                    key={idx}
-                    onClick={() => handleSendMessage(topic.text)}
-                    className="text-left w-full bg-white hover:bg-rose-50 text-gray-700 hover:text-[#E11D48] px-3.5 py-2.5 rounded-xl border border-gray-200 hover:border-rose-300 text-xs font-semibold transition flex items-center justify-between group shadow-2xs"
-                  >
-                    <span>{topic.label}</span>
-                    <i className="fa-solid fa-chevron-right text-[10px] text-gray-300 group-hover:text-[#E11D48] transition-transform group-hover:translate-x-0.5"></i>
-                  </button>
-                ))}
+              {/* Prominent Direct Messenger Start Button */}
+              <a
+                href={`https://m.me/${FACEBOOK_PAGE_USERNAME}`}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="w-full py-3.5 px-4 bg-[#1877F2] hover:bg-blue-600 text-white font-extrabold text-sm rounded-2xl transition-all duration-300 shadow-md hover:shadow-lg flex items-center justify-center gap-2.5 active:scale-98"
+              >
+                <i className="fa-brands fa-facebook-messenger text-xl"></i>
+                <span>Start Chat on Messenger</span>
+                <i className="fa-solid fa-arrow-up-right-from-square text-xs ml-0.5"></i>
+              </a>
+
+              {/* Quick Inquiry Topics */}
+              <div className="pt-2">
+                <p className="text-[11px] font-black text-gray-400 uppercase tracking-wider mb-2 text-left px-1">Or Pick a Topic to Chat</p>
+                <div className="flex flex-col space-y-2">
+                  {quickTopics.map((topic, idx) => (
+                    <a
+                      key={idx}
+                      href={`https://m.me/${FACEBOOK_PAGE_USERNAME}?text=${encodeURIComponent(topic.text)}`}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="text-left w-full bg-white hover:bg-rose-50 text-slate-800 hover:text-[#E11D48] px-3.5 py-3 rounded-xl border border-gray-200/90 hover:border-rose-300 text-xs font-bold transition flex items-center justify-between group shadow-2xs"
+                    >
+                      <span>{topic.label}</span>
+                      <i className="fa-solid fa-paper-plane text-[11px] text-gray-300 group-hover:text-[#E11D48] transition-transform group-hover:translate-x-0.5"></i>
+                    </a>
+                  ))}
+                </div>
               </div>
             </div>
-          </div>
 
-          {/* Input Footer */}
-          <div className="p-3 bg-white border-t border-gray-100">
-            <form 
-              onSubmit={(e) => {
-                e.preventDefault();
-                handleSendMessage();
-              }}
-              className="flex items-center space-x-2"
-            >
-              <input
-                type="text"
-                placeholder="Type your inquiry..."
-                value={inputMessage}
-                onChange={(e) => setInputMessage(e.target.value)}
-                className="flex-1 bg-gray-50 border border-gray-200 rounded-full px-4 py-2.5 text-xs text-gray-800 focus:outline-none focus:border-[#E11D48] focus:bg-white transition"
-              />
-              <button
-                type="submit"
-                disabled={!inputMessage.trim()}
-                className="w-10 h-10 bg-[#E11D48] hover:bg-rose-700 disabled:opacity-40 text-white rounded-full flex items-center justify-center transition shadow-md shrink-0"
-                aria-label="Send Message"
-              >
-                <i className="fa-solid fa-paper-plane text-xs"></i>
-              </button>
-            </form>
+            {/* Direct Link Footnote */}
+            <div className="text-center text-[11px] text-gray-400 font-medium pt-1">
+              Connects directly to @loveandserveinc on Facebook
+            </div>
           </div>
 
         </div>
       )}
 
-      {/* Floating Tooltip (Elegant, non-bouncing, auto-dismissing) */}
+      {/* Floating Tooltip */}
       {showTooltip && !isOpen && (
-        <div 
-          onClick={toggleChat}
+        <a
+          href={`https://m.me/${FACEBOOK_PAGE_USERNAME}`}
+          target="_blank"
+          rel="noopener noreferrer"
+          onClick={dismissTooltip}
           className="mb-3 bg-white/95 backdrop-blur-md text-gray-900 px-4 py-2.5 rounded-2xl shadow-[0_10px_30px_-5px_rgba(225,29,72,0.2)] border border-rose-100 flex items-center space-x-2.5 text-xs sm:text-sm font-bold animate-fadeIn transition-all duration-500 cursor-pointer hover:scale-105"
         >
-          <span className="w-2.5 h-2.5 rounded-full bg-[#E11D48] shrink-0"></span>
-          <span className="text-gray-800 tracking-tight">Inquire via Facebook Messenger!</span>
+          <span className="w-2.5 h-2.5 rounded-full bg-[#E11D48] shrink-0 animate-pulse"></span>
+          <span className="text-gray-800 tracking-tight">Chat on Facebook Messenger!</span>
           <button 
             type="button"
             onClick={(e) => {
               e.stopPropagation();
+              e.preventDefault();
               dismissTooltip();
             }} 
             className="text-gray-400 hover:text-gray-700 ml-1 p-1 rounded-full hover:bg-gray-100 transition shrink-0"
@@ -213,10 +169,10 @@ const MessengerWidget: React.FC = () => {
           >
             <i className="fa-solid fa-xmark text-xs"></i>
           </button>
-        </div>
+        </a>
       )}
 
-      {/* Floating Toggle Button (Red Theme) */}
+      {/* Floating Toggle Button */}
       <button
         onClick={toggleChat}
         className="bg-[#E11D48] hover:bg-rose-700 text-white w-14 h-14 md:w-16 md:h-16 rounded-full shadow-2xl shadow-rose-900/40 flex items-center justify-center text-2xl md:text-3xl hover:scale-110 transition-all duration-300 transform active:scale-95 relative border-2 border-white/20"
