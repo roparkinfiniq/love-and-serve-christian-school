@@ -120,7 +120,7 @@ const LatestNews: React.FC<LatestNewsProps> = ({ onNavigate }) => {
 
           {/* Right Column: Perfect PC & Mobile Balanced Facebook Feed Container (col-span-5) */}
           <div className="lg:col-span-5 w-full flex flex-col items-center order-1 lg:order-2">
-            <div className="bg-white rounded-2xl sm:rounded-[2.5rem] p-2 sm:p-3.5 shadow-xl hover:shadow-2xl w-full max-w-[500px] flex flex-col overflow-hidden border border-slate-100 transition-all duration-300 relative">
+            <div className="bg-white rounded-2xl sm:rounded-[2.5rem] p-2 sm:p-3.5 shadow-xl hover:shadow-2xl w-full max-w-[480px] flex flex-col overflow-hidden border border-slate-100 transition-all duration-300 relative">
               
               {/* Clean Round Logo Header Bar */}
               <div className="px-3 py-2 sm:px-3.5 sm:py-2.5 bg-white rounded-xl sm:rounded-2xl flex items-center justify-between mb-1.5 sm:mb-2 border border-gray-100 shadow-2xs">
@@ -168,11 +168,11 @@ const LatestNews: React.FC<LatestNewsProps> = ({ onNavigate }) => {
                 ></iframe>
               </div>
 
-              {/* 2. Desktop Dedicated iFrame Feed (hidden sm:flex): width=500 for 100% PC Fill */}
+              {/* 2. Desktop Dedicated iFrame Feed (hidden sm:flex): width=450 for 100% PC Caption Fit */}
               <div className="hidden sm:flex w-full overflow-hidden rounded-2xl justify-center bg-white relative h-[520px] border border-gray-100/60">
                 <iframe 
-                  src="https://www.facebook.com/plugins/page.php?href=https%3A%2F%2Fwww.facebook.com%2Floveandserveinc%2F&tabs=timeline&width=500&height=640&small_header=true&adapt_container_width=true&hide_cover=true&show_facepile=false&appId" 
-                  width="500" 
+                  src="https://www.facebook.com/plugins/page.php?href=https%3A%2F%2Fwww.facebook.com%2Floveandserveinc%2F&tabs=timeline&width=450&height=640&small_header=true&adapt_container_width=true&hide_cover=true&show_facepile=false&appId" 
+                  width="100%" 
                   height="640" 
                   scrolling="yes" 
                   frameBorder="0" 
