@@ -153,8 +153,8 @@ const LatestNews: React.FC<LatestNewsProps> = ({ onNavigate }) => {
                 </span>
               </div>
 
-              {/* Seamless Mobile-Adapted Facebook iFrame Feed (Width=310 for 100% Fit) */}
-              <div className="w-full overflow-hidden rounded-xl sm:rounded-2xl flex justify-center bg-white relative h-[480px] sm:h-[520px] border border-gray-100/60">
+              {/* Seamless Mobile-Adapted Facebook iFrame Feed (100% Trimmed Meta Header) */}
+              <div className="w-full overflow-hidden rounded-xl sm:rounded-2xl flex justify-center bg-white relative h-[470px] sm:h-[510px] border border-gray-100/60">
                 <iframe 
                   src="https://www.facebook.com/plugins/page.php?href=https%3A%2F%2Fwww.facebook.com%2Floveandserveinc%2F&tabs=timeline&width=310&height=640&small_header=true&adapt_container_width=true&hide_cover=true&show_facepile=false&appId" 
                   width="100%" 
@@ -164,7 +164,7 @@ const LatestNews: React.FC<LatestNewsProps> = ({ onNavigate }) => {
                   allowFullScreen={true} 
                   allow="autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share"
                   title="Love and Serve Christian School Official Facebook Feed"
-                  className="rounded-xl w-full border-0 outline-none -mt-[58px] sm:-mt-[66px] h-[570px] sm:h-[620px]"
+                  className="rounded-xl w-full border-0 outline-none -mt-[70px] sm:-mt-[74px] h-[570px] sm:h-[620px]"
                 ></iframe>
               </div>
 
