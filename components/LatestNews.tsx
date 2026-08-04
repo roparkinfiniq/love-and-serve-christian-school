@@ -118,7 +118,7 @@ const LatestNews: React.FC<LatestNewsProps> = ({ onNavigate }) => {
 
           </div>
 
-          {/* Right Column: Mobile-Perfect Live Facebook Feed Container (col-span-5) */}
+          {/* Right Column: Perfect PC & Mobile Balanced Facebook Feed Container (col-span-5) */}
           <div className="lg:col-span-5 w-full flex flex-col items-center order-1 lg:order-2">
             <div className="bg-white rounded-2xl sm:rounded-[2.5rem] p-2 sm:p-3.5 shadow-xl hover:shadow-2xl w-full max-w-[500px] flex flex-col overflow-hidden border border-slate-100 transition-all duration-300 relative">
               
@@ -153,18 +153,18 @@ const LatestNews: React.FC<LatestNewsProps> = ({ onNavigate }) => {
                 </span>
               </div>
 
-              {/* Seamless Mobile-Adapted Facebook iFrame Feed (100% Trimmed Meta Header) */}
-              <div className="w-full overflow-hidden rounded-xl sm:rounded-2xl flex justify-center bg-white relative h-[470px] sm:h-[510px] border border-gray-100/60">
+              {/* Responsive Facebook iFrame Feed (PC=500px Full Fill, Mobile=340px Fit) */}
+              <div className="w-full overflow-hidden rounded-xl sm:rounded-2xl flex justify-center bg-white relative h-[480px] sm:h-[520px] border border-gray-100/60">
                 <iframe 
-                  src="https://www.facebook.com/plugins/page.php?href=https%3A%2F%2Fwww.facebook.com%2Floveandserveinc%2F&tabs=timeline&width=310&height=640&small_header=true&adapt_container_width=true&hide_cover=true&show_facepile=false&appId" 
-                  width="100%" 
+                  src="https://www.facebook.com/plugins/page.php?href=https%3A%2F%2Fwww.facebook.com%2Floveandserveinc%2F&tabs=timeline&width=500&height=640&small_header=true&adapt_container_width=true&hide_cover=true&show_facepile=false&appId" 
+                  width="500" 
                   height="640" 
                   scrolling="yes" 
                   frameBorder="0" 
                   allowFullScreen={true} 
                   allow="autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share"
                   title="Love and Serve Christian School Official Facebook Feed"
-                  className="rounded-xl w-full border-0 outline-none -mt-[70px] sm:-mt-[74px] h-[570px] sm:h-[620px]"
+                  className="rounded-xl w-full border-0 outline-none -mt-[58px] sm:-mt-[66px] h-[570px] sm:h-[620px]"
                 ></iframe>
               </div>
 
