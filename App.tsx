@@ -214,7 +214,7 @@ const App: React.FC = () => {
               onProgramClick={handleProgramNavigation} 
               onViewAll={handleViewAllCurriculums}
             />
-            <LatestNews />
+            <LatestNews onNavigate={handlePageChange} />
             <section className="py-20 md:py-28 bg-white px-4 md:px-6">
               <div className="max-w-7xl mx-auto bg-red-50 rounded-[2.5rem] md:rounded-[3rem] p-8 md:p-24 text-center relative overflow-hidden">
                 <div className="relative z-10">

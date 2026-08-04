@@ -1,28 +1,33 @@
 import React from 'react';
 
-const LatestNews: React.FC = () => {
+interface LatestNewsProps {
+  onNavigate?: (page: any) => void;
+}
+
+const LatestNews: React.FC<LatestNewsProps> = ({ onNavigate }) => {
   return (
-    <section className="py-16 sm:py-20 md:py-24 bg-gray-50/80 px-4 sm:px-6 border-t border-gray-100">
+    <section className="py-16 sm:py-20 md:py-24 bg-gradient-to-b from-white via-rose-50/20 to-white px-4 sm:px-6 border-t border-gray-100">
       <div className="max-w-6xl mx-auto">
+        
         {/* Header Section */}
-        <div className="flex flex-col md:flex-row items-start md:items-end justify-between mb-8 md:mb-12">
-          <div className="mb-6 md:mb-0">
+        <div className="flex flex-col md:flex-row items-start md:items-end justify-between mb-10 md:mb-12">
+          <div>
             <span className="text-[#E11D48] font-bold tracking-widest uppercase text-xs sm:text-sm bg-rose-50 px-3.5 py-1.5 rounded-full border border-rose-100 shadow-xs inline-block mb-3">
-              Social Updates
+              Social & Campus Updates
             </span>
             <h2 className="text-3xl sm:text-4xl md:text-5xl font-black text-gray-900 mb-2 sm:mb-3 tracking-tight">
-              LSCSI News & Updates
+              LSCSI News & Stories
             </h2>
             <p className="text-gray-500 text-sm sm:text-base md:text-lg max-w-2xl">
-              Stay connected with the latest announcements, events, and stories directly from our official Facebook page.
+              Stay connected with our school community, official announcements, and daily campus activities.
             </p>
           </div>
-          {/* Button to official Facebook page */}
+          
           <a 
             href="https://www.facebook.com/loveandserveinc/" 
             target="_blank" 
             rel="noopener noreferrer" 
-            className="w-full md:w-auto inline-flex items-center justify-center font-bold text-white bg-[#1877F2] hover:bg-blue-700 transition-all duration-300 text-sm sm:text-base px-6 py-3.5 rounded-2xl shadow-md hover:shadow-lg active:scale-95"
+            className="mt-4 md:mt-0 w-full md:w-auto inline-flex items-center justify-center font-bold text-white bg-[#1877F2] hover:bg-blue-600 transition-all duration-300 text-sm sm:text-base px-6 py-3.5 rounded-2xl shadow-md hover:shadow-lg active:scale-95 shrink-0"
           >
             <i className="fa-brands fa-facebook-f mr-2.5 text-lg"></i>
             Visit Official Facebook Page
@@ -30,20 +35,127 @@ const LatestNews: React.FC = () => {
           </a>
         </div>
 
-        {/* Live Facebook Page Plugin Embed Container */}
-        <div className="bg-white rounded-3xl p-3 sm:p-6 md:p-8 border border-gray-200/80 shadow-xl flex flex-col items-center justify-center min-h-[580px] overflow-hidden relative">
-          <iframe 
-            src="https://www.facebook.com/plugins/page.php?href=https%3A%2F%2Fwww.facebook.com%2Floveandserveinc%2F&tabs=timeline&width=500&height=650&small_header=false&adapt_container_width=true&hide_cover=false&show_facepile=true&appId" 
-            width="500" 
-            height="650" 
-            style={{ border: 'none', overflow: 'hidden', maxWidth: '100%', width: '100%', minHeight: '620px' }} 
-            scrolling="no" 
-            frameBorder="0" 
-            allowFullScreen={true} 
-            allow="autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share"
-            title="Love and Serve Christian School Official Facebook Feed"
-            className="rounded-2xl w-full max-w-[500px]"
-          ></iframe>
+        {/* 2-Column Balanced Showcase: Left News Cards + Right Live Facebook Feed */}
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+          
+          {/* Left Column: Campus Highlights & Quick Announcement Cards (col-span-7) */}
+          <div className="lg:col-span-7 space-y-4 text-left">
+            
+            {/* Card 1: SY 2026-2027 Admissions */}
+            <div className="bg-white rounded-3xl p-6 sm:p-7 border border-gray-100 shadow-md hover:shadow-xl transition-all duration-300 group relative overflow-hidden">
+              <div className="flex items-start justify-between gap-4 mb-3">
+                <span className="px-3 py-1 bg-rose-100 text-[#E11D48] font-black text-xs uppercase tracking-wider rounded-xl">
+                  Enrollment Open
+                </span>
+                <span className="text-xs font-bold text-gray-400">SY 2026 - 2027</span>
+              </div>
+              <h3 className="text-xl sm:text-2xl font-black text-slate-900 group-hover:text-[#E11D48] transition-colors mb-2">
+                Admissions Now Open for Preschool to Junior High
+              </h3>
+              <p className="text-gray-600 text-xs sm:text-sm leading-relaxed mb-4">
+                Join our Christ-centered learning community! We offer quality holistic education, character formation, and dedicated faculty for your child's growth.
+              </p>
+              {onNavigate && (
+                <button
+                  onClick={() => onNavigate('Admissions')}
+                  className="inline-flex items-center text-xs sm:text-sm font-bold text-[#E11D48] hover:text-rose-700 transition"
+                >
+                  <span>Learn Admissions Process</span>
+                  <i className="fa-solid fa-arrow-right ml-2 text-xs group-hover:translate-x-1 transition-transform"></i>
+                </button>
+              )}
+            </div>
+
+            {/* Card 2: Character & Academic Excellence */}
+            <div className="bg-white rounded-3xl p-6 sm:p-7 border border-gray-100 shadow-md hover:shadow-xl transition-all duration-300 group relative overflow-hidden">
+              <div className="flex items-start justify-between gap-4 mb-3">
+                <span className="px-3 py-1 bg-blue-50 text-blue-600 font-black text-xs uppercase tracking-wider rounded-xl border border-blue-100">
+                  Campus Life
+                </span>
+                <span className="text-xs font-bold text-gray-400">Character Education</span>
+              </div>
+              <h3 className="text-xl sm:text-2xl font-black text-slate-900 group-hover:text-[#E11D48] transition-colors mb-2">
+                Nurturing God-Fearing & Well-Rounded Leaders
+              </h3>
+              <p className="text-gray-600 text-xs sm:text-sm leading-relaxed mb-4">
+                Discover how our biblical worldview and active campus activities equip students spiritually, academically, and socially for a purposeful life.
+              </p>
+              {onNavigate && (
+                <button
+                  onClick={() => onNavigate('About')}
+                  className="inline-flex items-center text-xs sm:text-sm font-bold text-[#E11D48] hover:text-rose-700 transition"
+                >
+                  <span>Explore Our Philosophy</span>
+                  <i className="fa-solid fa-arrow-right ml-2 text-xs group-hover:translate-x-1 transition-transform"></i>
+                </button>
+              )}
+            </div>
+
+            {/* Card 3: School Calendar */}
+            <div className="bg-white rounded-3xl p-6 sm:p-7 border border-gray-100 shadow-md hover:shadow-xl transition-all duration-300 group relative overflow-hidden">
+              <div className="flex items-start justify-between gap-4 mb-3">
+                <span className="px-3 py-1 bg-purple-50 text-purple-600 font-black text-xs uppercase tracking-wider rounded-xl border border-purple-100">
+                  School Calendar
+                </span>
+                <span className="text-xs font-bold text-gray-400">Events & Holidays</span>
+              </div>
+              <h3 className="text-xl sm:text-2xl font-black text-slate-900 group-hover:text-[#E11D48] transition-colors mb-2">
+                Stay Updated with Upcoming Academic Activities
+              </h3>
+              <p className="text-gray-600 text-xs sm:text-sm leading-relaxed mb-4">
+                Check our official S.Y. 2026-2027 calendar for examination dates, holidays, chapel services, and special school events.
+              </p>
+              {onNavigate && (
+                <button
+                  onClick={() => onNavigate('Calendar')}
+                  className="inline-flex items-center text-xs sm:text-sm font-bold text-[#E11D48] hover:text-rose-700 transition"
+                >
+                  <span>View Full Calendar</span>
+                  <i className="fa-solid fa-arrow-right ml-2 text-xs group-hover:translate-x-1 transition-transform"></i>
+                </button>
+              )}
+            </div>
+
+          </div>
+
+          {/* Right Column: Live Facebook Feed Container (col-span-5) */}
+          <div className="lg:col-span-5 w-full flex flex-col items-center">
+            <div className="bg-white rounded-3xl p-3 sm:p-4 border border-gray-200/90 shadow-xl w-full max-w-[500px] flex flex-col overflow-hidden">
+              
+              {/* Feed Header */}
+              <div className="px-4 py-3 bg-slate-900 text-white rounded-2xl flex items-center justify-between mb-3 shadow-sm">
+                <div className="flex items-center space-x-2.5">
+                  <div className="w-8 h-8 rounded-full bg-[#1877F2] text-white flex items-center justify-center text-sm font-bold shadow-xs">
+                    <i className="fa-brands fa-facebook-f"></i>
+                  </div>
+                  <div className="text-left">
+                    <h4 className="text-xs font-black tracking-tight leading-tight">Love & Serve Christian School</h4>
+                    <span className="text-[10px] text-gray-400 font-medium">@loveandserveinc • Live Feed</span>
+                  </div>
+                </div>
+                <span className="flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-green-500/20 text-green-400 text-[10px] font-bold">
+                  <span className="w-1.5 h-1.5 rounded-full bg-green-400 animate-pulse"></span> Live
+                </span>
+              </div>
+
+              {/* Responsive Facebook iFrame Feed */}
+              <div className="w-full overflow-hidden rounded-2xl flex justify-center bg-gray-50">
+                <iframe 
+                  src="https://www.facebook.com/plugins/page.php?href=https%3A%2F%2Fwww.facebook.com%2Floveandserveinc%2F&tabs=timeline&width=500&height=650&small_header=false&adapt_container_width=true&hide_cover=false&show_facepile=true&appId" 
+                  width="500" 
+                  height="650" 
+                  style={{ border: 'none', overflow: 'hidden', maxWidth: '100%', width: '100%', minHeight: '620px' }} 
+                  scrolling="no" 
+                  frameBorder="0" 
+                  allowFullScreen={true} 
+                  allow="autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share"
+                  title="Love and Serve Christian School Official Facebook Feed"
+                  className="rounded-xl w-full"
+                ></iframe>
+              </div>
+            </div>
+          </div>
+
         </div>
       </div>
     </section>
