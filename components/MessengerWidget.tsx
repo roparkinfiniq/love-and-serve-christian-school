@@ -9,7 +9,7 @@ const MessengerWidget: React.FC = () => {
     const initFacebookSDK = () => {
       const chatbox = document.getElementById('fb-customer-chat');
       if (chatbox) {
-        chatbox.setAttribute("page_id", "loveandserveinc");
+        chatbox.setAttribute("page_id", "268752606796005");
         chatbox.setAttribute("attribution", "biz_inbox");
         chatbox.setAttribute("theme_color", "#E11D48");
       }
