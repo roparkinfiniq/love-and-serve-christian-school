@@ -1,26 +1,10 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 
 interface LatestNewsProps {
   onNavigate?: (page: any) => void;
 }
 
 const LatestNews: React.FC<LatestNewsProps> = ({ onNavigate }) => {
-  const [showScrollBadge, setShowScrollBadge] = useState(true);
-
-  // Auto-hide scroll badge after 6 seconds if user hasn't interacted
-  useEffect(() => {
-    const timer = setTimeout(() => {
-      setShowScrollBadge(false);
-    }, 6000);
-    return () => clearTimeout(timer);
-  }, []);
-
-  const handleFeedInteraction = () => {
-    if (showScrollBadge) {
-      setShowScrollBadge(false);
-    }
-  };
-
   return (
     <section className="py-16 sm:py-20 md:py-24 bg-gradient-to-b from-white via-rose-50/20 to-white px-4 sm:px-6 border-t border-gray-100">
       <div className="max-w-6xl mx-auto">
@@ -136,12 +120,9 @@ const LatestNews: React.FC<LatestNewsProps> = ({ onNavigate }) => {
 
           {/* Right Column: Clean Live Facebook Feed Container (col-span-5) */}
           <div className="lg:col-span-5 w-full flex flex-col items-center order-1 lg:order-2">
-            <div 
-              onMouseEnter={handleFeedInteraction}
-              onTouchStart={handleFeedInteraction}
-              className="bg-white rounded-[2.5rem] p-2.5 sm:p-3.5 shadow-xl hover:shadow-2xl w-full max-w-[500px] flex flex-col overflow-hidden border border-slate-100 transition-all duration-300 relative"
-            >
-              {/* Clean Round Logo Header Bar (No black square borders) */}
+            <div className="bg-white rounded-[2.5rem] p-2.5 sm:p-3.5 shadow-xl hover:shadow-2xl w-full max-w-[500px] flex flex-col overflow-hidden border border-slate-100 transition-all duration-300 relative">
+              
+              {/* Clean Round Logo Header Bar */}
               <div className="px-3.5 py-2.5 bg-white rounded-2xl flex items-center justify-between mb-2 border border-gray-100 shadow-2xs">
                 <div className="flex items-center space-x-3 text-left">
                   <div className="w-10 h-10 rounded-full overflow-hidden border border-rose-100 shadow-2xs shrink-0 bg-white p-0.5">
@@ -172,7 +153,7 @@ const LatestNews: React.FC<LatestNewsProps> = ({ onNavigate }) => {
                 </span>
               </div>
 
-              {/* Seamless Clipped Facebook iFrame Feed (Clipping Meta's default black-bordered logo) */}
+              {/* Seamless Clipped Facebook iFrame Feed */}
               <div className="w-full overflow-hidden rounded-2xl flex justify-center bg-white relative h-[520px] border border-gray-100/60">
                 <iframe 
                   src="https://www.facebook.com/plugins/page.php?href=https%3A%2F%2Fwww.facebook.com%2Floveandserveinc%2F&tabs=timeline&width=500&height=640&small_header=true&adapt_container_width=true&hide_cover=true&show_facepile=false&appId" 
@@ -196,17 +177,11 @@ const LatestNews: React.FC<LatestNewsProps> = ({ onNavigate }) => {
                 ></iframe>
               </div>
 
-              {/* Dynamic Auto-Hiding Scroll Indicator Badge */}
-              <div 
-                className={`py-2 px-3.5 bg-slate-900/90 text-white rounded-xl flex items-center justify-between text-xs font-bold shadow-xs transition-all duration-500 ease-in-out ${
-                  showScrollBadge 
-                    ? 'opacity-100 max-h-10 mt-2.5 pointer-events-auto' 
-                    : 'opacity-0 max-h-0 mt-0 py-0 overflow-hidden pointer-events-none'
-                }`}
-              >
-                <span className="flex items-center gap-1.5 text-[11px] text-gray-200">
+              {/* Stylish Permanent Scroll Indicator Footer Badge */}
+              <div className="py-2.5 px-4 bg-slate-900 text-white rounded-2xl flex items-center justify-between text-xs font-bold mt-2.5 shadow-md">
+                <span className="flex items-center gap-2 text-xs text-gray-200">
                   <i className="fa-solid fa-arrows-up-down text-[#E11D48]"></i> 
-                  <span>Scroll inside box for more posts</span>
+                  <span>Scroll down inside box to view more posts</span>
                 </span>
                 <i className="fa-solid fa-chevron-down text-rose-400 text-xs animate-bounce"></i>
               </div>
