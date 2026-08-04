@@ -134,31 +134,59 @@ const LatestNews: React.FC<LatestNewsProps> = ({ onNavigate }) => {
 
           </div>
 
-          {/* Right Column: Completely Borderless & Soft Live Facebook Feed Container (col-span-5) */}
+          {/* Right Column: Clean Live Facebook Feed Container (col-span-5) */}
           <div className="lg:col-span-5 w-full flex flex-col items-center order-1 lg:order-2">
             <div 
               onMouseEnter={handleFeedInteraction}
               onTouchStart={handleFeedInteraction}
-              className="bg-white rounded-[2rem] p-2 sm:p-3 shadow-xl hover:shadow-2xl w-full max-w-[500px] flex flex-col overflow-hidden border border-slate-100 transition-all duration-300 relative"
+              className="bg-white rounded-[2.5rem] p-2.5 sm:p-3.5 shadow-xl hover:shadow-2xl w-full max-w-[500px] flex flex-col overflow-hidden border border-slate-100 transition-all duration-300 relative"
             >
-              {/* Soft Rose Header Bar (Blends naturally with no harsh black boxes) */}
-              <div className="px-4 py-2.5 bg-rose-50/60 rounded-2xl flex items-center justify-between mb-2 border border-rose-100/50">
-                <div className="flex items-center space-x-2">
-                  <i className="fa-brands fa-facebook text-[#1877F2] text-base"></i>
-                  <span className="text-xs font-extrabold text-slate-800 tracking-tight">Official Facebook Feed</span>
+              {/* Clean Round Logo Header Bar (No black square borders) */}
+              <div className="px-3.5 py-2.5 bg-white rounded-2xl flex items-center justify-between mb-2 border border-gray-100 shadow-2xs">
+                <div className="flex items-center space-x-3 text-left">
+                  <div className="w-10 h-10 rounded-full overflow-hidden border border-rose-100 shadow-2xs shrink-0 bg-white p-0.5">
+                    <img 
+                      src="/logo.png" 
+                      alt="LSCS Logo" 
+                      className="w-full h-full object-cover rounded-full"
+                      onError={(e) => {
+                        (e.target as HTMLImageElement).onerror = null;
+                        (e.target as HTMLImageElement).src = 'data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="%23E11D48" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 10v6M2 10l10-5 10 5-10 5z"/><path d="M6 12v5c3 3 9 3 12 0v-5"/></svg>';
+                      }}
+                    />
+                  </div>
+                  <div>
+                    <h4 className="font-extrabold text-xs sm:text-sm text-slate-900 leading-tight">Love and Serve Christian School Inc.</h4>
+                    <a 
+                      href="https://www.facebook.com/loveandserveinc/" 
+                      target="_blank" 
+                      rel="noopener noreferrer" 
+                      className="text-[11px] text-[#1877F2] font-bold hover:underline inline-flex items-center gap-1 mt-0.5"
+                    >
+                      <i className="fa-brands fa-facebook"></i> Follow Page • Official Feed
+                    </a>
+                  </div>
                 </div>
-                <span className="flex items-center gap-1 text-[10px] font-bold text-[#E11D48] bg-white px-2.5 py-0.5 rounded-full border border-rose-200 shadow-2xs">
+                <span className="flex items-center gap-1 text-[10px] font-bold text-[#E11D48] bg-rose-50 px-2.5 py-1 rounded-full border border-rose-100 shrink-0">
                   <span className="w-1.5 h-1.5 rounded-full bg-[#E11D48] animate-pulse"></span> Live
                 </span>
               </div>
 
-              {/* Seamless Facebook iFrame Feed */}
-              <div className="w-full overflow-hidden rounded-2xl flex justify-center bg-white relative">
+              {/* Seamless Clipped Facebook iFrame Feed (Clipping Meta's default black-bordered logo) */}
+              <div className="w-full overflow-hidden rounded-2xl flex justify-center bg-white relative h-[520px] border border-gray-100/60">
                 <iframe 
-                  src="https://www.facebook.com/plugins/page.php?href=https%3A%2F%2Fwww.facebook.com%2Floveandserveinc%2F&tabs=timeline&width=500&height=620&small_header=true&adapt_container_width=true&hide_cover=true&show_facepile=false&appId" 
+                  src="https://www.facebook.com/plugins/page.php?href=https%3A%2F%2Fwww.facebook.com%2Floveandserveinc%2F&tabs=timeline&width=500&height=640&small_header=true&adapt_container_width=true&hide_cover=true&show_facepile=false&appId" 
                   width="500" 
-                  height="620" 
-                  style={{ border: 'none', outline: 'none', overflow: 'hidden', maxWidth: '100%', width: '100%', minHeight: '520px', height: '580px' }} 
+                  height="640" 
+                  style={{ 
+                    border: 'none', 
+                    outline: 'none', 
+                    overflow: 'hidden', 
+                    maxWidth: '100%', 
+                    width: '100%', 
+                    marginTop: '-66px', 
+                    height: '620px' 
+                  }} 
                   scrolling="yes" 
                   frameBorder="0" 
                   allowFullScreen={true} 
