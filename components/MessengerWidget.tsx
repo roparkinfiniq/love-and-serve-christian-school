@@ -68,14 +68,14 @@ const MessengerWidget: React.FC = () => {
       )}
 
       <div className="fixed bottom-4 right-4 sm:bottom-6 sm:right-6 z-[100] flex flex-col items-end">
-        {/* PC & Mobile Responsive Messenger Info Card Drawer */}
+        {/* Golden Proportion PC & Mobile Messenger Card Drawer */}
         {isOpen && (
-          <div className="mb-3.5 w-[calc(100vw-32px)] max-w-[320px] sm:w-[390px] sm:max-w-[400px] bg-white rounded-2xl sm:rounded-3xl shadow-2xl border border-rose-100 flex flex-col overflow-hidden animate-fadeIn duration-300 transform-gpu text-left">
+          <div className="mb-3.5 w-[calc(100vw-32px)] max-w-[320px] sm:w-[350px] sm:max-w-[360px] bg-white rounded-2xl sm:rounded-3xl shadow-2xl border border-rose-100 flex flex-col overflow-hidden animate-fadeIn duration-300 transform-gpu text-left">
             
             {/* Header */}
-            <div className="bg-[#E11D48] text-white px-4 py-3 sm:px-5 sm:py-4 flex items-center justify-between shadow-md shrink-0">
+            <div className="bg-[#E11D48] text-white px-4 py-3 sm:px-4.5 sm:py-3.5 flex items-center justify-between shadow-md shrink-0">
               <div className="flex items-center space-x-2.5 sm:space-x-3">
-                <div className="w-9 h-9 sm:w-11 sm:h-11 bg-white rounded-full shadow-md flex items-center justify-center overflow-hidden border-2 border-white/80 shrink-0">
+                <div className="w-9 h-9 sm:w-10 sm:h-10 bg-white rounded-full shadow-md flex items-center justify-center overflow-hidden border-2 border-white/80 shrink-0">
                   <img 
                     src="/logo.png" 
                     alt="LSCS Logo" 
@@ -89,7 +89,7 @@ const MessengerWidget: React.FC = () => {
                 <div>
                   <h3 className="font-extrabold text-xs sm:text-sm leading-tight">Love & Serve Christian School</h3>
                   <div className="flex items-center space-x-1 sm:space-x-1.5 text-[10px] sm:text-[11px] text-rose-100 mt-0.5 font-medium">
-                    <i className="fa-brands fa-facebook-messenger text-white text-[11px] sm:text-xs"></i>
+                    <i className="fa-brands fa-facebook-messenger text-white text-[11px]"></i>
                     <span>Official Messenger • Online</span>
                   </div>
                 </div>
@@ -103,16 +103,16 @@ const MessengerWidget: React.FC = () => {
               </button>
             </div>
 
-            {/* Responsive Drawer Body */}
-            <div className="p-3.5 sm:p-5 bg-slate-50 space-y-2.5 sm:space-y-4">
+            {/* Responsive Golden Ratio Drawer Body */}
+            <div className="p-3.5 sm:p-4 bg-slate-50 space-y-2.5 sm:space-y-3">
               
               {/* Friendly Greeting Banner */}
-              <div className="bg-white p-3 sm:p-4 rounded-xl sm:rounded-2xl border border-gray-100 shadow-2xs">
-                <div className="flex items-center gap-1.5 mb-1 sm:mb-1.5">
+              <div className="bg-white p-3 rounded-xl sm:rounded-2xl border border-gray-100 shadow-2xs">
+                <div className="flex items-center gap-1.5 mb-1">
                   <span className="w-1.5 h-1.5 sm:w-2 sm:h-2 rounded-full bg-[#E11D48] animate-pulse"></span>
                   <span className="text-[11px] sm:text-xs font-extrabold text-slate-800">1:1 Official Admissions Chat</span>
                 </div>
-                <p className="text-[11px] sm:text-xs text-slate-600 leading-snug sm:leading-relaxed font-medium">
+                <p className="text-[11px] sm:text-xs text-slate-600 leading-snug font-medium">
                   Welcome to LSCS! Click below to start a 1:1 live chat directly with our admissions team on Facebook Messenger.
                 </p>
               </div>
@@ -120,7 +120,7 @@ const MessengerWidget: React.FC = () => {
               {/* Main Primary Messenger Button */}
               <button
                 onClick={() => openMessengerWithTopic()}
-                className="w-full py-2.5 sm:py-3.5 px-3.5 sm:px-4 bg-[#1877F2] hover:bg-blue-600 text-white font-extrabold text-xs sm:text-sm rounded-xl sm:rounded-2xl transition-all duration-300 shadow-md hover:shadow-lg flex items-center justify-center gap-2 sm:gap-2.5 active:scale-95"
+                className="w-full py-2.5 sm:py-3 px-3.5 sm:px-4 bg-[#1877F2] hover:bg-blue-600 text-white font-extrabold text-xs sm:text-sm rounded-xl sm:rounded-2xl transition-all duration-300 shadow-md hover:shadow-lg flex items-center justify-center gap-2 sm:gap-2.5 active:scale-95"
               >
                 <i className="fa-brands fa-facebook-messenger text-base sm:text-lg"></i>
                 <span>Start 1:1 Chat on Messenger</span>
@@ -135,7 +135,7 @@ const MessengerWidget: React.FC = () => {
                     <button
                       key={idx}
                       onClick={() => openMessengerWithTopic(topic.text)}
-                      className="text-left w-full bg-white hover:bg-rose-50 text-slate-800 hover:text-[#E11D48] px-3.5 py-2.5 sm:py-3 rounded-xl border border-gray-200/90 hover:border-rose-300 text-[11px] sm:text-xs font-bold transition flex items-center justify-between group shadow-2xs active:scale-98"
+                      className="text-left w-full bg-white hover:bg-rose-50 text-slate-800 hover:text-[#E11D48] px-3.5 py-2.5 sm:py-2.5 rounded-xl border border-gray-200/90 hover:border-rose-300 text-[11px] sm:text-xs font-bold transition flex items-center justify-between group shadow-2xs active:scale-98"
                     >
                       <span className="truncate pr-2">{topic.label}</span>
                       <i className="fa-solid fa-chevron-right text-xs text-slate-300 group-hover:text-[#E11D48] group-hover:translate-x-0.5 transition-all shrink-0"></i>
