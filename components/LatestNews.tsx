@@ -134,38 +134,49 @@ const LatestNews: React.FC<LatestNewsProps> = ({ onNavigate }) => {
 
           </div>
 
-          {/* Right Column: Clean Live Facebook Feed Container (col-span-5) */}
+          {/* Right Column: Completely Borderless & Soft Live Facebook Feed Container (col-span-5) */}
           <div className="lg:col-span-5 w-full flex flex-col items-center order-1 lg:order-2">
             <div 
               onMouseEnter={handleFeedInteraction}
               onTouchStart={handleFeedInteraction}
-              className="bg-white rounded-3xl p-3 sm:p-4 border border-gray-200/90 shadow-xl w-full max-w-[500px] flex flex-col overflow-hidden transition-all duration-300"
+              className="bg-white rounded-[2rem] p-2 sm:p-3 shadow-xl hover:shadow-2xl w-full max-w-[500px] flex flex-col overflow-hidden border border-slate-100 transition-all duration-300 relative"
             >
-              {/* Clean Facebook iFrame Feed (Single Native Header) */}
-              <div className="w-full overflow-hidden rounded-2xl flex justify-center bg-gray-50 relative">
+              {/* Soft Rose Header Bar (Blends naturally with no harsh black boxes) */}
+              <div className="px-4 py-2.5 bg-rose-50/60 rounded-2xl flex items-center justify-between mb-2 border border-rose-100/50">
+                <div className="flex items-center space-x-2">
+                  <i className="fa-brands fa-facebook text-[#1877F2] text-base"></i>
+                  <span className="text-xs font-extrabold text-slate-800 tracking-tight">Official Facebook Feed</span>
+                </div>
+                <span className="flex items-center gap-1 text-[10px] font-bold text-[#E11D48] bg-white px-2.5 py-0.5 rounded-full border border-rose-200 shadow-2xs">
+                  <span className="w-1.5 h-1.5 rounded-full bg-[#E11D48] animate-pulse"></span> Live
+                </span>
+              </div>
+
+              {/* Seamless Facebook iFrame Feed */}
+              <div className="w-full overflow-hidden rounded-2xl flex justify-center bg-white relative">
                 <iframe 
                   src="https://www.facebook.com/plugins/page.php?href=https%3A%2F%2Fwww.facebook.com%2Floveandserveinc%2F&tabs=timeline&width=500&height=620&small_header=true&adapt_container_width=true&hide_cover=true&show_facepile=false&appId" 
                   width="500" 
                   height="620" 
-                  style={{ border: 'none', overflow: 'hidden', maxWidth: '100%', width: '100%', minHeight: '520px', height: '580px' }} 
+                  style={{ border: 'none', outline: 'none', overflow: 'hidden', maxWidth: '100%', width: '100%', minHeight: '520px', height: '580px' }} 
                   scrolling="yes" 
                   frameBorder="0" 
                   allowFullScreen={true} 
                   allow="autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share"
                   title="Love and Serve Christian School Official Facebook Feed"
-                  className="rounded-xl w-full"
+                  className="rounded-xl w-full border-0 outline-none"
                 ></iframe>
               </div>
 
               {/* Dynamic Auto-Hiding Scroll Indicator Badge */}
               <div 
-                className={`py-2.5 px-4 bg-slate-900/90 text-white rounded-2xl flex items-center justify-between text-xs font-bold shadow-xs transition-all duration-500 ease-in-out ${
+                className={`py-2 px-3.5 bg-slate-900/90 text-white rounded-xl flex items-center justify-between text-xs font-bold shadow-xs transition-all duration-500 ease-in-out ${
                   showScrollBadge 
-                    ? 'opacity-100 max-h-12 mt-3 pointer-events-auto' 
+                    ? 'opacity-100 max-h-10 mt-2.5 pointer-events-auto' 
                     : 'opacity-0 max-h-0 mt-0 py-0 overflow-hidden pointer-events-none'
                 }`}
               >
-                <span className="flex items-center gap-1.5 text-[11px] text-gray-300">
+                <span className="flex items-center gap-1.5 text-[11px] text-gray-200">
                   <i className="fa-solid fa-arrows-up-down text-[#E11D48]"></i> 
                   <span>Scroll inside box for more posts</span>
                 </span>
