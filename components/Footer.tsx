@@ -60,7 +60,7 @@ const Footer: React.FC<FooterProps> = ({ onNavigate, onAdmissionProcessClick }) 
         <div>
           <h4 className="text-xl font-bold mb-10 uppercase tracking-widest text-[#E11D48]">Connect With Us</h4>
           <div className="flex space-x-8 text-3xl mb-10">
-            <a href="https://www.facebook.com/LSCSI" target="_blank" rel="noopener noreferrer" className="text-gray-400 hover:text-[#E11D48] transition-colors" title="Follow us on Facebook"><i className="fa-brands fa-facebook"></i></a>
+            <a href="https://www.facebook.com/loveandserveinc/" target="_blank" rel="noopener noreferrer" className="text-gray-400 hover:text-[#E11D48] transition-colors" title="Follow us on Facebook"><i className="fa-brands fa-facebook"></i></a>
             <a href="https://www.instagram.com/lscsi2014" target="_blank" rel="noopener noreferrer" className="text-gray-400 hover:text-[#E11D48] transition-colors" title="Follow us on Instagram"><i className="fa-brands fa-instagram"></i></a>
             <a href="https://www.youtube.com/@loveandservechristianschoolinc/featured" target="_blank" rel="noopener noreferrer" className="text-gray-400 hover:text-[#E11D48] transition-colors" title="Subscribe to our YouTube"><i className="fa-brands fa-youtube"></i></a>
           </div>

@@ -17,7 +17,7 @@ const MessengerWidget: React.FC = () => {
     }
   ]);
 
-  const FACEBOOK_PAGE_USERNAME = "LSCSI"; // m.me/LSCSI
+  const FACEBOOK_PAGE_USERNAME = "loveandserveinc"; // m.me/loveandserveinc
 
   useEffect(() => {
     try {
