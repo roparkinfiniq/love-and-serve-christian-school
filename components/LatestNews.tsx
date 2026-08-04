@@ -153,8 +153,23 @@ const LatestNews: React.FC<LatestNewsProps> = ({ onNavigate }) => {
                 </span>
               </div>
 
-              {/* Responsive Facebook iFrame Feed (PC=500px Full Fill, Mobile=340px Fit) */}
-              <div className="w-full overflow-hidden rounded-xl sm:rounded-2xl flex justify-center bg-white relative h-[480px] sm:h-[520px] border border-gray-100/60">
+              {/* 1. Mobile Dedicated iFrame Feed (sm:hidden): width=315 for 100% Mobile Fit */}
+              <div className="block sm:hidden w-full overflow-hidden rounded-xl justify-center bg-white relative h-[470px] border border-gray-100/60">
+                <iframe 
+                  src="https://www.facebook.com/plugins/page.php?href=https%3A%2F%2Fwww.facebook.com%2Floveandserveinc%2F&tabs=timeline&width=315&height=640&small_header=true&adapt_container_width=true&hide_cover=true&show_facepile=false&appId" 
+                  width="100%" 
+                  height="640" 
+                  scrolling="yes" 
+                  frameBorder="0" 
+                  allowFullScreen={true} 
+                  allow="autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share"
+                  title="Love and Serve Christian School Official Facebook Feed Mobile"
+                  className="rounded-xl w-full border-0 outline-none -mt-[68px] h-[565px]"
+                ></iframe>
+              </div>
+
+              {/* 2. Desktop Dedicated iFrame Feed (hidden sm:flex): width=500 for 100% PC Fill */}
+              <div className="hidden sm:flex w-full overflow-hidden rounded-2xl justify-center bg-white relative h-[520px] border border-gray-100/60">
                 <iframe 
                   src="https://www.facebook.com/plugins/page.php?href=https%3A%2F%2Fwww.facebook.com%2Floveandserveinc%2F&tabs=timeline&width=500&height=640&small_header=true&adapt_container_width=true&hide_cover=true&show_facepile=false&appId" 
                   width="500" 
@@ -163,8 +178,8 @@ const LatestNews: React.FC<LatestNewsProps> = ({ onNavigate }) => {
                   frameBorder="0" 
                   allowFullScreen={true} 
                   allow="autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share"
-                  title="Love and Serve Christian School Official Facebook Feed"
-                  className="rounded-xl w-full border-0 outline-none -mt-[58px] sm:-mt-[66px] h-[570px] sm:h-[620px]"
+                  title="Love and Serve Christian School Official Facebook Feed Desktop"
+                  className="rounded-xl w-full border-0 outline-none -mt-[66px] h-[620px]"
                 ></iframe>
               </div>
 
