@@ -20,7 +20,7 @@ const MessengerWidget: React.FC = () => {
     },
     {
       sender: 'bot',
-      text: 'Type your message below or select a quick topic to chat directly right here!',
+      text: 'Type your message below or pick a topic to chat directly with our team on Facebook Messenger!',
       time: 'Just now'
     }
   ]);
@@ -81,23 +81,6 @@ const MessengerWidget: React.FC = () => {
     { label: '📞 Contact Officer', text: 'Please connect me with an Admissions Counselor.' }
   ];
 
-  const getAutomatedResponse = (text: string): string => {
-    const lower = text.toLowerCase();
-    if (lower.includes('admission') || lower.includes('enroll') || lower.includes('apply')) {
-      return "Thank you for your interest! SY 2026-2027 Admissions for Preschool, Elementary, and Junior High are currently open. You can apply on our Admissions page or leave your contact number here for our team to contact you!";
-    }
-    if (lower.includes('tuition') || lower.includes('fee') || lower.includes('cost') || lower.includes('scholarship')) {
-      return "Our tuition fee schedule varies by grade level. Please leave your contact details or email, and our admissions office will send you the detailed fee breakdown.";
-    }
-    if (lower.includes('visit') || lower.includes('tour') || lower.includes('location') || lower.includes('campus')) {
-      return "We would love to welcome you! Campus visits are available Monday to Friday from 8:00 AM to 4:00 PM in Antipolo, Rizal. What date and time would work best for you?";
-    }
-    if (lower.includes('contact') || lower.includes('phone') || lower.includes('call') || lower.includes('number')) {
-      return "You can call us directly at +63999-982-1836 or +63917-710-7075. You can also leave your contact info right here in this chat!";
-    }
-    return "Thank you for your message! Our admissions team has received your inquiry. We will review it promptly. Is there anything else we can assist you with?";
-  };
-
   const saveInquiryToDatabase = async (userText: string) => {
     try {
       await saveInquiry({
@@ -127,23 +110,29 @@ const MessengerWidget: React.FC = () => {
     if (!textToSendInput) setInputMessage('');
     setIsTyping(true);
 
-    // Save in database
+    // Save in database for admin records
     saveInquiryToDatabase(textToSend);
 
-    // 2. Simulate Natural Typing Response
+    // 2. Open Facebook Messenger with pre-filled text after 0.4s
     setTimeout(() => {
       setIsTyping(false);
-      const botReplyText = getAutomatedResponse(textToSend);
       setChatMessages(prev => [
         ...prev,
-        { sender: 'bot', text: botReplyText, time: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }) }
+        { 
+          sender: 'bot', 
+          text: 'Opening Facebook Messenger to send your message directly to our admissions team...', 
+          time: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }) 
+        }
       ]);
-    }, 700);
+
+      const encodedText = encodeURIComponent(textToSend);
+      window.open(`https://m.me/${FACEBOOK_PAGE_USERNAME}?text=${encodedText}`, '_blank');
+    }, 400);
   };
 
   return (
     <div className="fixed bottom-5 right-5 z-[100] flex flex-col items-end">
-      {/* 100% In-Page Live Chat Window */}
+      {/* Interactive Messenger Drawer */}
       {isOpen && (
         <div className="mb-4 w-[340px] sm:w-[380px] h-[530px] bg-white rounded-3xl shadow-2xl border border-rose-100 flex flex-col overflow-hidden animate-fadeIn duration-300 transform-gpu">
           
@@ -166,9 +155,9 @@ const MessengerWidget: React.FC = () => {
               </div>
               <div>
                 <h3 className="font-extrabold text-sm leading-tight">Love and Serve Christian School</h3>
-                <div className="flex items-center space-x-1 text-[11px] text-rose-100 mt-0.5 font-medium">
-                  <span className="w-1.5 h-1.5 rounded-full bg-green-400 animate-pulse"></span>
-                  <span>In-Site Live Support • Online</span>
+                <div className="flex items-center space-x-1.5 text-[11px] text-rose-100 mt-0.5 font-medium">
+                  <i className="fa-brands fa-facebook-messenger text-white"></i>
+                  <span>Facebook Messenger Support • Online</span>
                 </div>
               </div>
             </div>
@@ -204,7 +193,7 @@ const MessengerWidget: React.FC = () => {
             {/* Typing Indicator */}
             {isTyping && (
               <div className="flex items-center space-x-2 bg-white px-4 py-2.5 rounded-2xl border border-gray-100 w-fit shadow-xs">
-                <span className="text-xs text-gray-400 font-bold">LSCS Support is typing</span>
+                <span className="text-xs text-gray-400 font-bold">Connecting Messenger</span>
                 <span className="flex space-x-1">
                   <span className="w-1.5 h-1.5 bg-[#E11D48] rounded-full animate-bounce"></span>
                   <span className="w-1.5 h-1.5 bg-[#E11D48] rounded-full animate-bounce [animation-delay:0.2s]"></span>
@@ -224,7 +213,7 @@ const MessengerWidget: React.FC = () => {
                     className="text-left w-full bg-white hover:bg-rose-50 text-slate-700 hover:text-[#E11D48] px-3.5 py-2.5 rounded-xl border border-gray-200/90 hover:border-rose-300 text-xs font-bold transition flex items-center justify-between group shadow-2xs active:scale-98"
                   >
                     <span>{topic.label}</span>
-                    <i className="fa-solid fa-chevron-right text-[10px] text-gray-300 group-hover:text-[#E11D48] transition-transform group-hover:translate-x-0.5"></i>
+                    <i className="fa-brands fa-facebook-messenger text-[12px] text-blue-500 group-hover:scale-110 transition-transform"></i>
                   </button>
                 ))}
               </div>
@@ -233,7 +222,7 @@ const MessengerWidget: React.FC = () => {
             <div ref={messagesEndRef} />
           </div>
 
-          {/* Interactive In-Page Input Area */}
+          {/* Input Area */}
           <div className="p-3 bg-white border-t border-gray-100 shrink-0">
             <form 
               onSubmit={(e) => {
@@ -244,7 +233,7 @@ const MessengerWidget: React.FC = () => {
             >
               <input
                 type="text"
-                placeholder="Type your message here..."
+                placeholder="Type your inquiry for Messenger..."
                 value={inputMessage}
                 onChange={(e) => setInputMessage(e.target.value)}
                 className="flex-1 bg-slate-50 border border-gray-200 rounded-full px-4 py-2.5 text-xs sm:text-sm text-slate-800 focus:outline-none focus:border-[#E11D48] focus:bg-white transition"
@@ -260,16 +249,7 @@ const MessengerWidget: React.FC = () => {
             </form>
 
             <div className="flex items-center justify-between text-[10px] text-gray-400 pt-2 px-1">
-              <span>Instant In-Site Support</span>
-              <a
-                href={`https://m.me/${FACEBOOK_PAGE_USERNAME}`}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="text-[#1877F2] font-bold hover:underline inline-flex items-center gap-1"
-              >
-                <span>Or Facebook Messenger</span>
-                <i className="fa-solid fa-arrow-up-right-from-square text-[9px]"></i>
-              </a>
+              <span className="flex items-center gap-1"><i className="fa-brands fa-facebook-messenger text-[#1877F2]"></i> Pre-filled Messenger Direct Send</span>
             </div>
           </div>
 
@@ -283,7 +263,7 @@ const MessengerWidget: React.FC = () => {
           className="mb-3 bg-white/95 backdrop-blur-md text-gray-900 px-4 py-2.5 rounded-2xl shadow-[0_10px_30px_-5px_rgba(225,29,72,0.2)] border border-rose-100 flex items-center space-x-2.5 text-xs sm:text-sm font-bold animate-fadeIn transition-all duration-500 cursor-pointer hover:scale-105"
         >
           <span className="w-2.5 h-2.5 rounded-full bg-[#E11D48] shrink-0 animate-pulse"></span>
-          <span className="text-gray-800 tracking-tight">Need help? Chat with us here!</span>
+          <span className="text-gray-800 tracking-tight">Inquire via Facebook Messenger!</span>
           <button 
             type="button"
             onClick={(e) => {
@@ -302,14 +282,14 @@ const MessengerWidget: React.FC = () => {
       <button
         onClick={toggleChat}
         className="bg-[#E11D48] hover:bg-rose-700 text-white w-14 h-14 md:w-16 md:h-16 rounded-full shadow-2xl shadow-rose-900/40 flex items-center justify-center text-2xl md:text-3xl hover:scale-110 transition-all duration-300 transform active:scale-95 relative border-2 border-white/20"
-        title="Live Chat Support"
-        aria-label="Toggle Chat Window"
+        title="LSCS Facebook Messenger Support"
+        aria-label="Toggle Messenger Chat"
       >
         {isOpen ? (
           <i className="fa-solid fa-xmark text-2xl"></i>
         ) : (
           <>
-            <i className="fa-solid fa-comments"></i>
+            <i className="fa-brands fa-facebook-messenger"></i>
             <span className="absolute -top-1 -right-1 w-4 h-4 bg-green-500 border-2 border-white rounded-full"></span>
           </>
         )}
