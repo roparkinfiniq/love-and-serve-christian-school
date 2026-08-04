@@ -65,19 +65,16 @@ const MessengerWidget: React.FC = () => {
           {/* Header */}
           <div className="bg-[#E11D48] text-white px-4 py-3 sm:px-5 sm:py-3.5 flex items-center justify-between shadow-md shrink-0">
             <div className="flex items-center space-x-2.5">
-              <div className="relative w-9 h-9 sm:w-10 sm:h-10 shrink-0">
-                <div className="w-9 h-9 sm:w-10 sm:h-10 bg-white rounded-full shadow-md flex items-center justify-center overflow-hidden border-2 border-white/80">
-                  <img 
-                    src="/logo.png" 
-                    alt="LSCS Logo" 
-                    className="w-full h-full object-cover scale-105"
-                    onError={(e) => {
-                      (e.target as HTMLImageElement).onerror = null;
-                      (e.target as HTMLImageElement).src = 'data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="%23E11D48" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 10v6M2 10l10-5 10 5-10 5z"/><path d="M6 12v5c3 3 9 3 12 0v-5"/></svg>';
-                    }}
-                  />
-                </div>
-                <span className="absolute bottom-0 right-0 w-2.5 h-2.5 bg-green-500 border-2 border-white rounded-full z-10 shadow-xs"></span>
+              <div className="w-9 h-9 sm:w-10 sm:h-10 bg-white rounded-full shadow-md flex items-center justify-center overflow-hidden border-2 border-white/80 shrink-0">
+                <img 
+                  src="/logo.png" 
+                  alt="LSCS Logo" 
+                  className="w-full h-full object-cover scale-105"
+                  onError={(e) => {
+                    (e.target as HTMLImageElement).onerror = null;
+                    (e.target as HTMLImageElement).src = 'data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="%23E11D48" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 10v6M2 10l10-5 10 5-10 5z"/><path d="M6 12v5c3 3 9 3 12 0v-5"/></svg>';
+                  }}
+                />
               </div>
               <div>
                 <h3 className="font-extrabold text-xs sm:text-sm leading-tight">Love & Serve Christian School</h3>
@@ -102,7 +99,7 @@ const MessengerWidget: React.FC = () => {
             {/* Friendly Greeting Banner */}
             <div className="bg-white p-3 rounded-xl border border-gray-100 shadow-2xs">
               <div className="flex items-center gap-1.5 mb-1">
-                <span className="w-1.5 h-1.5 rounded-full bg-green-500 animate-pulse"></span>
+                <span className="w-1.5 h-1.5 rounded-full bg-[#E11D48] animate-pulse"></span>
                 <span className="text-[11px] sm:text-xs font-extrabold text-slate-800">1:1 Official Admissions Chat</span>
               </div>
               <p className="text-[11px] sm:text-xs text-slate-600 leading-snug font-medium">
@@ -128,10 +125,10 @@ const MessengerWidget: React.FC = () => {
                   <button
                     key={idx}
                     onClick={() => openMessengerWithTopic(topic.text)}
-                    className="text-left w-full bg-white hover:bg-rose-50 text-slate-800 hover:text-[#E11D48] px-3 py-2 sm:py-2.5 rounded-lg sm:rounded-xl border border-gray-200/90 hover:border-rose-300 text-[11px] sm:text-xs font-bold transition flex items-center justify-between group shadow-2xs active:scale-98"
+                    className="text-left w-full bg-white hover:bg-rose-50 text-slate-800 hover:text-[#E11D48] px-3.5 py-2.5 sm:py-3 rounded-xl border border-gray-200/90 hover:border-rose-300 text-[11px] sm:text-xs font-bold transition flex items-center justify-between group shadow-2xs active:scale-98"
                   >
-                    <span className="truncate pr-1">{topic.label}</span>
-                    <i className="fa-brands fa-facebook-messenger text-blue-500 text-[11px] shrink-0 group-hover:scale-110 transition-transform"></i>
+                    <span className="truncate pr-2">{topic.label}</span>
+                    <i className="fa-solid fa-chevron-right text-xs text-slate-300 group-hover:text-[#E11D48] group-hover:translate-x-0.5 transition-all shrink-0"></i>
                   </button>
                 ))}
               </div>
@@ -182,10 +179,7 @@ const MessengerWidget: React.FC = () => {
         {isOpen ? (
           <i className="fa-solid fa-xmark text-xl sm:text-2xl"></i>
         ) : (
-          <>
-            <i className="fa-brands fa-facebook-messenger"></i>
-            <span className="absolute -top-0.5 -right-0.5 w-3.5 h-3.5 bg-green-500 border-2 border-white rounded-full"></span>
-          </>
+          <i className="fa-brands fa-facebook-messenger"></i>
         )}
       </button>
     </div>
